@@ -7,11 +7,11 @@ body {
   h1 {
     font-size: 24px;
     font-weight: Medium;
+    text-align: center;
   }
   
   h2 {
     font-size: 18px;
-    font-weight: Medium;
     position: relative;
     top: 24px;
     left: 24px;
@@ -27,14 +27,24 @@ body {
     font-weight: normal;
   }
   
+  .color-block {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+    top: 24px;
+    left: 24px;
+  }
+  
   .color-block li {
-    display: inline;
-    float: left;
+    display: inline-block;
     color: white;
     padding: 24px;
     margin: 12px;
     height: 40px;
     width: 90px;
+    font-weight: normal;
+    font-size: 14px;
   }
   
   #primary {
@@ -87,5 +97,49 @@ body {
     color: black;
     border: 2px solid #E0E0E0;
   }
+  
+  .font {
+    border: 1px solid #E0E0E0;
+    border-radius: 12px;
+  }
+  
+  .font li {
+    color: black;
+    padding: 12px;
+    margin: 12px;
+  }
+  
+  #h1 {
+    font-size: 24px;
+  }
+  
+  #h2 {
+    font-size: 20px;
+  }
+  
+  #body1 {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  #body2 {
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  #button1 {
+    font-size: 14px;
+    transform: uppercase;
+  }
+  
+  #button2 {
+    font-size: 14px;
+  }
+  
+  #caption {
+    font-size: 12px;
+    font-weight: normal;
+  }
+  
   
   

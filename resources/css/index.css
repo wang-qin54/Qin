@@ -13,6 +13,7 @@ header {
 
 .info {
   display: inline-flex;
+  flex-wrap: nowrap;
   align-items: baseline;
 }
 
@@ -62,6 +63,7 @@ header {
     font-size: 14px;
     line-height: 24px;
     margin: 12px 0px;
+    min-width: 220px;
   }
 
   .row {

@@ -17,6 +17,8 @@ header {
   justify-content: flex-start;
   padding: 0px 240px;
   width: 100%;
+  z-index: 1;
+  box-shadow: 4px 8px 32px rgb(0,0,0,.04);
 }
 
   nav {
@@ -99,7 +101,6 @@ header {
   .content {
     position: relative;
     top: 75px;
-    overflow: scroll;
     height: 900px;
   }
   
@@ -122,7 +123,7 @@ header {
     background-color: white;
     border: 1px solid #f5f5f5;
     border-radius: 8px;
-    box-shadow: 4px 8px 32px rgb(0,0,0,.04);
+    box-shadow: 2px 4px 24px rgb(0,0,0,.06);
     padding: 36px 40px;
     margin: 12px;
     align-items: center;

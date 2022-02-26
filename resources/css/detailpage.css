@@ -110,60 +110,58 @@ header {
     width: fit-content;
   }
 
-/* Style the list */
-ul.breadcrumb {
-  position: fixed;
-  top: 64px;
-  margin-left: 200px;
-  padding: 10px 16px;
-  width: fit-content;
-  list-style: none;
-  background-color: transparent;
-}
-
-/* Display list items side by side */
-ul.breadcrumb li {
-  display: inline;
-  font-size: 14px;
-}
-
-/* Add a slash symbol (/) before/behind each list item */
-ul.breadcrumb li+li:before {
-  padding: 8px;
-  color: black;
-  content: "/\00a0";
-}
-
-/* Add a color to all links inside the list */
-ul.breadcrumb li a {
-  color: #0275d8;
-  text-decoration: none;
-}
-
-/* Add a color on mouse-over */
-.breadcrumb li a:hover {
-  color: #01447e;
-  text-decoration: underline;
-}
-
 .content {
   position: relative;
-  top: 80px;
+  top: 64px;
   height: auto;
   width: 1040px;
   display: grid;
-  grid-template-columns: 208px 808px;
+  grid-template-columns: 1fr 7fr;
   column-gap: 24px;
   justify-content: center;
   margin: auto;
 }
 
+    /* Style the list */
+  ul.breadcrumb {
+    padding: 10px 16px;
+    width: fit-content;
+    list-style: none;
+    background-color: transparent;
+  }
+
+  /* Display list items side by side */
+  ul.breadcrumb li {
+    display: inline;
+    font-size: 14px;
+  }
+
+  /* Add a slash symbol (/) before/behind each list item */
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+
+  /* Add a color to all links inside the list */
+  ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+  }
+
+  /* Add a color on mouse-over */
+  .breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+  }
+
   .row {
-    width: 100%;
+    width: auto;
     height: auto;
     grid-column-start: 2;
     grid-column-end: 2;
-    margin: 24px 24px 120px 24px;
+    margin: 0px 0px 120px 0px;
+    justify-content: center;
   }
 
   img {
@@ -181,12 +179,14 @@ ul.breadcrumb li a {
     height: auto;
     grid-column-start: 1;
     grid-column-end: 1;
+    margin: 24px 0px;
   }
 
   .list {
     width: fit-content;
     height: fit-content;
-    padding: 12px;
+    padding: 6px 12px;
+    margin: 12px 0px;
   }
 
   .list:hover {
@@ -194,3 +194,87 @@ ul.breadcrumb li a {
     border: 1px solid transparent;
     border-radius: 24px;
   }
+
+
+  /* responsive */
+  @media only screen and (min-width: 1240px) and (max-width: 1439px) {
+    .content {
+      margin: 0px 200px;
+      width: auto;
+      top: 80px;
+    }
+  }
+
+  @media only screen and (min-width: 905px) and (max-width: 1239px) {
+    .content {
+      margin: auto;
+      width: 840px;
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+      top: 80px;
+    }
+
+    .breadcrumb, .scrollspy, nav {
+      display: none;
+    }
+
+    header {
+      grid-template-columns: 66px 180px 22px;
+      grid-template-rows: 32px 32px;
+      column-gap: 24px;
+      row-gap: 24px;
+      margin: auto;
+      height: auto;
+      justify-content: center;
+      align-items: baseline;
+    }
+
+    nav {
+      grid-area: 2/1/span 1/span 3;
+    }
+  }
+
+  @media only screen and (min-width: 600px) and (max-width: 904px) {
+    .content {
+      column-gap: 16px;
+      margin: 32px;
+      width: auto;
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+    }
+
+    .breadcrumb, .scrollspy, nav {
+      display: none;
+    }
+
+    header {
+      grid-template-columns: 66px 180px 22px;
+      grid-template-rows: 32px 32px;
+      column-gap: 24px;
+      margin: auto;
+      justify-content: center;
+      align-items: baseline;
+      height: auto;
+    }
+
+    nav {
+      grid-area: 2/1/span 1/span 3;
+    }
+    
+  }
+
+
+  @media only screen and (max-width: 599px) {
+  .content {
+    margin: 16px;
+    width: auto;
+    grid-template-columns: 1fr;
+    column-gap: 0px;
+  }
+
+  .breadcrumb, .scrollspy, nav {
+    display: none;
+  }
+}
+
+

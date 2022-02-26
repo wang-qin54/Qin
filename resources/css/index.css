@@ -49,7 +49,6 @@ header {
     display: inline-block;
     min-width: auto;
     cursor: pointer;
-    float: right;
   }
 
   nav li:hover {

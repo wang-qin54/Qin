@@ -13,37 +13,32 @@ header {
   width: 100%;
   z-index: 1;
   box-shadow: 4px 8px 32px rgb(0,0,0,.04);
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: baseline;
+  padding: 16px 24px ;
+  float: inline-start;
 }
 
   .info {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    column-gap: 24px;
-    margin: auto;
-    justify-content: space-around;
+    max-width: 510px;
+    height: min-content;
+    display: inline-flex;
     align-items: baseline;
-    margin: 0px auto;
-    padding: 4px;
-    width: 1040px;
-  }
-
-  .name {
-    grid-column: 1/span 1;
+    float: inline-start;
   }
 
   nav {
-    grid-column: 2/span 2;
     background-color: transparent;
-    width: auto;
     color: #212121;
-    padding: 0px 24px;
     border-radius: 48px;
-    height: min-content;
-    display: inline-block;
-    align-items: right;
-    margin-left: 120px;
-    justify-content: end;
-
+    height: fit-content;
+    max-width: 510px;
+    float: right;
+    display: inline-flex;
+    align-items: baseline;
+    margin: 0px 24px;
   }
 
   nav li {
@@ -54,6 +49,7 @@ header {
     display: inline-block;
     min-width: auto;
     cursor: pointer;
+    float: right;
   }
 
   nav li:hover {
@@ -68,9 +64,14 @@ header {
     border-radius: 24px;
   }
 
+  #hamburger-menu .icon {
+    width: 32px;
+    height: 32px;
+  }
+
 .icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   padding: 0px 4px;
   margin: 0px 4px;
   cursor: pointer;
@@ -88,12 +89,13 @@ header {
   border-radius: 24px;
 }
    
-  h1 {
+  h1.name {
     color: #292830;
     font-weight: 300;
     font-size: 32px;
-    margin: 12px;
     width: fit-content;
+    line-height: normal;
+    margin: 0px;
   }
    
   a {
@@ -106,13 +108,13 @@ header {
   p {
     font-size: 14px;
     line-height: 24px;
-    margin: 12px;
+    margin: 0px 12px;
     width: fit-content;
   }
 
   .content {
     position: relative;
-    top: 75px;
+    top: 88px;
     height: auto;
     width: 1040px;
     display: grid;
@@ -135,7 +137,6 @@ header {
     padding: 0px;
     margin: 12px;
     align-items: center;
-    flex: 1 1 200px;
   }
 
   .card:hover {
@@ -207,19 +208,8 @@ header {
 
   @media only screen and (min-width: 905px) and (max-width: 1239px) {
     .content {
-      margin: 0px 200px;
+      margin: 0px auto;
       width: 840px;
-    }
-
-    header {
-      grid-template-columns: 66px 180px 22px;
-      grid-template-rows: 32px 32px;
-      column-gap: 24px;
-      row-gap: 24px;
-      margin: auto;
-      height: auto;
-      justify-content: center;
-      align-items: baseline;
     }
 
     nav {
@@ -232,22 +222,16 @@ header {
       grid-template-columns: repeat(2,1fr);
       grid-template-rows: auto;
       column-gap: 24px;
-      margin: 32px;
+      margin: 0px 32px;
       width: auto;
-    }
-
-    header {
-      grid-template-columns: 66px 180px 22px;
-      grid-template-rows: 32px 32px;
-      column-gap: 24px;
-      margin: auto;
-      justify-content: center;
-      align-items: baseline;
-      height: auto;
     }
 
     nav {
       grid-area: 2/1/span 1/span 3;
+    }
+
+    .email,.info .icon {
+      display: none;
     }
   }
 
@@ -256,11 +240,11 @@ header {
   .content {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    margin: 16px;
+    margin: 0px 16px;
     width: auto;
   }
 
-  nav {
+  .email,.info .icon, li.item {
     display: none;
   }
 }

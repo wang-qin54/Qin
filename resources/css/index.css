@@ -72,7 +72,6 @@ header {
 .icon {
   width: 16px;
   height: 16px;
-  padding: 0px 4px;
   margin: 0px 4px;
   cursor: pointer;
 }
@@ -125,6 +124,7 @@ header {
     column-gap: 24px;
     justify-content: center;
     margin: auto;
+    padding-bottom: 80px;
   }
 
   .card {

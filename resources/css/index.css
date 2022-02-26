@@ -119,6 +119,7 @@ header {
     display: grid;
     grid-template-columns: repeat(3,330px);
     grid-template-rows: repeat(2,378px);
+    grid-auto-rows: 100%;
     row-gap: 24px;
     column-gap: 24px;
     justify-content: center;
@@ -129,7 +130,7 @@ header {
     width: auto;
     height: 100%;
     background-color: white;
-    border: 1px solid #f5f5f5;
+    border: 1px transparent;
     border-radius: 12px;
     box-shadow: 2px 4px 24px rgb(0,0,0,.06);
     padding: 0px;
@@ -138,57 +139,65 @@ header {
     flex: 1 1 200px;
   }
 
-  .coverimg {
-    width: 100%;
-    height: 240px;
-    border: white;
-    border-radius: 12px 12px 0px 0px;
-    object-fit: cover;
-  }
-
-  .card-description {
-    margin: 12px 16px 12px 16px;
-  }
-
-  .tags {
-    margin:  12px 16px;
-    position: relative;
-    bottom: 0px;
+  .card:hover {
+    box-shadow: 2px 4px 24px rgb(0,0,0,.20);
   }
   
-
-  .caption {
-    font-size: 10px;
-    font-weight: 400;
-    color: #757575;
-    margin: 0px;
-    text-transform: uppercase;
+  .card:active {
+    box-shadow: 2px 4px 24px rgb(0,0,0,.50);
   }
 
-  .card-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #212121;
-    margin: 0px;
-    text-transform: capitalize;
-    line-height: 24px;
-    height: 48px;
-  }
+    .coverimg {
+      width: 100%;
+      height: 240px;
+      border: white;
+      border-radius: 12px 12px 0px 0px;
+      object-fit: cover;
+    }
 
-  .tag {
-    font-size: 12px;
-    font-weight: 300;
-    color: #757575;
-    background-color: #f5f5f5;
-    border: 1px solid #f5f5f5;
-    border-radius: 24px;
-    padding: 4px 6px;
-    margin: 4px 0px;
-    display: inline-flex;
-    justify-content: center;
-    height: auto;
-    text-transform: capitalize;
-  }
+    .card-description {
+      margin: 12px 16px 12px 16px;
+    }
+
+    .tags {
+      margin:  12px 16px;
+      position: relative;
+      bottom: 0px;
+    }
+    
+
+    .caption {
+      font-size: 10px;
+      font-weight: 400;
+      color: #757575;
+      margin: 0px;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #212121;
+      margin: 0px;
+      text-transform: capitalize;
+      line-height: 24px;
+      height: 48px;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 300;
+      color: #757575;
+      background-color: #f5f5f5;
+      border: 1px solid #f5f5f5;
+      border-radius: 24px;
+      padding: 4px 6px;
+      margin: 4px 0px;
+      display: inline-flex;
+      justify-content: center;
+      height: auto;
+      text-transform: capitalize;
+    }
 
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
     .content {

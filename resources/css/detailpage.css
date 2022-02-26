@@ -1,0 +1,196 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, Arial, sans-serif;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #f5f5f5;
+    margin: 0px;
+  }
+
+header {
+  background-color: rgb(256,256,256,.92);
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 4px 8px 32px rgb(0,0,0,.04);
+}
+
+  .info {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    column-gap: 24px;
+    margin: auto;
+    justify-content: space-around;
+    align-items: baseline;
+    margin: 0px auto;
+    padding: 4px;
+    width: 1040px;
+  }
+
+  .name {
+    grid-column: 1/span 1;
+  }
+
+  nav {
+    grid-column: 2/span 2;
+    background-color: transparent;
+    width: auto;
+    color: #212121;
+    padding: 0px 24px;
+    border-radius: 48px;
+    height: min-content;
+    display: inline-block;
+    align-items: right;
+    margin-left: 120px;
+    justify-content: end;
+
+  }
+
+  nav li {
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: auto;
+    cursor: pointer;
+  }
+
+  nav li:hover {
+    background-color: rgb(0,0,0,.04);
+    border: rgb(0,0,0,.04);
+    border-radius: 24px;
+  }
+
+  nav li:active {
+    background-color: rgb(0,0,0,.12);
+    border: rgb(0,0,0,.12);
+    border-radius: 24px;
+  }
+
+  .icon {
+    width: 14px;
+    height: 14px;
+    padding: 0px 4px;
+    margin: 0px 4px;
+    cursor: pointer;
+  }
+
+  .icon:hover {
+    background-color: rgb(0,0,0,.04);
+    border: rgb(0,0,0,.04);
+    border-radius: 24px;
+  }
+
+  .icon:active {
+    background-color: rgb(0,0,0,.12);
+    border: rgb(0,0,0,.12);
+    border-radius: 24px;
+  }
+   
+  h1 {
+    color: #292830;
+    font-weight: 300;
+    font-size: 32px;
+    margin: 12px;
+    width: fit-content;
+  }
+   
+  a {
+    text-decoration: none;
+    padding: 0px;
+    height: 0px;
+    width: 0px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 24px;
+    margin: 12px;
+    width: fit-content;
+  }
+
+/* Style the list */
+ul.breadcrumb {
+  position: fixed;
+  top: 64px;
+  margin-left: 200px;
+  padding: 10px 16px;
+  width: fit-content;
+  list-style: none;
+  background-color: transparent;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 14px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+.breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+
+.content {
+  position: relative;
+  top: 80px;
+  height: auto;
+  width: 1040px;
+  display: grid;
+  grid-template-columns: 208px 808px;
+  column-gap: 24px;
+  justify-content: center;
+  margin: auto;
+}
+
+  .row {
+    width: 100%;
+    height: auto;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    margin: 24px 24px 120px 24px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .scrollspy {
+    position: fixed;
+    top: 120px;
+    display: grid;
+    grid-template-rows: repeat(3,fit-content);
+    grid-auto-rows: fit-content;
+    width: fit-content;
+    height: auto;
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+
+  .list {
+    width: fit-content;
+    height: fit-content;
+    padding: 12px;
+  }
+
+  .list:hover {
+    background-color: rgb(0,0,0,.04);
+    border: 1px solid transparent;
+    border-radius: 24px;
+  }

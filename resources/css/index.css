@@ -2,6 +2,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, Arial, sans-serif;
     font-weight: 300;
     color: rgba(0, 0, 0, 0.87);
+    background-image: url(https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80);
     background-color: #f5f5f5;
     margin: 0px;
   }
@@ -47,7 +48,7 @@ header {
     font-weight: 400;
     text-transform: uppercase;
     display: block;
-    min-width: auto;
+    width: auto;
     cursor: pointer;
 
   }
@@ -77,15 +78,25 @@ header {
     color: #212121;
     border-radius: 4px;
     height: fit-content;
-    width: 100%;
+    width: fit-content;
     float: right;
-    display: block;
+    display: none;
     justify-content: left;
     margin: 12px;
     z-index: 3;
-    position: absolute;
-    left: 12px;
-    right: 12px;
+    position: fixed;
+    top: 64px;
+    right: 0px;
+  }
+
+  #menu .item {
+    width: auto;
+    height: fit-content;
+  }
+
+  a {
+    width: auto;
+    height: auto;
   }
 
 .icon {
@@ -105,10 +116,6 @@ header {
   background-color: rgb(0,0,0,.12);
   border: rgb(0,0,0,.12);
   border-radius: 24px;
-}
-
-#menu {
-  display: none;
 }
    
   h1.name {
@@ -267,7 +274,7 @@ header {
     width: auto;
   }
 
-  .email,.info .icon, .item {
+  .email,.info .icon, nav .item {
     display: none;
   }
 

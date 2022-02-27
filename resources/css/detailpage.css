@@ -171,6 +171,11 @@ body {
     height: auto;
   }
 
+  video {
+    width: 100%;
+    height: auto;
+  }
+
   .scrollspy {
     position: fixed;
     top: 120px;

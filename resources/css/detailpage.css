@@ -2,9 +2,18 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, Arial, sans-serif;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.87);
-  background-image: url(https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80);
-  background-color: #f5f5f5;
+  background-color: white;
   margin: 0px;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  font-size: 32px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #212121;
+  margin: 12px;
 }
 
 header {
@@ -137,26 +146,25 @@ a {
 p {
   font-size: 14px;
   line-height: 24px;
-  margin: 0px 12px;
+  margin: 12px 0px;
   width: fit-content;
 }
   
 
 .content {
   position: relative;
-  top: 64px;
+  top: 78px;
   height: auto;
-  width: 1040px;
-  display: grid;
-  grid-template-columns: 1fr 7fr;
-  column-gap: 24px;
-  justify-content: center;
-  margin: auto;
+  width: 920px;
+  display: block;
+  margin: 40px auto;
+  padding-bottom: 120px;
+  padding-top: 24px;
 }
 
     /* Style the list */
   ul.breadcrumb {
-    padding: 10px 16px;
+    padding: 0px;
     width: fit-content;
     list-style: none;
     background-color: transparent;
@@ -165,7 +173,7 @@ p {
   /* Display list items side by side */
   ul.breadcrumb li {
     display: inline;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   /* Add a slash symbol (/) before/behind each list item */
@@ -187,43 +195,77 @@ p {
     text-decoration: underline;
   }
 
-  .row {
-    width: auto;
-    height: auto;
+  .page-title-box {
+    display: grid;
+    grid-template-columns: auto 440px 440px auto;
+    column-gap: 40px;
+    position: relative;
+    top: 78px;
+    width: 100%;
+    padding: 12px 12px 0px 12px;
+    background-color: #f5f5f5;
+  }
+
+  .page-title-content {
     grid-column-start: 2;
-    grid-column-end: 2;
-    margin: 0px 0px 120px 0px;
-    justify-content: center;
+    grid-column-end: span 1;
+    padding: 12px;
+  }
+
+  .page-title-content p {
+    margin-left: 12px;
+  }
+
+
+  #bankicon {
+    height: 12px;
+    width: auto;
+    padding: 12px 0px;
+    margin: 12px;
   }
 
   img {
     width: 100%;
     height: auto;
+    margin: 12px;
   }
 
-  video {
+  #portfolioview {
+    max-width: 400px;
+    margin: 12px;
+    box-shadow: 2px 4px 40px rgb(0,0,0,.50);
+  }
+
+  .demo {
+    grid-column-start: 3;
+    grid-column-end: span 1;
     width: 100%;
     height: auto;
+    bottom: 0px;
   }
 
   .scrollspy {
     position: fixed;
-    top: 120px;
+    top: 320px;
+    right: 32px;
     display: grid;
     grid-template-rows: repeat(3,fit-content);
     grid-auto-rows: fit-content;
-    width: 100%;
-    height: auto;
-    grid-column-start: 1;
-    grid-column-end: 1;
+    width: fit-content;
+    height: fit-content;
+    grid-column-start: 2;
+    grid-column-end: span 1;
     margin: 24px 0px;
+    grid-area: scrollspy;
+    background-color: rgb(256,256,256,.40);
   }
 
   .list {
-    width: fit-content;
-    height: fit-content;
+    width: 200px;
+    height: auto;
     padding: 6px 12px;
-    margin: 12px 0px;
+    margin: 4px;
+    font-size: 12px;
   }
 
   .list:hover {
@@ -232,12 +274,23 @@ p {
     border-radius: 24px;
   }
 
+  .list::after {
+    background-color: rgba(13, 11, 150, 0.12);
+    border: 1px solid transparent;
+    border-radius: 24px;
+  }
+
+
 
   /* responsive */
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
     .content {
       margin: 0px 200px;
       width: auto;
+    }
+
+    .scrollspy {
+      display: none;
     }
   }
 
@@ -250,13 +303,14 @@ p {
     nav {
       grid-area: 2/1/span 1/span 3;
     }
+
+    .scrollspy {
+      display: none;
+    }
   }
 
   @media only screen and (min-width: 600px) and (max-width: 904px) {
     .content {
-      grid-template-columns: repeat(2,1fr);
-      grid-template-rows: auto;
-      column-gap: 24px;
       margin: 0px 32px;
       width: auto;
     }
@@ -268,13 +322,15 @@ p {
     .email,.info .icon {
       display: none;
     }
+
+    .scrollspy {
+      display: none;
+    }
   }
 
 
   @media only screen and (max-width: 599px) {
   .content {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
     margin: 0px 16px;
     width: auto;
   }
@@ -285,5 +341,9 @@ p {
 
   #hamburger-menu-icon, #hamburger-menu-icon img {
     display: block;
+  }
+
+  .scrollspy {
+    display: none;
   }
 }

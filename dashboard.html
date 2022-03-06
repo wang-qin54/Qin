@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qin UX/UI </title>
+    <link href="resources/css/detailpage.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="menu">
+        <li class="item"><a href="index.html">UX/UI</a></li>
+        <li class="item">User Research</li>
+        <li class="item">Academia</li>
+    </div>
+    
+    <header>
+        <div class="info">
+            <h1 class="name">Qin.W</h1>
+                <p class="email">54wangqin1995@gmail.com</p> 
+                <a href="https://www.linkedin.com/in/qinwang95/"><img class="linkedin icon" src="resources/Icons/linkedin.webp"></a>
+
+        </div>
+        <nav>
+            <li class="item"><a href="index.html">UX/UI</a></li>
+            <li class="item">User Research</li>
+            <li class="item">Academia</li>
+            <li id="hamburger-menu-icon">
+                <a><img  src="resources/Icons/hamburger-menu.png"></a>
+            </li>
+            <script  src="main.js"></script>
+        </nav>
+    </header>
+
+    <div class="page-title-box">
+        <div class="page-title-content">
+            <ul class="breadcrumb">
+                <a href="index.html"><li>UX/UI</li></a>
+                <li>Portfolio Redesign</li>
+            </ul>
+            <h2>portfolio creation & view journey Redesign </h2>
+            <p>// 2 months | UX/UI Design</p>
+            <p>// 1 Designer + 1 PM + 1 Front-End Engineer</p>
+            <img id="bankicon" src="resources/images/portfolio-banksicon.png">
+        </div>
+        <img class="demo" src="resources/images/portfolio-headerdemo.png">
+    </div>
+
+    <div class="content">
+            <h3 id="section1">Intro</h3>
+            <p>Portfolio managers use this feature to enter pre-defined model investment portfolios and later managers at banks will recomend those portfolios to clients whose risk score matches with corresponding model portfolio and who is willing to invest in the portfolio.</p>
+            <img src="resources/images/portfolio-flow.png">
+
+            <h3 id="section2">1. Why redesign?</h3>
+            <p>Hard to understand how fields work to create/view a portfolio</p>
+            <p>To better demostrate portfolio creation flow to potential clients in an understandable manner</p>
+        
+            <h3 id="section3">2. How to identify problems without contact to users? </h3>
+            <p>//Heuristic Evaluation. With limited resources for user research, I conducted a heuristic/expert evaluation by walking through the creation/view flow following the Nelson’s 10 heuristic guidelines.</p>
+
+            <h3 id="section4">3.What’re the problems? </h3>
+            <img src="resources/images/portfolio-oldscreen.png">
+
+            <h3 id="section5">4. Ideation - Audit, Mapping, Desktop Research</h3>
+            <p>I audited the existing platforms, initiated stakehoder interviews with product owner, technical team to understand the logic and constraints and review the solution with product and fron-end team to evaluate the business value and feasibility.</p>
+            <img src="resources/images/portfolio-ideation.png">
+
+            <h3 id="section6">5. Solutions - wireframes / stakeholder review</h3>
+            <p>I used wireframes to explore different ways to structure information semantically to make it more readable. Although, after several reviews iterations, considering our business strategy is to sell the generic platform with minimum customization for each clients, also existing clients have been used to the pattern for years, we didn’t go for the more disruptive structure for portfolio detail page. But we will reference the standard pattern which industry commonly use to organise portfolio information to design creation steps. </p>
+            <img src="resources/images/portfolio-wireframe.png">
+            <img src="resources/images/portfolio-createview.png">
+            
+            <h3 id="section7">6. Result -  New client onboard after </h3>
+            <p>After the overhauled creation flow deployed, clients have no compaints about it, which is not usual.
+                Although we can hardly say all credits go to this single module redesign, but we got a new client onboard after that.>
+        
+        </div>
+
+    <div class="scrollspy">
+        <a href="#section1" class="list">Intro</a>
+        <a href="#section2" class="list">1.Why redesign?</a>
+        <a href="#section3" class="list">2.How to identify problems without contact to users?</a>
+        <a href="#section4" class="list">3.What’re the problems? </a>
+        <a href="#section5" class="list">4. Ideation - Audit, Mapping, Desktop Research</a>
+        <a href="#section6" class="list">5. Solutions - wireframes / stakeholder review</a>
+        <a href="#section7" class="list">6. Result -  New client onboard after</a>
+    </div>
+    
+
+
+</body>
+</html>

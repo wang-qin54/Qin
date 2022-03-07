@@ -149,18 +149,6 @@ p {
   margin: 12px 0px;
   width: fit-content;
 }
-  
-
-.content {
-  position: relative;
-  top: 78px;
-  height: auto;
-  width: 920px;
-  display: block;
-  margin: 40px auto;
-  padding-bottom: 120px;
-  padding-top: 24px;
-}
 
     /* Style the list */
   ul.breadcrumb {
@@ -202,26 +190,30 @@ p {
     position: relative;
     top: 78px;
     width: 100%;
-    padding: 12px 12px 0px 12px;
     background-color: #f5f5f5;
+    padding-bottom: 0px;
+    padding-top: 24px;
   }
 
   .page-title-content {
     grid-column-start: 2;
     grid-column-end: span 1;
-    padding: 12px;
   }
 
+  .page-title-content h2 {
+    margin: 12px 0px;
+  }
+/* 
   .page-title-content p {
     margin-left: 12px;
-  }
+  } */
 
 
   #bankicon {
     height: 12px;
     width: auto;
     padding: 12px 0px;
-    margin: 12px;
+    margin: 12px 0px;
   }
 
   img {
@@ -236,17 +228,34 @@ p {
     box-shadow: 2px 4px 40px rgb(0,0,0,.50);
   }
 
-  .demo {
+  .title-img {
     grid-column-start: 3;
     grid-column-end: span 1;
     width: 100%;
+    height: 280px;
+    margin-bottom: 0px;
+    overflow: hidden;
+  }
+
+  .title-img img {
+    margin-bottom: -280px;
+    width: 90%;
+  }
+
+  .content {
+    position: relative;
+    top: 78px;
     height: auto;
-    bottom: 0px;
+    max-width: 920px;
+    display: block;
+    margin: 40px auto;
+    padding-bottom: 120px;
+    padding-top: 24px;
   }
 
   .scrollspy {
     position: fixed;
-    top: 320px;
+    top: 360px;
     right: 32px;
     display: grid;
     grid-template-rows: repeat(3,fit-content);
@@ -257,7 +266,9 @@ p {
     grid-column-end: span 1;
     margin: 24px 0px;
     grid-area: scrollspy;
-    background-color: rgb(256,256,256,.40);
+    background-color: rgb(256,256,256,.60);
+    border: 1px solid transparent;
+    border-radius: 8px;
   }
 
   .list {
@@ -278,6 +289,13 @@ p {
     background-color: rgba(13, 11, 150, 0.12);
     border: 1px solid transparent;
     border-radius: 24px;
+  }
+
+  .anchor {
+      display: block;
+      position: relative;
+      top: -96px;
+      visibility: hidden;
   }
 
 

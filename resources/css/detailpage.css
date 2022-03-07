@@ -2,18 +2,10 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, Arial, sans-serif;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.87);
+  /* background-image: url(https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80); */
   background-color: white;
   margin: 0px;
   letter-spacing: 0.5px;
-}
-
-h2 {
-  font-size: 32px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #212121;
-  margin: 12px;
 }
 
 header {
@@ -104,8 +96,7 @@ li:active {
 }
 
 a {
-  width: auto;
-  height: auto;
+  text-decoration: none;
 }
 
 .icon {
@@ -135,21 +126,14 @@ h1.name {
   line-height: normal;
   margin: 0px;
 }
- 
-a {
-  text-decoration: none;
-  padding: 0px;
-  height: 0px;
-  width: 0px;
-}
 
 p {
   font-size: 14px;
   line-height: 24px;
-  margin: 12px 0px;
+  margin: 0px 12px;
   width: fit-content;
+  letter-spacing: 0.5px;
 }
-
     /* Style the list */
   ul.breadcrumb {
     padding: 0px;
@@ -185,7 +169,7 @@ p {
 
   .page-title-box {
     display: grid;
-    grid-template-columns: auto 440px 440px auto;
+    grid-template-columns: auto minmax(0px, 440px) minmax(0px, 440px) auto;
     column-gap: 40px;
     position: relative;
     top: 78px;
@@ -198,6 +182,15 @@ p {
   .page-title-content {
     grid-column-start: 2;
     grid-column-end: span 1;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #212121;
+    margin: 12px;
   }
 
   .page-title-content h2 {
@@ -249,18 +242,17 @@ p {
     max-width: 920px;
     display: block;
     margin: 40px auto;
-    padding-bottom: 120px;
-    padding-top: 24px;
+    padding-bottom: 300px;
   }
 
   .scrollspy {
     position: fixed;
     top: 360px;
-    right: 32px;
+    right: 40px;
     display: grid;
     grid-template-rows: repeat(3,fit-content);
     grid-auto-rows: fit-content;
-    width: fit-content;
+    width: 200px;
     height: fit-content;
     grid-column-start: 2;
     grid-column-end: span 1;
@@ -271,7 +263,7 @@ p {
     border-radius: 8px;
   }
 
-  .list {
+  a.list {
     width: 200px;
     height: auto;
     padding: 6px 12px;
@@ -344,6 +336,37 @@ p {
     .scrollspy {
       display: none;
     }
+
+    h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 8px;
+    line-height: 24px;
+  }
+
+  .page-title-box {
+    column-gap: 12px;
+    height: 240px;
+    top: 71px;
+    margin-right: 0px;
+  }
+
+  .page-title-content p {
+    font-size: 10px;
+  }
+
+  .title-img img {
+    margin-bottom: -200px;
+    height: 100%;
+    width: auto;
+  }
+
+  .title-img {
+    height: 240px;
+  }
+
+
+    
   }
 
 
@@ -364,4 +387,40 @@ p {
   .scrollspy {
     display: none;
   }
+
+  .breadcrumb {
+    display: none;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 8px;
+    line-height: 24px;
+  }
+
+  .page-title-box {
+    column-gap: 12px;
+    height: 240px;
+    top: 71px;
+    margin-right: 0px;
+  }
+
+  .page-title-content p {
+    font-size: 10px;
+    margin: 0px;
+  }
+
+  .title-img img {
+    margin-bottom: -200px;
+    height: 100%;
+    width: auto;
+  }
+
+  .title-img {
+    height: 240px;
+  }
+
+
+
 }

@@ -130,7 +130,7 @@ h1.name {
 p {
   font-size: 14px;
   line-height: 24px;
-  margin: 0px 12px;
+  margin: 0px;
   width: fit-content;
   letter-spacing: 0.5px;
 }

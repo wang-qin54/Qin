@@ -14,3 +14,9 @@ const hideInfo = (item) => {
       showInfo(menu);
     } 
   });
+
+  // selected item in a list - scrollspy
+  let list = document.querySelector('list');
+  jQuery('list').click(function(){
+    jQuery(this).toggleClass('active');
+ });

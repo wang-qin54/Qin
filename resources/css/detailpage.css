@@ -9,75 +9,74 @@ body {
 }
 
 header {
-background-color: rgb(256,256,256,.92);
 position: fixed;
 top: 0px;
 width: 100%;
 z-index: 1;
-/* box-shadow: 4px 8px 32px rgb(0,0,0,.04); */
-display: inline-flex;
-flex-wrap: wrap;
-justify-content: space-around;
-align-items: baseline;
-padding: 16px 24px ;
-float: inline-start;
+background-color: rgb(256,256,256,.92);
 }
 
-.info {
-  max-width: 510px;
-  height: min-content;
-  display: inline-flex;
-  align-items: baseline;
-  float: inline-start;
+header .headergrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 24px;
+  max-width: 920px;
+  height: auto;
+  align-content: center;
+  margin: 24px auto;
 }
 
-.email {
-  margin: 0px 12px;
+  .info {
+    grid-column-start: 1;
+    grid-column-end: span 1;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+    .email {
+      margin: 0px 12px;
+    }
+
+    .info p {
+      font-size: 14px;
+      line-height: 24px;
+      margin: 0px 8px;
+      width: auto;
+      letter-spacing: 0.5px;
 }
 
-p {
-  font-size: 14px;
-  line-height: 24px;
-  margin: 0px;
-  width: 100%;
-  letter-spacing: 0.5px;
-  text-transform:initial;
-}
+  nav {
+    grid-column-start: 2;
+    grid-column-end: span 1;
+    background-color: transparent;
+    color: #212121;
+    border-radius: 48px;
+    display: inline-flex;
+    justify-content: flex-end;
+  }
 
-nav {
-  background-color: transparent;
-  color: #212121;
-  border-radius: 48px;
-  height: fit-content;
-  max-width: 510px;
-  float: right;
-  display: inline-flex;
-  align-items: baseline;
-  margin: 0px 24px;
-}
+    li {
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 400;
+      text-transform: uppercase;
+      display: block;
+      width: auto;
+      cursor: pointer;
 
-li {
-  padding: 12px;
-  font-size: 12px;
-  font-weight: 400;
-  text-transform: uppercase;
-  display: block;
-  width: auto;
-  cursor: pointer;
+    }
 
-}
+    li:hover {
+      background-color: rgb(0,0,0,.04);
+      border: rgb(0,0,0,.04);
+      border-radius: 24px;
+    }
 
-li:hover {
-  background-color: rgb(0,0,0,.04);
-  border: rgb(0,0,0,.04);
-  border-radius: 24px;
-}
-
-li:active {
-  background-color: rgb(0,0,0,.12);
-  border: rgb(0,0,0,.12);
-  border-radius: 24px;
-}
+    li:active {
+      background-color: rgb(0,0,0,.12);
+      border: rgb(0,0,0,.12);
+      border-radius: 24px;
+    }
 
 #hamburger-menu-icon, #hamburger-menu-icon img  {
   display: none;
@@ -384,14 +383,68 @@ h1.name {
   }
 
 
-    
+  @media only screen and (min-width: 1240px) and (max-width: 1439px) {
+    .content, header .headergrid{
+      margin-left: 200px;
+      margin-right: 200px;
+      max-width: 1039px;
+      min-width: 840px;
+    }
   }
 
+  @media only screen and (min-width: 905px) and (max-width: 1239px) {
+    .content, header .headergrid {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 840px;
+      min-width: 840px;
+      grid-template-rows: auto;
+    }
+  }
 
-  @media only screen and (max-width: 599px) {
-  .content {
-    margin: 0px 16px;
-    width: auto;
+  @media only screen and (min-width: 760px) and (max-width: 904px) {
+    .content, header .headergrid {
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: auto;
+      column-gap: 24px;
+      margin-left: 32px;
+      margin-right: 32px;
+      max-width: 830px;
+      min-width: 696px;
+    }
+
+    .email,.info .icon {
+      display: none;
+    }
+
+    .section-title {
+      grid-column-start: 1;
+      grid-column-end: span 2;
+      text-align: center;
+      text-transform: capitalize;
+    }
+  
+
+
+  @media only screen and (max-width: 759px) {
+  .content, header .headergrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: 727px;
+    min-width: 360px;
+  }
+
+  .section-title {
+    grid-column-start: 1;
+    grid-column-end: span 1;
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  .section-title {
+    font-size: 18px;
   }
 
   .email,.info .icon, nav .item {
@@ -401,44 +454,6 @@ h1.name {
   #hamburger-menu-icon, #hamburger-menu-icon img {
     display: block;
   }
-
-  .scrollspy {
-    display: none;
-  }
-
-  .breadcrumb {
-    display: none;
-  }
-
-  h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 8px;
-    line-height: 24px;
-  }
-
-  .page-title-box {
-    column-gap: 12px;
-    height: 240px;
-    top: 71px;
-    padding-left: 16px;
-  }
-
-  .page-title-content p {
-    font-size: 10px;
-    margin: 0px;
-  }
-
-  .title-img img {
-    margin-bottom: -200px;
-    height: 100%;
-    width: auto;
-  }
-
-  .title-img {
-    height: 240px;
-  }
-
-
-
 }
+
+

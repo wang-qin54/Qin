@@ -14,7 +14,7 @@ position: fixed;
 top: 0px;
 width: 100%;
 z-index: 1;
-box-shadow: 4px 8px 32px rgb(0,0,0,.04);
+/* box-shadow: 4px 8px 32px rgb(0,0,0,.04); */
 display: inline-flex;
 flex-wrap: wrap;
 justify-content: space-around;
@@ -29,6 +29,18 @@ float: inline-start;
   display: inline-flex;
   align-items: baseline;
   float: inline-start;
+}
+
+.email {
+  margin: 0px 12px;
+}
+
+p {
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0px;
+  width: 100%;
+  letter-spacing: 0.5px;
 }
 
 nav {
@@ -96,7 +108,12 @@ li:active {
 }
 
 a {
+  width: auto;
+  height: auto;
   text-decoration: none;
+  padding: 0px;
+  height: 0px;
+  width: 0px;
 }
 
 .icon {
@@ -127,17 +144,12 @@ h1.name {
   margin: 0px;
 }
 
-p {
-  font-size: 14px;
-  line-height: 24px;
-  margin: 0px;
-  width: fit-content;
-  letter-spacing: 0.5px;
-}
+/* above shared with homepage */
+
     /* Style the list */
   ul.breadcrumb {
     padding: 0px;
-    width: fit-content;
+    width: 100%;
     list-style: none;
     background-color: transparent;
   }
@@ -177,6 +189,7 @@ p {
     background-color: #f5f5f5;
     padding-bottom: 0px;
     padding-top: 24px;
+    align-content: space-around;
   }
 
   .page-title-content {
@@ -243,6 +256,10 @@ p {
     display: block;
     margin: 40px auto;
     padding-bottom: 300px;
+  }
+
+  .content img {
+    width: 100%;
   }
 
   .scrollspy {

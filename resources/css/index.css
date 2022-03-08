@@ -171,7 +171,7 @@ h1.name {
   }
 
   .card {
-    width: auto;
+    width: 100%;
     height: auto;
     background-color: white;
     border: 1px transparent;
@@ -250,7 +250,7 @@ h1.name {
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
     .content {
       margin: 0px 200px;
-      width: auto;
+      width: 100%;
     }
   }
 

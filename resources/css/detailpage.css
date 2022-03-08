@@ -262,6 +262,12 @@ h1.name {
     width: 100%;
   }
 
+  p {
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+}
+
   .scrollspy {
     position: fixed;
     top: 360px;
@@ -423,34 +429,35 @@ h1.name {
       text-align: center;
       text-transform: capitalize;
     }
+  }
   
-
-
   @media only screen and (max-width: 759px) {
-  .content, header .headergrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    margin-left: 16px;
-    margin-right: 16px;
-    max-width: 727px;
-    min-width: 360px;
-  }
+    .content, header .headergrid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      margin-left: 16px;
+      margin-right: 16px;
+      max-width: 727px;
+      min-width: 360px;
+    }
 
-  .section-title {
-    grid-column-start: 1;
-    grid-column-end: span 1;
-    text-align: center;
-    text-transform: capitalize;
-  }
+    .section-title {
+      grid-column-start: 1;
+      grid-column-end: span 1;
+      text-align: center;
+      text-transform: capitalize;
+    }
 
-  .section-title {
-    font-size: 18px;
-  }
+    .section-title {
+      font-size: 18px;
+    }
 
-  .email,.info .icon, nav .item {
-    display: none;
-  }
+    .email,.info .icon, nav .item {
+      display: none;
+    }
 
-  #hamburger-menu-icon, #hamburger-menu-icon img {
-    display: block;
+    #hamburger-menu-icon, #hamburger-menu-icon img {
+      display: block;
+    }
+
   }

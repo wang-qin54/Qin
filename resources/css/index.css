@@ -172,7 +172,7 @@ h1.name {
 
   .card {
     width: auto;
-    height: 100%;
+    height: auto;
     background-color: white;
     border: 1px transparent;
     border-radius: 12px;
@@ -258,6 +258,7 @@ h1.name {
     .content {
       margin: 0px auto;
       width: 840px;
+      grid-template-rows: auto;
     }
 
     nav {

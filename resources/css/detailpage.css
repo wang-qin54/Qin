@@ -181,21 +181,28 @@ h1.name {
   }
 
   .page-title-box {
-    display: grid;
-    grid-template-columns: auto minmax(0px, 440px) minmax(0px, 440px) auto;
-    column-gap: 40px;
     position: relative;
     top: 78px;
     width: 100%;
     background-color: #f5f5f5;
     padding-bottom: 0px;
-    padding-top: 24px;
     align-content: space-around;
   }
 
+  .page-title-box .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 24px;
+    max-width: 920px;
+    height: auto;
+    align-content: center;
+    margin: 8px auto;
+  }
+
   .page-title-content {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: span 1;
+    margin: 12px 0px;
   }
 
   h2 {
@@ -204,11 +211,6 @@ h1.name {
     font-weight: 600;
     text-transform: capitalize;
     color: #212121;
-    margin: 12px 0px;
-  }
-
-  .page-title-content h2 {
-    margin: 12px 0px;
   }
 
   #bankicon {
@@ -218,11 +220,6 @@ h1.name {
     margin: 16px 0px;
   }
 
-  img {
-    width: 100%;
-    height: auto;
-    margin: 12px 0px;
-  }
 
   #portfolioview {
     max-width: 400px;
@@ -231,17 +228,15 @@ h1.name {
   }
 
   .title-img {
-    grid-column-start: 3;
+    grid-column-start: 2;
     grid-column-end: span 1;
-    width: 100%;
-    height: 280px;
-    margin-bottom: 0px;
     overflow: hidden;
   }
 
   .title-img img {
-    margin-bottom: -280px;
-    width: 90%;
+    margin-bottom: -200px;
+    margin-top: 24px;
+    max-width: 90%;
   }
 
   .content {
@@ -317,7 +312,7 @@ h1.name {
 
   /* responsive */
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
-    .content, header .headergrid{
+    .content, header .headergrid, .page-title-box .grid{
       margin-left: 200px;
       margin-right: 200px;
       max-width: 1039px;
@@ -330,7 +325,7 @@ h1.name {
   }
 
   @media only screen and (min-width: 905px) and (max-width: 1239px) {
-    .content, header .headergrid {
+    .content, header .headergrid, .page-title-box .grid {
       margin-left: auto;
       margin-right: auto;
       max-width: 840px;
@@ -344,7 +339,7 @@ h1.name {
   }
 
   @media only screen and (min-width: 760px) and (max-width: 904px) {
-    .content, header .headergrid {
+    .content, header .headergrid, .page-title-box .grid {
       grid-template-columns: repeat(2,1fr);
       grid-template-rows: auto;
       column-gap: 24px;
@@ -354,15 +349,17 @@ h1.name {
       min-width: 696px;
     }
 
-    .email,.info .icon, .scrollspy {
+    .email,.info .icon, .scrollspy, .breadcrumb {
       display: none;
     }
 
-    .section-title {
-      grid-column-start: 1;
-      grid-column-end: span 2;
-      text-align: center;
-      text-transform: capitalize;
+    .page-title-content h2 {
+      font-size: 24px;
+    }
+
+    .page-title-content p {
+      font-size: 12px;
+      margin: 4px 0px;
     }
   }
 
@@ -377,23 +374,35 @@ h1.name {
     min-width: 360px;
   }
 
-  .section-title {
-    grid-column-start: 1;
-    grid-column-end: span 1;
-    text-align: center;
-    text-transform: capitalize;
+  .page-title-box .grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: 727px;
+    min-width: 360px;
   }
 
-  .section-title {
-    font-size: 18px;
-  }
-
-  .email,.info .icon, nav .item, .scrollspy {
+  .email,.info .icon, nav .item, .scrollspy, .breadcrumb {
     display: none;
   }
 
   #hamburger-menu-icon, #hamburger-menu-icon img {
     display: block;
+  }
+
+  .page-title-content h2 {
+    font-size: 20px;
+  }
+
+  .page-title-content p {
+    font-size: 12px;
+    margin: 4px 0px;
+  }
+
+
+  .title-img img {
+    margin-bottom: -120px;
+    max-width: 90%;
   }
 }
 

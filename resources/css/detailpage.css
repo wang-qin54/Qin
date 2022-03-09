@@ -203,7 +203,9 @@ h1.name {
   .page-title-content {
     grid-column-start: 1;
     grid-column-end: span 1;
-    margin: 12px 0px;
+    margin-top: 12px;
+    margin-bottom: 40px;
+    margin-left: 0px;
   }
 
   h2 {
@@ -232,15 +234,18 @@ h1.name {
   .title-img {
     grid-column-start: 2;
     grid-column-end: span 1;
-    overflow: hidden;
     height: auto;
   }
 
   .title-img img {
     margin-bottom: -200px;
     margin-top: 24px;
-    max-width: 100%;
+    max-width: 90%;
     min-width: 180px;
+    object-fit: contain;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    box-shadow: 0px 2px 16px rgb(0,0,0,.10);
   }
 
   .content {

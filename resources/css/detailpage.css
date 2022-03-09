@@ -258,6 +258,7 @@ h1.name {
    .two-col img {
     max-width: 100%;
     border-radius: 8px;
+    margin-bottom: 24px;
     /* box-shadow: 0px 2px 16px rgb(0,0,0,.10); */
   }
 
@@ -331,6 +332,11 @@ h1.name {
       visibility: hidden;
   }
 
+  .facts {
+    position: relative;
+    top: 88px;
+  }
+
 
 
   /* responsive */
@@ -339,7 +345,6 @@ h1.name {
       margin-left: 200px;
       margin-right: 200px;
       max-width: 1039px;
-      min-width: 840px;
     }
 
     .scrollspy {

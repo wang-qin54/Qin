@@ -186,12 +186,16 @@ body {
   #col2 {
     grid-column-start: 2;
     grid-column-end: span 1;
-}
+  }
 
-#col3 {
-    grid-column-start: 3;
-    grid-column-end: span 1;
-}
+  #col3 {
+      grid-column-start: 3;
+      grid-column-end: span 1;
+  }
+
+  
+
+
 
   
 

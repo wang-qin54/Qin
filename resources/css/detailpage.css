@@ -16,7 +16,7 @@ z-index: 1;
 background-color: rgb(256,256,256,.92);
 }
 
-header .headergrid {
+header .headergrid, .two-col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 24px;
@@ -24,6 +24,10 @@ header .headergrid {
   height: auto;
   align-content: center;
   margin: 24px auto;
+}
+
+.two-col {
+  height: 500px;
 }
 
   .info {
@@ -247,9 +251,14 @@ h1.name {
     max-width: 90%;
     min-width: 180px;
     object-fit: contain;
-    border: 1px solid transparent;
     border-radius: 8px;
     box-shadow: 0px 2px 16px rgb(0,0,0,.10);
+  }
+
+   .two-col img {
+    max-width: 100%;
+    border-radius: 8px;
+    /* box-shadow: 0px 2px 16px rgb(0,0,0,.10); */
   }
 
   .content {
@@ -326,7 +335,7 @@ h1.name {
 
   /* responsive */
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
-    .content, header .headergrid, .page-title-box .grid{
+    .content, header .headergrid, .page-title-box .grid, .two-col{
       margin-left: 200px;
       margin-right: 200px;
       max-width: 1039px;
@@ -339,7 +348,7 @@ h1.name {
   }
 
   @media only screen and (min-width: 905px) and (max-width: 1239px) {
-    .content, header .headergrid, .page-title-box .grid {
+    .content, header .headergrid, .page-title-box .grid, .two-col {
       margin-left: auto;
       margin-right: auto;
       max-width: 840px;
@@ -353,7 +362,7 @@ h1.name {
   }
 
   @media only screen and (min-width: 760px) and (max-width: 904px) {
-    .content, header .headergrid, .page-title-box .grid {
+    .content, header .headergrid, .page-title-box .grid, .two-col {
       grid-template-columns: repeat(2,1fr);
       grid-template-rows: auto;
       column-gap: 24px;
@@ -379,7 +388,7 @@ h1.name {
 
 
   @media only screen and (max-width: 759px) {
-  .content, header .headergrid {
+  .content, header .headergrid, .two-col {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     margin-left: 16px;
@@ -412,8 +421,7 @@ h1.name {
     font-size: 12px;
     margin: 4px 0px;
   }
-
-
 }
 
+/* about me page , 2 column content - text + image*/
 

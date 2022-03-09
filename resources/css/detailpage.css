@@ -78,12 +78,17 @@ header .headergrid {
       border-radius: 24px;
     }
 
-#hamburger-menu-icon, #hamburger-menu-icon img {
-  display: none;
-  width: 24px;
-  height: 24px;
-  padding: 4px;
-}
+    li #hamburger-menu-icon {
+      width: auto;
+      height: auto;
+    }
+
+    #hamburger-menu-icon img {
+    display: none;
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+  }
 
 #menu {
   border-radius: 4px;

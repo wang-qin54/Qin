@@ -159,7 +159,7 @@ body {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: auto;
-      column-gap: 24px;
+      column-gap: 16px;
       max-width: 1040px;
       margin: 24px auto;
       grid-area: auto;

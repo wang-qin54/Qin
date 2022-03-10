@@ -357,7 +357,7 @@ h1.name {
     .modal h3 {
       font-weight: 400;
       font-size: 16px;
-      color: #757575;
+      color: #424242;
       text-transform: uppercase;
       margin: 24px 0px;
     }
@@ -374,7 +374,7 @@ h1.name {
       box-shadow: 0px 1px 0 rgb(0,0,0,.2);
       border: none;
       margin-bottom: 40px;
-      padding: 12px;
+      padding: 8px 24px;
     }
 
     input:focus-visible {
@@ -391,7 +391,7 @@ h1.name {
     #submit {
       padding: 12px 16px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
       display: block;
       width: 96px;
@@ -415,7 +415,7 @@ h1.name {
     button {
       padding: 12px 16px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       text-transform: capitalize;
       display: block;
       width: 96px;

@@ -344,6 +344,7 @@ h1.name {
       top: 120px;
       display: block;
       padding: 40px;
+      padding-bottom: 24px;
       margin: auto;
       max-width: 240px;
       text-align: center;
@@ -359,21 +360,23 @@ h1.name {
       font-size: 16px;
       color: #424242;
       text-transform: uppercase;
-      margin: 24px 0px;
+      margin: 0px;
+      padding: 0px;
     }
 
+
     form {
-      width: auto;
+      width: 100%;
     }
 
     /* the input field */
     #password {
       height: 36px;
-      width: auto;
+      width: 80%;
       background-color: transparent;
       box-shadow: 0px 1px 0 rgb(0,0,0,.2);
       border: none;
-      margin-bottom: 40px;
+      margin: 40px 0px;
       padding: 8px 24px;
     }
 
@@ -382,26 +385,19 @@ h1.name {
       border: 1px solid white;
     }
 
-    .two-buttons {
-      display: inline-flex;
-      justify-content: flex-end;
-      width: 100%;
-    }
-
     #submit {
       padding: 12px 16px;
       font-size: 14px;
       font-weight: 500;
       text-transform: uppercase;
       display: block;
-      width: 96px;
+      width: 100%;
       cursor: pointer;
       border: 1px solid transparent;
       border-radius: 24px;
       background-color: #0034F0;
       color: white;
       letter-spacing: 1.25px;
-      
     }
 
     .submit:hover {
@@ -418,13 +414,14 @@ h1.name {
       font-weight: 500;
       text-transform: capitalize;
       display: block;
-      width: 96px;
+      width: 100%;
       cursor: pointer;
       border: 1px solid transparent;
       border-radius: 24px;
       color: #0034F0;
       letter-spacing: 1.25px;
       background-color: transparent;
+      margin-top: 24px;
     }
 
     button:hover {
@@ -434,6 +431,8 @@ h1.name {
     button:active {
       background-color: rgb(0,0,0,.12);
     }
+
+
 
 
 

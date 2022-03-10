@@ -63,7 +63,7 @@ header .headergrid {
       display: block;
       width: auto;
       cursor: pointer;
-
+      border-radius: 24px;
     }
 
     li:hover {
@@ -76,6 +76,7 @@ header .headergrid {
       background-color: rgb(0,0,0,.12);
       border: rgb(0,0,0,.12);
       border-radius: 24px;
+      color: #212121;
     }
 
     li #hamburger-menu-icon {
@@ -252,6 +253,9 @@ h1.name {
       height: auto;
       text-transform: capitalize;
     }
+
+  
+  /* responsive grid  */
 
   @media only screen and (min-width: 1240px) and (max-width: 1439px) {
     .content, header .headergrid{

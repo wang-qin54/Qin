@@ -524,6 +524,12 @@ h1.name {
     font-size: 12px;
     margin: 4px 0px;
   }
+
+  #selfie {
+    margin-top: 30%;
+    margin-bottom: -200px;
+  }
+
 }
 
 /* about me page , 2 column content - text + image*/

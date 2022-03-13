@@ -9,7 +9,7 @@ body {
 }
 
 header {
-position: fixed;
+position: sticky;
 top: 0px;
 width: 100%;
 z-index: 1;
@@ -24,6 +24,7 @@ header .headergrid {
   height: auto;
   align-content: center;
   margin: 16px auto;
+  padding: 12px 0px;
 }
 
   .info {
@@ -43,127 +44,127 @@ header .headergrid {
       margin: 0px 8px;
       width: auto;
       letter-spacing: 0.5px;
-}
-
-  nav {
-    grid-column-start: 2;
-    grid-column-end: span 1;
-    background-color: transparent;
-    color: #212121;
-    border-radius: 48px;
-    display: inline-flex;
-    justify-content: flex-end;
-  }
-
-    li {
-      padding: 12px;
-      font-size: 12px;
-      font-weight: 400;
-      text-transform: uppercase;
-      display: block;
-      width: auto;
-      cursor: pointer;
-      border-radius: 24px;
     }
 
-    li:hover {
+    nav {
+      grid-column-start: 2;
+      grid-column-end: span 1;
+      background-color: transparent;
+      color: #212121;
+      border-radius: 48px;
+      display: inline-flex;
+      justify-content: flex-end;
+    }
+
+      li {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        display: block;
+        width: auto;
+        cursor: pointer;
+        border-radius: 24px;
+      }
+
+      li:hover {
+        background-color: rgb(0,0,0,.04);
+        border: rgb(0,0,0,.04);
+        border-radius: 24px;
+      }
+
+      li:active {
+        background-color: rgb(0,0,0,.12);
+        border: rgb(0,0,0,.12);
+        border-radius: 24px;
+        color: #212121;
+      }
+
+      li #hamburger-menu-icon {
+        width: auto;
+        height: auto;
+      }
+
+      #hamburger-menu-icon img {
+      display: none;
+      width: 24px;
+      height: 24px;
+      padding: 1px;
+    }
+
+  #menu {
+    border-radius: 4px;
+    height: fit-content;
+    width: fit-content;
+    display: none;
+    margin: 12px;
+    padding: 24px;
+    z-index: 3;
+    position: fixed;
+    top: 64px;
+    right: 0px;
+    background-color: rgb(256,256,256,.90);
+    box-shadow: 0px 2px 24px rgb(0,0,0,.10);
+  }
+
+    #menu .item {
+      width: auto;
+      height: fit-content;
+    }
+
+    #menu .item:hover {
       background-color: rgb(0,0,0,.04);
       border: rgb(0,0,0,.04);
       border-radius: 24px;
     }
 
-    li:active {
-      background-color: rgb(0,0,0,.12);
-      border: rgb(0,0,0,.12);
-      border-radius: 24px;
-      color: #212121;
-    }
-
-    li #hamburger-menu-icon {
-      width: auto;
-      height: auto;
-    }
-
-    #hamburger-menu-icon img {
-    display: none;
-    width: 24px;
-    height: 24px;
-    padding: 1px;
-  }
-
-#menu {
-  border-radius: 4px;
-  height: fit-content;
-  width: fit-content;
-  display: none;
-  margin: 12px;
-  padding: 24px;
-  z-index: 3;
-  position: fixed;
-  top: 64px;
-  right: 0px;
-  background-color: rgb(256,256,256,.90);
-  box-shadow: 0px 2px 24px rgb(0,0,0,.10);
-}
-
-#menu .item {
-  width: auto;
-  height: fit-content;
-}
-
-#menu .item:hover {
-  background-color: rgb(0,0,0,.04);
-  border: rgb(0,0,0,.04);
-  border-radius: 24px;
-}
-
 a {
   width: auto;
   height: auto;
   text-decoration: none;
-  padding: 0px;
+  padding: 4px;
   height: auto;
   width: auto;
 }
 
-.icon {
-width: 16px;
-height: 16px;
-margin: 0px 4px;
-cursor: pointer;
-}
+    .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px 4px;
+    cursor: pointer;
+    }
 
-.icon:hover {
-background-color: rgb(0,0,0,.04);
-border: rgb(0,0,0,.04);
-border-radius: 24px;
-}
+    .icon:hover {
+    background-color: rgb(0,0,0,.04);
+    border: rgb(0,0,0,.04);
+    border-radius: 24px;
+    }
 
-.icon:active {
-background-color: rgb(0,0,0,.12);
-border: rgb(0,0,0,.12);
-border-radius: 24px;
-}
- 
-h1.name {
-  color: #292830;
-  font-weight: 300;
-  font-size: 32px;
-  width: fit-content;
-  line-height: normal;
-  margin: 0px;
-}
-  /* above shared with detail page */
+    .icon:active {
+    background-color: rgb(0,0,0,.12);
+    border: rgb(0,0,0,.12);
+    border-radius: 24px;
+    }
+    
+    h1.name {
+      color: #292830;
+      font-weight: 300;
+      font-size: 32px;
+      width: fit-content;
+      line-height: normal;
+      margin: 0px;
+    }
+  /* above shared with detail page app top bar*/
 
-  .content {
+  .grid-content {
     position: relative;
-    top: 70px;
+    top: 0px;
     height: auto;
     max-width: 1040px;
     min-width: 1040px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(12,1fr);
     /* grid-template-rows: auto repeat(auto,378px) auto repeat(auto,378px); */
     grid-template-rows: auto;
     row-gap: 24px;
@@ -173,13 +174,14 @@ h1.name {
   }
 
   .section-title {
-    grid-column-start: 1;
-    grid-column-end: span 3;
+    grid-column: span 12;
     text-align: center;
     text-transform: capitalize;
-  }
+    margin: 12px;
+  } 
 
   .card {
+    grid-column: span 4;
     width: 100%;
     height: auto;
     background-color: white;
@@ -190,11 +192,41 @@ h1.name {
     align-items: center;
   }
 
-  .card:hover {
+  .card-small {
+    grid-column: span 2;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    border: 1px transparent;
+    border-radius: 12px;
+    box-shadow: 2px 4px 24px rgb(0,0,0,.06);
+    padding: 0px;
+    align-items: center;
+  }
+
+    .card-small .coverimg {
+      width: 100%;
+      height: 120px;
+      border: white;
+      border-radius: 12px 12px 0px 0px;
+      object-fit: cover;
+    }
+
+    .card-small .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #212121;
+      margin: 8px 0px;
+      text-transform: capitalize;
+      line-height: 18px;
+      letter-spacing: 0px;
+    }
+
+  .card:hover, .card-small:hover {
     box-shadow: 2px 4px 24px rgb(0,0,0,.20);
   }
   
-  .card:active {
+  .card:active, .card-small:active {
     box-shadow: 2px 4px 24px rgb(0,0,0,.50);
   }
 
@@ -277,8 +309,8 @@ h1.name {
   }
 
   @media only screen and (min-width: 760px) and (max-width: 904px) {
-    .content, header .headergrid {
-      grid-template-columns: repeat(2,1fr);
+    .content{
+      grid-template-columns: repeat(8,1fr);
       grid-template-rows: auto;
       column-gap: 24px;
       margin-left: 32px;
@@ -287,47 +319,56 @@ h1.name {
       min-width: 696px;
     }
 
-    .email,.info .icon {
-      display: none;
+      .section-title {
+        grid-column: span 8;
+      }
+
+    header .headergrid {
+      grid-template-rows: auto;
+      column-gap: 24px;
+      margin-left: 32px;
+      margin-right: 32px;
+      max-width: 830px;
+      min-width: 696px;
     }
 
-    .section-title {
-      grid-column-start: 1;
-      grid-column-end: span 2;
-      text-align: center;
-      text-transform: capitalize;
-    }
+      .email,.info .icon {
+        display: none;
+      }
   }
 
 
   @media only screen and (max-width: 759px) {
-  .content, header .headergrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    margin-left: 16px;
-    margin-right: 16px;
-    max-width: 727px;
-    min-width: 360px;
-  }
+    .content{
+      grid-template-columns: repeat(4,1fr);
+      grid-template-rows: auto;
+      column-gap: 16px;
+      margin-left: 16px;
+      margin-right: 16px;
+      max-width: 727px;
+      min-width: 300px;
+    }
 
-  .section-title {
-    grid-column-start: 1;
-    grid-column-end: span 1;
-    text-align: center;
-    text-transform: capitalize;
-  }
+      .section-title {
+        font-size: 18px;
+        grid-column: span 4;
+      }
 
-  .section-title {
-    font-size: 18px;
-  }
+    header .headergrid {
+      column-gap: 16px;
+      margin-left: 16px;
+      margin-right: 16px;
+      max-width: 727px;
+      min-width: 120px;
+    }
 
-  .email,.info .icon, nav .item {
-    display: none;
-  }
+      .email,.info .icon, nav .item {
+        display: none;
+      }
 
-  #hamburger-menu-icon, #hamburger-menu-icon img {
-    display: block;
-  }
+      #hamburger-menu-icon, #hamburger-menu-icon img {
+        display: block;
+      }
 }
 
 

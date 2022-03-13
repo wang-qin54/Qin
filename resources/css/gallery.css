@@ -242,6 +242,10 @@ body {
       text-align: center;
       text-transform: capitalize;
     }
+
+    img {
+      background-color: rgb(0,0,0,.12);
+    }
   }
 
 

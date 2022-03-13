@@ -246,7 +246,7 @@ h1.name {
     height: auto;
   }
 
-  .title-img img {
+  .title-img img  {
     margin-bottom: -200px;
     margin-top: 24px;
     max-width: 90%;
@@ -256,11 +256,22 @@ h1.name {
     box-shadow: 0px 2px 16px rgb(0,0,0,.10);
   }
 
+  .title-img video {
+    margin-bottom: -295px;
+    margin-top: 24px;
+    max-width: 90%;
+    min-width: 180px;
+    margin-top: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0px 2px 16px rgb(0,0,0,.10);
+  }
+
    .two-col img {
     max-width: 100%;
     border-radius: 8px;
     margin-bottom: 24px;
-    /* box-shadow: 0px 2px 16px rgb(0,0,0,.10); */
+    box-shadow: 0px 2px 16px rgb(0,0,0,.10);
   }
 
   .content {
@@ -432,6 +443,8 @@ h1.name {
     button:active {
       background-color: rgb(0,0,0,.12);
     }
+
+
 
 
 

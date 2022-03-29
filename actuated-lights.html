@@ -63,21 +63,105 @@
     </div>
 
     
-    <div class="content">
+    <div class="one-col">
         <div class="anchor" id="section1"></div>
         <h3 class="section">Abstract</h3>
-        <p>This study aims to learn the user experience with tangible interfaces consisted of three semi-autonomous wall lights. Participants were guided and followed by step-by-step instruction offered by three lights to completed a series of procedural tasks. The qualitative study was conducted to explore the difference between when people are guided and followed by lights. In addition, it provides a reference to the intuitive interaction design for interactive lights system under kitchen setting.</p>
-
+        <p>Three smart wall lights that instruct or follow people doing sequential tasks (making Sushi in the study) to explore what aspects make people feel the object be smart, specifically when they’re actively instructed or passively followed. 
+        </p>
         <div class="anchor" id="section2"></div>
         <h3 class="section">Concept development</h3>
-        <h5>Lights design beyond luminaire</h5>
+        <h5>Lights beyond luminaire</h5>
         <p>Autonomous lights have been widely developed to assist various fields. Researchers started to look into its function beyond luminaire. Honghao designed a flying light(figure3) to improve urban safety. The light escorts people on their way back home by following their movement, which avoids the problem of privacy invasion in comparison to surveillance camera [19]. An anthropomorphic lamp is capable of conveying emotion (fugure1) [20] through the variation of colours and brightness. Hung-Yu Tseng proposed a light embedded in a navigation system to guide people while they are riding scooters [21] while Yuichiro uses lights to divide indoor spaces. Meanwhile, Hoffman [22] and Diana [2] paid attention to exploiting the spatial movement of lamps to achieve anthropomorphism (figure 1). The later extends lights’ function to behaviour changing and socialising. Adding autonomy to lights (TAIs) could further expand lights’ capability out of illumination. It not only lessens the cognitive workload from the human side by shifting them to machines but makes people feel more connected to everyday objects [2]. This was discovered in a study in which an autonomous desk lamp is generally perceived “displaying a social behaviour through functional movement”.</p>
-        <img src="resources/images-academia/lights/1.1.reference.jpeg">
-
+        <img src="resources/images-academia/lights/literature-review.png">
+    
         <div class="anchor" id="section3"></div>
         <h3 class="section">Prototype & Technical Details</h3>
         <p>The three lights consisted of three 12v GU5.3 LED light bulbs, six normal-size servos, one Arduino Uno board, two relays, fourvoltage regulators, one Bluetooth chip and a 12v 6A power supply (figure 7).</p>
-        <img src="resources/images-academia/lights/1.1.reference.jpeg">
+        <img src="resources/images-academia/lights/arduino-phone.png">
+        <h5>Fabrications</h5>
+        <p>3D Printing, Laser Cut</p>
+        <img src="resources/images-academia/lights/fabrication.png">
+
+        <div class="anchor" id="section4"></div>
+        <h3 class="section">Experiment & Qualitative Research</h3>
+        <h5>Observation</h5>
+    </div>
+
+    <div class="four-col">
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making1.gif">
+            <figcaption>1. Mix the sugar, the vinegar and the salt in the pot.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making2.gif">
+            <figcaption>2. Pour the liquid in the rice and mix them together.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making3.gif">
+            <figcaption>3. Put the rice one the sheet evenly.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making4.gif">
+            <figcaption>4. put the cucumber on the sheet.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making5.gif">
+            <figcaption>5.Put the avocado on the sheet.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making6.gif">
+            <figcaption>6. Put the carrot on the sheet.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making7.gif">
+            <figcaption>7. Roll it up!</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images-academia/lights/sushi-making8.gif">
+            <figcaption>8. Cut it up.</figcaption>
+        </figure>
+    </div>
+
+    <div class="one-col">
+        <h5>follow-up interviews</h5>
+        <p>Ask questions to rate smart level of the light they've interacted with</p>
+
+        <div class="anchor" id="section5"></div>
+        <h3 class="section">Main findings</h3>
+        <h5>The factors affect the perception of the autonomy</h5>
+        <h6>Adaptability&Improvisation.</h6>
+        <p>Participants tend to judge the lights’ autonomy based on its adaptability. 
+            “It adjusts itself based on human’s movement.” (Follow)
+            “I pick my material in each step, and it just pointed at the bowl. So I tried to interact with the lights, I grabbed those cucumbers and put them back to see whether it can respond.” (Follow)
+            “For example, I was putting the ingredients, but I forgot about the carrot, if it’s not about the light, I could totally forget about it.” (Guide)
+        </p>
+        <h6>Workload distribution</h6>
+        <p>4/20 participants from both groups do not recognise it as a smart object because it does not take the full workload of the task. Instead, it just either assist people to complete tasks (guide) or passively follow users’ movement (follow)rather than presenting a result directly to users. 
+            “I did not have to do anything to control them. But I guess since they were following me they are not completely autonomous.” (follow)
+            “5. Don’t think it’s smart, it is just sensing where I am. Maybe it’s smarter if it just tells me what to do.” (follow)
+            “I think if it’s smart, it should make sushi and deliver it to me.” (Guide)
+            “It is smart because It waited for me to complete the current steps and then move to the next step.” (guide)
+        </p>
+        <h5>IMPROVEMENT</h5>
+        <h6>Attention distribution (follow)</h6>
+        <p>
+            Five participants from the following group suggested that, since sometimes their attention is not always focused on where they are, it would be better if the lights could follow their eye gaze rather than where they are. Or it can also follow both next step and the current step.
+            “I prefer one light would follow my gaze, the other one is the current where i’m working on.” (follow)
+            “Sometimes I don’t want the lamp focus on my hand, if I put paper recipe by the wall, I would prefer to look at it. So it’s better if it points at somewhere I want to look at instead of tracking my hand movement.” (follow)
+        </p>
+        <h6>Task arrangement</h6>
+        <p>According to six participants’ feedbacks, there are two steps that contain too many information so that the lighting instruction was not enough to let them understand what to do. For instance, the first step, where the light point at three seasonings all together and move to the pan to indicate that users should mix them in the pan. This might be improved by pointing at on one type of seasoning each time and move to the pan multiple time accordingly.
+            “you know probably the last step is a bit flat when you have to do the rolling. “
+            “There were three ingredients needed to be mixed. However it lightens all of them together. I didn’t know it means to mix them. If I was told like the first one ingredient, the second ingredient, that would give me a hint about what to do next.”
+        </p>
+        <h6>Interpretation of the lighting cues</h6>
+        <p>Even though most participants think the cues given by lights were simple and clear, three of them still pointed out that it takes a moment for them to understand the lights. For instance, flash once means “take the ingredient”. Most participants think they are easy to understand. However, as I observed, it took them a while to understand those cues (figure 14). one participant even stopped following the lighting instruction after the first moment she got stuck
+            “I was confused in the beginning, it took me a while to figure out it means the next step I should go to.”
+            “ .... Because you put the rice on and then you roll it, and then you crafted, so you go three steps in one station. ”
+        </p>
+        <h3>Contributions</h3>
+        <p>The study does not intend to propose a solid solution to a definite scenario but to inspire more ideas about how to design and implement the autonomous interface. Another contribution of the thesis is the functional Arduino prototype along with an Android App that can remotely control the movement and switch of the lights through Bluetooth. The technical and fabricating details had been illustrated in the thesis and appendix. Hence, the features can be easily recreated, which enables the prototype to be altered and adapted to a wider range of scenarios.</p>
+        <video src=""></video>
         
     </div>
 

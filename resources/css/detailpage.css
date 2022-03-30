@@ -16,19 +16,15 @@ z-index: 1;
 background-color: rgb(256,256,256,.92);
 }
 
-header .headergrid, .two-col {
+header .headergrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 24px;
-  max-width: 920px;
+  max-width: 1040px;
   height: auto;
   align-content: center;
   margin: 16px auto;
   padding: 12px 0px;
-}
-
-.two-col {
-  height: 500px;
 }
 
   .info {
@@ -50,108 +46,114 @@ header .headergrid, .two-col {
       letter-spacing: 0.5px;
     }
 
-  nav {
-    grid-column-start: 2;
-    grid-column-end: span 1;
-    background-color: transparent;
-    color: #212121;
-    border-radius: 48px;
-    display: inline-flex;
-    justify-content: flex-end;
-    width: 100%;
-  }
-
-    li {
-      padding: 12px;
-      font-size: 12px;
-      font-weight: 400;
-      text-transform: uppercase;
-      display: block;
-      width: auto;
-      cursor: pointer;
+    nav {
+      grid-column-start: 2;
+      grid-column-end: span 1;
+      background-color: transparent;
+      color: #212121;
+      border-radius: 48px;
+      display: inline-flex;
+      justify-content: flex-end;
     }
 
-    li:hover {
+      li {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        display: block;
+        width: auto;
+        cursor: pointer;
+        border-radius: 24px;
+      }
+
+      li:hover {
+        background-color: rgb(0,0,0,.04);
+        border: rgb(0,0,0,.04);
+        border-radius: 24px;
+      }
+
+      li:active {
+        background-color: rgb(0,0,0,.12);
+        border: rgb(0,0,0,.12);
+        border-radius: 24px;
+        color: #212121;
+      }
+
+      li #hamburger-menu-icon {
+        width: auto;
+        height: auto;
+      }
+
+      #hamburger-menu-icon img {
+      display: none;
+      width: 24px;
+      height: 24px;
+      padding: 1px;
+    }
+
+  #menu {
+    border-radius: 4px;
+    height: fit-content;
+    width: fit-content;
+    display: none;
+    margin: 12px;
+    padding: 24px;
+    z-index: 3;
+    position: fixed;
+    top: 64px;
+    right: 0px;
+    background-color: rgb(256,256,256,.90);
+    box-shadow: 0px 2px 24px rgb(0,0,0,.10);
+  }
+
+    #menu .item {
+      width: auto;
+      height: fit-content;
+    }
+
+    #menu .item:hover {
       background-color: rgb(0,0,0,.04);
       border: rgb(0,0,0,.04);
       border-radius: 24px;
     }
 
-    li:active {
-      background-color: rgb(0,52,240,.12);
-      border: rgb(0,0,0,.12);
-      border-radius: 24px;
-    }
-
-    li #hamburger-menu-icon {
-      width: auto;
-      height: auto;
-    }
-
-    #hamburger-menu-icon img {
-    display: none;
-    width: 24px;
-    height: 24px;
-    padding: 1px;
-  }
-
-#menu {
-  border-radius: 4px;
-  height: fit-content;
-  width: fit-content;
-  display: none;
-  margin: 12px;
-  padding: 24px;
-  z-index: 3;
-  position: fixed;
-  top: 64px;
-  right: 0px;
-  background-color: rgb(256,256,256,.90);
-  box-shadow: 0px 2px 24px rgb(0,0,0,.10);
-}
-
-#menu .item {
-  width: auto;
-  height: fit-content;
-}
-
-#menu .item:hover {
-  background-color: rgb(0,0,0,.04);
-  border: rgb(0,0,0,.04);
-  border-radius: 24px;
-}
-
 a {
+  width: auto;
+  height: auto;
   text-decoration: none;
+  padding: 4px;
+  height: auto;
+  width: auto;
 }
 
-.icon {
-width: 16px;
-height: 16px;
-margin: 0px 4px;
-cursor: pointer;
-}
+    .icon {
+    width: 16px;
+    height: 16px;
+    margin: 0px 4px;
+    cursor: pointer;
+    }
 
-.icon:hover {
-background-color: rgb(0,0,0,.04);
-border: rgb(0,0,0,.04);
-border-radius: 24px;
-}
+    .icon:hover {
+    background-color: rgb(0,0,0,.04);
+    border: rgb(0,0,0,.04);
+    border-radius: 24px;
+    }
 
-.icon:active {
-background-color: rgb(0,0,0,.12);
-border: rgb(0,0,0,.12);
-border-radius: 24px;
-}
- 
-h1.name {
-  color: #292830;
-  font-weight: 300;
-  font-size: 32px;
-  width: fit-content;
-  line-height: normal;
-  margin: 0px;
-}
+    .icon:active {
+    background-color: rgb(0,0,0,.12);
+    border: rgb(0,0,0,.12);
+    border-radius: 24px;
+    }
+    
+    h1.name {
+      color: #292830;
+      font-weight: 300;
+      font-size: 32px;
+      width: fit-content;
+      line-height: normal;
+      margin: 0px;
+    }
 
 /* above shared with homepage */
 

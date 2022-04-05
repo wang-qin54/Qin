@@ -378,6 +378,7 @@ a {
   .two-col-list {
     position: relative;
     top: 0px;
+    padding-bottom: 280px;
   }
 
     /* password input */

@@ -6,8 +6,10 @@ Disallow: /*/goods-receiving-system/*
 Disallow: /*/copy-of-all-2/*
 Disallow: /*/copy-of-3-letstorm/*
 
-Sitemap: https://www.apple.com/shop/sitemap.xml
-Sitemap: http://www.qin-wang.net/index/sitemap.xml
-Sitemap: http://www.qin-wang.net/academia/sitemap.xml  
-Sitemap: http://www.qin-wang.net/life/sitemap.xml  
-Sitemap: http://www.qin-wang.net/aboutme/sitemap.xml  
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: *
+Allow: /
+
+Sitemap: http://www.example.com/sitemap.xml

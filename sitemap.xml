@@ -1,6 +1,5 @@
-# sitemap
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.google.org/schemas/sitemap/0.84">
    <url>
       <loc>http://www.qin-wang.net/index/</loc>
       <lastmod>2022-07-26</lastmod>

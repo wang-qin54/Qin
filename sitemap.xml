@@ -1,5 +1,57 @@
 # sitemap
-Sitemap: http://www.qin-wang.net/index/sitemap.xml
-Sitemap: http://www.qin-wang.net/academia/sitemap.xml  
-Sitemap: http://www.qin-wang.net/life/sitemap.xml  
-Sitemap: http://www.qin-wang.net/aboutme/sitemap.xml  
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <url>
+
+      <loc>http://www.qin-wang.net/index/</loc>
+
+      <lastmod>2022-07-26</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.8</priority>
+
+   </url>
+
+
+    <url>
+
+      <loc>http://www.qin-wang.net/academia/</loc>
+
+      <lastmod>2022-07-26</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.8</priority>
+
+   </url>
+
+
+    <url>
+
+      <loc>http://www.qin-wang.net/life/</loc>
+
+      <lastmod>2022-07-26</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.8</priority>
+
+   </url>
+
+    <url>
+
+      <loc>http://www.qin-wang.net/aboutme/</loc>
+
+      <lastmod>2022-07-26</lastmod>
+
+      <changefreq>monthly</changefreq>
+
+      <priority>0.8</priority>
+
+   </url>
+
+</urlset> 

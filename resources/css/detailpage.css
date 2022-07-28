@@ -128,7 +128,7 @@ a {
 }
 
     .icon {
-    width: 16px;
+    width: auto;
     height: 16px;
     margin: 0px 4px;
     cursor: pointer;

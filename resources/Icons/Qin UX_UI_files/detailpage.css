@@ -1,0 +1,582 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, Arial, sans-serif;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.87);
+  /* background-image: url(https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80); */
+  background-color: white;
+  margin: 0px;
+  letter-spacing: 0.5px;
+}
+
+header {
+position: sticky;
+top: 0px;
+width: 100%;
+z-index: 1;
+background-color: rgb(256,256,256,.92);
+}
+
+header .headergrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 24px;
+  max-width: 1040px;
+  height: auto;
+  align-content: center;
+  margin: 16px auto;
+  padding: 12px 0px;
+}
+
+  .info {
+    grid-column-start: 1;
+    grid-column-end: span 1;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+    .email {
+      margin: 0px 12px;
+    }
+
+    .info p {
+      font-size: 14px;
+      line-height: 24px;
+      margin: 0px 8px;
+      width: auto;
+      letter-spacing: 0.5px;
+    }
+
+    nav {
+      grid-column-start: 2;
+      grid-column-end: span 1;
+      background-color: transparent;
+      color: #212121;
+      border-radius: 48px;
+      display: inline-flex;
+      justify-content: flex-end;
+    }
+
+      li {
+        padding: 12px;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        display: block;
+        width: auto;
+        cursor: pointer;
+        border-radius: 24px;
+      }
+
+      li:hover {
+        background-color: rgb(0,0,0,.04);
+        border: rgb(0,0,0,.04);
+        border-radius: 24px;
+      }
+
+      li:active {
+        background-color: rgb(0,0,0,.12);
+        border: rgb(0,0,0,.12);
+        border-radius: 24px;
+        color: #212121;
+      }
+
+      li #hamburger-menu-icon {
+        width: auto;
+        height: auto;
+      }
+
+      #hamburger-menu-icon img {
+      display: none;
+      width: 24px;
+      height: 24px;
+      padding: 1px;
+    }
+
+  #menu {
+    border-radius: 4px;
+    height: fit-content;
+    width: fit-content;
+    display: none;
+    margin: 12px;
+    padding: 24px;
+    z-index: 3;
+    position: fixed;
+    top: 64px;
+    right: 0px;
+    background-color: rgb(256,256,256,.90);
+    box-shadow: 0px 2px 24px rgb(0,0,0,.10);
+  }
+
+    #menu .item {
+      width: auto;
+      height: fit-content;
+    }
+
+    #menu .item:hover {
+      background-color: rgb(0,0,0,.04);
+      border: rgb(0,0,0,.04);
+      border-radius: 24px;
+    }
+
+a {
+  width: auto;
+  height: auto;
+  text-decoration: none;
+  padding: 4px;
+  height: auto;
+  width: auto;
+}
+
+    .icon {
+    width: auto;
+    height: 16px;
+    margin: 0px 4px;
+    cursor: pointer;
+    }
+
+    .icon:hover {
+    background-color: rgb(0,0,0,.04);
+    border: rgb(0,0,0,.04);
+    border-radius: 24px;
+    }
+
+    .icon:active {
+    background-color: rgb(0,0,0,.12);
+    border: rgb(0,0,0,.12);
+    border-radius: 24px;
+    }
+    
+    h1.name {
+      color: #292830;
+      font-weight: 300;
+      font-size: 32px;
+      width: fit-content;
+      line-height: normal;
+      margin: 0px;
+    }
+
+/* above shared with homepage */
+
+    /* Style the list */
+  ul.breadcrumb {
+    padding: 0px;
+    width: 100%;
+    list-style: none;
+    background-color: transparent;
+  }
+
+  /* Display list items side by side */
+  ul.breadcrumb li {
+    display: inline;
+    font-size: 12px;
+    color: #757575;
+  }
+
+  /* Add a slash symbol (/) before/behind each list item */
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+
+  /* Add a color to all links inside the list */
+  ul.breadcrumb li a {
+    color: #0034F0;
+    text-decoration: none;
+  }
+
+  /* Add a color on mouse-over */
+  .breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+  }
+
+  .page-title-box {
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: auto;
+    background-color: #f5f5f5;
+    padding-bottom: 0px;
+    align-content: space-around;
+  }
+
+  .page-title-box .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 24px;
+    max-width: 920px;
+    justify-content: baseline;
+    margin: 8px auto;
+    overflow: hidden;
+  }
+
+  .page-title-content {
+    grid-column-start: 1;
+    grid-column-end: span 1;
+    margin-top: 12px;
+    margin-bottom: 40px;
+    margin-left: 0px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #212121;
+    margin: 16px 0px;
+  }
+
+  #bankicon {
+    height: 12px;
+    width: auto;
+    padding: 12px 0px;
+    margin: 16px 0px;
+  }
+
+
+  #portfolioview {
+    max-width: 400px;
+    margin: 12px;
+    box-shadow: 2px 4px 40px rgb(0,0,0,.50);
+  }
+
+  .title-img {
+    grid-column-start: 2;
+    grid-column-end: span 1;
+    height: auto;
+  }
+
+  .title-img img  {
+    margin-bottom: -200px;
+    margin-top: 24px;
+    max-width: 90%;
+    min-width: 180px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0px 2px 16px rgb(0,0,0,.10);
+  }
+
+  .title-img video {
+    margin-bottom: -295px;
+    margin-top: 24px;
+    max-width: 90%;
+    min-width: 180px;
+    margin-top: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0px 2px 16px rgb(0,0,0,.10);
+  }
+
+  .one-col {
+    position: relative;
+    top: 0px;
+    height: auto;
+    max-width: 920px;
+    display: block;
+    margin: 40px auto;
+  }
+
+  .one-col img {
+    width: 100%;
+  }
+
+  .two-col, .four-col {
+    position: relative;
+    top: 0px;
+    height: auto;
+    max-width: 920px;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    column-gap: 24px;
+    row-gap: 24px;
+    margin: 40px auto;
+  }
+
+  .two-col img, .two-col .text {
+    grid-column: span 6;
+    grid-row: span 1;
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    /* box-shadow: 0px 2px 16px rgb(0,0,0,.10); */
+  }
+
+  .four-col figure{
+    grid-column: span 3;
+    grid-row: span 1;
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 0px;
+  }
+
+  .four-col figure img {
+    border-radius: 4px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    margin: 12px 0px;
+  }
+
+  .scrollspy {
+    position: fixed;
+    top: 360px;
+    right: 40px;
+    display: grid;
+    grid-template-rows: repeat(3,fit-content);
+    grid-auto-rows: fit-content;
+    width: 200px;
+    height: fit-content;
+    grid-column-start: 2;
+    grid-column-end: span 1;
+    margin: 24px 0px;
+    grid-area: scrollspy;
+    background-color: rgb(256,256,256,.60);
+    border: 1px solid transparent;
+    border-radius: 8px;
+  }
+
+  a.list {
+    width: 200px;
+    height: auto;
+    padding: 6px 12px;
+    margin: 4px;
+    font-size: 12px;
+  }
+
+  .list:hover {
+    background-color: rgb(0,0,0,.04);
+    border: 1px solid transparent;
+    border-radius: 24px;
+  }
+
+  .list:active {
+    background-color: rgb(0,52,240,.12);
+  }
+
+  .list::after {
+    background-color: rgba(13, 11, 150, 0.12);
+    border: 1px solid transparent;
+    border-radius: 24px;
+  }
+
+  .anchor {
+      display: block;
+      position: relative;
+      top: -96px;
+      visibility: hidden;
+  }
+
+  .two-col-list {
+    position: relative;
+    top: 0px;
+    padding-bottom: 280px;
+  }
+
+    /* password input */
+
+    .modal {
+      position: relative;
+      top: 120px;
+      display: block;
+      padding: 40px;
+      padding-bottom: 24px;
+      margin: auto;
+      max-width: 240px;
+      text-align: center;
+      font-weight: 400;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      box-shadow: 0px 2px 24px rgb(0,0,0,.10);
+      background-color: rgb(256,256,256,.38);
+    }
+
+    .modal h3 {
+      font-weight: 400;
+      font-size: 16px;
+      color: #424242;
+      text-transform: uppercase;
+      margin: 0px;
+      padding: 0px;
+    }
+
+
+    form {
+      width: 100%;
+    }
+
+    /* the input field */
+    #password {
+      height: 36px;
+      width: 80%;
+      background-color: transparent;
+      box-shadow: 0px 1px 0 rgb(0,0,0,.2);
+      border: none;
+      margin: 40px 0px;
+      padding: 8px 24px;
+    }
+
+    input:focus-visible {
+      box-shadow: 0px 1px 0 #0034F0;
+      border: 1px solid white;
+    }
+
+    .primary-button {
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 24px;
+      background-color: #0034F0;
+      color: white;
+      letter-spacing: 1.25px;
+    }
+
+    .primary-button:hover {
+      background-color: #0032E6;
+    }
+
+    .primary-button:active {
+      background-color: #002ED3;
+    }
+
+    button {
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: capitalize;
+      display: block;
+      width: 100%;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 24px;
+      color: #0034F0;
+      letter-spacing: 1.25px;
+      background-color: transparent;
+      margin-top: 24px;
+    }
+
+    button:hover {
+      background-color: rgb(0,0,0,.04);
+    }
+
+    button:active {
+      background-color: rgb(0,0,0,.12);
+    }
+
+
+
+
+
+
+
+
+  /* responsive */
+  @media only screen and (min-width: 1240px) and (max-width: 1439px) {
+    .content, header .headergrid, .page-title-box .grid, .two-col{
+      margin-left: 200px;
+      margin-right: 200px;
+      max-width: 1039px;
+    }
+
+    .scrollspy {
+      display: none;
+    }
+  }
+
+  @media only screen and (min-width: 905px) and (max-width: 1239px) {
+    .content, header .headergrid, .page-title-box .grid, .two-col {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 840px;
+      min-width: 840px;
+      grid-template-rows: auto;
+    }
+
+    .scrollspy {
+      display: none;
+    }
+  }
+
+  @media only screen and (min-width: 760px) and (max-width: 904px) {
+    .content, header .headergrid, .page-title-box .grid, .two-col {
+      grid-template-columns: repeat(2,1fr);
+      grid-template-rows: auto;
+      column-gap: 24px;
+      margin-left: 32px;
+      margin-right: 32px;
+      max-width: 830px;
+      min-width: 696px;
+    }
+
+    .email,.info .icon, .scrollspy, .breadcrumb {
+      display: none;
+    }
+
+    .page-title-content h2 {
+      font-size: 24px;
+    }
+
+    .page-title-content p {
+      font-size: 12px;
+      margin: 4px 0px;
+    }
+  }
+
+
+  @media only screen and (max-width: 759px) {
+  .content, header .headergrid, .two-col {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: 727px;
+    min-width: 360px;
+  }
+
+  .page-title-box .grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: 727px;
+    min-width: 360px;
+  }
+
+  .email,.info .icon, nav .item, .scrollspy, .breadcrumb {
+    display: none;
+  }
+
+  #hamburger-menu-icon, #hamburger-menu-icon img {
+    display: block;
+  }
+
+  .page-title-content h2 {
+    font-size: 20px;
+  }
+
+  .page-title-content p {
+    font-size: 12px;
+    margin: 4px 0px;
+  }
+
+  #selfie {
+    margin-top: 30%;
+    margin-bottom: -200px;
+  }
+
+}
+
+/* about me page , 2 column content - text + image*/
+

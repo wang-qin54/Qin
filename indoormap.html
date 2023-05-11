@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment dashboard </title>
+    <link href="resources/css/detailpage.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="menu">
+        <a href="index.html"><li class="item">UX/UI</li></a>
+        <a href="academia.html"><li class="item">Academia</li></a>
+        <a href="aboutme.html"><li class="item">About me</li></a>
+        <a href="life.html"><li class="item">Life</li></a>
+    </div>
+    
+    <header>
+        <div class="headergrid">
+            <div class="info">
+                <h1 class="name">Qin.W</h1>
+                <p class="email">54wangqin1995@gmail.com</p> 
+                <a href="https://www.linkedin.com/in/qinwangux/"><img class="linkedin icon" src="resources/Icons/linkedin.webp"></a>
+                <a href="https://medium.com/@qinwangux"><img class="medium icon" src="resources/Icons/medium.png"></a>
+            </div>
+            <nav>
+                <a href="index.html"><li class="item">UX/UI</li></a>
+                <a href="academia.html"><li class="item">Academia</li></a>
+                <a href="aboutme.html"><li class="item">About me</li></a>
+                <a href="life.html"><li class="item">Life</li></a>
+                <a>
+                    <li id="hamburger-menu-icon">
+                         <img  src="resources/Icons/hamburger-menu.png">
+                    </li>
+                </a>
+                <script  src="main.js"></script>
+            </nav>
+        </div>
+    </header>
+
+    <div class="anchor" id="top"></div>
+    <div class="page-title-box">
+        <div class="grid">
+            <div class="page-title-content">
+                <ul class="breadcrumb">
+                    <a href="index.html"><li>← UX/UI </li></a>
+                    <li>Omni dashboard</li>
+                </ul>
+                <h2>Designing core portfolio-analysis experience to scale solution</h2>
+                <p>// 1 months | UX/UI Design</p>
+                <p>// 3 Designer + 1 PM + 3 Front-End Engineers</p>
+            </div>
+            <div class="title-img">
+                <img src="resources/images/dashboard-headerimg.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="one-col">
+        <div class="anchor" id="section1"></div>
+        <h3 class="section">Intro</h3>
+        <p>Portfolio managers, financial advisors and individual investors use the user account dashboard to review their investment performance, portfolio allocation and add/manage portfolios.</p>
+
+        <div class="anchor" id="section2"></div>
+        <h3 class="section">1. Challenges & Opportunities</h3>
+        <img src="resources/images/dashboard-3requriement.png">
+        <h5>Multi-faced requirements - business & clients & maintainance</h5>
+        <p>// Incorprate multi-faced requirements from clients, business value, user experience and technical strategy perspectives.</p>
+        <p>// Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
+        <h5>One pattern for customers & professionals</h5>
+        <p>// It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
+        <h5>limited prior research</h5>
+        <p> due to timeline to shift the feature to clients, also, some of them are concepts for marketing pitch, which means we have no existing users ask for it, we have limited knowlege and resources to understand users' needs and mental model</p>
+
+        <div class="anchor" id="section3"></div>
+        <h3 class="section">2. Translate research findings to design </h3>
+        <h5>audit products Workshop & Desktop research</h5>
+        <p>With the design team, I lauched desktop research and workshop to extract the common modules that all customer, advisor tool and management tools have. Based on the result, we’re able to define what structure and modules to have in the first fold of the screen, and documented the differences between customer and investment professional tools.</p>
+        <img src="resources/images/dashboard-workshop.png">
+        <h5>Common pattern: Account summary, allocation, performance, investment list</h5>
+        <img src="resources/images/dashboard-design.png">
+
+        <div class="anchor" id="section4"></div>
+        <h3 class="section" >3. Solution & Prototype </h3>
+        <h5>Concept & Prototype</h5>
+        <img src="resources/images/dashboard-flowchart.png">
+        <h5>Responsive grid - desktop & tablet</h5>
+        <img src="resources/images/dashboard-responsivegrid.png">
+
+        <div class="anchor" id="section5"></div>
+        <h3 class="section" >4. Usability Testing</h3>
+        <p>To make sure there’s no basic usability problems within short period of time, I ran cognitive walkthrough with 5 collegues to find out how easy it is for user to complete the pre-defined tasks with the concept design.</p>
+        <img src="resources/images/dashboard-usabilitytest.png">
+
+        <div class="anchor" id="section6" ></div>
+        <h3 class="section" >5. Refined Design</h3>
+        <p>Create concept design and prototypes to validate our ideas. </p>
+        <img src="resources/images/dashboard-refineddesign.png">
+        
+        <div class="anchor" id="section7"></div>
+        <h3 class="section">6. Constraints & Alternative </h3>
+        <p>Unable to define use scenarios without thoroughly analysis of first-hand data at early stage --> what information to include?</p>
+        <p> --> Desktop research </p>
+        <p>Introduced new design patterns, might be hard to anticipate most technical issues that may need design update</p>
+        <p> --> Be open to design iterations</p>
+        <p>Not able to solidly validate design with real target users</p>
+        <p> --> cognitive walkthrough</p>
+
+        <div class="anchor" id="section8"></div>
+        <h3 class="section">7. Interactive Prototype</h3>
+        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600px" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421"></iframe>
+
+        <div class="anchor" id="section9"></div>
+        <h3 class="section">8. Vision - User research Outline</h3>
+        <h6>Outline</h6>
+        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
+        <h6>Interview -> Journey Map & Persona</h6>
+        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+    </div>
+    
+
+    <div class="scrollspy">
+        <a href="#section1" class="list">Intro</a>
+        <a href="#section2" class="list">1. Challenges & Opportunities</a>
+        <a href="#section3" class="list">2. Workshop & Desktop Research </a>
+        <a href="#section4" class="list">3. Solution & Prototype </a>
+        <a href="#section5" class="list">4. Usability testing </a>
+        <a href="#section6" class="list">5. Refined design </a>
+        <a href="#section7" class="list">6. Constraints & Alternative</a>
+        <a href="#section8" class="list">7. Interactive Prototype</a>
+        <a href="#section9" class="list">8. Vision - User Research Outline</a>
+        <a href="#top" class="list"> --> Back to Top </a>
+    </div>
+    
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+*.code-workspace
+
+# OS
+Thumbs.db
+
+# Logs
+*.log

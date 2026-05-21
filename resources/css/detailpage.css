@@ -4,7 +4,7 @@
    Tokens duplicated from index.css so this file is standalone.
    ------------------------------------------------------------------ */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
 
 :root {
   --bg: #ffffff;
@@ -41,9 +41,9 @@
   --container: 1080px;
   --container-narrow: 760px;
 
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     system-ui, "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Fraunces", "Inter", Georgia, serif;
+  --font-display: "Instrument Serif", "Plus Jakarta Sans", Georgia, serif;
 
   --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
 }
@@ -58,7 +58,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-feature-settings: "ss01", "cv11";
+  font-feature-settings: "kern", "liga";
   color: var(--text-secondary);
   background-color: var(--bg);
   margin: 0;
@@ -239,9 +239,18 @@ h5 {
 }
 
 h2 {
+  font-family: var(--font-display);
   font-size: clamp(28px, 4vw, 40px);
-  font-weight: 600;
+  font-weight: 400;
   margin: 0 0 var(--space-4);
+  letter-spacing: -0.03em;
+}
+
+.page-title-content h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
 }
 
 h3.section {

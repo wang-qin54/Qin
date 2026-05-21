@@ -68,12 +68,69 @@
       });
     };
 
+    const setActiveFilter = (filter) => {
+      const normalized = (filter || 'all').toLowerCase();
+      const chip = Array.from(chips).find(
+        (c) => c.getAttribute('data-filter') === normalized
+      );
+      if (!chip) return;
+
+      chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
+      chip.setAttribute('aria-pressed', 'true');
+      applyFilter(normalized);
+    };
+
+    const getFilterFromUrl = () => {
+      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+      if (hash) return hash;
+      const fromQuery = new URLSearchParams(window.location.search)
+        .get('filter')
+        ?.toLowerCase();
+      return fromQuery || '';
+    };
+
+    const applyFilterFromUrl = (scrollToSection) => {
+      const filter = getFilterFromUrl();
+      if (!filter) return false;
+
+      const chip = Array.from(chips).find(
+        (c) => c.getAttribute('data-filter') === filter
+      );
+      if (!chip) return false;
+
+      setActiveFilter(filter);
+
+      if (scrollToSection) {
+        const section = document.getElementById(filter);
+        if (section) {
+          requestAnimationFrame(() => {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+      }
+      return true;
+    };
+
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
-        chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
-        chip.setAttribute('aria-pressed', 'true');
-        applyFilter(chip.getAttribute('data-filter'));
+        const filter = chip.getAttribute('data-filter');
+        setActiveFilter(filter);
+        const path = window.location.pathname;
+        if (filter && filter !== 'all') {
+          window.history.replaceState(null, '', `${path}?filter=${filter}#${filter}`);
+        } else {
+          window.history.replaceState(null, '', path);
+        }
       });
+    });
+
+    const initFiltersFromUrl = () => applyFilterFromUrl(true);
+
+    initFiltersFromUrl();
+    window.addEventListener('hashchange', () => applyFilterFromUrl(false));
+    window.addEventListener('popstate', () => applyFilterFromUrl(false));
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) initFiltersFromUrl();
     });
   }
 

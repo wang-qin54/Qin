@@ -98,7 +98,7 @@
         <p>· <b>Source of funds</b>: Required at lower thresholds than AU for certain transaction types.</p>
         <p>· <b>Risk disclosure obligations</b>: MiCA mandates specific risk warnings be presented before key actions — these had to be designed as real user touchpoints, not legal footnotes.</p>
         <p>· <b>Key UX tension</b>: Risk disclosures that satisfy regulators but don't feel like dark patterns or friction-for-friction's-sake.</p>
-        <img src="resources/images-kyc-aus/2_au_home_states.png" alt="AU KYC entry states — unverified, phone gate, email gate, and the identity verification home screen">
+        <img src="resources/images-kyc-aus/2_regulatory_comparison.png" alt="Regulatory comparison — AU vs EU KYC Level 1 and Level 2 verification requirements">
 
 
         <!-- ── SECTION 3: PROCESS ─────────────────────────────── -->
@@ -110,7 +110,7 @@
         <p>· <b>Ongoing review sessions</b> with the compliance officer — not at the end of each sprint, but continuously. Any screen that touched a regulatory requirement was walked through before going to engineering.</p>
         <p>· <b>Requirement changes</b> happened three times during the AU flow, twice during EU — each time the regulator updated their interpretation of the framework. I maintained a modular flow structure so we could swap individual screens without rebuilding the entire flow.</p>
         <p>· <b>Annotation for compliance</b>: Figma flows were annotated with the specific regulatory clause each design decision mapped to — making the compliance team's job of writing the submission easier and reducing back-and-forth.</p>
-        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="EU KYC compliance-reviewed overview design — PEP screening decision tree and entry flow">
+        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="EU KYC overview flow — country selection, compliance declaration, document type, and terms acceptance">
 
 
         <!-- ── SECTION 4: KEY DECISION — EVALUATION QUIZ ─────── -->
@@ -140,10 +140,9 @@
         <p>A user wanting to verify and trade has the same mental model in Sydney and Berlin. The regulatory structure they move through is fundamentally different. The design challenge was building flows that felt coherent to users while satisfying two very different regulatory requirements.</p>
 
         <h5>Where the flows diverge</h5>
-        <p>· <b>Document requirements</b>: AUSTRAC accepts a broader set of government-issued IDs; MiCA has stricter document freshness and certification requirements in some cases.</p>
         <p>· <b>Investor classification</b>: AU has a binary retail/wholesale split gated by the full ASIC assessment. EU has a tiered classification with different access levels based on MiCA categories.</p>
         <p>· <b>Risk disclosures</b>: In the AU flow, risk disclosures are embedded at the derivatives access gate. In the EU flow, MiCA requires risk acknowledgments at multiple earlier touchpoints — meaning EU users encounter more explicit friction earlier in the flow.</p>
-        <p>· <b>Source of funds</b>: Triggered at different thresholds. The UI had to present this as a natural step rather than an accusatory one.</p>
+        <p>· <b>Source of funds</b>: Triggered at different thresholds — for EU users flagged as high risk, and for AU wholesale users. The UI had to present this as a natural step rather than an accusatory one.</p>
         <img src="resources/images-kyc-aus/5_eu_personal_id.png" alt="EU KYC Personal & ID flow — Terms, personal info, ID upload, face scan, document signing, and verification result states">
         <img src="resources/images-kyc-aus/5_eu_questions.png" alt="EU KYC Additional Questions — employment status, income type, trading frequency, source of funds, and proof of address upload">
 
@@ -155,12 +154,10 @@
         <h5>Australia — AUSTRAC + ASIC</h5>
         <p>Basic identity → Government ID verification → Investor classification (ASIC assessment + crypto guide) → Derivatives access or spot-only restriction</p>
         <img src="resources/images-kyc-aus/1_flow demo.png" alt="AU KYC complete flow diagram">
-        <img src="resources/images-kyc-aus/6_flow_au_l1.png" alt="Full AU KYC L1 flow — ID verification, face scan, address verification, T&C agreement, and all result states">
-        <img src="resources/images-kyc-aus/6_au_wholesale.png" alt="AU wholesale investor verification — document upload, terms acceptance, submission result, and final KYC status screen">
 
         <h5>Europe — MiCA CASP</h5>
         <p>Basic identity → Document verification → PEP/sanctions screening → Risk disclosure acceptance → Investor classification → Source of funds (threshold-triggered) → Tiered access</p>
-        <img src="resources/images-kyc-aus/5_eu_questions.png" alt="EU KYC Additional Questions section — suitability questions, source of funds, proof of address, and completion flow">
+        <img src="resources/images-kyc-aus/6_eu_flow.png" alt="EU KYC flow overview — Basic Identity, Document Verification, Questions (Risk Assessment), and Tax stages">
 
 
         <!-- ── SECTION 7: MIGRATION FLOW ─────────────────────── -->
@@ -180,10 +177,9 @@
         <h3 class="section">Final designs</h3>
 
         <h5>Australia</h5>
-        <img src="resources/images-kyc-aus/2_au_home_states.png" alt="Final AU KYC screens — identity verification home, investor classification gate, and access confirmation states">
 
         <h5>Europe</h5>
-        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="Final EU KYC screens — overview entry, PEP screening, and tiered access confirmation">
+        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="EU KYC overview flow — declaration gate, document selection, and rejection path">
 
 
         <!-- ── SECTION 9: IMPACT ──────────────────────────────── -->

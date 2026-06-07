@@ -42,30 +42,89 @@
   // ----------------------------------------------------------------
   const filterContainer = document.querySelector('[data-filter-container]');
   if (filterContainer) {
+    const syncHeaderOffset = () => {
+      const header = document.querySelector('.site-header');
+      if (!header) return;
+      document.documentElement.style.setProperty(
+        '--header-height',
+        `${header.getBoundingClientRect().height}px`
+      );
+    };
+
+    syncHeaderOffset();
+    window.addEventListener('resize', syncHeaderOffset);
+
+    // ------------------------------------------------------------------
+    // Merge header + filter bar into one visual unit when filter is stuck
+    // ------------------------------------------------------------------
+    const header = document.querySelector('.site-header');
+    const filtersEl = document.querySelector('.filters');
+    if (header && filtersEl) {
+      let rafId = null;
+      const checkStuck = () => {
+        const filterTop = filtersEl.getBoundingClientRect().top;
+        const headerBottom = header.getBoundingClientRect().bottom;
+        header.classList.toggle('header--filter-attached', filterTop <= headerBottom + 1);
+        rafId = null;
+      };
+      window.addEventListener('scroll', () => {
+        if (!rafId) rafId = requestAnimationFrame(checkStuck);
+      }, { passive: true });
+      checkStuck();
+    }
+    // ------------------------------------------------------------------
+
     const chips = filterContainer.querySelectorAll('[data-filter]');
-    const cards = document.querySelectorAll('[data-tags]');
+    const curatedGrid = document.querySelector('[data-filter-layout="all"]');
+    const timelineGrid = document.querySelector('[data-filter-layout="timeline"]');
 
-    const applyFilter = (filter) => {
-      cards.forEach((card) => {
-        const tags = (card.getAttribute('data-tags') || '').toLowerCase().split(',').map((t) => t.trim());
-        const match = filter === 'all' || tags.includes(filter);
-        card.hidden = !match;
-      });
+    const updateSectionVisibility = (root) => {
+      if (!root) return;
 
-      // Section headings: hide if every following card up to the next heading
-      // is hidden.
-      document.querySelectorAll('[data-filter-section]').forEach((heading) => {
+      let firstVisibleHeading = true;
+
+      root.querySelectorAll('[data-filter-section]').forEach((heading) => {
         let next = heading.nextElementSibling;
         let anyVisible = false;
+        const boundElements = [];
+
         while (next && !next.hasAttribute('data-filter-section')) {
+          if (next.classList.contains('work-section-intro')) {
+            boundElements.push(next);
+          }
           if (next.hasAttribute('data-tags') && !next.hidden) {
             anyVisible = true;
-            break;
           }
           next = next.nextElementSibling;
         }
+
         heading.hidden = !anyVisible;
+        heading.classList.toggle('section-title--first-visible', anyVisible && firstVisibleHeading);
+        if (anyVisible) firstVisibleHeading = false;
+
+        boundElements.forEach((el) => {
+          el.hidden = !anyVisible;
+        });
       });
+    };
+
+    const applyFilter = (filter) => {
+      const isAll = filter === 'all';
+
+      if (curatedGrid) curatedGrid.hidden = !isAll;
+      if (timelineGrid) timelineGrid.hidden = isAll;
+
+      if (isAll || !timelineGrid) return;
+
+      timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
+        const tags = (card.getAttribute('data-tags') || '')
+          .toLowerCase()
+          .split(',')
+          .map((t) => t.trim());
+        card.hidden = !tags.includes(filter);
+      });
+
+      updateSectionVisibility(timelineGrid);
     };
 
     const setActiveFilter = (filter) => {
@@ -81,15 +140,17 @@
     };
 
     const getFilterFromUrl = () => {
-      const hash = window.location.hash.replace(/^#/, '').toLowerCase();
-      if (hash) return hash;
       const fromQuery = new URLSearchParams(window.location.search)
         .get('filter')
         ?.toLowerCase();
-      return fromQuery || '';
+      if (fromQuery) return fromQuery;
+
+      // Legacy hash URLs (?filter=crypto#crypto) — read once, no scroll.
+      const fromHash = window.location.hash.replace(/^#/, '').toLowerCase();
+      return fromHash || '';
     };
 
-    const applyFilterFromUrl = (scrollToSection) => {
+    const applyFilterFromUrl = () => {
       const filter = getFilterFromUrl();
       if (!filter) return false;
 
@@ -99,36 +160,32 @@
       if (!chip) return false;
 
       setActiveFilter(filter);
-
-      if (scrollToSection) {
-        const section = document.getElementById(filter);
-        if (section) {
-          requestAnimationFrame(() => {
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-      }
+      if (filter !== 'all') updateFilterUrl(filter);
       return true;
+    };
+
+    const updateFilterUrl = (filter) => {
+      const path = window.location.pathname;
+      if (filter && filter !== 'all') {
+        window.history.replaceState(null, '', `${path}?filter=${filter}`);
+      } else {
+        window.history.replaceState(null, '', path);
+      }
     };
 
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         const filter = chip.getAttribute('data-filter');
         setActiveFilter(filter);
-        const path = window.location.pathname;
-        if (filter && filter !== 'all') {
-          window.history.replaceState(null, '', `${path}?filter=${filter}#${filter}`);
-        } else {
-          window.history.replaceState(null, '', path);
-        }
+        updateFilterUrl(filter);
+        window.scrollTo(0, 0);
       });
     });
 
-    const initFiltersFromUrl = () => applyFilterFromUrl(true);
+    const initFiltersFromUrl = () => applyFilterFromUrl();
 
     initFiltersFromUrl();
-    window.addEventListener('hashchange', () => applyFilterFromUrl(false));
-    window.addEventListener('popstate', () => applyFilterFromUrl(false));
+    window.addEventListener('popstate', () => applyFilterFromUrl());
     window.addEventListener('pageshow', (event) => {
       if (event.persisted) initFiltersFromUrl();
     });

@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYC</title>
+    <title>Retail KYC — Australia & Europe</title>
     <link href="resources/css/detailpage.css?v=7" type="text/css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
 <body>
@@ -45,11 +43,12 @@
             <a href="mailto:54wangqin1995@gmail.com" role="menuitem">Contact</a>
         </div>
     </header>
-<div class="anchor" id="top"></div>
+
+    <div class="anchor" id="top"></div>
     <div class="page-title-box">
         <div class="grid">
             <div class="page-title-content">
-                <nav class=\"case-back\" aria-label="Case study navigation">
+                <nav class="case-back" aria-label="Case study navigation">
                     <a class="case-back__link" href="work.html">
                         <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                             <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -57,71 +56,167 @@
                         <span>Back to all work</span>
                     </a>
                 </nav>
-                <h2>Designing Multi-region KYC MVPs: AU + EU</h2>
-                <p>Creating scalable, compliant, and user-friendly identity verification flows under strict regulatory deadlines.</p>
-                <p>Timeline: 3 weeks (MVP)</p>
-                <p>Role: Senior Product Designer (UX + UI + Strategy)</p>
-                <p>Collaborators: PM, Engineers, Compliance, Ops</p>
-                <p>Scope: 0→1 MVP design for AU & EU KYC, scalable to multi-region</p>
-
+                <h2>Retail KYC — Australia (AUSTRAC) & Europe (MiCA)</h2>
+                <p>Designing compliant, user-friendly onboarding flows for two regulated market launches — simultaneously.</p>
+                <p>// 2025 | UX + UI + Regulatory Design</p>
+                <p>// Senior Product Designer · 2 designers, PM, Compliance Officer, Engineering</p>
+                <p>// Scope: 0→1 KYC for AU & EU; ASIC investor assessment; user migration flow</p>
             </div>
             <div class="title-img">
-                <img src="resources/images-kyc-aus/header_img.png">
+                <img src="resources/images-kyc-aus/header_img.png" alt="AU and EU KYC onboarding flow overview">
             </div>
         </div>
     </div>
 
     <div class="one-col">
-            <div class="anchor" id="section1"></div>
 
-            <h5 class="section">Problem</h5>
-            <h3 class="section">Quick-start operations in Europe & Australian Market</h3>
-            <p> 1. AU & EU exchanges faced strict KYC/AML regulations.</p>
-            <p> 2. Needed compliance-ready MVPs to unlock onboarding and spot & derivatives trading.</p>
+        <!-- ── SECTION 1: CONTEXT ─────────────────────────────── -->
+        <div class="anchor" id="section1"></div>
+        <h5 class="section">Context & Stakes</h5>
+        <h3 class="section">Designs that went into a regulatory filing</h3>
+        <p>Avenir Group needed to launch regulated crypto exchange operations in <b>Australia</b> and the <b>European Union</b> — two markets with different KYC regimes, different user bases, and different definitions of what "verified" even means.</p>
+        <p>This wasn't purely a UX project. The compliance team presented these designs as part of the regulatory submission process. Both entities subsequently received their operating licenses — the Australian exchange under <b>AUSTRAC registration</b>, and the EU entity as a <b>MiCA-compliant CASP</b> (Crypto Asset Service Provider).</p>
+        <p>· <b>Timeline:</b> ~3 weeks per MVP, running in parallel</p>
+        <p>· <b>My role:</b> Sole UX/UI designer for the AU and EU flows; collaborated with one designer on global KYC flow</p>
+        <p>· <b>Collaborators:</b> Compliance officer (ongoing review), Product Manager, Engineering, Legal</p>
+        <p>· <b>Constraint:</b> Requirements shifted multiple times as the compliance team negotiated with regulators — the design had to be adaptable without losing structural coherence</p>
+        <img src="resources/images-kyc-aus/1_intro.png" alt="KYC project overview — Australia and Europe">
 
-            <h5 class="section">Challenge</h5>
-            <h3 class="section">Tight timeline, strict regulations, shifting terms</h3>
-            <p> 1.Tight deadlines for compliance sign-off.</p>
-            <p> 2.Highly regulated flows with little UX precedent.</p>
-            <p> 3.Dynamic regulations: Requirements shifted multiple times right up to launch. I adapted flows quickly, partnering with compliance and engineering to keep us compliant and on time</p>
+
+        <!-- ── SECTION 2: REGULATORY LANDSCAPE ───────────────── -->
+        <div class="anchor" id="section2"></div>
+        <h3 class="section">Two regulatory frameworks, two different design problems</h3>
+        <p>AUSTRAC (Australia) and MiCA (EU) share the same intent — know your customer — but the design implications are very different.</p>
+
+        <h5>Australia (AUSTRAC + ASIC)</h5>
+        <p>· <b>Customer identification</b>: Standard name, DOB, address, government ID — but the classification of retail vs wholesale investor changes what they can access.</p>
+        <p>· <b>Derivatives access</b>: ASIC's Product Intervention Order (PIO) for CFDs requires a <b>mandatory suitability assessment</b> before any retail user can access futures or leveraged products. This quiz spans topics including leverage, margin, CFD mechanics, and Australian-specific regulations (negative balance protection, ASIC PIO rules, segregated client money). It cannot be skipped or simplified — the questions are legally defined.</p>
+        <p>· <b>Key UX tension</b>: The assessment contains difficult, legally specified questions. Making them feel approachable without dumbing them down or coaching users toward "correct" answers.</p>
+
+        <h5>Europe (MiCA)</h5>
+        <p>· <b>Identity verification</b>: Similar base requirements but MiCA adds mandatory <b>PEP and sanctions screening</b> and a more structured <b>investor risk classification</b>.</p>
+        <p>· <b>Source of funds</b>: Required at lower thresholds than AU for certain transaction types.</p>
+        <p>· <b>Risk disclosure obligations</b>: MiCA mandates specific risk warnings be presented before key actions — these had to be designed as real user touchpoints, not legal footnotes.</p>
+        <p>· <b>Key UX tension</b>: Risk disclosures that satisfy regulators but don't feel like dark patterns or friction-for-friction's-sake.</p>
+        <img src="resources/images-kyc-aus/2_au_home_states.png" alt="AU KYC entry states — unverified, phone gate, email gate, and the identity verification home screen">
 
 
-            <h5 class="section">Design Goals</h5>
-            <h3 class="section">Balance: regulation - usability - scalability</h3>
-            <p> ✅ Regulatory compliance on deadline</p>
-            <p> ✅ Reduce user drop-off in verification</p>
-            <p> ✅ Educate users before Level 2 unlock</p>
-            <p> ✅ Scalable flows across regions</p>
-            <img src="resources/images-kyc-aus/1_intro.png">
-            
-            
-            <div class="anchor" id="section2"></div>
-            <h3 class="section">Flow Overview</h3>
-            <p>1. Basic info → 2. Evaluation quiz → 3. Asset proof document</p>
-            <img src="resources/images-kyc-aus/1_flow demo.png">
+        <!-- ── SECTION 3: PROCESS ─────────────────────────────── -->
+        <div class="anchor" id="section3"></div>
+        <h3 class="section">Working with compliance: design reviews as a regulatory tool</h3>
+        <p>Most UX projects involve stakeholder reviews. This project involved compliance reviews where the output of those reviews was documentation submitted to a regulator.</p>
 
-            <div class="anchor" id="section3"></div>
-            <h3 class="section">Inspiration</h3>
-            <p>Coinbase added a simple <b>crypto guide</b> to help users with difficult questions.</p>
-            <p>(Competitor analysis & video observation)</p>
-            <img src="resources/images-kyc-aus/2_competitor.png">
+        <h5>How the collaboration worked</h5>
+        <p>· <b>Ongoing review sessions</b> with the compliance officer — not at the end of each sprint, but continuously. Any screen that touched a regulatory requirement was walked through before going to engineering.</p>
+        <p>· <b>Requirement changes</b> happened three times during the AU flow, twice during EU — each time the regulator updated their interpretation of the framework. I maintained a modular flow structure so we could swap individual screens without rebuilding the entire flow.</p>
+        <p>· <b>Annotation for compliance</b>: Figma flows were annotated with the specific regulatory clause each design decision mapped to — making the compliance team's job of writing the submission easier and reducing back-and-forth.</p>
+        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="EU KYC compliance-reviewed overview design — PEP screening decision tree and entry flow">
 
-            <div class="anchor" id="section4"></div>
-            <h3 class="section">Key Considertion</h3>
-            <h5>User Education: Finding the Right Balance Between Compliance and User Experience</h5>
-            <p>Add crypto guide before a derivative evaluation which entails hard questions.</p>
-            <img src="resources/images-kyc-aus/2_key consideration.png">
+
+        <!-- ── SECTION 4: KEY DECISION — EVALUATION QUIZ ─────── -->
+        <div class="anchor" id="section4"></div>
+        <h3 class="section">Key decision: the ASIC investor assessment</h3>
+        <p>The Australian flow includes a legally mandated suitability quiz that retail users must complete before accessing derivatives trading. ASIC specifies the topic areas; the questions themselves are legally defined and cannot be paraphrased or omitted.</p>
+
+        <h5>The design problem</h5>
+        <p>The quiz covers five topic areas (investor familiarity, trading strategies, leverage/margin, CFD mechanics, risk management) with up to 6-7 questions per topic. The language is formal and technical by legal necessity. Users who fail cannot access derivatives. Users who give up don't complete onboarding.</p>
+        <p>Three tensions to balance:</p>
+        <p>· <b>Legal fidelity vs. readability</b> — the question wording is fixed; only visual presentation can be varied.</p>
+        <p>· <b>Education vs. testing</b> — regulators want to assess genuine understanding, not guide users toward correct answers. We couldn't add tooltips or inline explanations to quiz questions.</p>
+        <p>· <b>Completion rate vs. compliance integrity</b> — reducing friction was desirable, but not at the cost of the assessment's legal validity.</p>
+
+        <h5>Solution</h5>
+        <p>· <b>Crypto guide before the quiz</b> (inspired by Coinbase's pattern): A structured educational module covering the key concepts — presented before entering the assessment, not during it. Users who engage with the guide have the knowledge; those who skip still face a valid assessment. This preserved regulatory integrity while reducing cold-start confusion.</p>
+        <p>· <b>Progress clarity</b>: Topic-by-topic progress indicator so users understood the scope upfront rather than discovering additional questions mid-flow.</p>
+        <p>· <b>Attempt management</b>: Users who fail get a clear explanation of which topics they fell short on, with guidance to review the crypto guide before retrying. This satisfies ASIC's requirement for a genuine assessment while reducing user frustration.</p>
+        <img src="resources/images-kyc-aus/2_competitor.png" alt="Competitor analysis — Coinbase crypto guide pattern">
+        <img src="resources/images-kyc-aus/2_key consideration.png" alt="User education design decision — crypto guide placement">
+        <img src="resources/images-kyc-aus/4_au_l2_assessment.png" alt="ASIC investor assessment — knowledge test and derivatives suitability assessment flows">
+
+
+        <!-- ── SECTION 5: KEY DECISION — AU VS EU COMPARISON ──── -->
+        <div class="anchor" id="section5"></div>
+        <h3 class="section">Same user goal, different regulatory paths</h3>
+        <p>A user wanting to verify and trade has the same mental model in Sydney and Berlin. The regulatory structure they move through is fundamentally different. The design challenge was building flows that felt coherent to users while satisfying two very different regulatory requirements.</p>
+
+        <h5>Where the flows diverge</h5>
+        <p>· <b>Document requirements</b>: AUSTRAC accepts a broader set of government-issued IDs; MiCA has stricter document freshness and certification requirements in some cases.</p>
+        <p>· <b>Investor classification</b>: AU has a binary retail/wholesale split gated by the full ASIC assessment. EU has a tiered classification with different access levels based on MiCA categories.</p>
+        <p>· <b>Risk disclosures</b>: In the AU flow, risk disclosures are embedded at the derivatives access gate. In the EU flow, MiCA requires risk acknowledgments at multiple earlier touchpoints — meaning EU users encounter more explicit friction earlier in the flow.</p>
+        <p>· <b>Source of funds</b>: Triggered at different thresholds. The UI had to present this as a natural step rather than an accusatory one.</p>
+        <img src="resources/images-kyc-aus/5_eu_personal_id.png" alt="EU KYC Personal & ID flow — Terms, personal info, ID upload, face scan, document signing, and verification result states">
+        <img src="resources/images-kyc-aus/5_eu_questions.png" alt="EU KYC Additional Questions — employment status, income type, trading frequency, source of funds, and proof of address upload">
+
+
+        <!-- ── SECTION 6: FLOW OVERVIEW ───────────────────────── -->
+        <div class="anchor" id="section6"></div>
+        <h3 class="section">Flow overview</h3>
+
+        <h5>Australia — AUSTRAC + ASIC</h5>
+        <p>Basic identity → Government ID verification → Investor classification (ASIC assessment + crypto guide) → Derivatives access or spot-only restriction</p>
+        <img src="resources/images-kyc-aus/1_flow demo.png" alt="AU KYC complete flow diagram">
+        <img src="resources/images-kyc-aus/6_flow_au_l1.png" alt="Full AU KYC L1 flow — ID verification, face scan, address verification, T&C agreement, and all result states">
+        <img src="resources/images-kyc-aus/6_au_wholesale.png" alt="AU wholesale investor verification — document upload, terms acceptance, submission result, and final KYC status screen">
+
+        <h5>Europe — MiCA CASP</h5>
+        <p>Basic identity → Document verification → PEP/sanctions screening → Risk disclosure acceptance → Investor classification → Source of funds (threshold-triggered) → Tiered access</p>
+        <img src="resources/images-kyc-aus/5_eu_questions.png" alt="EU KYC Additional Questions section — suitability questions, source of funds, proof of address, and completion flow">
+
+
+        <!-- ── SECTION 7: MIGRATION FLOW ─────────────────────── -->
+        <div class="anchor" id="section7"></div>
+        <h3 class="section">Migration: moving existing users to the EU entity</h3>
+        <p>Launching a new regulated entity meant existing exchange users who wanted EU access needed to be migrated — not just given a new account, but re-verified under the new MiCA requirements while preserving as much of their existing verification status as possible.</p>
+
+        <h5>The design challenge</h5>
+        <p>· <b>State mapping</b>: Existing users had different levels of verification (basic vs. fully verified). The design had to handle multiple starting states and route each user to the minimum additional verification needed under MiCA — not restart everyone from zero.</p>
+        <p>· <b>Communication UX</b>: Users needed to understand why they were being asked to verify again and what would happen if they didn't. This required careful writing — too alarming and users abandon; too casual and they ignore it.</p>
+        <p>· <b>Partial completion handling</b>: A user who starts migration and doesn't finish is in a liminal state across two entities. The design had to make that state recoverable and transparent.</p>
+        <img src="resources/images-kyc-aus/7_migration_flow.png" alt="User migration flow from main exchange to EU entity">
+
+
+        <!-- ── SECTION 8: FINAL DESIGNS ───────────────────────── -->
+        <div class="anchor" id="section8"></div>
+        <h3 class="section">Final designs</h3>
+
+        <h5>Australia</h5>
+        <img src="resources/images-kyc-aus/2_au_home_states.png" alt="Final AU KYC screens — identity verification home, investor classification gate, and access confirmation states">
+
+        <h5>Europe</h5>
+        <img src="resources/images-kyc-aus/5_eu_overview.png" alt="Final EU KYC screens — overview entry, PEP screening, and tiered access confirmation">
+
+
+        <!-- ── SECTION 9: IMPACT ──────────────────────────────── -->
+        <div class="anchor" id="section9"></div>
+        <h3 class="section">Impact & outcome</h3>
+
+        <h5>Regulatory outcome</h5>
+        <p>· <b>AUSTRAC registration confirmed</b> for the Australian entity. The compliance team used the annotated design flows in their submission documentation.</p>
+        <p>· <b>MiCA CASP license obtained</b> for the EU entity. The EU KYC design was reviewed and approved by the compliance officer prior to submission.</p>
+        <p>· Both markets launched on the planned schedule despite requirement changes mid-design.</p>
+
+        <h5>Design outcome</h5>
+        <p>· The <b>jurisdiction-template structure</b> — where the core flow is shared and jurisdiction-specific requirements are modular — was reused as the foundation for subsequent regional rollouts.</p>
+        <p>· The <b>crypto guide pattern</b> (educational module before the ASIC assessment) was validated by compliance as not constituting coaching — and was kept as a user experience feature.</p>
+        <p>· <b>Requirement changes</b> during the process were absorbed without full redesigns because of the modular flow structure. The last-minute ASIC clarification (week 3) required changing two screens rather than rebuilding the assessment section.</p>
+
+        <h5>What I'd do differently</h5>
+        <p>The AU and EU designs were developed largely in parallel by different designers with coordination from me. In hindsight, establishing the jurisdiction-template structure at the start (rather than recognising the pattern partway through) would have reduced duplication. The migration flow was also scoped late — it would have benefited from being designed alongside the main flows rather than as a follow-on.</p>
+
     </div>
 
     <div class="scrollspy">
-        <a href="#section1" class="list">Intro</a>
-        <a href="#section2" class="list">Flow Overview</a>
-        <a href="#section3" class="list">Inspiration</a>
-        <a href="#section4" class="list">Key Considertion</a>
+        <a href="#section1" class="list">Context & Stakes</a>
+        <a href="#section2" class="list">Regulatory Landscape</a>
+        <a href="#section3" class="list">Working with Compliance</a>
+        <a href="#section4" class="list">ASIC Assessment</a>
+        <a href="#section5" class="list">AU vs EU Comparison</a>
+        <a href="#section6" class="list">Flow Overview</a>
+        <a href="#section7" class="list">Migration Flow</a>
+        <a href="#section8" class="list">Final Designs</a>
+        <a href="#section9" class="list">Impact</a>
         <a href="#top" class="list">Back to Top</a>
     </div>
-    
-
 
     <script src="main.js"></script>
 </body>

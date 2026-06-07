@@ -98,6 +98,14 @@ input:focus-visible {
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
+  transition: border-color 150ms var(--ease);
+}
+
+/* When the filter bar is stuck directly below the header, hide the
+   header's separator — the filter bar's own border-bottom takes over,
+   making the two bars read as one unified navigation band. */
+.site-header.header--filter-attached {
+  border-bottom-color: transparent;
 }
 
 .site-header__inner {
@@ -425,11 +433,18 @@ p {
    ------------------------------------------------------------------ */
 
 .filters {
+  position: sticky;
+  top: var(--header-height, 65px);
+  z-index: 9;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
   margin-bottom: var(--space-7);
-  padding-bottom: var(--space-5);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-4);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--border);
 }
 
@@ -486,8 +501,80 @@ p {
   border-bottom: 1px solid var(--border);
 }
 
-.grid > h2.section-title:first-child {
+.grid > h2.section-title:first-child,
+.grid > h2.section-title--first-visible {
   margin-top: 0;
+}
+
+/* Suppress the underline rule on the very first heading — the filter bar border above already provides separation */
+.grid > h2.section-title:first-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Prevent legacy anchor nodes from breaking the card grid */
+.grid > .anchor {
+  display: none;
+}
+
+.grid > .work-section-intro {
+  grid-column: 1 / -1;
+  margin-top: calc(-1 * var(--space-2));
+  margin-bottom: var(--space-2);
+}
+
+.work-section-intro {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 60ch;
+}
+
+/* work page intro — matches live site spacing */
+
+.work-page__title {
+  margin-bottom: var(--space-4);
+  font-size: clamp(32px, 4vw, 48px);
+}
+
+.work-page__lede {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  max-width: 60ch;
+  margin-bottom: var(--space-6);
+}
+
+/* non-linked project cards */
+
+.card--static {
+  cursor: default;
+}
+
+.card--static:hover {
+  border-color: var(--border);
+  transform: none;
+}
+
+.coverimg--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-muted) 0%, var(--bg-subtle) 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-feature .coverimg--placeholder {
+  border-bottom: none;
+  border-right: 1px solid var(--border);
+}
+
+.coverimg__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* card variants */
@@ -520,7 +607,7 @@ p {
 .card-feature {
   grid-column: span 12;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 0;
 }
 
@@ -537,6 +624,12 @@ p {
   background: var(--bg-muted);
   display: block;
   border-bottom: 1px solid var(--border);
+  transition: transform 600ms var(--ease);
+}
+
+.card:hover .coverimg,
+.card-feature:hover .coverimg {
+  transform: scale(1.04);
 }
 
 .card-feature .coverimg {
@@ -561,6 +654,7 @@ p {
 .card-feature .card-description {
   padding: var(--space-7);
   justify-content: center;
+  gap: var(--space-3);
 }
 
 .caption {
@@ -607,6 +701,11 @@ p {
   color: var(--text-secondary);
 }
 
+.card-feature .description {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
 .outcome {
   margin-top: var(--space-3);
   padding-top: var(--space-3);
@@ -618,7 +717,7 @@ p {
 }
 
 .outcome::before {
-  content: "Outcome";
+  content: "Impact";
   display: block;
   font-size: 10px;
   font-weight: 600;
@@ -653,8 +752,15 @@ p {
 
 .card[hidden],
 .card-small[hidden],
-.card-feature[hidden] {
+.card-feature[hidden],
+.grid > h2.section-title[hidden],
+[data-filter-layout][hidden],
+.work-section-intro[hidden] {
   display: none !important;
+}
+
+.card .coverimg--placeholder {
+  height: 280px;
 }
 
 /* ------------------------------------------------------------------
@@ -727,6 +833,11 @@ p {
   }
   .card-feature .card-title {
     font-size: 20px;
+  }
+  .card-feature .coverimg--placeholder {
+    min-height: 240px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
   }
   .site-nav__link,
   .site-nav__divider {

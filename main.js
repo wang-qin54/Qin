@@ -114,7 +114,24 @@
       if (curatedGrid) curatedGrid.hidden = !isAll;
       if (timelineGrid) timelineGrid.hidden = isAll;
 
-      if (isAll || !timelineGrid) return;
+      if (isAll || !timelineGrid) {
+        // Restore section headings for next time timeline is used
+        if (timelineGrid) {
+          timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
+            h.hidden = false;
+            const intro = h.nextElementSibling;
+            if (intro && intro.classList.contains('work-section-intro')) intro.hidden = false;
+          });
+        }
+        return;
+      }
+
+      // Hide all section headings — filtered view is a flat card grid
+      timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
+        h.hidden = true;
+        const intro = h.nextElementSibling;
+        if (intro && intro.classList.contains('work-section-intro')) intro.hidden = true;
+      });
 
       timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
         const tags = (card.getAttribute('data-tags') || '')
@@ -123,8 +140,6 @@
           .map((t) => t.trim());
         card.hidden = !tags.includes(filter);
       });
-
-      updateSectionVisibility(timelineGrid);
     };
 
     const setActiveFilter = (filter) => {

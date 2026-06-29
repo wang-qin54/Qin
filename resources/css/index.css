@@ -483,6 +483,15 @@ p {
   color: rgba(255, 255, 255, 0.6);
 }
 
+.filter-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-strong);
+  align-self: center;
+  flex-shrink: 0;
+  margin: 0 var(--space-1);
+}
+
 /* ------------------------------------------------------------------
    Card grid
    ------------------------------------------------------------------ */
@@ -556,40 +565,6 @@ p {
   transform: none;
 }
 
-/* WIP confidential card */
-
-.card--wip {
-  cursor: pointer;
-  position: relative;
-}
-
-.wip-tooltip {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  background: rgba(15, 15, 20, 0.92);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 10;
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.wip-tooltip.is-visible {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
 .coverimg--placeholder {
   display: flex;
   align-items: center;
@@ -598,9 +573,36 @@ p {
   border-bottom: 1px solid var(--border);
 }
 
-.card-feature .coverimg--placeholder {
+.card-feature .coverimg.coverimg--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 260px;
+  min-height: 260px;
   border-bottom: 1px solid var(--border);
   border-right: none;
+  text-align: center;
+}
+
+.card-feature .coverimg.coverimg--placeholder .coverimg__label {
+  margin: 0;
+}
+
+@media (max-width: 960px) {
+  .card-feature .coverimg.coverimg--placeholder {
+    height: 200px;
+    min-height: 200px;
+  }
+}
+
+.card-feature--soon {
+  cursor: default;
+}
+
+.card-feature--soon:hover {
+  border-color: var(--border);
+  transform: none;
 }
 
 .coverimg__label {
@@ -644,6 +646,23 @@ p {
 
 .card-small {
   grid-column: span 3;
+}
+
+/* Filtered (timeline) view: section headings are hidden and cards form one
+   flat grid. Earlier-work cards stay compact (like the "All" tab), but the
+   first visible small card is forced onto a new row so the cluster never
+   strands a quarter-width card beside a half-width one. The marker class is
+   applied by the filter script; the span is restated per breakpoint so the
+   forced row-start doesn't collapse the card's width. */
+@media (min-width: 961px) {
+  [data-filter-layout="timeline"] .card-small--row-start {
+    grid-column: 1 / span 3;
+  }
+}
+@media (min-width: 641px) and (max-width: 960px) {
+  [data-filter-layout="timeline"] .card-small--row-start {
+    grid-column: 1 / span 4;
+  }
 }
 
 .card .coverimg,

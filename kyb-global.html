@@ -4,8 +4,464 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYB</title>
-    <link href="resources/css/detailpage.css?v=7" type="text/css" rel="stylesheet">
+    <title>KYB — Institutional Verification Redesign</title>
+    <link href="resources/css/detailpage.css?v=11" type="text/css" rel="stylesheet">
+    <style>
+        /* ---- KYB case · page-scoped components (built on detailpage.css tokens) ---- */
+        .kyb-lead {
+            font-size: 19px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0 0 var(--space-7);
+            letter-spacing: -0.01em;
+        }
+        .kyb-kicker {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: var(--space-2);
+        }
+        .kyb-head {
+            font-family: var(--font-title);
+            font-size: clamp(20px, 2.6vw, 27px);
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin: 0 0 var(--space-4);
+        }
+        .kyb-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
+        .kyb-list li {
+            position: relative;
+            padding-left: 18px;
+            margin: var(--space-2) 0;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .kyb-list li::before {
+            content: "";
+            position: absolute;
+            left: 2px; top: 11px;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        /* Callout — the request / a key note */
+        .kyb-callout {
+            border-left: 3px solid var(--accent);
+            background: var(--accent-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-4) var(--space-5);
+            margin: var(--space-5) 0;
+        }
+        .kyb-callout .lbl {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .kyb-callout .quote {
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+        .kyb-callout .sub {
+            display: block;
+            margin-top: var(--space-2);
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        /* Metric cards */
+        .kyb-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .kyb-metric {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            background: var(--bg-subtle);
+        }
+        .kyb-metric .num {
+            font-family: var(--font-title);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+        .kyb-metric .num.bad { color: #c0392b; }
+        .kyb-metric .desc {
+            display: block;
+            margin-top: var(--space-2);
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+        /* Data insight — stepped panels */
+        .kyb-insight {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+            margin: var(--space-5) 0 var(--space-6);
+        }
+        .kyb-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            background: var(--bg);
+        }
+        .kyb-panel__head {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--border);
+        }
+        .kyb-panel__step {
+            flex: 0 0 auto;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            background: var(--accent-subtle);
+            border-radius: var(--radius-sm);
+            padding: 3px 8px;
+        }
+        .kyb-panel__title {
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        .kyb-panel__lead {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0 0 var(--space-4);
+            max-width: 62ch;
+        }
+        .kyb-panel .kyb-metrics,
+        .kyb-panel .kyb-bars,
+        .kyb-panel .kyb-cards,
+        .kyb-panel .kyb-chain {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .kyb-panel .kyb-chain {
+            background: var(--bg-subtle);
+        }
+        .kyb-panel .kyb-figcap {
+            margin-top: var(--space-4);
+            margin-bottom: 0;
+        }
+        .kyb-panel .kyb-targets {
+            margin-bottom: var(--space-4);
+        }
+        .kyb-panel img {
+            margin-top: 0;
+        }
+        /* Screenshot — fills its container edge to edge */
+        .kyb-shot {
+            margin: var(--space-4) 0 var(--space-2);
+            border-radius: var(--radius-lg, 16px);
+            overflow: hidden;
+        }
+        .kyb-shot img {
+            margin: 0;
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-lg, 16px);
+            border: 1px solid var(--border);
+        }
+        .kyb-shot + .kyb-figcap {
+            margin-top: var(--space-3);
+        }
+        /* Interactive prototype embed */
+        .kyb-proto {
+            margin: var(--space-4) 0 var(--space-2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg, 16px);
+            overflow: hidden;
+            background: #fff;
+        }
+        .kyb-proto iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 2 / 1;
+            border: 0;
+        }
+        .kyb-proto + .kyb-figcap {
+            margin-top: var(--space-3);
+        }
+        /* Root-cause chain */
+        .kyb-chain {
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg-muted);
+            border-radius: var(--radius-md);
+            padding: var(--space-4) var(--space-5);
+            margin: var(--space-3) 0 var(--space-5);
+            line-height: 1.9;
+        }
+        .kyb-chain .arrow { color: var(--accent); margin: 0 6px; font-weight: 700; }
+        /* Funnel */
+        .kyb-funnel { margin: var(--space-4) 0 var(--space-5); }
+        .kyb-fstep { display: flex; align-items: center; gap: var(--space-3); margin: 6px 0; }
+        .kyb-fstep .pct {
+            flex: 0 0 48px;
+            text-align: right;
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .kyb-ftrack {
+            flex: 0 0 240px;
+            max-width: 45%;
+        }
+        .kyb-fbar {
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: var(--accent-subtle);
+            min-width: 6px;
+        }
+        .kyb-flabel {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .kyb-fstep.drop .pct,
+        .kyb-fstep.drop .kyb-flabel { color: #c0392b; }
+        .kyb-fstep.drop .kyb-fbar { background: rgba(192, 57, 43, 0.14); }
+        /* Horizontal bar chart (failure breakdown) */
+        .kyb-bars {
+            margin: var(--space-4) 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        .kyb-bar-row {
+            display: grid;
+            grid-template-columns: 210px 1fr 42px;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .kyb-bar-label { font-size: 13px; color: var(--text-secondary); }
+        .kyb-bar-track {
+            background: var(--bg-muted);
+            border-radius: 999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .kyb-bar-fill {
+            height: 100%;
+            background: rgba(0, 52, 240, 0.32);
+            border-radius: 999px;
+            min-width: 4px;
+        }
+        .kyb-bar-val {
+            font-family: var(--font-title);
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+        .kyb-bar-row.lead .kyb-bar-fill { background: rgba(192, 57, 43, 0.38); }
+        .kyb-bar-row.lead .kyb-bar-val { color: #a84a3f; font-weight: 700; }
+        @media (max-width: 600px) {
+            .kyb-bar-row { grid-template-columns: 1fr; gap: 4px; }
+            .kyb-bar-val { text-align: left; }
+        }
+        /* Alternatives — screenshot + explanation rows */
+        .kyb-alts { display: flex; flex-direction: column; gap: var(--space-4); margin: var(--space-4) 0 var(--space-5); }
+        .kyb-alt {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: var(--space-5);
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            background: var(--bg);
+        }
+        .kyb-alt.win { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-subtle); }
+        .kyb-alt img {
+            width: 100%;
+            height: auto;
+            margin: 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            display: block;
+        }
+        .kyb-alt .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .kyb-alt.win .tag { color: var(--accent); }
+        .kyb-alt h4 {
+            font-family: var(--font-title);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--space-2);
+            letter-spacing: -0.01em;
+        }
+        .kyb-alt p { font-size: 14px; line-height: 1.6; margin: 0; color: var(--text-secondary); }
+        @media (max-width: 640px) { .kyb-alt { grid-template-columns: 1fr; } }
+        /* Cards (alternatives / before-after / edge cases) */
+        .kyb-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .kyb-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            background: var(--bg);
+        }
+        .kyb-card.win {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-subtle);
+        }
+        /* Edge cases — labelled full-width figures */
+        .kyb-edges {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .kyb-edge__head {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+        .kyb-edge .tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+        }
+        .kyb-edge h4 {
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        .kyb-edge p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 var(--space-3);
+            color: var(--text-secondary);
+            max-width: 68ch;
+        }
+        .kyb-edge img {
+            width: 100%;
+            height: auto;
+            margin: 0;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            display: block;
+        }
+        .kyb-card .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .kyb-card.win .tag { color: var(--accent); }
+        .kyb-card h4 {
+            font-family: var(--font-title);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--space-2);
+            letter-spacing: -0.01em;
+        }
+        .kyb-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        /* Target cards — failure breakdown row */
+        .kyb-targets .kyb-card {
+            padding: var(--space-4) var(--space-5);
+        }
+        .kyb-targets .kyb-card h4 {
+            font-size: 15px;
+            margin-bottom: var(--space-3);
+        }
+        .kyb-targets .kyb-card p {
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--text-tertiary);
+        }
+        .kyb-targets .kyb-card p + p {
+            margin-top: var(--space-2);
+        }
+        .kyb-targets .kyb-card p b {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .kyb-targets .kyb-card--note {
+            border-style: dashed;
+            background: var(--bg-subtle);
+        }
+        /* Two-up compare */
+        .kyb-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        /* Figure caption */
+        .kyb-figcap {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin: -6px 0 var(--space-6);
+            letter-spacing: 0;
+        }
+        .kyb-bars + .kyb-figcap {
+            margin-top: var(--space-4);
+        }
+        @media (max-width: 720px) {
+            .kyb-metrics, .kyb-cards, .kyb-compare { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 
 <body>
@@ -43,11 +499,12 @@
             <a href="mailto:54wangqin1995@gmail.com" role="menuitem">Contact</a>
         </div>
     </header>
-<div class="anchor" id="top"></div>
+
+    <div class="anchor" id="top"></div>
     <div class="page-title-box">
         <div class="grid">
             <div class="page-title-content">
-                <nav class=\"case-back\" aria-label="Case study navigation">
+                <nav class="case-back" aria-label="Case study navigation">
                     <a class="case-back__link" href="work.html">
                         <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                             <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,98 +512,392 @@
                         <span>Back to all work</span>
                     </a>
                 </nav>
-                <h2>Institutional Verification Flow Redesign </h2>
-                <p>// 2 weeks | UX UI Design</p>
-                <p>// 2 Designers + 1 P0 + 1 Front-End Engineers</p>
+                <h2>Institutional Verification Redesign (KYB)</h2>
+                <p>// 2 weeks · UX/UI design · Web</p>
+                <p>// Role: lead designer on the flow — with 1 PM, front-end &amp; back-end</p>
             </div>
             <div class="title-img">
-                <img src="resources/images-kyb/header_img.png">
+                <img src="resources/images-kyb/header_img.png" alt="KYB institutional verification flow — key screens">
             </div>
         </div>
     </div>
 
     <div class="one-col">
-            <div class="anchor" id="section1"></div>
-            <h3 class="section">Intro</h3>
-            <p>· Institutional clients contribute <b>30% to 70%</b> of trading volume on crypto exchanges.</p>
-            <p>· Institutional verification is crucial for organizations to prove their legitimacy. Once verified, they can access higher deposit limits and larger withdrawals, enhancing their trading capabilities.</p>
-            <p>· User research indicates <b>low conversion rates</b> in the KYB verification step due to unclear instructions.</p>
 
-            <div class="anchor" id="section2"></div>
-            <h3 class="section">Data-driven insight</h3>
-            <h5>KYB failed reason: file uploading is lack of <b>clarity and guidance</b>. </h5>
-            <p>· User research indicates that <b>82% </b>of users <b>submitted multiple applications</b>, with approximately <b>40%</b> taking <b>more than 5 days</b> to complete their Know Your Business (KYB) processes. </p>
-            <p>· The <b>conversion rate</b> for document uploads is notably low at <b>41%</b>, primarily because users are often confused about which materials to upload in various scenarios. The previous design failed to provide the necessary clarity and guidance.</p>
-            <img src="resources/images-kyb/kyb_1_research.png">
-            <h5>Current design: text-heavy</h5>
-            <p>Users had to read through <b>lengthy text instructions</b> to understand what documents were required. This approach was not user-friendly and led to frustration.</p>
-            <img src="resources/images-kyb/kyb_2_research.png">
+        <p class="kyb-lead">
+            Reframed an &ldquo;add a selector&rdquo; request into a root-cause redesign of document
+            submission &mdash; for the institutional segment that drives <b>30&ndash;70% of exchange
+            trading volume</b>.
+        </p>
 
-            <div class="anchor" id="section3"></div>
-            <h3 class="section">Competitor Analysis</h3>
-            <p>Key takeway:</p>
-            <p>· <b>Pre-select country and institution type</b> to show relevant files.</p>
-            <p>· Provide a <b>document checklist upfront</b> to help users gather materials efficiently.</p>
-            <p>· Include <b>straightforward instructions</b> for uploading files.</p>
-            <img src="resources/images-kyb/kyb_3_competitor_deepdive.png">
-            <img src="resources/images-kyb/kyb_3_competitor.png">
+        <!-- ============ 01 PROBLEM ============ -->
+        <div class="anchor" id="section1"></div>
+        <h3 class="section">01 · Problem</h3>
+        <span class="kyb-kicker">The why</span>
+        <p class="kyb-head">The request was cosmetic. The real problem was comprehension.</p>
 
-            <div class="anchor" id="section4"></div>
-            <h3 class="section">Key Iterations</h3>
-            <p>1. Replaced the text reading with <b>guided selection</b>.</p>
-            <img src="resources/images-kyb/kyb_4_1_key_iteration.png">
-            <p>2. Established a <b>visual hierarchy</b>.</p>
-            <img src="resources/images-kyb/kyb_4_2_key_iteration.png">
-            <p>3. Added an <b>additional section </b>for uploads to increase the chances of success.</p>
-            <img src="resources/images-kyb/kyb_4_3_key_iteration.png">
+        <p>
+            KYB is how institutional clients verify their company to trade. Institutional clients drive
+            <b>30&ndash;70%</b> of exchange volume &mdash; every drop-off here is lost revenue in the
+            highest-value segment.
+        </p>
+        <p>
+            A user research report flagged a <b>low KYB conversion rate</b>. A feature request landed on
+            my desk to &ldquo;fix&rdquo; it.
+        </p>
 
+        <div class="kyb-callout">
+            <div class="lbl">The request I was handed</div>
+            <div class="quote">&ldquo;Add a company-type selector so users only see the fields relevant to them.&rdquo;</div>
+            <span class="sub">A reasonable-sounding feature request.</span>
+        </div>
 
-            <div class="anchor" id="section5"></div>
-            <h3 class="section">Final</h3>
-            <img src="resources/images-kyb/kyb_5_final.png">
+        <ul class="kyb-list">
+            <li><b>What I found</b> &mdash; traced it back to the user research report myself.</li>
+            <li><b>Why the request missed</b> &mdash; heaviest drop-off sat on documents nearly every company type submits; filtering by company type wouldn&rsquo;t touch the real bottleneck.</li>
+            <li><b>Two failure modes</b> &mdash; users submitted without reading requirements and got rejected; others stalled at document upload and gave up.</li>
+            <li><b>Bottom line</b> &mdash; of everyone who submitted documents, only <b>41%</b> reached approved KYB.</li>
+        </ul>
 
-            <div class="anchor" id="section6"></div>
-            <h3 class="section">Impact & Measurement</h3>
-            <p>The redesign shipped to the institutional onboarding flow serving KuCoin's global institutional client base — the segment responsible for <b>30–70% of exchange trading volume</b>.</p>
+        <div class="kyb-funnel">
+            <div class="kyb-fstep"><span class="pct">&mdash;</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:100%"></div></div><span class="kyb-flabel">Company info submitted &mdash; 169</span></div>
+            <div class="kyb-fstep"><span class="pct">89%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:89%"></div></div><span class="kyb-flabel">Contact person submitted &mdash; 151</span></div>
+            <div class="kyb-fstep"><span class="pct">75%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:67%"></div></div><span class="kyb-flabel">Documents submitted &mdash; 114</span></div>
+            <div class="kyb-fstep drop"><span class="pct">41%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:28%"></div></div><span class="kyb-flabel">KYB approved &mdash; 47</span></div>
+        </div>
+        <p class="kyb-figcap">Nov KYB self-submission funnel · % = conversion from the step above. Starts at company-info submission, excluding pre-intent homepage traffic the report flagged as non-institutional noise.</p>
 
-            <h5>Pre-launch baseline</h5>
-            <p>· <b>41%</b> document-upload completion rate — established as the measurement baseline before release.</p>
-            <p>· <b>82%</b> repeat-submission rate — the primary friction signal the redesign was built to address.</p>
-            <p>· <b>~40%</b> of applicants taking more than 5 days to complete — a secondary cycle-time indicator.</p>
+        <!-- ============ 02 DATA-DRIVEN INSIGHT ============ -->
+        <div class="anchor" id="section2"></div>
+        <h3 class="section">02 · Data-driven insight</h3>
+        <span class="kyb-kicker">Prove the why, then pinpoint the where</span>
+        <p class="kyb-head">82% resubmitted — a clarity problem, not a motivation problem.</p>
 
-            <h5>What we set up to track</h5>
-            <p>· <b>Document-upload completion rate</b> (primary) — direct measure of whether the new checklist and guided selection resolved the clarity gap.</p>
-            <p>· <b>Repeat submission rate</b> (leading indicator) — if users are submitting the right materials the first time, this should drop from the 82% baseline.</p>
-            <p>· <b>Application cycle time</b> (secondary) — tracking whether the upfront document checklist reduces the >5-day tail.</p>
+        <div class="kyb-insight">
 
-            <h5>Why I'm confident in the direction despite pending data</h5>
-            <p>Development capacity constraints meant the A/B validation had not run at the time of this writing. The design rationale, however, rests on three things:</p>
-            <p>1. <b>Direct behavioural evidence</b>: The 82% repeat-submission rate pointed to a clarity problem, not a motivation problem. The new design specifically addresses the information architecture — entity selection upfront, jurisdiction-specific document checklist, and inline guidance at the moment of upload confusion.</p>
-            <p>2. <b>Competitor pattern consistency</b>: Guided entity selection + upfront document checklist was the dominant pattern across three institutional verification flows we analysed. It reduces the cognitive load of "what do I need to prepare" before users enter the upload step.</p>
-            <p>3. <b>Internal validation</b>: Compliance and operations teams confirmed the checklist contents were accurate and comprehensive — resolving a key source of confusion that the previous text-heavy design buried in paragraph form.</p>
+            <div class="kyb-panel">
+                <div class="kyb-panel__head">
+                    <span class="kyb-panel__step">01</span>
+                    <h5 class="kyb-panel__title">What the data showed</h5>
+                </div>
+                <p class="kyb-panel__lead">Users weren&rsquo;t abandoning out of disinterest — they were failing, resubmitting, and stalling. These three numbers set the baseline.</p>
+                <div class="kyb-metrics">
+                    <div class="kyb-metric"><span class="num">41%</span><span class="desc">document submissions passed review</span></div>
+                    <div class="kyb-metric"><span class="num bad">82%</span><span class="desc">resubmission rate — primary friction signal</span></div>
+                    <div class="kyb-metric"><span class="num">~40%</span><span class="desc">took more than 5 days to complete</span></div>
+                </div>
+            </div>
 
-            <h5>What I'd do differently</h5>
-            <p>The research was primarily derived from submission data and internal interviews. The next iteration would include direct sessions with the institutional decision-makers doing the actual verification — finance controllers, legal officers, and compliance teams at the applying organizations — to validate whether the entity-type selection logic matches how they think about their own corporate structure.</p>
+            <div class="kyb-panel">
+                <div class="kyb-panel__head">
+                    <span class="kyb-panel__step">02</span>
+                    <h5 class="kyb-panel__title">Why — the failure chain</h5>
+                </div>
+                <p class="kyb-panel__lead">From the research report and internal interviews — not a motivation drop-off, a comprehension loop.</p>
+                <div class="kyb-chain">
+                    Wall-of-text requirements <span class="arrow">&rarr;</span> wrong documents submitted
+                    <span class="arrow">&rarr;</span> rejection <span class="arrow">&rarr;</span> abandonment
+                </div>
+            </div>
 
-            <div class="anchor" id="section7"></div>
-            <h3 class="section">Other work at KC</h3>
-            <img src="resources/images-kyb/other_work_img.png">
+            <div class="kyb-panel">
+                <div class="kyb-panel__head">
+                    <span class="kyb-panel__step">03</span>
+                    <h5 class="kyb-panel__title">Where — two modules drove ~90% of failures</h5>
+                </div>
+                <div class="kyb-bars">
+                    <div class="kyb-bar-row lead">
+                        <span class="kyb-bar-label">CBR / PoA &mdash; wrong document</span>
+                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:67%"></div></div>
+                        <span class="kyb-bar-val">67%</span>
+                    </div>
+                    <div class="kyb-bar-row">
+                        <span class="kyb-bar-label">Shareholder register (&gt;25%)</span>
+                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:24%"></div></div>
+                        <span class="kyb-bar-val">24%</span>
+                    </div>
+                    <div class="kyb-bar-row">
+                        <span class="kyb-bar-label">Other modules</span>
+                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:9%"></div></div>
+                        <span class="kyb-bar-val">9%</span>
+                    </div>
+                </div>
+                <p class="kyb-figcap">Share of document-submission failures by module (Nov).</p>
+            </div>
+
+            <div class="kyb-panel">
+                <div class="kyb-panel__head">
+                    <span class="kyb-panel__step">04</span>
+                    <h5 class="kyb-panel__title">What to fix — two precise targets</h5>
+                </div>
+                <div class="kyb-cards kyb-targets">
+                    <div class="kyb-card">
+                        <span class="tag">① CBR vs PoA · 67% wrong</span>
+                        <h4>Board vs no board</h4>
+                        <p><b>The split</b> &mdash; with vs without a board of directors, two different legal documents apply.</p>
+                        <p><b>The failure</b> &mdash; buried in a wall of text; users never noticed and uploaded the wrong one.</p>
+                    </div>
+                    <div class="kyb-card">
+                        <span class="tag">② Shareholders &gt; 25% · 24% wrong</span>
+                        <h4>Ownership thresholds</h4>
+                        <p><b>The rule</b> &mdash; shareholders owning &gt;25% trigger additional documents; further conditions add even more.</p>
+                        <p><b>The failure</b> &mdash; users couldn&rsquo;t track cascading requirements from static text.</p>
+                    </div>
+                    <div class="kyb-card kyb-card--note">
+                        <span class="tag">So what</span>
+                        <h4>Redesign focus</h4>
+                        <p><b>Takeaway</b> &mdash; fix these two modules and the redesign has a clear, measurable focus.</p>
+                    </div>
+                </div>
+                <img src="resources/images-kyb/kyb_two_documents_ui.png" alt="Previous design — the two document modules where most submissions failed">
+                <p class="kyb-figcap">Previous design — key distinctions buried in dense text at exactly these two modules.</p>
+            </div>
+
+        </div>
+
+        <!-- ============ 03 APPROACH ============ -->
+        <div class="anchor" id="section3"></div>
+        <h3 class="section">03 · Approach</h3>
+        <span class="kyb-kicker">Benchmark the pattern, then decide what to keep</span>
+        <p class="kyb-head">Competitor research was an input — alternatives were my decision.</p>
+
+        <h5>What leading platforms do</h5>
+        <p style="margin-bottom:var(--space-3);">Three patterns recurred across Binance, OKX, Coinbase and Kraken &mdash; inputs to my solution, not the answer.</p>
+        <ul class="kyb-list">
+            <li><b>Pre-select entity type</b> &mdash; route users by institution type upfront.</li>
+            <li><b>Document checklist</b> &mdash; show what to prepare before they start.</li>
+            <li><b>Plain-language instructions</b> &mdash; readable requirements at each step.</li>
+        </ul>
+        <img src="resources/images-kyb/kyb_3_competitor_deepdive.png" alt="Three recurring patterns across leading exchanges — pre-select entity type, upfront document checklist, plain-language instructions">
+        <p class="kyb-figcap">Benchmarking institutional verification flows across leading exchanges.</p>
+
+        <h5>Alternatives I considered — and how each earned its place</h5>
+        <div class="kyb-alts">
+            <div class="kyb-alt">
+                <img src="resources/images-kyb/kyb_alt_selector.png" alt="Company-type selector — a dropdown for picking the entity type before verification">
+                <div class="kyb-alt-text">
+                    <span class="tag">Option A · kept for scale</span>
+                    <h4>Company-type selector</h4>
+                    <p><b>Today&rsquo;s bottleneck</b> &mdash; doesn&rsquo;t fix comprehension failures.<br><b>At scale</b> &mdash; as EU and AU regulation expands, document requirements diverge by region; the selector routes the right set per market.</p>
+                </div>
+            </div>
+            <div class="kyb-alt">
+                <img src="resources/images-kyb/kyb_alt_helptext.png" alt="Help text — an info tooltip that explains a complex field inline">
+                <div class="kyb-alt-text">
+                    <span class="tag">Option B · supporting role</span>
+                    <h4>Help text</h4>
+                    <p>Users already skip long text, so I used it only for basic concept explanation — never as the fix for complex requirements.</p>
+                </div>
+            </div>
+            <div class="kyb-alt win">
+                <img src="resources/images-kyb/kyb_alt_guided.png" alt="Guided required choice — a required selection that routes the user down the correct path">
+                <div class="kyb-alt-text">
+                    <span class="tag">Option C · core fix</span>
+                    <h4>Guided required choice</h4>
+                    <p>Routes users to the right document with the lowest cognitive load — no hard reading required. This carried the redesign.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ 04 SOLUTION ============ -->
+        <div class="anchor" id="section4"></div>
+        <h3 class="section">04 · Solution</h3>
+        <span class="kyb-kicker">The build</span>
+        <p class="kyb-head">Turn reading into a guided, unskippable decision.</p>
+
+        <ul class="kyb-list">
+            <li><b>1. Guided selection</b> &mdash; the board / no-board distinction became a required choice that routes users to the correct document &mdash; the step that was 67% wrong before.</li>
+        </ul>
+        <img src="resources/images-kyb/kyb_4_1_key_iteration.png" alt="Guided selection replacing text instructions">
+
+        <ul class="kyb-list">
+            <li><b>2. Visual hierarchy</b> &mdash; requirements are scannable instead of buried &mdash; directly targeting the 24%-wrong shareholder step.</li>
+        </ul>
+        <img src="resources/images-kyb/kyb_4_2_key_iteration.png" alt="Restructured requirements with clear visual hierarchy">
+
+        <ul class="kyb-list">
+            <li><b>3. Additional upload section</b> &mdash; raises approval chances when compliance requests further documents after the first submission.</li>
+        </ul>
+        <img src="resources/images-kyb/kyb_4_3_key_iteration.png" alt="Additional upload section for supplementary documents">
+
+        <!-- ============ 05 EDGE CASES ============ -->
+        <div class="anchor" id="section5"></div>
+        <h3 class="section">05 · Edge cases</h3>
+        <span class="kyb-kicker">The messy parts</span>
+        <p class="kyb-head">The states a happy-path demo hides.</p>
+
+        <div class="kyb-edges">
+            <div class="kyb-edge">
+                <div class="kyb-edge__head">
+                    <span class="tag">1 / 3</span>
+                    <h4>More materials required</h4>
+                </div>
+                <p>High-risk applicants get prompted for additional documents after submission, each with a clear reason — so the request doesn&rsquo;t feel like a dead end.</p>
+                <img src="resources/images-kyb/kyb_edge_1.png" alt="More materials required — post-submission prompt for additional documents, each with a clear reason">
+            </div>
+            <div class="kyb-edge">
+                <div class="kyb-edge__head">
+                    <span class="tag">2 / 3</span>
+                    <h4>Verification failed</h4>
+                </div>
+                <p>Rejections show specific, fixable reasons so users can debug and resubmit correctly — instead of guessing and abandoning.</p>
+                <img src="resources/images-kyb/kyb_edge_2.png" alt="Verification failed — rejection screen listing specific, fixable reasons">
+            </div>
+            <div class="kyb-edge">
+                <div class="kyb-edge__head">
+                    <span class="tag">3 / 3</span>
+                    <h4>Continue later</h4>
+                </div>
+                <p>Institutional clients need time to gather documents, so progress is saved and the flow is resumable from where they left off.</p>
+                <img src="resources/images-kyb/kyb_edge_3.png" alt="Continue later — saved, resumable verification progress">
+            </div>
+        </div>
+
+        <!-- ============ 06 FINAL DESIGN ============ -->
+        <div class="anchor" id="section6"></div>
+        <h3 class="section">06 · Final design</h3>
+        <span class="kyb-kicker">The flow</span>
+        <p class="kyb-head">Select entity type &rarr; document checklist &rarr; guided submission.</p>
+        <ul class="kyb-list">
+            <li><b>Select entity type</b> &mdash; jurisdiction-specific routing.</li>
+            <li><b>Document checklist</b> &mdash; exactly what to prepare before starting.</li>
+            <li><b>Guided submission</b> &mdash; company info, contact person, required documents, and an additional-document step &mdash; with the right-document decision made at each fork.</li>
+        </ul>
+        <img src="resources/images-kyb/kyb_final_flow.png" alt="End-to-end KYB flow — select institution type, document checklist, steps overview, then four guided submission steps">
+        <p class="kyb-figcap">Full journey — entry, preparation, and the four submission steps.</p>
+        <img src="resources/images-kyb/kyb_final_steps.png" alt="Key screens — company info, contact person, and required documents with guided upload modules">
+        <p class="kyb-figcap">Key screens — the guided form steps where comprehension decisions happen.</p>
+
+        <h5>Try it yourself</h5>
+        <div class="kyb-proto">
+            <iframe title="KYB interactive prototype" src="https://embed.figma.com/proto/2O7baY2B6mNTBQDGqQNMq0/KYB-Prototype?node-id=1-85342&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1%3A83927&page-id=0%3A1&embed-host=share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p class="kyb-figcap">Interactive prototype — click through the guided flow. <a href="https://www.figma.com/proto/2O7baY2B6mNTBQDGqQNMq0/KYB-Prototype?node-id=1-85342&starting-point-node-id=1%3A83927&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1" target="_blank" rel="noopener">Open in Figma &#8599;</a></p>
+
+        <!-- ============ 07 IMPACT ============ -->
+        <div class="anchor" id="section7"></div>
+        <h3 class="section">07 · Impact</h3>
+        <span class="kyb-kicker">My contribution</span>
+        <p class="kyb-head">What I owned — and why it&rsquo;s better than before.</p>
+
+        <h5>My role</h5>
+        <ul class="kyb-list">
+            <li><b>Reframed the brief</b> &mdash; from cosmetic selector to root-cause redesign.</li>
+            <li><b>Dug into source data</b> &mdash; established baseline and success metrics.</li>
+            <li><b>Designed IA, flow &amp; UI</b> &mdash; end-to-end, with 1 PM and front-/back-end engineers.</li>
+        </ul>
+
+        <h5>Better than the previous version</h5>
+        <div class="kyb-compare">
+            <div class="kyb-card">
+                <span class="tag">Before</span>
+                <h4>A wall of text</h4>
+                <p>Static requirements users skipped &rarr; wrong submissions &rarr; rejection &rarr; drop-off, with no clear way to recover.</p>
+            </div>
+            <div class="kyb-card win">
+                <span class="tag">After</span>
+                <h4>A guided decision</h4>
+                <p>A structured choice that routes users to the right documents with no added reading — plus a rejection loop they can actually debug.</p>
+            </div>
+        </div>
+
+        <h5>Outcome &amp; measurement</h5>
+        <div class="kyb-metrics">
+            <div class="kyb-metric">
+                <span class="num bad">41%</span>
+                <span class="desc">Document submissions approved — baseline</span>
+            </div>
+            <div class="kyb-metric">
+                <span class="num bad">82%</span>
+                <span class="desc">Resubmission rate — baseline</span>
+            </div>
+            <div class="kyb-metric">
+                <span class="num">10&ndash;15%</span>
+                <span class="desc">Projected lift vs. comparable KYC optimization</span>
+            </div>
+        </div>
+        <ul class="kyb-list">
+            <li><b>Target</b> — reduce wrong submissions and completion time.</li>
+            <li><b>Early read</b> — first-time pass rate edged up from <b>41% to 42%</b> — a small, real lift, well short of the projected 10&ndash;15%. Engineering capacity meant only part of the core capability shipped.</li>
+            <li><b>Tracking</b> — built the measurement framework so the full impact can be captured as the rest ships.</li>
+        </ul>
+
+        <h5>Scaled across markets</h5>
+        <p>The same guided-verification pattern became the base for the <b>EU and AU institutional flows</b> — re-applied to materially harder compliance logic: multi-layer entity structures, beneficial-ownership thresholds, and jurisdiction-specific source-of-funds rules (trust deeds, SMSF lookups).</p>
+        <div class="kyb-callout">
+            <div class="lbl">Business outcome</div>
+            <div class="quote">The EU and AU KYB/KYC flows supported the company&rsquo;s licensing submissions under local regulations.</div>
+            <span class="sub">Design that helped unlock regulated market access — not just a flow improvement.</span>
+        </div>
+        <div class="kyb-shot">
+            <img src="resources/images-kyb/kyb_scale_eu_au.png" alt="KYB EU and KYB AU — the same guided-verification pattern adapted to local regulatory requirements">
+        </div>
+        <p class="kyb-figcap">KYB EU and AU — the same pattern extended to each market&rsquo;s entity types and document rules. Full screens available on request.</p>
+
+        <!-- ============ 08 HINDSIGHT ============ -->
+        <div class="anchor" id="section8"></div>
+        <h3 class="section">08 · Hindsight</h3>
+        <span class="kyb-kicker">Self-awareness</span>
+        <p class="kyb-head">What launch taught me — and would change next.</p>
+
+        <p>After launch, first-time pass rate rose only marginally (<b>41% &rarr; 42%</b>) — well short of the projected lift. The more useful question was <i>why it wasn&rsquo;t larger</i>, so I sat down with customer support and the compliance team.</p>
+
+        <ul class="kyb-list">
+            <li><b>The real gap: hidden requirements.</b> The interface never showed the <i>detailed</i> document rules — so users failed checks they were never told about. A business certificate needed a certified-true-copy stamp, not just the original. Some documents needed a manual signature that users almost always skipped.</li>
+            <li><b>What I&rsquo;d change: make every rule visible at the point of upload.</b> Guiding users to the right document isn&rsquo;t enough — I&rsquo;d also show what makes it <i>valid</i> (stamp required, signature needed) right where they upload, not buried elsewhere.</li>
+            <li><b>Ship the highest-impact piece first.</b> I&rsquo;d scope the rollout with engineering earlier, so guided routing lands first and the metric can move sooner — instead of a partial release.</li>
+        </ul>
 
     </div>
 
     <div class="scrollspy">
-        <a href="#section1" class="list">Intro</a>
-        <a href="#section2" class="list">Data-driven Insight</a>
-        <a href="#section3" class="list">Competitor Analysis</a>
-        <a href="#section4" class="list">Key Iterations</a>
-        <a href="#section5" class="list">Final</a>
-        <a href="#section6" class="list">Impact & Measurement</a>
-        <a href="#section7" class="list">Other work at KC</a>
-        <a href="#top" class="list">Back to Top</a>
+        <a href="#section1" class="list">01 Problem</a>
+        <a href="#section2" class="list">02 Data-driven insight</a>
+        <a href="#section3" class="list">03 Approach</a>
+        <a href="#section4" class="list">04 Solution</a>
+        <a href="#section5" class="list">05 Edge cases</a>
+        <a href="#section6" class="list">06 Final design</a>
+        <a href="#section7" class="list">07 Impact</a>
+        <a href="#section8" class="list">08 Hindsight</a>
+        <a href="#top" class="list">Back to top</a>
     </div>
-    
 
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <span>© Qin Wang — Product designer</span>
+            <span class="site-footer__cta"><a href="work.html">See more work</a></span>
+        </div>
+    </footer>
 
     <script src="main.js"></script>
+    <script>
+        // Scrollspy active-state for the right rail.
+        (function () {
+            var links = Array.prototype.slice.call(document.querySelectorAll('.scrollspy a.list'));
+            var sections = links
+                .map(function (l) {
+                    var id = l.getAttribute('href').slice(1);
+                    if (id === 'top') return null;
+                    var el = document.getElementById(id);
+                    return el ? { id: id, el: el, link: l } : null;
+                })
+                .filter(Boolean);
+            if (!sections.length) return;
+
+            function onScroll() {
+                var y = window.scrollY + 140;
+                var current = sections[0];
+                for (var i = 0; i < sections.length; i++) {
+                    if (sections[i].el.offsetTop <= y) current = sections[i];
+                }
+                links.forEach(function (l) { l.classList.remove('active'); });
+                current.link.classList.add('active');
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            onScroll();
+        })();
+    </script>
 </body>
 </html>

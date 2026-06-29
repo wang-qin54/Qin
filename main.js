@@ -75,6 +75,7 @@
     // ------------------------------------------------------------------
 
     const chips = filterContainer.querySelectorAll('[data-filter]');
+    const recentGrid = document.querySelector('[data-filter-layout="recent"]');
     const curatedGrid = document.querySelector('[data-filter-layout="all"]');
     const timelineGrid = document.querySelector('[data-filter-layout="timeline"]');
 
@@ -108,27 +109,71 @@
       });
     };
 
+    // Earlier-work cards stay compact (span-3). In the flat filtered grid we
+    // tag the first visible small card so CSS can break it onto its own row,
+    // keeping the cluster from stranding beside a half-width card.
+    const markEarlierWorkRowStart = (root) => {
+      if (!root) return;
+      root.querySelectorAll('.card-small--row-start').forEach((el) =>
+        el.classList.remove('card-small--row-start')
+      );
+      const firstVisibleSmall = Array.from(
+        root.querySelectorAll('.card-small')
+      ).find((el) => !el.hidden);
+      if (firstVisibleSmall) firstVisibleSmall.classList.add('card-small--row-start');
+    };
+
+    const updateEarlierWorkLabel = (root, { forceShow } = {}) => {
+      if (!root) return;
+      const heading = root.querySelector('[data-earlier-work-section]');
+      const intro = root.querySelector('[data-earlier-work-intro]');
+      if (!heading) return;
+
+      const anyVisibleSmall = Array.from(root.querySelectorAll('.card-small')).some(
+        (el) => !el.hidden
+      );
+      const show = forceShow === undefined ? anyVisibleSmall : forceShow;
+      heading.hidden = !show;
+      if (intro) intro.hidden = !show;
+
+      if (show) {
+        const anyVisibleLarge = Array.from(root.querySelectorAll('a.card[data-tags]')).some(
+          (el) => !el.hidden
+        );
+        heading.classList.toggle('section-title--first-visible', !anyVisibleLarge);
+      } else {
+        heading.classList.remove('section-title--first-visible');
+      }
+    };
+
     const applyFilter = (filter) => {
       const isAll = filter === 'all';
+      const isRecent = filter === 'recent';
 
+      if (recentGrid) recentGrid.hidden = !isRecent;
       if (curatedGrid) curatedGrid.hidden = !isAll;
-      if (timelineGrid) timelineGrid.hidden = isAll;
+      if (timelineGrid) timelineGrid.hidden = isAll || isRecent;
 
-      if (isAll || !timelineGrid) {
+      if (isAll || isRecent || !timelineGrid) {
         // Restore section headings for next time timeline is used
         if (timelineGrid) {
           timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
             h.hidden = false;
-            const intro = h.nextElementSibling;
-            if (intro && intro.classList.contains('work-section-intro')) intro.hidden = false;
+            h.classList.remove('section-title--first-visible');
           });
+          timelineGrid.querySelectorAll('[data-earlier-work-intro]').forEach((intro) => {
+            intro.hidden = false;
+          });
+          updateSectionVisibility(timelineGrid);
+          markEarlierWorkRowStart(timelineGrid);
         }
         return;
       }
 
-      // Hide all section headings — filtered view is a flat card grid
-      timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
+      // Hide category headings — filtered view is a flat card grid
+      timelineGrid.querySelectorAll('[data-filter-section]:not([data-earlier-work-section])').forEach((h) => {
         h.hidden = true;
+        h.classList.remove('section-title--first-visible');
         const intro = h.nextElementSibling;
         if (intro && intro.classList.contains('work-section-intro')) intro.hidden = true;
       });
@@ -140,6 +185,9 @@
           .map((t) => t.trim());
         card.hidden = !tags.includes(filter);
       });
+
+      updateEarlierWorkLabel(timelineGrid);
+      markEarlierWorkRowStart(timelineGrid);
     };
 
     const setActiveFilter = (filter) => {

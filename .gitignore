@@ -11,3 +11,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Asset project — confidential, kept local only (do not deploy/commit)
+asset.html
+password-asset.html
+resources/demos/
+resources/images-asset/

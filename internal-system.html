@@ -4,8 +4,193 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Tools & Design System — Qin Wang</title>
-    <link href="resources/css/detailpage.css?v=7" type="text/css" rel="stylesheet">
+    <title>Customer Agent Workplace Redesign — Qin Wang</title>
+    <link href="resources/css/detailpage.css?v=8" type="text/css" rel="stylesheet">
+    <style>
+        .page-title-box .title-img { align-self: end; }
+        .page-title-box .title-img img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            object-position: center top;
+            margin-bottom: 0;
+            border: none;
+            box-shadow: none;
+        }
+        .cs-kicker + h3.section { margin-top: var(--space-4); }
+        .cs-kicker {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-top: var(--space-6);
+            margin-bottom: var(--space-2);
+        }
+        .cs-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
+        .cs-list li {
+            position: relative;
+            padding-left: 18px;
+            margin: var(--space-2) 0;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        .cs-list li::before {
+            content: "";
+            position: absolute;
+            left: 2px; top: 11px;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .cs-list li b { color: var(--text-primary); font-weight: 600; }
+        .cs-callout {
+            border-left: 3px solid var(--accent);
+            background: var(--accent-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--space-4) var(--space-5);
+            margin: var(--space-5) 0;
+        }
+        .cs-callout .lbl {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .cs-callout .quote {
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+        .cs-callout .sub {
+            display: block;
+            margin-top: var(--space-2);
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        .cs-shot {
+            margin: var(--space-4) 0 var(--space-2);
+            border-radius: var(--radius-lg, 16px);
+            overflow: hidden;
+        }
+        .cs-shot img {
+            margin: 0;
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-lg, 16px);
+            border: 1px solid var(--border);
+        }
+        .cs-shot + .cs-figcap { margin-top: var(--space-3); }
+        .cs-figcap {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin: -6px 0 var(--space-6);
+        }
+        .cs-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .cs-cards--3 { grid-template-columns: repeat(3, 1fr); }
+        .cs-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            background: var(--bg);
+        }
+        .cs-card .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .cs-card h4 {
+            font-family: var(--font-title);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--space-3);
+            letter-spacing: -0.01em;
+        }
+        .cs-card p, .cs-card li {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        .cs-card .cs-list li { font-size: 14px; }
+        .cs-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .cs-stat {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            background: var(--bg-subtle);
+            text-align: center;
+        }
+        .cs-stat strong {
+            display: block;
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+        .cs-stat span {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+        .cs-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .cs-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: var(--space-5);
+            background: var(--bg);
+        }
+        .cs-panel__flag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: var(--space-1);
+        }
+        .cs-panel h4 {
+            font-family: var(--font-title);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 var(--space-3);
+            letter-spacing: -0.01em;
+        }
+        .cs-panel .cs-list li { font-size: 14.5px; }
+        @media (max-width: 720px) {
+            .cs-cards, .cs-cards--3, .cs-compare, .cs-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -56,169 +241,279 @@
                         <span>Back to all work</span>
                     </a>
                 </nav>
-                <h2>CS Workspace Redesign &amp; AI Integration</h2>
-                <p>Rebuilt the core workspace for 200+ support agents — rescuing a broken MVP in 2 weeks, designing contextual AI features, and shipping a full internal toolset for a global crypto exchange.</p>
-                <p>// 2024–25 | UX + UI + Design System</p>
-                <p>// Design lead · 3 designers, 5 PMs, 9 front-end engineers</p>
-                <p>// Scope: CS workspace, CS config, compliance, data ops, chatbot, time-tracking, component library</p>
+                <h2>Customer Agent Workplace Redesign</h2>
+                <p>Building an end-to-end AI-enhanced internal support system for KuCoin — redesigning the core workspace for 200+ agents, introducing contextual AI assistance, and rescuing a broken MVP in two weeks.</p>
+                <p>// 2024–25 · KuCoin · UX + UI + AI Design · Internal B2B</p>
+                <p>// Role: Design lead — led 2 designers through a 2-week rescue sprint (Jan 1–15, 2025)</p>
+                <p>// Scope: Agent workplace redesign · AI augmentation · journey optimisation</p>
             </div>
             <div class="title-img">
-                <img src="resources/images-internal-system/cs_workspace_overview.png" alt="Customer Agent Workplace Redesign — overview of the 0→1 AI-enhanced internal support system">
+                <img src="resources/images-internal-system/cs_workspace_overview.png" alt="Customer Agent Workplace — live chat workspace with AI reply suggestions and consolidated user info panels">
             </div>
         </div>
     </div>
 
     <div class="one-col">
 
-        <!-- ── SECTION 1: CONTEXT ─────────────────────────────── -->
+        <!-- ── INTRO ──────────────────────────────────────────── -->
+        <div class="anchor" id="section0"></div>
+        <span class="cs-kicker">Overview</span>
+        <h3 class="section">What is the Agent Workplace?</h3>
+        <p>The Agent Workplace is the central workspace where KuCoin customer support agents handle inbound issues. It combines live chat, ticketing, user data, operational tools, and AI assistance in one high-volume environment — replacing third-party tools like Zendesk and Ada with a purpose-built system tailored to crypto-specific operations.</p>
+
+        <div class="cs-callout">
+            <div class="lbl">Goal</div>
+            <span class="quote">Improve agent efficiency, discoverability, and support quality.</span>
+            <span class="sub">This case study focuses on the Agent Workplace: its redesign, AI augmentation, and journey optimisation.</span>
+        </div>
+
+        <ul class="cs-list">
+            <li>Designed and rebuilt the core workspace for <b>200+ support agents</b></li>
+            <li>Introduced <b>contextual AI replies &amp; summaries</b> to improve efficiency</li>
+            <li>Led the redesign under <b>tight timelines and limited staffing</b></li>
+        </ul>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/cs_ecosystem.png" alt="KuCoin customer support ecosystem — Agent Workplace, Config System, and Chatbot Config powering the KuCoin Support chat experience"></div>
+        <p class="cs-figcap">The KuCoin customer support ecosystem: three interconnected back-end systems power the KuCoin Support chat experience. This case study focuses on the Agent Workplace.</p>
+
+
+        <!-- ── SECTION 1: BACKGROUND ──────────────────────────── -->
         <div class="anchor" id="section1"></div>
-        <h5 class="section">Context</h5>
-        <h3 class="section">Seven systems, one team, six months</h3>
-        <p>As Avenir Group's crypto exchange scaled, the operational infrastructure hadn't kept up. Customer service ran on Zendesk at over $500k/year. Compliance used a poorly structured legacy system that couldn't support international expansion. Data operations relied on manual extraction and spreadsheets. There was no unified internal portal or design language.</p>
-        <p>The mandate: replace third-party tools with purpose-built systems, build the compliance infrastructure for new regulated markets, and do it all in parallel without a large team.</p>
-        <p>· <b>My role:</b> Design lead — directly owned the Customer Service Workspace and Online CS Configuration systems; set design direction and led critique rituals for the full set of seven tools; built the shared component library</p>
-        <p>· <b>Team:</b> 3 designers (including me) + 0.5 support designer = 3.5 FTE across 7 simultaneous projects</p>
-        <p>· <b>Timeline:</b> ~6 months, all systems Stage 0→1</p>
-        <p>· <b>Constraint:</b> Compliance and regulatory requirements meant some systems couldn't be deprioritised — the compliance system needed to go live alongside the exchange's international market launches</p>
-        <img src="resources/images-internal-system/cs_ecosystem.png" alt="Customer support ecosystem — three interconnected systems: Agent Workplace, Config System, and Chatbot Config">
-        <img src="resources/images-internal-system/1.list.png" alt="Project scope — seven systems, users, and designer allocation">
+        <span class="cs-kicker">01 · Background</span>
+        <h3 class="section">Why build an in-house Agent Workplace?</h3>
+        <p>As KuCoin scaled, customer service ran on expensive third-party tools that couldn't cover crypto-specific workflows — verifying KYC status mid-ticket, cross-referencing transaction holds, or surfacing compliance flags while an agent is actively responding.</p>
+
+        <ul class="cs-list">
+            <li>Replace expensive <b>third-party tools</b> (Zendesk, Ada)</li>
+            <li>Tailor workflows to <b>crypto-specific</b> operations</li>
+            <li>Improve <b>performance &amp; speed</b> for 24/7 global support</li>
+            <li>Enable <b>deeper integration</b> with internal risk, KYC, trading, and account systems</li>
+        </ul>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/slide_5.png" alt="Before: Ada config system and Zendesk agent workplace that the in-house system replaced"></div>
+        <p class="cs-figcap">The legacy stack: Ada for chatbot configuration and Zendesk as the agent workplace — both replaced by purpose-built internal tools.</p>
 
 
-        <!-- ── SECTION 2: THE CHALLENGE ───────────────────────── -->
+        <!-- ── SECTION 2: MY ROLE ───────────────────────────── -->
         <div class="anchor" id="section2"></div>
-        <h3 class="section">The challenge of parallel 0→1 work</h3>
-        <p>Each system had a different user group, different business driver, and different urgency. The challenge wasn't designing any one system — it was designing seven systems coherently, on the same schedule, without a large team.</p>
+        <span class="cs-kicker">02 · My role</span>
+        <h3 class="section">Lead · Mentor · Co-design</h3>
+        <p>With 3.5 designers responsible for four systems and a shared design system — all 0→1 in 1–2 months — I stepped in to own the Agent Workplace rescue when the initial MVP failed usability testing.</p>
 
-        <h5>Three types of design problem running simultaneously</h5>
-        <p>· <b>Replacement tools</b> (CS Workspace, chatbot config): Users had strong mental models from existing third-party tools. The design had to be meaningfully better — not just cheaper — to get adoption from 50+ customer service reps who were used to Zendesk.</p>
-        <p>· <b>Compliance-critical tools</b> (Compliance system): Shipped alongside regulated market launches. Required ongoing alignment with the compliance team on workflow requirements, and had zero tolerance for missing functional requirements.</p>
-        <p>· <b>Operational efficiency tools</b> (Data management, CS config, work hours): Users were internal — operations, data, and management — with specific technical needs and less tolerance for friction than consumer-facing products.</p>
+        <ul class="cs-list">
+            <li><b>Led 2 designers</b> to deliver the redesigned solution in 2 weeks</li>
+            <li><b>Guided research:</b> user interviews, observation &amp; testing</li>
+            <li><b>Co-designed 0→1 core flows</b> due to limited resources and tight timelines</li>
+            <li>Ensured <b>cross-system consistency</b> through shared patterns and design system usage</li>
+        </ul>
 
-        <h5>The shared design problem underneath all of them</h5>
-        <p>All seven systems needed to feel cohesive — a consistent navigation, interaction model, and visual language — even though they served completely different user groups. Without a shared system, we'd ship seven inconsistent tools that engineers would maintain separately and users would find confusing if they needed to cross between them.</p>
-        <p>This was the argument for building the component library in parallel with everything else — not after. It was the only way to maintain quality across the entire portfolio with 3.5 designers.</p>
+        <div class="cs-stats">
+            <div class="cs-stat"><strong>2 Designers</strong><span>Led through the rescue sprint</span></div>
+            <div class="cs-stat"><strong>2 weeks</strong><span>Jan 1–15, 2025</span></div>
+        </div>
 
 
-        <!-- ── SECTION 3: CS WORKSPACE ────────────────────────── -->
+        <!-- ── SECTION 3: WHY THIS CASE STUDY ───────────────── -->
         <div class="anchor" id="section3"></div>
-        <h3 class="section">Customer Service Workspace</h3>
-        <p>The primary agent-facing system. 200+ customer service representatives handling inbound calls, live chat, and ticket management — previously on Zendesk at over $500k/year. Crypto exchange CS has specific requirements that off-the-shelf tools don't cover well: verifying user KYC status mid-ticket, cross-referencing transaction holds, surfacing compliance flags on an account while a rep is actively responding.</p>
+        <span class="cs-kicker">03 · Why this case study</span>
+        <h3 class="section">A showcase of senior capabilities</h3>
+        <p>Beyond the rescue sprint, this project demonstrates the range of skills I bring to complex B2B product work — from AI feature design to team leadership under pressure.</p>
 
-        <h5>The rescue sprint — 2 weeks, broken MVP</h5>
-        <p>The initial MVP was built without sufficient end-to-end UX logic. Key features were hidden or inaccessible; the core "claim ticket" entry point was buried under tabs and scrolling. After observing agents repeatedly failing to complete basic tasks, I stepped in alongside a newly hired B2B designer to reframe the journey, fix the IA, and ship a corrected design to development within 2 weeks (Jan 1–15, 2025).</p>
-        <p>· <b>Research method:</b> Live observation with 5 agents using the existing MVP prototype — watching 2–3 agents per session, mapping confusion points, dead-ends, and workarounds. No surveys, no hypothetical scenarios — just real agents trying to use real software.</p>
-        <p>· <b>Outcome of research:</b> Three structural blockers identified that accounted for almost all the friction. Each became a targeted redesign.</p>
+        <div class="cs-cards">
+            <div class="cs-card">
+                <div class="tag">AI Design</div>
+                <h4>AI design experience</h4>
+                <ul class="cs-list">
+                    <li>AI Reply Suggestions</li>
+                    <li>AI Summary Panel</li>
+                    <li>Familiarity with AI design principles</li>
+                </ul>
+            </div>
+            <div class="cs-card">
+                <div class="tag">B2B</div>
+                <h4>Large-scale B2B workflow design</h4>
+                <p>Customer support ecosystem — three interconnected systems designed for different user groups but sharing a consistent interaction model.</p>
+            </div>
+            <div class="cs-card">
+                <div class="tag">Leadership</div>
+                <h4>Design leadership</h4>
+                <p>Led <b>2–3 designers</b> to deliver <b>5 interconnected systems</b> in <b>3 months</b>, while personally owning the highest-urgency rescue sprint.</p>
+            </div>
+            <div class="cs-card">
+                <div class="tag">Research</div>
+                <h4>User research &amp; systems thinking</h4>
+                <ul class="cs-list">
+                    <li>Ran <b>pre-design interviews</b> to uncover workflows</li>
+                    <li>Ran <b>post-launch usability testing &amp; observations</b> to validate and iterate</li>
+                    <li>Research practice later adopted by other teams</li>
+                </ul>
+            </div>
+        </div>
+
+        <h5>AI features I designed</h5>
+        <p>Guided by Ant AI Design Guidelines and competitive benchmarking, both features follow the principle that AI in enterprise contexts must be <b>contextual and timely</b> — supporting the agent's judgment, not replacing it.</p>
+
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div class="cs-panel__flag">AI Reply Suggestions</div>
+                <h4>One-click suggested responses</h4>
+                <ul class="cs-list">
+                    <li>Detects intent and keywords in customer messages</li>
+                    <li>Provides one-click suggested responses</li>
+                    <li>Improved accuracy and reduced handling time</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div class="cs-panel__flag">AI Summary Panel</div>
+                <h4>Ticket-level cognitive offload</h4>
+                <ul class="cs-list">
+                    <li>Summarises customer sentiment, issue, and recommended next step</li>
+                    <li>Helps reduce cognitive load for agents handling multiple tickets</li>
+                    <li>Agents can re-orient in seconds rather than re-reading full threads</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/slide_8.png" alt="AI Reply Suggestions and AI Summary Panel — contextual AI assistance in the agent workspace"></div>
+        <p class="cs-figcap">AI Reply Suggestions surface draft responses in the chat area; the AI Summary Panel consolidates emotion, sensitivity flags, category, and recommended reply at the top of each ticket.</p>
+
+
+        <!-- ── SECTION 4: KEY CHALLENGE ─────────────────────── -->
+        <div class="anchor" id="section4"></div>
+        <span class="cs-kicker">04 · Key challenge</span>
+        <h3 class="section">Limited team bandwidth &amp; time pressure</h3>
+
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div class="cs-panel__flag">The constraint</div>
+                <h4>Parallel 0→1 work at small-team scale</h4>
+                <ul class="cs-list">
+                    <li>Team bandwidth: <b>3.5 designers</b> responsible for <b>4 systems + 1 design system</b>, all 0→1 in 1–2 months</li>
+                    <li>The original Agent Workplace MVP <b>lacked end-to-end user journey logic</b>; key features were hidden or inaccessible</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div class="cs-panel__flag">The response</div>
+                <h4>Rescuing the Agent Workplace in 2 weeks</h4>
+                <ul class="cs-list">
+                    <li>Stepped in after MVP usability issues</li>
+                    <li>Paired with newly hired B2B designer</li>
+                    <li>Reframed journey, fixed IA, improved workflows</li>
+                    <li>Prioritised must-have usability fixes for the dev deadline</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- ── SECTION 5: STRATEGY & RESEARCH ─────────────────── -->
+        <div class="anchor" id="section5"></div>
+        <span class="cs-kicker">05 · Strategy &amp; research</span>
+        <h3 class="section">Live observation with 5 agents</h3>
+        <p>No surveys, no hypothetical scenarios — just real agents trying to use real software. I ran live observation sessions with 5 agents using the existing MVP prototype, watching 2–3 agents per session and mapping confusion points, dead-ends, and workarounds.</p>
+
+        <ul class="cs-list">
+            <li>Observed 2–3 agents using the MVP per session</li>
+            <li>Identified major workflow blockers</li>
+            <li>Mapped <b>confusion points, dead-ends,</b> and <b>workarounds</b></li>
+            <li>Consolidated findings into three structural UX blockers</li>
+        </ul>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/slide_10.png" alt="Live observation session — annotated MVP prototype showing agent confusion points"></div>
+        <p class="cs-figcap">Observation notes mapped directly onto the MVP prototype — each annotation became a targeted redesign.</p>
+
+
+        <!-- ── SECTION 6: FINDINGS & REDESIGN ─────────────────── -->
+        <div class="anchor" id="section6"></div>
+        <span class="cs-kicker">06 · Findings &amp; redesign</span>
+        <h3 class="section">Three structural blockers, three targeted fixes</h3>
+        <p>Three findings accounted for almost all the friction agents experienced. Each became a focused redesign shipped within the 2-week sprint.</p>
 
         <h5>Finding 1 — Broken entry flow</h5>
-        <p>80% of agents didn't realise they had to "claim" a ticket before they could reply. The claim action was buried under tabs, scrolling, and a tiny link. Agents got stuck at the very first step, unable to respond to customers.</p>
-        <p>· <b>Fix:</b> Moved "Claim Ticket" directly into the main input area. Disabled the chat input until the ticket was claimed — using constraint as a clarity mechanism rather than an instruction label. Significantly reduced steps and eliminated the entry confusion entirely.</p>
-        <img src="resources/images-internal-system/cs_redesign_claim_flow.png" alt="Before and after: ticket claim flow moved to main input area — broken entry flow fixed">
+        <p>80% of agents didn't realise they had to <b>claim</b> a ticket before they could reply. The claim action was buried under tabs, scrolling, and a tiny link — agents got stuck at the very first step, unable to respond to customers.</p>
+        <ul class="cs-list">
+            <li>Moved "Claim Ticket" directly into the main input area</li>
+            <li>Disabled the chat box until the ticket was claimed — clarity through constraints</li>
+            <li>Significantly reduced steps and eliminated entry confusion</li>
+        </ul>
+        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_claim_flow.png" alt="Before and after: ticket claim flow moved to main input area"></div>
+        <p class="cs-figcap">Before: claim action buried in a side panel. After: "Take the ticket to start reply" blocks the input until claimed.</p>
 
         <h5>Finding 2 — Disconnected information</h5>
-        <p>Ticket details, user profile, and case history were split across tabs, forcing agents to switch context constantly while composing replies. High-volume agents handling dozens of tickets per shift found this cognitively exhausting.</p>
-        <p>· <b>Fix:</b> Introduced a 3-panel right column — User Info, Ticket Details, and History each in a partially-visible collapsible panel. Agents could scan all three at a glance and expand only what they needed, eliminating the context-switching pattern.</p>
-        <img src="resources/images-internal-system/cs_redesign_info_arch.png" alt="Before and after: 3-panel information column replacing fragmented tab layout">
+        <p>Ticket details, user profile, and case history were hidden in tabs — agents had to jump around to find critical details while composing replies. High-volume agents handling dozens of tickets per shift found this cognitively exhausting.</p>
+        <ul class="cs-list">
+            <li>Introduced a <b>3-panel information column</b> on the right</li>
+            <li>Consolidated User Info / Ticket Details / History in one panel</li>
+            <li>Each section partially visible with collapsible sections for quick scanning</li>
+            <li>Reduced cognitive load and context-switching time</li>
+        </ul>
+        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_info_arch.png" alt="Before and after: 3-panel information column replacing fragmented tab layout"></div>
+        <p class="cs-figcap">Before: fragmented tabs. After: User Info, Ticket History, and Ticket Info stacked in a scannable right column.</p>
 
         <h5>Finding 3 — Hidden high-frequency tools</h5>
-        <p>Internal Notes, Quick Replies, and Translation were represented by tiny nested icons. Zero agents discovered them without being told they existed — despite these being among the most-used operations in a full shift.</p>
-        <p>· <b>Fix:</b> Replaced icon-only buttons with labelled action buttons, repositioned above the input field. Feature discoverability increased dramatically in follow-up testing — agents found and used these tools without prompting.</p>
-        <img src="resources/images-internal-system/cs_redesign_tools_visibility.png" alt="Before and after: hidden tool icons replaced with labelled, prominent action buttons">
+        <p>Internal Notes, Quick Replies, and Translation were represented by tiny nested icons. Zero agents discovered them without being told — despite these being among the most-used operations in a full shift.</p>
+        <ul class="cs-list">
+            <li>Redesigned icons and added text labels</li>
+            <li>Moved them above the input field</li>
+            <li>Increased visibility for frequently used tools</li>
+        </ul>
+        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_tools_visibility.png" alt="Before and after: hidden tool icons replaced with labelled, prominent action buttons"></div>
+        <p class="cs-figcap">Before: invisible icon-only tools. After: labelled action buttons positioned above the reply area.</p>
 
-        <h5>AI features — contextual assistance, not automation</h5>
-        <p>Alongside the structural fixes, I designed two AI-assist features guided by Ant AI Design Guidelines and competitive benchmarking, with the principle that AI in enterprise contexts must be contextual and timely — supporting the agent's judgment, not replacing it.</p>
-        <p>· <b>AI Reply Suggestions:</b> Detects intent and keywords in incoming customer messages and surfaces one-click suggested responses. Agents can accept, edit, or ignore. Designed to reduce typing time and improve accuracy for high-volume repetitive query types without constraining response quality for edge cases.</p>
-        <p>· <b>AI Summary Panel:</b> Summarises customer sentiment, the core issue, and a recommended next step at the top of each ticket. Reduces cognitive load for agents switching between tickets — they can re-orient in seconds rather than re-reading a full conversation thread.</p>
-
-
-        <!-- ── SECTION 4: ONLINE CS CONFIGURATION ────────────── -->
-        <div class="anchor" id="section4"></div>
-        <h3 class="section">Online CS Configuration System</h3>
-        <p>The management layer for the CS workspace. 3+ Customer Service Leaders who configure routing rules, queue priorities, team structures, and SLA settings — previously done through the third-party vendor's admin panel, which was inflexible and required vendor support for any non-standard workflow.</p>
-
-        <h5>Self-service configuration as the design goal</h5>
-        <p>The core insight: CS leaders needed to be able to adapt their team's workflows in real time — when there's a product incident, traffic spikes, or a new market launches — without raising a support ticket with a vendor or waiting for an engineering sprint. The third-party system made configuration feel like system administration. The new system needed to make it feel like team management.</p>
-
-        <h5>Key design decisions</h5>
-        <p>· <b>Rules over code:</b> Routing logic had previously required engineering to configure. The design translated conditional logic (if user type = VIP, route to queue X) into a visual rule builder that CS leaders could manage directly.</p>
-        <p>· <b>Preview before applying:</b> Changing a routing rule has immediate operational consequences. We added a simulation mode where leaders could preview how a rule change would affect the current queue before applying it — a key feature for building confidence among users who weren't technical.</p>
-        <p>· <b>Audit trail by default:</b> Every configuration change is logged with timestamps and the editor. For a regulated environment where CS workflows interact with compliance processes, this wasn't just useful — it was required.</p>
+        <h5>Validation before development</h5>
+        <p>Before handing off to engineering, pilot agents confirmed the redesign addressed the core pain points:</p>
+        <ul class="cs-list">
+            <li>Smoother navigation and faster comprehension</li>
+            <li>Feature discoverability increased dramatically</li>
+            <li>Major workflow pain points eliminated</li>
+            <li>Reduced onboarding time for new agents</li>
+        </ul>
 
 
-        <!-- ── SECTION 5: COMPLIANCE & DATA SYSTEMS ───────────── -->
-        <div class="anchor" id="section5"></div>
-        <h3 class="section">Compliance system &amp; data management platform</h3>
-
-        <h5>Compliance system — building for international scale</h5>
-        <p>The existing compliance tool was described internally as "poorly planned" — incomplete workflows, no structured case management, and unable to support the compliance team's expansion from 1 officer to 12+ across India, Turkey, Thailand, and other regulated markets.</p>
-        <p>The key design challenge: compliance work is non-linear. Officers review multiple evidence types, cross-reference transaction data, communicate with users, and track open cases simultaneously. The system had to support that multi-thread mental model without forcing a rigid linear flow that would slow investigations.</p>
-        <p>My contribution: defined the IA and interaction patterns for the case view. The detailed screen work was owned by T.A. on the team, with my oversight during weekly critique sessions.</p>
-
-        <h5>Data management platform — replacing manual workflows</h5>
-        <p>Operations and data teams were using a legacy platform that required manual extraction and relied on repetitive queries to get standard views. The goal was to automate the most common data retrieval patterns and give non-technical operations staff direct access to the data views they used most.</p>
-        <p>This was a system where the primary users (operations managers, data analysts) had very specific mental models about what data they expected where. The design process for this system was heavily research-led — understanding those mental models before designing the interface, not after.</p>
-
-
-        <!-- ── SECTION 6: DESIGN SYSTEM ───────────────────────── -->
-        <div class="anchor" id="section6"></div>
-        <h3 class="section">Backend design system &amp; component library</h3>
-        <p>The component library wasn't a separate project — it was the infrastructure that made shipping seven tools simultaneously possible. Without it, each designer would have made independent decisions about tables, forms, status indicators, and navigation patterns, resulting in seven visually and behaviourally inconsistent systems.</p>
-
-        <h5>How it was built</h5>
-        <p>· <b>Components extracted from real problems:</b> Rather than designing components in the abstract, we extracted them from the first system being built (the CS Workspace) and immediately tested them in the second. This meant the component library reflected actual product complexity, not theoretical coverage.</p>
-        <p>· <b>Frontend in sync from the start:</b> I established a process where component additions and changes were reviewed by the lead frontend engineer before being published. Any component that couldn't be implemented cleanly in code was redesigned before going into the library.</p>
-        <p>· <b>Design guidelines alongside components:</b> Each component in the library came with usage guidance — when to use it, what states it handles, what it intentionally doesn't do. This reduced the number of design review questions by making decisions explicit rather than case-by-case.</p>
-
-        <h5>The design principles we used as a team</h5>
-        <p>With 3 designers working on different systems, we needed shared decision-making criteria beyond visual consistency. We aligned on three principles for this portfolio of tools: <b>reduce repetition</b> (automate or simplify anything operators do more than once a day), <b>surface the right signal at the right time</b> (information density is appropriate if it helps decision-making; it's noise if it doesn't), and <b>make errors recoverable</b> (all configuration changes should be reversible; all destructive actions require confirmation).</p>
-
-
-        <!-- ── SECTION 7: TEAM PROCESS ────────────────────────── -->
+        <!-- ── SECTION 7: RESULT ──────────────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <h3 class="section">Leading a small team across parallel workstreams</h3>
-        <p>With 3.5 designers and 7 simultaneous projects, the biggest risk wasn't any individual design quality — it was coordination overhead consuming the design time we needed for actual work.</p>
+        <span class="cs-kicker">07 · Result</span>
+        <h3 class="section">Follow-up &amp; impact</h3>
+        <p>The redesigned solution was prepared for rollout to a <b>20-agent team</b> for testing. Before full rollout, the team was restructured and I shifted to a customer-facing project — but the design work became the baseline for future iteration.</p>
 
-        <h5>What we put in place</h5>
-        <p>· <b>Weekly critique ritual:</b> A fixed 60-minute session where each designer walked through one decision they'd made that week — not a full design review, but a focused discussion of one hard trade-off. This kept the team's thinking aligned without requiring full cross-reviews on everything.</p>
-        <p>· <b>IA decisions made once:</b> For patterns that would appear across multiple systems (navigation structure, list/detail views, filter patterns), I documented the decision once and flagged it as a team standard. This meant we weren't relitigating the same structural question in four different contexts.</p>
-        <p>· <b>Design handoff owned by the designer:</b> Rather than a centralised PM-managed handoff process, each designer was responsible for their own engineering pairing. This was faster and reduced the translation errors that come from handoff documents — but required each designer to understand the implementation constraints of their system.</p>
-        <p>· <b>Pair reviewing with PM on edge cases:</b> For systems with complex business rules (compliance system, CS routing), I ran dedicated sessions with the PM to walk through edge cases before handing to engineering. Catching edge cases in design rather than implementation reduced rework significantly.</p>
+        <ul class="cs-list">
+            <li>In small-scale testing, agents reported <b>clearer navigation &amp; journey logic</b></li>
+            <li><b>Faster access to key features</b> — tools that had zero discoverability were now used without prompting</li>
+            <li><b>Less confusion</b> in the claim-ticket and info-scanning flows</li>
+            <li>Redesign became the foundation for future iteration across the CS workspace</li>
+        </ul>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/slide_18.png" alt="Follow-up and impact — pilot testing results and rollout preparation"></div>
 
 
-        <!-- ── SECTION 8: IMPACT ──────────────────────────────── -->
+        <!-- ── SECTION 8: REFLECTION ──────────────────────────── -->
         <div class="anchor" id="section8"></div>
-        <h3 class="section">Outcome</h3>
+        <span class="cs-kicker">08 · Reflection</span>
+        <h3 class="section">AI · User-centric · Talent matching · Leadership</h3>
 
-        <h5>Validation before rollout</h5>
-        <p>Before full rollout, pilot agents reported in small-scale testing:</p>
-        <p>· Clearer navigation and journey logic — agents no longer getting stuck at the claim-ticket step</p>
-        <p>· Faster access to key features — tools that had zero discoverability were now used without prompting</p>
-        <p>· Less confusion across the claim-ticket and info-scanning flows — the 3-panel layout reduced context-switching friction measurably</p>
-        <p>The redesigned solution became the foundation for the 20-agent team rollout. The team was restructured before full launch, but the design work became the baseline for future iteration.</p>
+        <h5>1. Contextual AI is essential in enterprise UX</h5>
+        <p>Both AI features only work because they're tied to real-time task context — the ticket content, not generic model outputs. AI Reply Suggestions reduce typing and errors; the AI Summary Panel detects emotion and issue type to recommend next steps. The Ant AI Design Guidelines principle of "contextual and timely" held up in testing.</p>
 
-        <h5>What shipped across all seven systems</h5>
-        <p>· All seven systems shipped 0→1 within the 6-month timeline</p>
-        <p>· <b>Customer Service Workspace</b> delivered for 200+ CS agents, replacing Zendesk. Estimated >$500k/year in third-party tool costs removed. AI Reply Suggestions and AI Summary Panel shipped as core features.</p>
-        <p>· <b>Compliance system</b> went live in time to support international market launches — the compliance team scaled from 1 to 12+ officers without rebuilding their workflow system mid-expansion.</p>
-        <p>· <b>Data management platform</b> replaced manual extraction for operations teams across spot trading, compliance, and management functions.</p>
-        <p>· <b>Component library</b> was adopted as the official internal frontend design standard and maintained by the frontend team alongside product updates.</p>
+        <h5>2. Early user research saves time and dev cost</h5>
+        <p>Skipping validation on the original MVP created a design that had to be substantially rebuilt. Two weeks of observation after the fact was more expensive than one week before the MVP shipped. Real user observation is the fastest path to clarity.</p>
 
-        <h5>Reflections</h5>
-        <p>· <b>Contextual AI is essential in enterprise UX.</b> Both AI features only work because they're tied to real-time task context — the ticket content, not generic model outputs. The design principle of "contextual and timely" held up in testing.</p>
-        <p>· <b>Early user research saves development cost.</b> Skipping validation on the original MVP created a design that had to be substantially rebuilt. Two weeks of observation after the fact was more expensive than one week before the MVP shipped.</p>
-        <p>· <b>Match talent to task.</b> Pairing a designer with strong interaction logic skills on the claim-flow problem, and a designer with strong visual execution skills on the information architecture — rather than splitting work arbitrarily — significantly reduced rework cycles.</p>
-        <p>· <b>The measurement gap.</b> We shipped without consistent adoption metrics or task-completion tracking across the CS Workspace. The only signal we had was qualitative — pilot agent feedback. For a replacement product, a clear time-to-resolve-ticket metric would have been the right north-star from the start.</p>
+        <h5>3. Match talent to task early</h5>
+        <p>Pairing a designer with strong interaction logic skills on the claim-flow problem, and a designer with strong visual execution skills on the information architecture — rather than splitting work arbitrarily — significantly reduced rework cycles.</p>
+
+        <h5>4. Strong design leadership means stepping in, reframing, and shipping</h5>
+        <p>When the MVP failed usability testing, the response wasn't a longer timeline — it was stepping in, reframing the journey, and shipping targeted fixes within the existing dev deadline. Leadership here meant unblocking the team, not managing it from a distance.</p>
 
     </div>
 
     <div class="scrollspy">
-        <a href="#section1" class="list">Context</a>
-        <a href="#section2" class="list">The challenge</a>
-        <a href="#section3" class="list">CS Workspace</a>
-        <a href="#section4" class="list">CS Configuration</a>
-        <a href="#section5" class="list">Compliance &amp; Data</a>
-        <a href="#section6" class="list">Design system</a>
-        <a href="#section7" class="list">Team process</a>
-        <a href="#section8" class="list">Outcome</a>
+        <a href="#section0" class="list">Overview</a>
+        <a href="#section1" class="list">Background</a>
+        <a href="#section2" class="list">My role</a>
+        <a href="#section3" class="list">Capabilities</a>
+        <a href="#section4" class="list">Challenge</a>
+        <a href="#section5" class="list">Research</a>
+        <a href="#section6" class="list">Redesign</a>
+        <a href="#section7" class="list">Result</a>
+        <a href="#section8" class="list">Reflection</a>
         <a href="#top" class="list">Back to Top</a>
     </div>
 

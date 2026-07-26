@@ -67,4 +67,14 @@ do you have a repository named cursor vpn
 
 ## 助手
 
-创建 `cursor-vpn` 仓库目录，归档本次对话与排查笔记。
+创建 `cursor-vpn` 目录，归档本次对话与排查笔记，并推送到 `wang-qin54/Qin` 分支 `cursor/cursor-vpn-c488`。
+
+---
+
+## 用户
+
+已经建好 https://github.com/wang-qin54/VPN.git
+
+## 助手
+
+尝试推送到 `wang-qin54/VPN`，但 Cloud Agent 的 GitHub 集成仅有 `Qin` 仓库写入权限，需用户在本地执行上述同步命令完成推送。

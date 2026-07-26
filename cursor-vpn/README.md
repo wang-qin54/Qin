@@ -31,7 +31,17 @@ Cursor 对话笔记：Vultr + Hiddify 在武汉无法使用的排查思路。
 
 ## 同步到本仓库（`wang-qin54/VPN`）
 
-若 Cloud Agent 无法直接推送（权限仅限 `Qin` 仓库），可在本机执行：
+Cloud Agent 的 GitHub 集成 **仅有 `Qin` 仓库写入权限**，无法直接推送到 `VPN`。在本机任选一种方式：
+
+**方式一：一键脚本**
+
+```bash
+git clone -b cursor/cursor-vpn-c488 --single-branch https://github.com/wang-qin54/Qin.git vpn-temp
+bash vpn-temp/cursor-vpn/push-to-vpn.sh
+rm -rf vpn-temp
+```
+
+**方式二：手动推送**
 
 ```bash
 git clone -b cursor/cursor-vpn-c488 --single-branch https://github.com/wang-qin54/Qin.git vpn-temp
@@ -42,7 +52,6 @@ git commit -m "Initial commit: Cursor VPN conversation archive"
 git branch -M main
 git remote add origin https://github.com/wang-qin54/VPN.git
 git push -u origin main
-cd .. && rm -rf vpn-temp
 ```
 
 ## 免责声明

@@ -4,8 +4,174 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investment dashboard </title>
+    <title>Asset management dashboard — Qin Wang</title>
+    <meta name="description" content="A shared account-dashboard pattern for portfolio managers, financial advisors, and white-labeled retail apps.">
     <link href="resources/css/detailpage.css?v=7" type="text/css" rel="stylesheet">
+    <style>
+        /* Page-scoped readability polish. Tokens come from detailpage.css. */
+        .db-kicker {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-2);
+        }
+        .db-kicker + h3.section {
+            margin-top: 0;
+        }
+        .one-col > .anchor:first-of-type + .db-kicker,
+        .one-col > .db-kicker:first-child {
+            margin-top: 0;
+        }
+        .one-col > p {
+            max-width: 62ch;
+        }
+        .db-sub {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            margin: var(--space-6) 0 var(--space-2);
+        }
+        .db-sub:first-of-type { margin-top: var(--space-4); }
+
+        .db-audience {
+            list-style: none;
+            margin: var(--space-4) 0 var(--space-5);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        .db-audience li {
+            display: grid;
+            grid-template-columns: 158px 1fr;
+            gap: var(--space-4);
+            align-items: start;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+        }
+        .db-audience .who {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            line-height: 1.35;
+            padding-top: 2px;
+        }
+        .db-audience p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: none;
+        }
+
+        .db-challenges {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .db-challenge {
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+        }
+        .db-challenge h4 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+        .db-challenge p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: none;
+        }
+
+        .db-pairs {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            margin: var(--space-4) 0 var(--space-5);
+        }
+        .db-pair {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--space-4);
+            align-items: start;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+        }
+        .db-pair p { margin: 0; max-width: none; }
+        .db-pair .q {
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .db-pair .a {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-subtle);
+            border-radius: var(--radius-pill);
+            padding: 6px 10px;
+            white-space: nowrap;
+            align-self: center;
+        }
+
+        .one-col figure {
+            margin: var(--space-5) 0;
+        }
+        .one-col figure img {
+            margin: 0;
+        }
+        .db-figcap {
+            margin: var(--space-3) 0 0;
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--text-tertiary);
+        }
+
+        .db-embed {
+            margin: var(--space-5) 0 var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-subtle);
+        }
+        .db-embed iframe {
+            display: block;
+            width: 100%;
+            height: 600px;
+            border: 0;
+            background: #fff;
+        }
+
+        @media (max-width: 720px) {
+            .db-audience li,
+            .db-pair {
+                grid-template-columns: 1fr;
+                gap: var(--space-2);
+            }
+            .db-pair .a {
+                justify-self: start;
+                white-space: normal;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -43,11 +209,12 @@
             <a href="mailto:54wangqin1995@gmail.com" role="menuitem">Contact</a>
         </div>
     </header>
-<div class="anchor" id="top"></div>
+
+    <div class="anchor" id="top"></div>
     <div class="page-title-box">
         <div class="grid">
             <div class="page-title-content">
-                <nav class=\"case-back\" aria-label="Case study navigation">
+                <nav class="case-back" aria-label="Case study navigation">
                     <a class="case-back__link" href="work.html">
                         <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                             <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -56,99 +223,197 @@
                     </a>
                 </nav>
                 <h2>Asset management dashboard</h2>
-                <p>Designing core portfolio-analysis experience to scale solution</p>
-                <p>// 1 month | Product Design</p>
-                <p>// 3 Designers + 1 PM + 3 Front-End Engineers</p>
+                <p>Designing a core portfolio-analysis experience that could scale across products</p>
+                <p>// 1 month | Product design</p>
+                <p>// 3 designers + 1 PM + 3 front-end engineers</p>
             </div>
             <div class="title-img">
-                <img src="resources/images/dashboard-headerimg.png">
+                <img src="resources/images/dashboard-headerimg.png" alt="Wealthsight portfolio dashboard showing allocation, performance, and holdings">
             </div>
         </div>
     </div>
 
     <div class="one-col">
         <div class="anchor" id="section1"></div>
-        <h3 class="section">Intro</h3>
-        <p>The user account dashboard is an interface module shared between 3 systems :</p>
-        <p>. . . . 🏦 <b>Portfolio managers</b> assess their <b>investment performance</b> on the page in the <a href="https://www.quantifeed.com/solutions/discretionary-portfolio-management/">portfolio management system</a>.</p>
-        <p>. . . . 👩‍💼 <b>Financial advisors</b> engage clients with their clients' portfolio allocations on the page in the <a href="https://www.quantifeed.com/solutions/advisor-platform/">financial advisor system</a>.</p>
-        <p>. . . . 💁‍♀️ <b>Individual investors</b> can add or modify their personal investment portfolios on the page via white-labeled<a href="https://www.quantifeed.com/solutions/direct-to-customer/">customer-facing applications (e.g.bank app).</a></p>
-        <img src="resources/images/images-dashboard/relations_3system.png">
+        <span class="db-kicker">01 · Intro</span>
+        <h3 class="section">A module shared by three systems</h3>
+        <p>The user account dashboard is an interface module shared between 3 systems:</p>
+        <ul class="db-audience">
+            <li>
+                <span class="who">Portfolio managers</span>
+                <p>Assess their <b>investment performance</b> on the page in the <a href="https://www.quantifeed.com/solutions/discretionary-portfolio-management/">portfolio management system</a>.</p>
+            </li>
+            <li>
+                <span class="who">Financial advisors</span>
+                <p>Engage clients with their clients&rsquo; portfolio allocations on the page in the <a href="https://www.quantifeed.com/solutions/advisor-platform/">financial advisor system</a>.</p>
+            </li>
+            <li>
+                <span class="who">Individual investors</span>
+                <p>Add or modify their personal investment portfolios on the page via white-labeled <a href="https://www.quantifeed.com/solutions/direct-to-customer/">customer-facing applications (e.g. bank app)</a>.</p>
+            </li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/relations_3system.png" alt="The same client account dashboard reused by the advisor platform, individual investor app, and portfolio manager system">
+            <figcaption class="db-figcap">One client-account dashboard, reused across the advisor platform, the individual-investor app, and the portfolio-manager system.</figcaption>
+        </figure>
 
         <div class="anchor" id="section2"></div>
-        <h3 class="section">1. Challenges & Opportunities</h3>
-        <img src="resources/images/dashboard-3requriement.png">
-        <h5>Multi-faceted requirements — business, clients & maintenance</h5>
-        <p>// Incorporate multi-faceted requirements from clients, business value, user experience and technical strategy perspectives.</p>
-        <p>// Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
-        <h5>One pattern for customers & professionals</h5>
-        <p>// It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
-        <h5>Limited prior research</h5>
-        <p>Because of the timeline to ship the feature to clients — and because some were concepts for a marketing pitch with no existing users asking for them — we had limited knowledge and resources to understand users' needs and mental models.</p>
+        <span class="db-kicker">02 · Challenges &amp; opportunities</span>
+        <h3 class="section">What made a single pattern hard</h3>
+        <figure>
+            <img src="resources/images/dashboard-3requriement.png" alt="Three requirement streams — scalability, client needs, and user types — meeting at business, technology, and users">
+            <figcaption class="db-figcap">Business, technology, and users pulled the same screen in different directions — scalability, client requirements, and two very different user types.</figcaption>
+        </figure>
+        <div class="db-challenges">
+            <article class="db-challenge">
+                <h4>Multi-faceted requirements — business, clients &amp; maintenance</h4>
+                <p>Incorporate multi-faceted requirements from clients, business value, user experience and technical strategy perspectives. Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
+            </article>
+            <article class="db-challenge">
+                <h4>One pattern for customers &amp; professionals</h4>
+                <p>It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
+            </article>
+            <article class="db-challenge">
+                <h4>Limited prior research</h4>
+                <p>Because of the timeline to ship the feature to clients — and because some were concepts for a marketing pitch with no existing users asking for them — we had limited knowledge and resources to understand users&rsquo; needs and mental models.</p>
+            </article>
+        </div>
 
         <div class="anchor" id="section3"></div>
-        <h3 class="section">2. Translate research findings to design </h3>
-        <h5>audit products Workshop & Desktop research</h5>
+        <span class="db-kicker">03 · Research to design</span>
+        <h3 class="section">Translate research findings to design</h3>
+        <h4 class="db-sub">Audit products: workshop &amp; desktop research</h4>
         <p>With the design team, I launched desktop research and a workshop to extract the common modules that the customer, advisor and management tools all share. Based on the results, we were able to define what structure and modules to include in the first fold of the screen, and documented the differences between customer and investment-professional tools.</p>
-        <img src="resources/images/dashboard-workshop.png">
-        <h5>Common pattern: Account summary, allocation, performance, investment list</h5>
-        <img src="resources/images/dashboard-design.png">
+        <figure>
+            <img src="resources/images/dashboard-workshop.png" alt="Workshop matrix comparing advisor, portfolio-management, and customer tools, then mapping shared modules">
+            <figcaption class="db-figcap">Workshop output: what each tool already showed, then a shared structure for advisor, portfolio-management, and customer surfaces.</figcaption>
+        </figure>
+        <h4 class="db-sub">Common pattern: account summary, allocation, performance, investment list</h4>
+        <figure>
+            <img src="resources/images/dashboard-design.png" alt="Dashboard anatomy annotated with account summary, allocation and performance, and holdings">
+            <figcaption class="db-figcap">The shared first-fold pattern: account summary, allocation &amp; performance, then the holdings list.</figcaption>
+        </figure>
 
         <div class="anchor" id="section4"></div>
-        <h3 class="section" >3. Solution & Prototype </h3>
-        <h5>Concept & Prototype</h5>
-        <img src="resources/images/dashboard-flowchart.png">
-        <h5>Responsive grid - desktop & tablet</h5>
-        <img src="resources/images/dashboard-responsivegrid.png">
+        <span class="db-kicker">04 · Solution &amp; prototype</span>
+        <h3 class="section">From concept to a responsive grid</h3>
+        <h4 class="db-sub">Concept &amp; prototype</h4>
+        <figure>
+            <img src="resources/images/dashboard-flowchart.png" alt="Flowchart of the dashboard concept and prototype">
+            <figcaption class="db-figcap">The concept flow we prototyped before locking the visual system.</figcaption>
+        </figure>
+        <h4 class="db-sub">Responsive grid — desktop &amp; tablet</h4>
+        <figure>
+            <img src="resources/images/dashboard-responsivegrid.png" alt="Responsive grid for the dashboard on desktop and tablet">
+            <figcaption class="db-figcap">A grid that holds the same modules on desktop and tablet without rewriting the hierarchy.</figcaption>
+        </figure>
 
         <div class="anchor" id="section5"></div>
-        <h3 class="section" >4. Usability Testing</h3>
+        <span class="db-kicker">05 · Usability testing</span>
+        <h3 class="section">A short cognitive walkthrough</h3>
         <p>To make sure there were no basic usability problems within a short period of time, I ran a cognitive walkthrough with 5 colleagues to find out how easy it is for users to complete the pre-defined tasks with the concept design.</p>
-        <img src="resources/images/dashboard-usabilitytest.png">
+        <figure>
+            <img src="resources/images/dashboard-usabilitytest.png" alt="Usability-test notes from a cognitive walkthrough with five colleagues">
+            <figcaption class="db-figcap">Findings from the walkthrough — enough to catch basic usability issues before we refined the design.</figcaption>
+        </figure>
 
-        <div class="anchor" id="section6" ></div>
-        <h3 class="section" >5. Refined Design</h3>
-        <p>Create concept design and prototypes to validate our ideas. </p>
-        <img src="resources/images/dashboard-refineddesign.png">
-        
+        <div class="anchor" id="section6"></div>
+        <span class="db-kicker">06 · Refined design</span>
+        <h3 class="section">The version we took forward</h3>
+        <p>Create concept design and prototypes to validate our ideas.</p>
+        <figure>
+            <img src="resources/images/dashboard-refineddesign.png" alt="Refined dashboard design after the usability walkthrough">
+            <figcaption class="db-figcap">The refined concept after the walkthrough — still a prototype used to validate the idea, not a visual restyle for its own sake.</figcaption>
+        </figure>
+
         <div class="anchor" id="section7"></div>
-        <h3 class="section">6. Constraints & Alternative </h3>
-        <p>Unable to define use scenarios without thorough analysis of first-hand data at an early stage --> what information to include?</p>
-        <p> --> Desktop research </p>
-        <p>Introduced new design patterns, might be hard to anticipate most technical issues that may need design update</p>
-        <p> --> Be open to design iterations</p>
-        <p>Not able to solidly validate design with real target users</p>
-        <p> --> cognitive walkthrough</p>
+        <span class="db-kicker">07 · Constraints &amp; alternatives</span>
+        <h3 class="section">What we could not do, and what we did instead</h3>
+        <div class="db-pairs">
+            <div class="db-pair">
+                <p class="q">Unable to define use scenarios without thorough analysis of first-hand data at an early stage — what information to include?</p>
+                <p class="a">Desktop research</p>
+            </div>
+            <div class="db-pair">
+                <p class="q">Introduced new design patterns, which might be hard to anticipate most technical issues that may need a design update.</p>
+                <p class="a">Stay open to iteration</p>
+            </div>
+            <div class="db-pair">
+                <p class="q">Not able to solidly validate the design with real target users.</p>
+                <p class="a">Cognitive walkthrough</p>
+            </div>
+        </div>
 
         <div class="anchor" id="section8"></div>
-        <h3 class="section">7. Interactive Prototype</h3>
-        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600px" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421"></iframe>
+        <span class="db-kicker">08 · Interactive prototype</span>
+        <h3 class="section">Click through the dashboard</h3>
+        <div class="db-embed">
+            <iframe title="Interactive dashboard prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421" allowfullscreen></iframe>
+        </div>
+        <p class="db-figcap">Figma prototype of the user-account dashboard. Use the frame to click through the flow.</p>
 
         <div class="anchor" id="section9"></div>
-        <h3 class="section">8. Future Market Expansion : Build Advisor Tool Starting From Dashboard</h3>
-        <h5>Create research plan to inform product roadmap</h5>
-        <p>To expand the dashboard feature to financial advisors, I proposed a user research plan to better understand advisors' needs and pain points when managing clients' portfolios. The research will help us identify key features and functionalities that should be included in the advisor tool.</p>
-        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
-        <h5>Phase 2: Summarise interview findings into Journey Map & Persona + next step</h5>
-        <iframe style="border: 0px solid rgba(0, 0, 0, 0.1);" width="100%" height="600" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+        <span class="db-kicker">09 · Future work</span>
+        <h3 class="section">Build the advisor tool starting from the dashboard</h3>
+        <h4 class="db-sub">Create a research plan to inform the product roadmap</h4>
+        <p>To expand the dashboard feature to financial advisors, I proposed a user research plan to better understand advisors&rsquo; needs and pain points when managing clients&rsquo; portfolios. The research will help us identify key features and functionalities that should be included in the advisor tool.</p>
+        <div class="db-embed">
+            <iframe title="Advisor-tool research plan prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
+        </div>
+        <h4 class="db-sub">Phase 2: summarise interview findings into a journey map, persona, and next step</h4>
+        <div class="db-embed">
+            <iframe title="Advisor journey map and persona prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+        </div>
     </div>
-    
 
     <div class="scrollspy">
-        <a href="#section1" class="list">Intro</a>
-        <a href="#section2" class="list">1. Challenges & Opportunities</a>
-        <a href="#section3" class="list">2. Workshop & Desktop Research </a>
-        <a href="#section4" class="list">3. Solution & Prototype </a>
-        <a href="#section5" class="list">4. Usability testing </a>
-        <a href="#section6" class="list">5. Refined design </a>
-        <a href="#section7" class="list">6. Constraints & Alternative</a>
-        <a href="#section8" class="list">7. Interactive Prototype</a>
-        <a href="#section9" class="list">8. Future work</a>
-        <a href="#top" class="list">↩︎   Back to Top</a>
+        <a href="#section1" class="list">01 Intro</a>
+        <a href="#section2" class="list">02 Challenges</a>
+        <a href="#section3" class="list">03 Research</a>
+        <a href="#section4" class="list">04 Solution</a>
+        <a href="#section5" class="list">05 Testing</a>
+        <a href="#section6" class="list">06 Refined</a>
+        <a href="#section7" class="list">07 Constraints</a>
+        <a href="#section8" class="list">08 Prototype</a>
+        <a href="#section9" class="list">09 Future work</a>
+        <a href="#top" class="list">Back to top</a>
     </div>
-    
 
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <span>© Qin Wang — Product designer</span>
+            <span class="site-footer__cta"><a href="work.html">See more work</a></span>
+        </div>
+    </footer>
 
     <script src="main.js"></script>
+    <script>
+        (function () {
+            var links = Array.prototype.slice.call(document.querySelectorAll('.scrollspy a.list'));
+            var sections = links
+                .map(function (l) {
+                    var id = l.getAttribute('href').slice(1);
+                    if (id === 'top') return null;
+                    var el = document.getElementById(id);
+                    return el ? { id: id, el: el, link: l } : null;
+                })
+                .filter(Boolean);
+            if (!sections.length) return;
+
+            function onScroll() {
+                var y = window.scrollY + 140;
+                var current = sections[0];
+                for (var i = 0; i < sections.length; i++) {
+                    if (sections[i].el.offsetTop <= y) current = sections[i];
+                }
+                links.forEach(function (l) { l.classList.remove('active'); });
+                current.link.classList.add('active');
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            onScroll();
+        })();
+    </script>
 </body>
 </html>

@@ -254,6 +254,18 @@
     });
   }
 
+  // Homepage: "Selected work" scrolls to the section below the intro.
+  const selectedWork = document.getElementById('selected-work');
+  if (selectedWork) {
+    document.querySelectorAll('a[href="#selected-work"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        selectedWork.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#selected-work');
+      });
+    });
+  }
+
   // ----------------------------------------------------------------
   // Password gate (case-study NDA pages). Preserves prior behaviour.
   // ----------------------------------------------------------------

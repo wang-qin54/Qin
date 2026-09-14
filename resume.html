@@ -11,31 +11,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --text: #1a1a1a;
-            --text-secondary: #555;
-            --text-tertiary: #888;
-            --border: #e5e5e5;
+            --text: #161616;
+            --text-secondary: #4a4a4a;
+            --text-tertiary: #7a7a7a;
+            --border: #e6e4df;
             --accent: #0034F0;
-            --page-max: 800px;
+            --accent-soft: #eef1ff;
+            --page: #f4f3ef;
+            --card: #fff;
+            --page-max: 880px;
             --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { font-size: 15px; line-height: 1.6; }
+        html { font-size: 15px; line-height: 1.55; }
 
         body {
             font-family: var(--font);
             color: var(--text);
-            padding: 48px 32px;
-            max-width: var(--page-max);
-            margin: 0 auto;
+            background: var(--page);
+            padding: 40px 24px 64px;
         }
 
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .page {
+            max-width: var(--page-max);
+            margin: 0 auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 44px 44px;
+            box-shadow: 0 1px 2px rgba(22, 22, 22, 0.04), 0 18px 40px rgba(22, 22, 22, 0.05);
+        }
 
-        /* Toolbar — hidden in print */
+        a { color: var(--accent); }
+
         .toolbar {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -66,110 +76,220 @@
         .toolbar .spacer { flex: 1; }
         .toolbar .label { color: var(--text-tertiary); }
 
-        body { padding-top: 80px; }
+        body { padding-top: 88px; }
 
-        /* Header */
-        .resume-header { margin-bottom: 32px; }
-        .resume-header h1 {
-            font-size: 26px;
+        .resume-header {
+            margin-bottom: 28px;
+        }
+        .resume-header .eyebrow {
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 6px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .resume-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 12px;
         }
         .resume-header .subtitle {
-            font-size: 15px;
+            font-size: 14.5px;
+            line-height: 1.6;
             color: var(--text-secondary);
-            margin-bottom: 12px;
-            max-width: 620px;
+            max-width: 62ch;
+            margin-bottom: 18px;
         }
         .resume-header .contact {
-            font-size: 13px;
-            color: var(--text-tertiary);
             display: flex;
             flex-wrap: wrap;
-            gap: 6px 16px;
+            gap: 8px;
         }
-        .resume-header .contact a { color: var(--text-tertiary); }
-        .resume-header .contact a:hover { color: var(--accent); }
+        .contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: #f6f5f1;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 12px;
+            text-decoration: none;
+        }
+        a.contact-item {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-color: #d5dcff;
+        }
+        a.contact-item:hover {
+            background: #e0e6ff;
+        }
+        a.contact-item .hint {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
 
-        /* Sections */
-        .section { margin-bottom: 28px; }
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .section { margin-bottom: 26px; }
+        .section:last-child { margin-bottom: 0; }
         .section-title {
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--text-tertiary);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 6px;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 16px;
         }
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
 
-        /* Role entries */
-        .role { margin-bottom: 20px; }
+        .role {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .role:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
         .role-header {
             display: flex;
             justify-content: space-between;
             align-items: baseline;
             gap: 16px;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
-        .role-title { font-size: 15px; font-weight: 600; }
-        .role-meta { font-size: 13px; color: var(--text-tertiary); white-space: nowrap; }
-        .role-org { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+        .role-title { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; }
+        .role-meta {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            background: #f6f5f1;
+            border-radius: 999px;
+            padding: 3px 9px;
+        }
+        .role-org { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .role-scope {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-radius: 6px;
+            padding: 3px 8px;
+            margin: 0 0 10px;
+        }
         .role ul {
             padding-left: 18px;
-            font-size: 14px;
+            font-size: 13.5px;
+            line-height: 1.55;
             color: var(--text-secondary);
         }
-        .role li { margin-bottom: 4px; }
+        .role li { margin-bottom: 6px; }
         .role li:last-child { margin-bottom: 0; }
+        .role li::marker { color: #b8b6b0; }
+        .kw { font-weight: 500; color: var(--text); }
 
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 8px 16px;
-            font-size: 14px;
+        .side {
+            padding-left: 8px;
         }
-        .skills-grid dt { font-weight: 600; color: var(--text); }
-        .skills-grid dd { color: var(--text-secondary); }
-
-        /* Education */
-        .edu-entry {
+        .side-list {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 16px;
-            margin-bottom: 6px;
+            flex-direction: column;
+            gap: 14px;
         }
-        .edu-entry .degree { font-size: 14px; font-weight: 500; }
-        .edu-entry .year { font-size: 13px; color: var(--text-tertiary); }
+        .side-list strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
 
-        /* Print styles */
+        .edu-entry { margin-bottom: 14px; }
+        .edu-entry:last-child { margin-bottom: 0; }
+        .edu-entry .degree { display: block; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; }
+        .edu-entry .school { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+        .edu-entry .year { display: block; font-size: 12px; color: var(--text-tertiary); margin-top: 3px; }
+
         @media print {
             .toolbar { display: none !important; }
+            html { font-size: 11.5px; }
             body {
                 padding: 0;
-                font-size: 13px;
-                line-height: 1.5;
+                background: white;
+                line-height: 1.45;
+            }
+            .page {
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 0;
                 max-width: none;
             }
-            html { font-size: 13px; }
-            .resume-header h1 { font-size: 22px; }
-            .resume-header .subtitle { font-size: 13px; }
-            .section { margin-bottom: 20px; }
-            .role { margin-bottom: 14px; }
-            .role ul { font-size: 12.5px; }
-            .skills-grid { font-size: 12.5px; }
-            a { color: var(--text) !important; }
-            @page { margin: 16mm 14mm; }
+            .resume-header { margin-bottom: 12px; }
+            .resume-header .eyebrow { margin-bottom: 4px; font-size: 9.5px; }
+            .resume-header h1 { font-size: 20px; margin-bottom: 6px; }
+            .resume-header .subtitle { font-size: 11.5px; margin-bottom: 10px; }
+            .contact-item {
+                font-size: 10.5px;
+                padding: 2px 0;
+                background: none !important;
+                border: 0 !important;
+                border-radius: 0;
+            }
+            a.contact-item {
+                color: var(--accent) !important;
+                text-decoration: underline;
+                text-underline-offset: 2px;
+            }
+            .layout { gap: 22px; grid-template-columns: 1fr 168px; }
+            .section { margin-bottom: 12px; }
+            .section-title { margin-bottom: 8px; }
+            .role { margin-bottom: 9px; padding-bottom: 9px; }
+            .role-title { font-size: 12.5px; }
+            .role-meta { font-size: 10px; padding: 1px 7px; }
+            .role-org, .role-scope { font-size: 10.5px; }
+            .role-scope { padding: 1px 6px; margin-bottom: 6px; }
+            .role ul { font-size: 11px; }
+            .role li { margin-bottom: 3px; }
+            .side { padding-left: 0; }
+            .side-list { font-size: 10.5px; gap: 8px; }
+            .edu-entry { margin-bottom: 8px; }
+            .edu-entry .degree { font-size: 11px; }
+            .edu-entry .school, .edu-entry .year { font-size: 10.5px; }
+            @page { size: A4; margin: 12mm 13mm; }
         }
 
-        @media (max-width: 600px) {
-            .role-header { flex-direction: column; gap: 2px; }
-            .skills-grid { grid-template-columns: 1fr; gap: 4px 0; }
-            .edu-entry { flex-direction: column; gap: 2px; }
+        @media (max-width: 700px) {
+            .page { padding: 28px 20px; }
+            .layout { grid-template-columns: 1fr; gap: 28px; }
+            .role-header { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
@@ -182,120 +302,163 @@
     <button onclick="window.print()">Save as PDF</button>
 </div>
 
+<div class="page">
 <header class="resume-header">
+    <p class="eyebrow">Product designer</p>
     <h1>Qin Wang</h1>
     <p class="subtitle">
-        Senior product designer with 7+ years designing complex crypto and financial products across web and mobile. Research-led approach to regulated onboarding, asset management, risk analysis, and operational tools — from problem framing to delivery.
+        Senior product designer with 7+ years on <span class="kw">wealth</span> and <span class="kw">complex financial products</span> — <span class="kw">App</span>, <span class="kw">web</span>, and <span class="kw">internal tools</span>. I own ambiguous problems <span class="kw">end-to-end</span>: <span class="kw">research</span>, <span class="kw">information architecture</span>, and delivery with Product and Engineering. Designed <span class="kw">institutional wealth platforms</span> used by <span class="kw">HSBC, DBS and MUFG</span>, and <span class="kw">consumer-facing</span> money products.
     </p>
     <div class="contact">
-        <span>54wangqin1995@gmail.com</span>
-        <span>+852 5575 9087</span>
-        <a href="https://www.qin-wang.net">qin-wang.net</a>
-        <a href="https://www.linkedin.com/in/qinwangux/">LinkedIn</a>
+        <a class="contact-item" href="mailto:54wangqin1995@gmail.com">54wangqin1995@gmail.com</a>
+        <a class="contact-item" href="tel:+85255759087">+852 5575 9087</a>
+        <a class="contact-item" href="https://www.qin-wang.net" target="_blank" rel="noopener">Portfolio <span class="hint">↗</span></a>
+        <span class="contact-item">Password <span class="kw">qinwang26</span></span>
+        <a class="contact-item" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener">LinkedIn <span class="hint">↗</span></a>
     </div>
 </header>
 
-<section class="section">
-    <h2 class="section-title">Experience</h2>
+<div class="layout">
+    <div class="main">
+        <section class="section">
+            <h2 class="section-title">Experience</h2>
 
-    <div class="role">
-        <div class="role-header">
-            <span class="role-title">Staff Product Designer</span>
-            <span class="role-meta">Dec 2025 – Present</span>
-        </div>
-        <div class="role-org">Avenir Group · Hong Kong</div>
-        <ul>
-            <li>Lead product design for asset-management and market-data experiences across web and mobile — shipped to production in a controlled rollout.</li>
-            <li>Designed and shipped a unified portfolio experience across crypto and traditional financial products — reconciling different industry conventions, risk disclosures, and security expectations so users understand their full position in one view.</li>
-            <li>Conducted competitor and pattern analysis across crypto and TradFi to inform information architecture, portfolio views, and interaction decisions.</li>
-        </ul>
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Avenir Group</span>
+                    <span class="role-meta">Dec 2025 – Present</span>
+                </div>
+                <div class="role-org">Staff Product Designer · Hong Kong</div>
+                <ul>
+                    <li>Owned the <span class="kw">Assets</span> experience on <span class="kw">App and Web</span> — unified <span class="kw">crypto</span> and <span class="kw">US/HK securities</span> for institutional and HNW clients. Shipped in a <span class="kw">controlled rollout</span>.</li>
+                    <li>Reframed the portfolio experience around <span class="kw">overall performance</span> vs. <span class="kw">individual holdings</span>, establishing a clearer information architecture across Homepage and Assets.</li>
+                    <li>Used <span class="kw">prototypes</span> and <span class="kw">AI</span> to speed exploration and handoff, including a coded bilingual prototype as a source of truth.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">KuCoin</span>
+                    <span class="role-meta">Feb 2024 – Dec 2025</span>
+                </div>
+                <div class="role-org">Senior / Lead UI/UX Designer · Hong Kong</div>
+                <p class="role-scope">Client onboarding · Internal platforms · Design system</p>
+                <ul>
+                    <li>Owned <span class="kw">0→1 client onboarding</span> for <span class="kw">Australia and Europe</span> — turned regulatory <span class="kw">KYC/KYB</span> requirements into usable <span class="kw">consumer</span> and <span class="kw">institutional</span> flows.</li>
+                    <li>Led <span class="kw">3 designers</span> to ship <span class="kw">5 internal platforms</span> and a <span class="kw">shared design system</span> in <span class="kw">6 months</span> for operations, compliance and customer success.</li>
+                    <li>Influenced <span class="kw">product direction</span> through PM transitions: onboarded new PMs and used <span class="kw">behaviour insights</span> to set priorities.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">OKX</span>
+                    <span class="role-meta">Jul 2023 – Feb 2024</span>
+                </div>
+                <div class="role-org">Product Designer · Hong Kong</div>
+                <p class="role-scope">Operational tools · Risk analysis</p>
+                <ul>
+                    <li>Designed a multi-step <span class="kw">risk-analysis system</span> for analysts — mapped a complex <span class="kw">investigation workflow</span> into a daily <span class="kw">operational tool</span>.</li>
+                    <li>Ran <span class="kw">research</span> with analysts and added <span class="kw">event tracking</span> so roadmap decisions were based on <span class="kw">evidence</span>, not assumption.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Manulife</span>
+                    <span class="role-meta">Aug 2022 – Dec 2022</span>
+                </div>
+                <div class="role-org">UX Designer · Hong Kong · Ended in a departmental layoff</div>
+                <p class="role-scope">Internal tools · Agent recruitment</p>
+                <ul>
+                    <li>Led <span class="kw">0→1 UX</span> for an <span class="kw">agent recruitment</span> system.</li>
+                    <li>Worked with research, BAs, engineering and the <span class="kw">design-system</span> owner to define flows and a <span class="kw">scalable</span> solution.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Quantifeed</span>
+                    <span class="role-meta">Sep 2020 – Jul 2022</span>
+                </div>
+                <div class="role-org">UX/UI Designer · Hong Kong</div>
+                <p class="role-scope">Wealth management · Portfolio · Advisor tools</p>
+                <ul>
+                    <li>Designed a discretionary <span class="kw">wealth and portfolio platform</span> used by <span class="kw">HSBC, DBS, MUFG</span> and Yachin — construction, monitoring and management for professional users.</li>
+                    <li>Led <span class="kw">discovery</span> for a <span class="kw">financial-advisor</span> product: <span class="kw">interviews</span>, <span class="kw">card sorting</span> and <span class="kw">workshops</span> with investment-bank directors to define requirements and roadmap.</li>
+                    <li>Introduced <span class="kw">research</span>, <span class="kw">usability testing</span> and <span class="kw">A/B testing</span> so product decisions were evidence-led.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Microsoft</span>
+                    <span class="role-meta">Dec 2018 – Oct 2019</span>
+                </div>
+                <div class="role-org">UX Designer · Beijing</div>
+                <ul>
+                    <li>Designed <span class="kw">consumer flows</span> and specs for <span class="kw">Microsoft Ads</span> (US); refined <span class="kw">design-system</span> patterns used by <span class="kw">50+ designers</span>.</li>
+                </ul>
+            </div>
+        </section>
     </div>
 
-    <div class="role">
-        <div class="role-header">
-            <span class="role-title">Senior / Lead UI/UX Designer</span>
-            <span class="role-meta">Feb 2024 – Dec 2025</span>
-        </div>
-        <div class="role-org">KuCoin · Hong Kong</div>
-        <ul>
-            <li>Led a team of 3 designers to deliver 5 internal systems (customer service, compliance, and data management tools) plus a shared design system in 6 months.</li>
-            <li>Owned and designed AUSTRAC & MiCA-compliant KYC and KYB onboarding flows (0→1) for Australia and Europe, balancing regulatory requirements with usability and conversion.</li>
-            <li>Acted as domain knowledge owner during PM transitions, onboarding new product managers and shaping product direction with user behaviour insights and historical context.</li>
-        </ul>
-    </div>
+    <aside class="side">
+        <section class="section">
+            <h2 class="section-title">Skills</h2>
+            <ul class="side-list">
+                <li>
+                    <strong>Design</strong>
+                    End-to-end ownership, web &amp; mobile, information architecture, design systems
+                </li>
+                <li>
+                    <strong>Research</strong>
+                    Interviews, usability testing, synthesis, A/B testing, event metrics
+                </li>
+                <li>
+                    <strong>Domain</strong>
+                    Wealth &amp; portfolio, securities, client onboarding, operational / risk tools
+                </li>
+                <li>
+                    <strong>Collaboration</strong>
+                    Product, Engineering, operations, risk; small-team lead
+                </li>
+                <li>
+                    <strong>Tools</strong>
+                    Figma, prototyping, AI-assisted design (Claude, Cursor)
+                </li>
+                <li>
+                    <strong>Languages</strong>
+                    Chinese (native), English (fluent)
+                </li>
+            </ul>
+        </section>
 
-    <div class="role">
-        <div class="role-header">
-            <span class="role-title">Product Designer</span>
-            <span class="role-meta">Jul 2023 – Feb 2024</span>
-        </div>
-        <div class="role-org">OKX · Hong Kong</div>
-        <ul>
-            <li>Designed AML monitoring and multi-chain transaction risk-analysis workflows, balancing FATF compliance with analyst usability.</li>
-            <li>Collaborated with analysts and stakeholders to reduce friction and improve workflow efficiency. Introduced user research processes and event-tracking metrics to inform product roadmap decisions.</li>
-        </ul>
-    </div>
+        <section class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="edu-entry">
+                <span class="degree">MSc Human-Computer Interaction</span>
+                <span class="school">University College London (UCL)</span>
+                <span class="year">2017 – 2018</span>
+            </div>
+            <div class="edu-entry">
+                <span class="degree">BSc Product Design</span>
+                <span class="school">Huazhong University of Science and Technology</span>
+                <span class="year">2013 – 2017</span>
+            </div>
+        </section>
 
-    <div class="role">
-        <div class="role-header">
-            <span class="role-title">UX/UI Designer</span>
-            <span class="role-meta">Sep 2020 – Jul 2022</span>
-        </div>
-        <div class="role-org">Quantifeed · Hong Kong</div>
-        <ul>
-            <li>Designed discretionary portfolio-management platform used by HSBC, DBS, MUFG, and Yachin — portfolio construction, monitoring, and management workflows for professional users.</li>
-            <li>Led discovery research for a financial-advisor product through interviews, card sorting, and prioritisation workshops with investment-bank directors to define product requirements.</li>
-            <li>Pioneered adoption of structured user research, usability testing, and A/B testing processes to inform product strategy and roadmap decisions.</li>
-        </ul>
-    </div>
-
-    <div class="role">
-        <div class="role-header">
-            <span class="role-title">UX Designer</span>
-            <span class="role-meta">Dec 2018 – Oct 2019</span>
-        </div>
-        <div class="role-org">Microsoft · Beijing</div>
-        <ul>
-            <li>Designed user flows and high-fidelity specifications for Microsoft Ads (US market), refining design-system patterns used by 50+ designers.</li>
-        </ul>
-    </div>
-</section>
-
-<section class="section">
-    <h2 class="section-title">Skills</h2>
-    <dl class="skills-grid">
-        <dt>Design</dt>
-        <dd>End-to-end UX/UI · Web and mobile · Interaction design · Information architecture · Design systems · Complex data visualisation</dd>
-        <dt>Research</dt>
-        <dd>User interviews · Usability testing · Contextual observation · Survey design · Insight synthesis · Journey mapping · A/B testing</dd>
-        <dt>Domain</dt>
-        <dd>Crypto and Web3 · Asset management · Trading products · KYC/KYB · AML and on-chain risk · Multi-jurisdiction regulated UX</dd>
-        <dt>Tools</dt>
-        <dd>Figma · FigJam · Prototyping · AI-assisted design workflows</dd>
-        <dt>Languages</dt>
-        <dd>Chinese (native) · English (fluent, bilingual working proficiency)</dd>
-    </dl>
-</section>
-
-<section class="section">
-    <h2 class="section-title">Education</h2>
-    <div class="edu-entry">
-        <span class="degree">MSc Human-Computer Interaction — University College London (UCL)</span>
-        <span class="year">2017 – 2018</span>
-    </div>
-    <div class="edu-entry">
-        <span class="degree">BSc Product Design — Huazhong University of Science and Technology (HUST)</span>
-        <span class="year">2013 – 2017</span>
-    </div>
-</section>
-
-<section class="section">
-    <h2 class="section-title">Research</h2>
-    <div class="edu-entry">
-        <span class="degree">Research Assistant — City University of Hong Kong</span>
-        <span class="year">2019 – 2020</span>
-    </div>
-</section>
+        <section class="section">
+            <h2 class="section-title">Research</h2>
+            <div class="edu-entry">
+                <span class="degree">Research Assistant</span>
+                <span class="school">City University of Hong Kong</span>
+                <span class="year">2019 – 2020</span>
+            </div>
+        </section>
+    </aside>
+</div>
+</div>
 
 <script>
     if (new URLSearchParams(window.location.search).has('pdf')) {

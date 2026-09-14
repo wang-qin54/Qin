@@ -12,8 +12,7 @@ Thumbs.db
 # Logs
 *.log
 
-# Asset project — confidential, kept local only (do not deploy/commit)
-asset.html
-password-asset.html
+# Asset interactive prototype stays local; the case study is password-gated.
 resources/demos/
-resources/images-asset/
+resources/images-asset/*
+!resources/images-asset/asset-cover.png

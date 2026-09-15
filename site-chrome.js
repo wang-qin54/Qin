@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------
 // Shared site header. Cite it from any page:
 //
-//   <script src="site-chrome.js?v=2"></script>
+//   <script src="site-chrome.js?v=4"></script>
 //   ...
 //   <site-header></site-header>
 //
@@ -85,18 +85,20 @@
                 <span>Qin Wang</span>
                 <span class="brand__role">Senior product designer / design lead</span>
             </a>
-            <nav class="site-nav" aria-label="Primary">
-                ${navLink('index.html', 'home', 'Home', current)}
-                ${navLink('work.html', 'work', 'Work', current)}
-                ${navLink('about.html', 'about', 'About', current)}
-                <span class="site-nav__divider" aria-hidden="true"></span>
+            <div class="site-header__end">
+                <nav class="site-nav" aria-label="Primary">
+                    ${navLink('index.html', 'home', 'Home', current)}
+                    ${navLink('work.html', 'work', 'Work', current)}
+                    ${navLink('about.html', 'about', 'About', current)}
+                    <span class="site-nav__divider" aria-hidden="true"></span>
+                </nav>
                 <a class="icon-link" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${LINKEDIN}</a>
                 <a class="icon-link" href="https://medium.com/@qinwangux" target="_blank" rel="noopener noreferrer" aria-label="Medium">${MEDIUM}</a>
-            </nav>
-            ${langMarkup}
-            <button type="button" class="menu-toggle" id="hamburger-menu-icon" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
-                ${MENU_ICON}
-            </button>
+                ${langMarkup}
+                <button type="button" class="menu-toggle" id="hamburger-menu-icon" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+                    ${MENU_ICON}
+                </button>
+            </div>
         </div>
         <div id="menu" role="menu">
             <a href="index.html" role="menuitem">Home</a>
@@ -140,6 +142,10 @@
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') close();
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 960) close();
       });
     }
   }

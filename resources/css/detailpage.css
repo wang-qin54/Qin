@@ -131,6 +131,7 @@ site-header {
   font-size: 16px;
   letter-spacing: -0.01em;
   text-decoration: none;
+  margin-right: auto;
 }
 
 .brand:hover {
@@ -1062,13 +1063,18 @@ a.list.active {
   .case-back__sep {
     display: none;
   }
+  .site-nav:not(:has(.icon-link)),
   .site-nav__link,
   .site-nav__divider {
     display: none;
   }
+  .site-nav {
+    gap: 2px;
+  }
   .menu-toggle {
     display: inline-flex;
   }
+  .site-header__inner,
   .site-header__end {
     gap: 2px;
   }

@@ -130,6 +130,7 @@ site-header {
   font-weight: 600;
   font-size: 16px;
   letter-spacing: -0.01em;
+  margin-right: auto;
 }
 
 .brand__mark {
@@ -1118,14 +1119,18 @@ p {
   .card-feature--wide .description {
     font-size: 14px;
   }
-  .site-nav,
+  .site-nav:not(:has(.icon-link)),
   .site-nav__link,
   .site-nav__divider {
     display: none;
   }
+  .site-nav {
+    gap: 2px;
+  }
   .menu-toggle {
     display: inline-flex;
   }
+  .site-header__inner,
   .site-header__end {
     gap: 2px;
   }

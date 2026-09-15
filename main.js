@@ -3,39 +3,7 @@
 // ------------------------------------------------------------------
 
 (function () {
-  // Mobile menu toggle (works with both the new <button id="hamburger-menu-icon">
-  // and the legacy <li id="hamburger-menu-icon">).
-  const toggle = document.getElementById('hamburger-menu-icon');
-  const menu = document.getElementById('menu');
-
-  if (toggle && menu) {
-    const open = () => {
-      menu.setAttribute('data-open', 'true');
-      menu.style.display = 'flex';
-      toggle.setAttribute('aria-expanded', 'true');
-    };
-    const close = () => {
-      menu.setAttribute('data-open', 'false');
-      menu.style.display = 'none';
-      toggle.setAttribute('aria-expanded', 'false');
-    };
-
-    toggle.addEventListener('click', (event) => {
-      event.stopPropagation();
-      const isOpen = menu.getAttribute('data-open') === 'true';
-      if (isOpen) close(); else open();
-    });
-
-    document.addEventListener('click', (event) => {
-      if (menu.getAttribute('data-open') !== 'true') return;
-      if (menu.contains(event.target) || toggle.contains(event.target)) return;
-      close();
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') close();
-    });
-  }
+  // Mobile menu lives in site-chrome.js with <site-header>.
 
   // ----------------------------------------------------------------
   // Work-page filter chips. Cards expose `data-tags="industry,skill"`.
@@ -147,8 +115,9 @@
     };
 
     const applyFilter = (filter) => {
+      if (filter === 'recent') filter = 'all';
       const isAll = filter === 'all';
-      const isRecent = filter === 'recent';
+      const isRecent = false;
 
       if (recentGrid) recentGrid.hidden = !isRecent;
       if (curatedGrid) curatedGrid.hidden = !isAll;
@@ -252,6 +221,75 @@
     window.addEventListener('pageshow', (event) => {
       if (event.persisted) initFiltersFromUrl();
     });
+  }
+
+  // ----------------------------------------------------------------
+  // Case-study chrome: measure sticky header, scrollspy active state,
+  // and keep the horizontal chip strip in view below 1100px.
+  // ----------------------------------------------------------------
+  const caseHeader = document.querySelector('.site-header');
+  const caseRail = document.querySelector('.scrollspy');
+  if (caseHeader || caseRail) {
+    const root = document.documentElement;
+    const setVar = (name, el) => {
+      if (!el) return;
+      const h = Math.floor(el.getBoundingClientRect().height);
+      if (h > 0) root.style.setProperty(name, `${h}px`);
+    };
+    const measure = () => {
+      setVar('--header-h', caseHeader);
+      setVar('--spy-h', caseRail);
+    };
+    measure();
+    window.addEventListener('load', measure);
+    window.addEventListener('resize', measure, { passive: true });
+  }
+
+  if (caseRail) {
+    const list = caseRail.querySelector('.scrollspy__list') || caseRail;
+    const links = Array.from(caseRail.querySelectorAll('a.list'));
+    const sections = links
+      .map((link) => {
+        const href = link.getAttribute('href') || '';
+        if (!href.startsWith('#') || href === '#top') return null;
+        const el = document.getElementById(href.slice(1));
+        return el ? { el, link } : null;
+      })
+      .filter(Boolean);
+
+    const centreActive = () => {
+      if (list.scrollWidth <= list.clientWidth + 4) return;
+      const active = caseRail.querySelector('a.list.active');
+      if (!active) return;
+      const want = active.offsetLeft - (list.clientWidth - active.offsetWidth) / 2;
+      const left = Math.max(0, Math.min(want, list.scrollWidth - list.clientWidth));
+      if (Math.abs(list.scrollLeft - left) < 2) return;
+      list.scrollTo({ left, behavior: 'smooth' });
+    };
+
+    const onScroll = () => {
+      if (sections.length) {
+        const y = window.scrollY + 140;
+        let current = sections[0];
+        for (let i = 0; i < sections.length; i++) {
+          if (sections[i].el.getBoundingClientRect().top + window.scrollY <= y) {
+            current = sections[i];
+          }
+        }
+        links.forEach((l) => l.classList.remove('active'));
+        current.link.classList.add('active');
+      }
+      const stuckAt = parseFloat(getComputedStyle(caseRail).top) || 0;
+      caseRail.classList.toggle(
+        'is-stuck',
+        caseRail.getBoundingClientRect().top <= stuckAt + 1
+      );
+      centreActive();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
   }
 
   // Homepage: "Selected work" scrolls to the section below the intro.

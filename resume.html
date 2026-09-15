@@ -296,7 +296,7 @@
 <body>
 
 <div class="toolbar">
-    <a href="about.html">&larr; Back to portfolio</a>
+    <a href="index.html" id="back-to-portfolio">&larr; Back to portfolio</a>
     <span class="spacer"></span>
     <span class="label">Export:</span>
     <button onclick="window.print()">Save as PDF</button>
@@ -461,9 +461,28 @@
 </div>
 
 <script>
-    if (new URLSearchParams(window.location.search).has('pdf')) {
-        window.addEventListener('load', () => setTimeout(() => window.print(), 400));
-    }
+    (function () {
+        const back = document.getElementById('back-to-portfolio');
+        if (!back) return;
+
+        let sameOrigin = false;
+        try {
+            sameOrigin = Boolean(document.referrer) && new URL(document.referrer).origin === location.origin;
+        } catch (e) {
+            sameOrigin = false;
+        }
+
+        if (sameOrigin) {
+            back.addEventListener('click', function (event) {
+                event.preventDefault();
+                history.back();
+            });
+        }
+
+        if (new URLSearchParams(window.location.search).has('pdf')) {
+            window.addEventListener('load', () => setTimeout(() => window.print(), 400));
+        }
+    })();
 </script>
 </body>
 </html>

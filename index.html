@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230034F0'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round'%3E%3Ccircle cx='14' cy='15' r='7.4'/%3E%3Cpath d='M17.6 20.7H25'/%3E%3C/g%3E%3C/svg%3E">
 
-    <link href="./resources/css/index.css?v=26" type="text/css" rel="stylesheet">
+    <link href="./resources/css/index.css?v=38" type="text/css" rel="stylesheet">
     <script src="site-chrome.js?v=4"></script>
 </head>
 
@@ -108,7 +108,17 @@
                             <div class="caption">2026 <span class="dot" aria-hidden="true"></span> Avenir Group</div>
                             <div class="card-title">Assets experience — unified crypto and securities portfolio</div>
                             <p class="description">Owned the Assets line on App and Web for institutional and HNW clients — one portfolio across crypto and US/HK securities, with Homepage for overall performance and Assets for holdings.</p>
-                            <div class="outcome">Structure shipped in a controlled rollout. Password required to view the case.</div>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:50"></span>
+                                    <span class="mix__seg mix__seg--ai" style="flex-grow:50"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">50%</span></li>
+                                    <li><span class="mix__dot mix__seg--ai" aria-hidden="true"></span><span class="mix__term">AI prototyping<span class="mix__tip" role="tooltip">Prototypes made with Claude and Figma Make.</span></span> <span class="mix__pct">50%</span></li>
+                                </ul>
+                            </div>
+                            <div class="outcome">Aligned the solution in a week; the product launched publicly in four months.</div>
                             <div class="tags">
                                 <span class="tag">App + Web</span>
                                 <span class="tag">Wealth</span>
@@ -123,7 +133,19 @@
                             <div class="caption">2025 <span class="dot" aria-hidden="true"></span> KuCoin</div>
                             <div class="card-title">Institutional KYB onboarding redesign</div>
                             <p class="description">Replaced a text-heavy KYB flow with guided selection and a document checklist — designed in two weeks against research showing 82% of users submitted multiple applications.</p>
-                            <div class="outcome">Established a 41% document-upload baseline; shipped to the institutional segment driving 30–70% of exchange volume.</div>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:20"></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"></span>
+                                    <span class="mix__seg mix__seg--measure" style="flex-grow:20"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research<span class="mix__tip" role="tooltip">Interviews, watching people use the product, and reading research reports.</span></span> <span class="mix__pct">20%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term">Measurement<span class="mix__tip" role="tooltip">Choosing what to track, and seeing where people drop off.</span></span> <span class="mix__pct">20%</span></li>
+                                </ul>
+                            </div>
+                            <div class="outcome">Established a 41% document-upload baseline.</div>
                             <div class="tags">
                                 <span class="tag">Client onboarding</span>
                                 <span class="tag">Compliance UX</span>
@@ -138,6 +160,18 @@
                             <div class="caption">2020–22 <span class="dot" aria-hidden="true"></span> Quantifeed</div>
                             <div class="card-title">Wealth dashboard, shared across three systems</div>
                             <p class="description">One dashboard pattern for portfolio managers, financial advisors, and white-labeled customer apps — used by HSBC, DBS, MUFG and Yachin.</p>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:40"></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:40"></span>
+                                    <span class="mix__seg mix__seg--validate" style="flex-grow:20"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research<span class="mix__tip" role="tooltip">Interviews, watching people use the product, and reading research reports.</span></span> <span class="mix__pct">40%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">40%</span></li>
+                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term">Usability test<span class="mix__tip" role="tooltip">Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span> <span class="mix__pct">20%</span></li>
+                                </ul>
+                            </div>
                             <div class="outcome">Shared module shipped across three product surfaces; framework reused for the advisor roadmap.</div>
                             <div class="tags">
                                 <span class="tag">Wealth</span>
@@ -153,7 +187,19 @@
                             <div class="caption">2023–24 <span class="dot" aria-hidden="true"></span> OKX</div>
                             <div class="card-title">On-chain AML risk-analysis system</div>
                             <p class="description">Designed a multi-step risk-analysis workflow for analysts — mapped a complex investigation into a daily operational tool, then introduced research and event tracking.</p>
-                            <div class="outcome">Closed the gap between analyst mental model and tool; pattern extended across the AML suite.</div>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"></span>
+                                    <span class="mix__seg mix__seg--measure" style="flex-grow:10"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research<span class="mix__tip" role="tooltip">Interviews, watching people use the product, and reading research reports.</span></span> <span class="mix__pct">30%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term">Measurement<span class="mix__tip" role="tooltip">Choosing what to track, and seeing where people drop off.</span></span> <span class="mix__pct">10%</span></li>
+                                </ul>
+                            </div>
+                            <div class="outcome">Closed the gap between analyst mental model and tool.</div>
                             <div class="tags">
                                 <span class="tag">Operational tools</span>
                                 <span class="tag">User research</span>
@@ -168,7 +214,15 @@
                             <div class="caption">2025 <span class="dot" aria-hidden="true"></span> KuCoin</div>
                             <div class="card-title">Retail KYC — Australia and Europe</div>
                             <p class="description">0→1 client onboarding for two regulated launches — AUSTRAC for Australia and MiCA for Europe — balancing requirements with usable consumer flows.</p>
-                            <div class="outcome">Shipped market-specific flows for AU and EU; structure reused for later regional rollouts.</div>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:100"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">100%</span></li>
+                                </ul>
+                            </div>
+                            <div class="outcome">Shipped market-specific flows for AU and EU.</div>
                             <div class="tags">
                                 <span class="tag">Client onboarding</span>
                                 <span class="tag">0 → 1</span>
@@ -183,6 +237,18 @@
                             <div class="caption">2022 <span class="dot" aria-hidden="true"></span> Manulife</div>
                             <div class="card-title">Agent recruitment system, 0→1</div>
                             <p class="description">Led UX for a scalable agent-application flow — working with research, BAs, engineering and the design-system owner from invite through submission.</p>
+                            <div class="mix">
+                                <div class="mix__bar" aria-hidden="true">
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"></span>
+                                    <span class="mix__seg mix__seg--validate" style="flex-grow:10"></span>
+                                </div>
+                                <ul class="mix__legend">
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research<span class="mix__tip" role="tooltip">Interviews, watching people use the product, and reading research reports.</span></span> <span class="mix__pct">30%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design<span class="mix__tip" role="tooltip">Early concepts, then screens revised and ready for engineering.</span></span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term">Usability test<span class="mix__tip" role="tooltip">Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span> <span class="mix__pct">10%</span></li>
+                                </ul>
+                            </div>
                             <div class="outcome">MVP shipped for recruiting managers and agents.</div>
                             <div class="tags">
                                 <span class="tag">Internal tools</span>
@@ -214,5 +280,26 @@
     </footer>
 
     <script src="main.js?v=17"></script>
+    <script>
+        (function () {
+            function placeTips() {
+                document.querySelectorAll('.mix__tip').forEach(function (tip) {
+                    var card = tip.closest('a');
+                    if (!card) return;
+                    tip.style.left = '0px';
+                    var cardBox = card.getBoundingClientRect();
+                    var box = tip.getBoundingClientRect();
+                    var shift = 0;
+                    var overflowRight = box.right - (cardBox.right - 16);
+                    if (overflowRight > 0) shift -= overflowRight;
+                    var overflowLeft = (cardBox.left + 16) - (box.left + shift);
+                    if (overflowLeft > 0) shift += overflowLeft;
+                    tip.style.left = shift + 'px';
+                });
+            }
+            placeTips();
+            window.addEventListener('resize', placeTips);
+        })();
+    </script>
 </body>
 </html>

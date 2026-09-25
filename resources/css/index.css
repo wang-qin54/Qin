@@ -948,8 +948,12 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+}
+
+.card-description > .tags:last-child {
   margin-top: auto;
-  padding-top: var(--space-4);
 }
 
 .tag {
@@ -963,6 +967,125 @@ p {
   text-transform: none;
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+/* Effort mix — one stacked bar per case. Zero-weight dimensions are omitted. */
+.mix {
+  margin-top: var(--space-3);
+}
+
+.mix__bar {
+  display: flex;
+  height: 8px;
+  gap: 2px;
+  padding: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.mix__seg {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  cursor: pointer;
+  transition: opacity 180ms var(--ease);
+}
+
+.mix:has(.mix__legend li:hover) .mix__seg,
+.mix:has(.mix__seg:hover) .mix__seg {
+  opacity: 0.28;
+}
+
+.mix:has(.mix__legend li:nth-child(1):hover) .mix__seg:nth-child(1),
+.mix:has(.mix__legend li:nth-child(2):hover) .mix__seg:nth-child(2),
+.mix:has(.mix__legend li:nth-child(3):hover) .mix__seg:nth-child(3),
+.mix:has(.mix__seg:hover) .mix__seg:hover {
+  opacity: 1;
+}
+
+.mix__seg--research { background: #2a3142; }
+.mix__seg--design { background: #0034f0; }
+.mix__seg--ai { background: #6e5cf0; }
+.mix__seg--validate { background: #2ec4b0; }
+.mix__seg--measure { background: #f0b429; }
+
+.mix__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+}
+
+.mix__legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mix__term {
+  position: relative;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.mix__term:hover,
+.mix__term:focus-visible {
+  text-decoration-color: var(--text-primary);
+}
+
+.mix__tip {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  bottom: calc(100% + 8px);
+  width: 200px;
+  padding: 8px 10px;
+  background: var(--text-primary);
+  color: var(--text-inverse);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 140ms var(--ease), transform 140ms var(--ease), visibility 140ms var(--ease);
+  pointer-events: none;
+}
+
+.mix__term:hover .mix__tip,
+.mix__term:focus-visible .mix__tip,
+.mix:has(.mix__seg:nth-child(1):hover) .mix__legend li:nth-child(1) .mix__tip,
+.mix:has(.mix__seg:nth-child(2):hover) .mix__legend li:nth-child(2) .mix__tip,
+.mix:has(.mix__seg:nth-child(3):hover) .mix__legend li:nth-child(3) .mix__tip {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.mix__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: none;
+}
+
+.mix__pct {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 /* hidden cards when filtering */

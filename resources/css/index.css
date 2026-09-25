@@ -978,13 +978,11 @@ p {
   display: flex;
   height: 8px;
   gap: 2px;
-  padding: 0;
-  border-radius: 999px;
-  overflow: hidden;
-  background: #f0f0f0;
+  overflow: visible;
 }
 
 .mix__seg {
+  position: relative;
   display: block;
   height: 100%;
   min-width: 0;
@@ -992,17 +990,12 @@ p {
   transition: opacity 180ms var(--ease);
 }
 
-.mix:has(.mix__legend li:hover) .mix__seg,
-.mix:has(.mix__seg:hover) .mix__seg {
-  opacity: 0.28;
-}
+.mix__seg:first-child { border-radius: 999px 0 0 999px; }
+.mix__seg:last-child { border-radius: 0 999px 999px 0; }
+.mix__seg:only-child { border-radius: 999px; }
 
-.mix:has(.mix__legend li:nth-child(1):hover) .mix__seg:nth-child(1),
-.mix:has(.mix__legend li:nth-child(2):hover) .mix__seg:nth-child(2),
-.mix:has(.mix__legend li:nth-child(3):hover) .mix__seg:nth-child(3),
-.mix:has(.mix__seg:hover) .mix__seg:hover {
-  opacity: 1;
-}
+.mix:has(.mix__seg:hover) .mix__seg { opacity: 0.28; }
+.mix:has(.mix__seg:hover) .mix__seg:hover { opacity: 1; }
 
 .mix__seg--research { background: #2a3142; }
 .mix__seg--design { background: #0034f0; }
@@ -1029,50 +1022,43 @@ p {
 }
 
 .mix__term {
-  position: relative;
-  text-decoration: underline;
-  text-decoration-style: dashed;
-  text-decoration-color: var(--border-strong);
-  text-underline-offset: 3px;
-  cursor: help;
-}
-
-.mix__term:hover,
-.mix__term:focus-visible {
-  text-decoration-color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .mix__tip {
   position: absolute;
   z-index: 4;
-  left: 0;
-  bottom: calc(100% + 8px);
+  left: 50%;
+  bottom: calc(100% + 10px);
   width: 200px;
   padding: 8px 10px;
   background: var(--text-primary);
-  color: var(--text-inverse);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.45;
   letter-spacing: 0;
-  text-decoration: none;
   border-radius: var(--radius-sm);
   box-shadow: 0 8px 24px rgba(17, 17, 17, 0.16);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(4px);
+  transform: translateX(calc(-50% + var(--mix-shift, 0px))) translateY(4px);
   transition: opacity 140ms var(--ease), transform 140ms var(--ease), visibility 140ms var(--ease);
   pointer-events: none;
 }
 
-.mix__term:hover .mix__tip,
-.mix__term:focus-visible .mix__tip,
-.mix:has(.mix__seg:nth-child(1):hover) .mix__legend li:nth-child(1) .mix__tip,
-.mix:has(.mix__seg:nth-child(2):hover) .mix__legend li:nth-child(2) .mix__tip,
-.mix:has(.mix__seg:nth-child(3):hover) .mix__legend li:nth-child(3) .mix__tip {
+.mix__tip-title {
+  display: block;
+  margin-bottom: 4px;
+  color: #fff;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.mix__seg:hover .mix__tip {
   opacity: 1;
   visibility: visible;
-  transform: none;
+  transform: translateX(calc(-50% + var(--mix-shift, 0px)));
 }
 
 .mix__dot {

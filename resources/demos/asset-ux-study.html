@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Asset study · 5-second and findability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000102;
+    --ink-2: #767880;
+    --ink-3: #9ea0a9;
+    --raise: #0f7a43;
+    --fall: #d1263c;
+    --link: #2f6fed;
+    --line: rgba(0,0,0,0.08);
+    --page: #f0f1f3;
+    --card: #ffffff;
+    --soft: #f4f5f7;
+    --phone-w: 375px;
+    --phone-h: 760px;
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+    background: #0a0a0c;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; -webkit-tap-highlight-color: transparent; }
+  .stage {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 16px 18px;
+  }
+  body.stacked .stage { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 12px; padding: 12px; }
+  body.stacked .sy-panel { flex: 0 0 auto; width: auto; max-height: 42%; order: -1; }
+  body.stacked .device { align-self: center; }
+  body.compact .stage { gap: 12px; padding: 12px; }
+  body.compact .sy-panel { flex: 0 0 var(--pw, 200px); width: var(--pw, 200px); padding: 14px 12px 12px; gap: 10px; }
+  body.compact .sy-task { font-size: 15px; line-height: 21px; }
+  body.compact .sy-hint { font-size: 12px; line-height: 17px; }
+  body.compact .sy-opts { flex-direction: column; }
+  body.compact .sy-btn { height: 38px; font-size: 12px; }
+
+  .sy-panel {
+    flex: 0 1 320px;
+    width: 320px;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #10161f;
+    color: #e7edf5;
+    border-radius: 18px;
+    padding: 18px 16px 16px;
+    min-height: 0;
+    overflow: auto;
+  }
+  .sy-step { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #7f8ea3; }
+  .sy-task { font-size: 18px; line-height: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .sy-hint { font-size: 13px; line-height: 19px; color: #8fa0b6; }
+  .sy-bar { height: 3px; border-radius: 2px; background: rgba(255,255,255,0.08); overflow: hidden; margin-top: 4px; }
+  .sy-bar > i { display: block; height: 100%; width: 100%; background: #7aa2ff; transform-origin: left center; }
+  .sy-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+  .sy-btn {
+    width: 100%; height: 42px; border-radius: 21px;
+    font-size: 13px; font-weight: 700;
+    background: #0034f0; color: #fff;
+  }
+  .sy-btn.ghost { background: rgba(255,255,255,0.08); color: #cfdae8; }
+  .sy-btn:active { opacity: .86; }
+  .sy-btn[disabled] { opacity: .35; pointer-events: none; }
+  .sy-note {
+    width: 100%; min-height: 88px; resize: vertical;
+    background: rgba(255,255,255,0.06); color: #e7edf5;
+    border: 0; border-radius: 10px; padding: 10px 11px;
+    font: inherit; font-size: 13px; line-height: 18px; outline: none;
+  }
+  .sy-note::placeholder { color: #6b7688; }
+  .sy-cards { display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: auto; }
+  .sy-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px 11px; }
+  .sy-cardhd { display: flex; align-items: center; gap: 7px; }
+  .sy-n {
+    flex: 0 0 18px; width: 18px; height: 18px; border-radius: 9px;
+    background: rgba(255,255,255,0.12); color: #cfdae8;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sy-id { flex: 1; min-width: 0; font-size: 12px; font-weight: 700; }
+  .sy-verdict { font-size: 11px; font-weight: 700; }
+  .sy-verdict.ok { color: #4ade80; }
+  .sy-verdict.bad { color: #fbbf24; }
+  .sy-meta { font-size: 11px; color: #7f8ea3; margin-top: 4px; }
+  .sy-route { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 7px; }
+  .sy-hop {
+    display: inline-flex; align-items: baseline; gap: 5px;
+    background: rgba(255,255,255,0.08); border-radius: 7px; padding: 3px 7px;
+    font-size: 11px; line-height: 15px;
+  }
+  .sy-hop i { font-style: normal; font-size: 9px; color: #8fa0b6; text-transform: uppercase; letter-spacing: .04em; }
+  .sy-route u { text-decoration: none; color: #55627a; font-size: 11px; }
+  .sy-quote {
+    margin-top: 7px; font-size: 12px; line-height: 17px;
+    border-left: 2px solid rgba(255,255,255,0.18); padding-left: 8px;
+  }
+  .sy-watch { margin-top: 7px; font-size: 11px; line-height: 16px; color: #c4b48a; }
+  .sy-watch b { color: #fbbf24; font-weight: 700; }
+
+  .device {
+    padding: 10px;
+    background: #0a0a0c;
+    border-radius: 48px;
+    box-shadow: 0 26px 60px rgba(0,0,0,.42), inset 0 0 0 2px #26262b;
+    flex-shrink: 0;
+    zoom: var(--fit, 1);
+  }
+  .phone {
+    width: var(--phone-w); height: var(--phone-h);
+    background: var(--page);
+    border-radius: 38px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .sy-veil {
+    position: absolute; inset: 0; z-index: 40;
+    background: #0b1119;
+    display: flex; align-items: center; justify-content: center;
+    color: #60718a; font-size: 13px; font-weight: 600;
+    text-align: center; padding: 24px;
+  }
+  .phone.is-locked .scroll { overflow: hidden; pointer-events: none; }
+  .phone.is-locked .sheet,
+  .phone.is-locked .sub,
+  .phone.is-locked #optA { pointer-events: none; }
+  /* .device zoom doesn't reach into the iframe's document, so render it at full
+     size and scale it down instead; otherwise the app lays out in a narrow viewport. */
+  #optA {
+    position: absolute; top: 0; left: 0; z-index: 1;
+    width: calc(100% / var(--fit, 1)); height: calc(100% / var(--fit, 1));
+    transform: scale(var(--fit, 1)); transform-origin: 0 0;
+    border: 0; background: #fff;
+  }
+  #optB { position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; }
+  .sy-opts { display: flex; gap: 6px; }
+  .sy-opt {
+    flex: 1; min-height: 52px; border-radius: 12px; text-align: left;
+    background: rgba(255,255,255,0.06); color: #cfdae8;
+    font-size: 12px; font-weight: 700; line-height: 16px; padding: 8px 10px;
+  }
+  .sy-opt small { display: block; margin-top: 2px; font-size: 11px; font-weight: 500; color: #8fa0b6; }
+  .sy-opt.on { background: #0034f0; color: #fff; }
+  .sy-opt.on small { color: rgba(255,255,255,0.78); }
+  .sb {
+    flex: none; height: 48px; padding: 14px 22px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px; font-weight: 600; background: #fff;
+  }
+  .sb svg { display: block; }
+  .scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; background: var(--page); }
+  .scroll::-webkit-scrollbar { width: 0; }
+
+  .total { background: #fff; padding: 4px 16px 16px; }
+  .ta-row { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; }
+  .ta-row .grow { flex: 1; }
+  .filter {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: var(--ink); font-size: 13px; font-weight: 500;
+    padding: 4px 2px;
+  }
+  .tri { width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 4px solid currentColor; }
+  .big {
+    margin-top: 6px;
+    font-size: 30px; font-weight: 600; letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums; line-height: 1.15;
+  }
+  .big small { font-size: 13px; font-weight: 600; letter-spacing: 0; margin-left: 4px; }
+  .pnl { margin-top: 6px; font-size: 13px; font-weight: 500; display: flex; gap: 8px; align-items: baseline; }
+  .pnl b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .up { color: var(--raise); }
+  .down { color: var(--fall); }
+  .spark { margin-top: 12px; height: 52px; }
+  .spark svg { width: 100%; height: 52px; display: block; }
+
+  .acct {
+    display: flex; align-items: center; gap: 8px;
+    width: calc(100% - 32px); margin: 12px 16px 0;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(17,17,17,.04);
+    padding: 14px 14px 12px; text-align: left;
+  }
+  .tag {
+    flex: none; font-size: 10px; font-weight: 700; letter-spacing: .04em;
+    color: var(--link); background: #e8efff; border-radius: 4px; padding: 2px 5px;
+  }
+  .acct .nm { font-size: 15px; font-weight: 600; }
+  .acct .aid { color: var(--ink-2); font-size: 13px; font-weight: 500; }
+  .acct .chev { margin-left: auto; color: var(--ink-2); display: flex; }
+  .split {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    margin: 8px 16px 0; background: #fff; border-radius: 12px; padding: 12px 14px;
+  }
+  .split .k { display: block; font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
+  .split .v { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .seg {
+    display: flex; margin: 14px 16px 0; padding: 3px;
+    background: #e7e8ec; border-radius: 10px;
+  }
+  .seg button { flex: 1; height: 32px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+
+  .block { margin: 12px 16px 0; background: #fff; border-radius: 12px; padding: 4px 14px; }
+  .hd { display: flex; align-items: baseline; justify-content: space-between; padding: 12px 2px 4px; }
+  .hd .t { font-size: 15px; font-weight: 600; }
+  .hd .s { font-size: 12px; color: var(--ink-2); }
+  .row {
+    width: 100%; display: flex; align-items: center; gap: 10px;
+    padding: 12px 0; border-top: 1px solid var(--line); text-align: left;
+  }
+  .block .row:first-of-type { border-top: 0; }
+  .sym {
+    flex: none; width: 32px; height: 32px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff;
+  }
+  .mid { flex: 1; min-width: 0; }
+  .mid .n { display: block; font-size: 14px; font-weight: 600; }
+  .mid .d { display: block; font-size: 12px; color: var(--ink-2); margin-top: 1px; }
+  .rhs { text-align: right; font-variant-numeric: tabular-nums; }
+  .rhs .n { display: block; font-size: 14px; font-weight: 600; }
+  .rhs .d { display: block; font-size: 12px; margin-top: 1px; }
+  .metric { justify-content: space-between; }
+  .metric .k { font-size: 14px; color: var(--ink); }
+  .metric .v { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pad { height: 28px; }
+
+  .sheet, .sub {
+    position: absolute; inset: 0; z-index: 20;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .sheet { background: rgba(0,0,0,.45); }
+  .sub { background: #fff; justify-content: flex-start; transform: translateX(100%); transition: transform .28s var(--ease); }
+  .sub.open { transform: none; }
+  .sheet-card {
+    background: #fff; border-radius: 16px 16px 0 0;
+    padding: 8px 16px 28px; max-height: 78%; overflow: auto;
+  }
+  .grab { width: 36px; height: 4px; border-radius: 2px; background: #e1e2e6; margin: 6px auto 12px; }
+  .sheet-card h2 { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; }
+  .sheet-card .lead { margin: 6px 0 12px; font-size: 13px; line-height: 18px; color: var(--ink-2); }
+  .opt {
+    width: 100%; display: flex; align-items: center; gap: 10px;
+    padding: 12px 0; border-top: 1px solid var(--line); text-align: left;
+  }
+  .opt .nm { flex: 1; font-size: 15px; font-weight: 600; }
+  .opt .subl { display: block; font-size: 12px; font-weight: 500; color: var(--ink-2); margin-top: 2px; }
+  .box, .radio {
+    flex: none; width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid #c7c9cf;
+  }
+  .box.on { background: var(--link); border-color: var(--link); }
+  .radio { border-radius: 9px; }
+  .radio.on { border: 5px solid var(--link); }
+  .sub .nav {
+    flex: none; height: 52px; display: flex; align-items: center; gap: 8px;
+    padding: 0 8px 0 6px; border-bottom: 1px solid var(--line);
+  }
+  .sub .nav b { font-size: 16px; font-weight: 650; }
+  .back { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+  .sub .body { padding: 8px 16px 24px; }
+  .hero-num { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; margin: 8px 0 4px; }
+  .hero-num small { font-size: 13px; margin-left: 4px; }
+  .kv { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .kv span { color: var(--ink-2); }
+  .kv b { font-weight: 600; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="device">
+      <div class="phone" id="phone">
+        <iframe id="optA" title="Shipped asset prototype" hidden></iframe>
+        <div id="optB">
+        <div class="sb">
+          <span>9:41</span>
+          <svg width="66" height="12" viewBox="0 0 66 12" aria-hidden="true">
+            <rect x="0" y="7" width="3" height="5" rx="0.6" fill="#000"/>
+            <rect x="5" y="4" width="3" height="8" rx="0.6" fill="#000"/>
+            <rect x="10" y="2" width="3" height="10" rx="0.6" fill="#000"/>
+            <rect x="15" y="0" width="3" height="12" rx="0.6" fill="#000"/>
+            <path d="M28 3.2c2.2-1.6 5-1.6 7.2 0" fill="none" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M30.2 5.6c1.1-.8 2.5-.8 3.6 0" fill="none" stroke="#000" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="32" cy="8.2" r="1" fill="#000"/>
+            <rect x="44" y="1" width="18" height="10" rx="2" fill="none" stroke="#000" stroke-opacity=".45"/>
+            <rect x="46" y="3" width="12" height="6" rx="1" fill="#000"/>
+          </svg>
+        </div>
+        <div class="scroll" id="scroll">
+          <section class="total">
+            <div class="ta-row">
+              <span data-en="Total assets" data-zh="总资产">Total assets</span>
+              <span class="grow"></span>
+              <button type="button" class="filter" id="btnFilter" data-tap="Accounts (7)">
+                <span data-en="Accounts (7)" data-zh="已选账户 (7)">Accounts (7)</span>
+                <i class="tri"></i>
+              </button>
+            </div>
+            <div class="big">128,450,220<small>USD</small></div>
+            <div class="pnl up">
+              <span data-en="Today's P&L" data-zh="今日盈亏">Today's P&L</span>
+              <b>+1,842,300.00 (+1.45%)</b>
+            </div>
+            <div class="spark" aria-hidden="true">
+              <svg viewBox="0 0 343 52" preserveAspectRatio="none">
+                <path d="M0 40 C 30 38, 40 34, 60 32 S 100 36, 130 28 180 18, 210 22 260 8, 300 12 330 6, 343 4" fill="none" stroke="#0f7a43" stroke-width="2"/>
+                <path d="M0 40 C 30 38, 40 34, 60 32 S 100 36, 130 28 180 18, 210 22 260 8, 300 12 330 6, 343 4 V 52 H 0 Z" fill="rgba(15,122,67,.12)"/>
+              </svg>
+            </div>
+          </section>
+
+          <button type="button" class="acct" id="btnAcct" data-tap="Account card">
+            <span class="tag" id="acctTag" data-en="Main" data-zh="主">Main</span>
+            <span class="nm" id="acctName">Trader Account</span>
+            <span class="aid" id="acctId">(1135)</span>
+            <span class="chev" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </button>
+          <div class="split">
+            <div>
+              <span class="k" data-en="Account assets" data-zh="账户资产">Account assets</span>
+              <span class="v" id="acctAssets">42,180,600.00</span>
+            </div>
+            <div>
+              <span class="k" data-en="Today's P&L" data-zh="今日盈亏">Today's P&L</span>
+              <span class="v up" id="acctPnl">+210,400.00</span>
+            </div>
+          </div>
+
+          <div class="seg" role="tablist">
+            <button type="button" id="tabSec" class="on" data-tab="sec" data-tap="Securities" data-en="Securities" data-zh="证券">Securities</button>
+            <button type="button" id="tabCrypto" data-tab="crypto" data-tap="Crypto" data-en="Crypto" data-zh="加密">Crypto</button>
+          </div>
+
+          <div id="paneSec">
+            <div class="block">
+              <div class="hd"><span class="t" data-en="My positions" data-zh="我的持仓">My positions</span><span class="s">3</span></div>
+              <div class="row" data-tap="AAPL">
+                <span class="sym" style="background:#111">A</span>
+                <span class="mid"><span class="n">AAPL</span><span class="d" data-en="US · Apple" data-zh="美股 · 苹果">US · Apple</span></span>
+                <span class="rhs"><span class="n">186.40</span><span class="d up">+1.20%</span></span>
+              </div>
+              <div class="row" data-tap="NVDA">
+                <span class="sym" style="background:#76b900">N</span>
+                <span class="mid"><span class="n">NVDA</span><span class="d" data-en="US · NVIDIA" data-zh="美股 · 英伟达">US · NVIDIA</span></span>
+                <span class="rhs"><span class="n">131.20</span><span class="d up">+0.40%</span></span>
+              </div>
+              <div class="row" data-tap="0700">
+                <span class="sym" style="background:#1a73e8">T</span>
+                <span class="mid"><span class="n">0700</span><span class="d" data-en="HK · Tencent" data-zh="港股 · 腾讯">HK · Tencent</span></span>
+                <span class="rhs"><span class="n">412.00</span><span class="d down">−0.80%</span></span>
+              </div>
+            </div>
+            <div class="block">
+              <div class="hd"><span class="t" data-en="Cash" data-zh="现金">Cash</span></div>
+              <div class="row" data-tap="USD cash">
+                <span class="sym" style="background:#4a9db0">$</span>
+                <span class="mid"><span class="n">USD</span><span class="d" data-en="US dollar" data-zh="美元">US dollar</span></span>
+                <span class="rhs"><span class="n">85,105.97</span></span>
+              </div>
+              <div class="row" data-tap="HKD cash">
+                <span class="sym" style="background:#e2483d">$</span>
+                <span class="mid"><span class="n">HKD</span><span class="d" data-en="Hong Kong dollar" data-zh="港元">Hong Kong dollar</span></span>
+                <span class="rhs"><span class="n">390,000.00</span></span>
+              </div>
+            </div>
+            <div class="block">
+              <div class="hd"><span class="t" data-en="Margin" data-zh="保证金">Margin</span></div>
+              <button type="button" class="row metric" data-tap="Excess liquidity" id="btnLiq">
+                <span class="k" data-en="Excess liquidity" data-zh="剩余流动性">Excess liquidity</span>
+                <span class="v">162,957.50</span>
+              </button>
+              <button type="button" class="row metric" data-tap="Est. cash" id="btnCash">
+                <span class="k" data-en="Est. cash" data-zh="预估现金">Est. cash</span>
+                <span class="v">135,105.97</span>
+              </button>
+              <button type="button" class="row metric" data-tap="US buying power" id="btnBp">
+                <span class="k" data-en="Buying power · US stocks" data-zh="购买力 · 美股">Buying power · US stocks</span>
+                <span class="v">84,200.00</span>
+              </button>
+              <button type="button" class="row metric" data-tap="HK buying power" id="btnBpHk">
+                <span class="k" data-en="Buying power · HK stocks" data-zh="购买力 · 港股">Buying power · HK stocks</span>
+                <span class="v">26,400.00</span>
+              </button>
+            </div>
+            <div class="pad"></div>
+          </div>
+
+          <div id="paneCrypto" hidden>
+            <div class="block">
+              <div class="hd"><span class="t" data-en="Crypto overview" data-zh="加密总览">Crypto overview</span></div>
+              <div class="row metric" data-tap="Crypto net assets">
+                <span class="k" data-en="Crypto net assets" data-zh="加密净资产">Crypto net assets</span>
+                <span class="v">27,775,000.00</span>
+              </div>
+              <div class="row metric" data-tap="Funding account">
+                <span class="k" data-en="Funding account" data-zh="资金账户">Funding account</span>
+                <span class="v">15,000,000.00</span>
+              </div>
+              <div class="row metric" data-tap="Trading account">
+                <span class="k" data-en="Trading account" data-zh="交易账户">Trading account</span>
+                <span class="v">12,775,000.00</span>
+              </div>
+            </div>
+            <div class="block">
+              <button type="button" class="row metric" id="btnDebt" data-tap="Total borrowed">
+                <span class="k" data-en="Total borrowed" data-zh="总借币">Total borrowed</span>
+                <span class="v down">−31,900.00</span>
+              </button>
+              <div class="row metric" data-tap="Maintenance margin">
+                <span class="k" data-en="Maintenance margin" data-zh="维持保证金率">Maintenance margin</span>
+                <span class="v">80.12%</span>
+              </div>
+            </div>
+            <div class="pad"></div>
+          </div>
+        </div>
+
+        <div class="sheet" id="sheet" hidden>
+          <div class="sheet-card" id="sheetCard"></div>
+        </div>
+        <div class="sub" id="sub" hidden>
+          <div class="nav">
+            <button type="button" class="back" id="subBack" data-tap="Back" aria-label="Back">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <b id="subTitle"></b>
+          </div>
+          <div class="body" id="subBody"></div>
+        </div>
+        </div>
+        <div class="sy-veil" id="veil">Screen covered</div>
+      </div>
+    </div>
+    <aside class="sy-panel" id="syPanel"></aside>
+  </div>
+
+<script>
+(function () {
+  var LANG = 'en';
+  function t(en, zh) { return LANG === 'zh' ? zh : en; }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var ACCOUNTS = {
+    main: {
+      tagEn: 'Main', tagZh: '主', name: 'Trader Account', id: '(1135)',
+      assets: '42,180,600.00', pnl: '+210,400.00'
+    },
+    secondary: {
+      tagEn: 'Secondary', tagZh: '次', name: 'Family office', id: '(2208)',
+      assets: '86,269,620.00', pnl: '+96,200.00'
+    }
+  };
+
+  var state = {
+    tab: 'sec',
+    account: 'main',
+    page: 'Overview',
+    sub: null,
+    sheet: null,
+    filter: { main: true, secondary: true }
+  };
+
+  var SY = { mode: null, idx: -1, t0: 0, taps: [], results: [], phase: 'intro', timer: null, key: null, pending: null };
+  var OPT = 'A';
+
+  var TASKS = [
+    {
+      id: 'borrow',
+      en: 'Find how much you currently owe on borrowed crypto.',
+      zh: '找出你现在借的 crypto 还欠多少。',
+      checkEn: 'The amount sits on Total borrowed, inside Crypto — not on the home total.',
+      checkZh: '数字在加密里的「总借币」，不在首页的总资产上。',
+      checkAEn: 'Total borrowed, on the crypto overview. The home total is not the debt.',
+      checkAZh: '数字在加密总览的「总借币」。首页总资产不是欠款。',
+      done: function () { return state.sub === 'debt'; }
+    },
+    {
+      id: 'power',
+      en: 'Check your remaining spending power for US stocks.',
+      zh: '查看美股还剩多少购买力。',
+      checkEn: 'US buying power, not excess liquidity, estimated cash, or the HK figure.',
+      checkZh: '要的是美股购买力，不是剩余流动性、预估现金，或港股那个数。',
+      checkAEn: 'Buying power is the cell on the securities card. The whole card opens the margin account, so a tap on excess liquidity or estimated cash opens it too.',
+      checkAZh: '购买力是证券卡片上的那一格。整张卡片都会打开保证金账户，所以点剩余流动性或预估现金也会进去。',
+      done: function () { return state.sub === 'bp-us'; }
+    },
+    {
+      id: 'switch',
+      en: 'Switch your active workspace to your secondary portfolio account.',
+      zh: '把当前工作区切到第二个 portfolio 账户。',
+      checkEn: 'The account card switches the workspace. Accounts (7) only filters the total.',
+      checkZh: '账户卡片才是切换工作区。上方「已选账户 (7)」只筛选总数。',
+      checkAEn: 'The account row switches the workspace. Selected accounts only changes what rolls into the total.',
+      checkAZh: '账户那一行才是切换工作区。上方「已选账户」只改变计入总数的范围。',
+      done: function () { return state.account === 'secondary'; }
+    }
+  ];
+
+  var phone = document.getElementById('phone');
+  var scroll = document.getElementById('scroll');
+  var veil = document.getElementById('veil');
+  var panel = document.getElementById('syPanel');
+  var frame = document.getElementById('optA');
+  var A_SRC = 'asset-app-prototype.html?embed=1';
+
+  function docA() {
+    try { return frame.contentDocument; } catch (e) { return null; }
+  }
+
+  function optTag() {
+    return OPT === 'A' ? t('Option A', '方案 A') : t('Option B', '方案 B');
+  }
+
+  function optButtons() {
+    function one(id, titleEn, titleZh, subEn, subZh) {
+      return '<button type="button" class="sy-opt' + (OPT === id ? ' on' : '') + '" data-opt="' + id + '">' +
+        t(titleEn, titleZh) + '<small>' + t(subEn, subZh) + '</small></button>';
+    }
+    return '<div class="sy-opts">' +
+      one('A', 'A · Prototype', 'A · 原型', 'Shipped app', '交付的界面') +
+      one('B', 'B · Study screen', 'B · 测试屏', 'Same jobs, fewer paths', '同样的任务，路径更少') +
+      '</div>';
+  }
+
+  function showOpt() {
+    var onA = OPT === 'A';
+    frame.hidden = !onA;
+    document.getElementById('optB').hidden = onA;
+    if (onA) warmA();
+  }
+
+  function warmA() {
+    if (frame.getAttribute('src')) return;
+    frame.addEventListener('load', function () {
+      frame.dataset.ready = '1';
+      prepA();
+      if (SY.pending) {
+        var fn = SY.pending;
+        SY.pending = null;
+        fn();
+      }
+    });
+    frame.src = A_SRC;
+  }
+
+  function prepA() {
+    var d = docA();
+    var w = frame.contentWindow;
+    if (!d || !w) return;
+    try { if (w.setLang) w.setLang(LANG === 'zh' ? 'zh' : 'en'); } catch (e) {}
+    try { if (w.setBorrowApp) w.setBorrowApp(true); } catch (e2) {}
+    if (!d.getElementById('syHideDemo')) {
+      var css = d.createElement('style');
+      css.id = 'syHideDemo';
+      css.textContent = '#umxRead,#umxTgl,#umxDoc,#umxLayer,#umxSum,#umxCard,#umxToast{display:none!important}';
+      d.head.appendChild(css);
+    }
+    if (!d.__syBound) {
+      d.__syBound = true;
+      d.addEventListener('click', onAClick, true);
+      var sc = d.querySelector('.scroll');
+      if (sc) sc.addEventListener('scroll', onAScroll, { passive: true });
+    }
+  }
+
+  function resetA() {
+    var d = docA();
+    var w = frame.contentWindow;
+    if (!d || !w) return;
+    SY.resetting = true;
+    d.querySelectorAll('.sheet-mask.open').forEach(function (s) { s.classList.remove('open'); });
+    d.querySelectorAll('.page').forEach(function (p) {
+      p.classList.toggle('active', p.id === 'page-assets');
+    });
+    var tabbar = d.querySelector('.tabbar');
+    if (tabbar) tabbar.style.display = '';
+    var sec = d.querySelector(".seg-card .item[data-pane='securities']");
+    if (sec) sec.click();
+    var tag = d.querySelector('#page-assets .acct-sticky .tag-main');
+    if (tag && tag.style.display === 'none') {
+      var trig = d.querySelector('#page-assets .acct-selector .acct-name-group');
+      if (trig) trig.click();
+      var row = d.querySelector('#aswList .ap-row');
+      if (row) row.click();
+    }
+    var sc = d.querySelector('.scroll');
+    if (sc) sc.scrollTop = 0;
+    try { if (w.setBorrowApp) w.setBorrowApp(true); } catch (e) {}
+    try { if (w.setLang) w.setLang(LANG === 'zh' ? 'zh' : 'en'); } catch (e2) {}
+    SY.resetting = false;
+  }
+
+  function offMain(d) {
+    var tag = d.querySelector('#page-assets .acct-sticky .tag-main');
+    if (!tag) return false;
+    return d.defaultView.getComputedStyle(tag).display === 'none';
+  }
+
+  function inViewA(el) {
+    var d = docA();
+    var sc = d && d.querySelector('.scroll');
+    if (!sc || !el) return false;
+    var er = el.getBoundingClientRect();
+    var sr = sc.getBoundingClientRect();
+    return er.width > 0 && er.bottom > sr.top + 4 && er.top < sr.bottom - 4;
+  }
+
+  function taskDone(task) {
+    if (OPT !== 'A') return task.done();
+    var d = docA();
+    if (!d || !task) return false;
+    if (task.id === 'borrow') {
+      var pane = d.getElementById('pane-crypto');
+      var debt = d.querySelector('[data-bapp="debt"]');
+      if (!pane || pane.style.display === 'none' || !debt) return false;
+      return inViewA(debt);
+    }
+    if (task.id === 'power') {
+      var md = d.getElementById('page-margin-detail');
+      var bx = d.getElementById('page-bp-explain');
+      return (md && md.classList.contains('active')) || (bx && bx.classList.contains('active'));
+    }
+    if (task.id === 'switch') return offMain(d);
+    return false;
+  }
+
+  function pageA() {
+    var d = docA();
+    if (!d) return 'App';
+    var sw = d.getElementById('acctSwitchSheet');
+    if (sw && sw.classList.contains('open')) return 'Account switch';
+    var filter = d.getElementById('acctSheet');
+    if (filter && filter.classList.contains('open')) return 'Total filter';
+    var md = d.getElementById('page-margin-detail');
+    if (md && md.classList.contains('active')) return 'Margin';
+    var bx = d.getElementById('page-bp-explain');
+    if (bx && bx.classList.contains('active')) return 'Buying power';
+    var pane = d.getElementById('pane-crypto');
+    if (pane && pane.style.display !== 'none') return 'Crypto';
+    return 'Overview';
+  }
+
+  function labelA(el) {
+    var b = el.closest('button, [role="button"], .ap-row, .cell, .item, .x-info-row') || el;
+    var txt = (b.innerText || b.getAttribute('aria-label') || '').trim().replace(/\s+/g, ' ');
+    if (txt) return txt.slice(0, 48);
+    return t('· nothing ·', '· 空白 ·');
+  }
+
+  function captureKey() {
+    if (OPT !== 'A') {
+      SY.key = { total: '128,450,220', account: '42,180,600', up: true };
+      return;
+    }
+    var d = docA();
+    var big = d && d.querySelector('#page-assets .total-card .big');
+    var pnl = d && d.querySelector('#page-assets .total-card .pnl-val');
+    var acct = d && d.querySelector('#page-assets .asset-left .val .num');
+    var pnlTxt = pnl ? pnl.textContent.trim() : '';
+    SY.key = {
+      total: big ? big.textContent.trim() : '',
+      account: acct ? acct.textContent.trim() : '',
+      up: /^\+/.test(pnlTxt) || pnlTxt.indexOf('(+') >= 0
+    };
+  }
+
+  function failLine(lang) {
+    var zh = (lang || LANG) === 'zh';
+    var k = SY.key || { total: '128,450,220', account: '42,180,600', up: true };
+    if (zh) {
+      return '对方记住的是账户资产 ' + k.account + '，而不是总资产 ' + k.total + '，或者说不出今天是' + (k.up ? '上涨' : '下跌') + '。';
+    }
+    return 'they recall ' + k.account + ' — the account figure — instead of the total ' + k.total + ', or cannot say that today is ' + (k.up ? 'up' : 'down') + '.';
+  }
+
+  function checkText(task) {
+    if (!task) return '';
+    if (OPT === 'A') return LANG === 'zh' ? task.checkAZh : task.checkAEn;
+    return LANG === 'zh' ? task.checkZh : task.checkEn;
+  }
+
+  function applyLang() {
+    var nodes = document.querySelectorAll('[data-en]');
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      el.textContent = el.getAttribute(LANG === 'zh' ? 'data-zh' : 'data-en');
+    }
+    veil.textContent = t('Screen covered', '界面已遮住');
+    paintAccount();
+    if (state.sub) openSub(state.sub);
+    if (state.sheet) openSheet(state.sheet);
+    if (frame.dataset.ready === '1') prepA();
+    syRender();
+  }
+
+  function paintAccount() {
+    var a = ACCOUNTS[state.account];
+    var tag = document.getElementById('acctTag');
+    tag.textContent = LANG === 'zh' ? a.tagZh : a.tagEn;
+    tag.removeAttribute('data-en');
+    document.getElementById('acctName').textContent = a.name;
+    document.getElementById('acctId').textContent = a.id;
+    document.getElementById('acctAssets').textContent = a.assets;
+    document.getElementById('acctPnl').textContent = a.pnl;
+  }
+
+  function setTab(tab) {
+    state.tab = tab;
+    state.page = tab === 'crypto' ? 'Crypto' : 'Overview';
+    document.getElementById('paneSec').hidden = tab !== 'sec';
+    document.getElementById('paneCrypto').hidden = tab !== 'crypto';
+    document.getElementById('tabSec').classList.toggle('on', tab === 'sec');
+    document.getElementById('tabCrypto').classList.toggle('on', tab === 'crypto');
+  }
+
+  function closeSheet() {
+    state.sheet = null;
+    document.getElementById('sheet').hidden = true;
+    if (!state.sub) state.page = state.tab === 'crypto' ? 'Crypto' : 'Overview';
+  }
+
+  function openSheet(which) {
+    state.sheet = which;
+    state.page = which === 'filter' ? 'Total filter' : 'Account switch';
+    var card = document.getElementById('sheetCard');
+    document.getElementById('sheet').hidden = false;
+    if (which === 'filter') {
+      card.innerHTML =
+        '<div class="grab"></div>' +
+        '<h2>' + t('Included in the total', '计入总资产的账户') + '</h2>' +
+        '<p class="lead">' + t('These add up to the number above. This does not change the account you are viewing.', '这些账户加总成上方的数字。这里不会切换你正在查看的账户。') + '</p>' +
+        filterRow('main', 'Trader Account', 'Main', '主') +
+        filterRow('secondary', 'Family office', 'Secondary', '次');
+    } else {
+      card.innerHTML =
+        '<div class="grab"></div>' +
+        '<h2>' + t('Switch account', '切换账户') + '</h2>' +
+        '<p class="lead">' + t('The account whose positions and buying power you are looking at.', '你正在查看持仓和购买力的那个账户。') + '</p>' +
+        switchRow('main') + switchRow('secondary');
+    }
+  }
+
+  function filterRow(key, name, en, zh) {
+    var on = state.filter[key] ? ' on' : '';
+    return '<button type="button" class="opt" data-filter="' + key + '" data-tap="' + name + '">' +
+      '<span class="box' + on + '"></span><span class="nm">' + name +
+      '<span class="subl">' + t(en, zh) + '</span></span></button>';
+  }
+
+  function switchRow(key) {
+    var a = ACCOUNTS[key];
+    var on = state.account === key ? ' on' : '';
+    return '<button type="button" class="opt" data-account="' + key + '" data-tap="' + a.name + '">' +
+      '<span class="radio' + on + '"></span><span class="nm">' + a.name +
+      '<span class="subl">' + a.id + ' · ' + (LANG === 'zh' ? a.tagZh : a.tagEn) + '</span></span></button>';
+  }
+
+  function closeSub() {
+    state.sub = null;
+    var sub = document.getElementById('sub');
+    sub.classList.remove('open');
+    state.page = state.tab === 'crypto' ? 'Crypto' : 'Overview';
+    setTimeout(function () { if (!state.sub) sub.hidden = true; }, 280);
+  }
+
+  function openSub(kind) {
+    state.sub = kind;
+    var sub = document.getElementById('sub');
+    var title = document.getElementById('subTitle');
+    var body = document.getElementById('subBody');
+    sub.hidden = false;
+    if (kind === 'debt') {
+      state.page = 'Borrowed';
+      title.textContent = t('Borrowed crypto', '借币');
+      body.innerHTML =
+        '<div class="hero-num down">−31,900<small>USD</small></div>' +
+        '<p class="lead" style="color:#767880;font-size:13px;line-height:18px;margin-bottom:8px">' +
+          t('This is what the account currently owes on borrowed crypto.', '这是该账户目前在借币上还欠的金额。') + '</p>' +
+        '<div class="kv"><span>USDT</span><b>−18,400.00</b></div>' +
+        '<div class="kv"><span>USDC</span><b>−13,500.00</b></div>';
+    } else if (kind === 'bp-us') {
+      state.page = 'US buying power';
+      title.textContent = t('US stocks · Buying power', '美股 · 购买力');
+      body.innerHTML =
+        '<div class="hero-num">84,200<small>USD</small></div>' +
+        '<p class="lead" style="color:#767880;font-size:13px;line-height:18px;margin-bottom:8px">' +
+          t('Remaining spending power for US stocks in this account.', '该账户美股剩余可花的购买力。') + '</p>' +
+        '<div class="kv"><span>' + t('Excess liquidity', '剩余流动性') + '</span><b>162,957.50</b></div>' +
+        '<div class="kv"><span>' + t('Est. cash', '预估现金') + '</span><b>135,105.97</b></div>';
+    } else {
+      state.page = 'HK buying power';
+      title.textContent = t('HK stocks · Buying power', '港股 · 购买力');
+      body.innerHTML =
+        '<div class="hero-num">26,400<small>USD</small></div>' +
+        '<p class="lead" style="color:#767880;font-size:13px;line-height:18px">' +
+          t('This is Hong Kong, not US stocks.', '这是港股，不是美股。') + '</p>';
+    }
+    /* Same frame as leaving display:none, so the detail is on screen immediately. */
+    sub.classList.add('open');
+  }
+
+  function resetPhone() {
+    state.tab = 'sec';
+    state.account = 'main';
+    state.sub = null;
+    state.sheet = null;
+    state.page = 'Overview';
+    state.filter = { main: true, secondary: true };
+    document.getElementById('sheet').hidden = true;
+    var sub = document.getElementById('sub');
+    sub.hidden = true;
+    sub.classList.remove('open');
+    setTab('sec');
+    paintAccount();
+    scroll.scrollTop = 0;
+  }
+
+  function cover(on) {
+    veil.hidden = !on;
+    phone.classList.toggle('is-locked', on || SY.phase === 'showing');
+    /* While the veil is up, the numbers underneath must not be readable. */
+    scroll.toggleAttribute('inert', on);
+  }
+
+  /* ---------- study harness ---------- */
+
+  function syClearTimer() {
+    if (SY.timer) { clearInterval(SY.timer); clearTimeout(SY.timer); SY.timer = null; }
+  }
+
+  function syRender() {
+    if (SY.phase === 'intro') {
+      panel.innerHTML =
+        '<div class="sy-step">' + t('Future UX validation', '未来体验验证') + '</div>' +
+        '<div class="sy-task">' + t('Same two tests, on either screen. A is the shipped prototype. B is a reduced screen with the same jobs.', '同一套测试，两块屏幕。A 是交付的原型。B 是收过的测试屏，任务相同。') + '</div>' +
+        '<div class="sy-hint">' + t('The screen stays covered until a test starts, so the five-second glance is not spoiled by reading this panel.', '测试开始前界面保持遮住，避免先读到面板而破坏五秒测试。') + '</div>' +
+        optButtons() +
+        '<div class="sy-actions">' +
+          '<button class="sy-btn" id="syGo5">'+ t('Run the 5-second test', '跑五秒测试') + '</button>' +
+          '<button class="sy-btn ghost" id="syGoTasks">' + t('Run the timed tasks', '跑限时任务') + '</button>' +
+        '</div>';
+      return;
+    }
+
+    if (SY.phase === 'done') {
+      var rows = SY.results.map(function (r, i) {
+        if (SY.mode === '5s') {
+          return '<div class="sy-card"><div class="sy-cardhd"><span class="sy-n">' + (i + 1) + '</span><span class="sy-id">' + t('Recall', '回忆') + '</span></div>' +
+            (r.note ? '<div class="sy-quote">' + esc(r.note) + '</div>' : '<div class="sy-meta">' + t('No note recorded.', '没有记下原话。') + '</div>') +
+            '<div class="sy-watch"><b>' + t('Fails if', '不通过如果') + '</b> ' + failLine() + '</div></div>';
+        }
+        var cls = r.how === 'gave' ? 'bad' : (r.how === 'auto' || r.verified) ? 'ok' : 'bad';
+        var verdict = r.how === 'gave' ? t('Gave up', '放弃了')
+          : r.how === 'auto' ? t('Found it', '找到了')
+          : (r.verified ? t('Found it (said so)', '找到了（自己说的）') : t('Said done — wasn’t there', '说完成了，但还没到'));
+        var route = r.taps.length
+          ? '<div class="sy-route">' + r.taps.map(function (x) {
+              return '<span class="sy-hop"><i>' + esc(x.page) + '</i>' + esc(x.label) + '</span>';
+            }).join('<u>→</u>') + '</div>'
+          : '<div class="sy-meta">' + t('No taps', '没有点击') + '</div>';
+        var task = TASKS.filter(function (t) { return t.id === r.id; })[0];
+        return '<div class="sy-card"><div class="sy-cardhd"><span class="sy-n">' + (i + 1) + '</span><span class="sy-id">' + esc(r.id) + '</span><span class="sy-verdict ' + cls + '">' + verdict + '</span></div>' +
+          '<div class="sy-meta">' + (r.ms / 1000).toFixed(1) + 's · ' + r.taps.length + ' ' + (r.taps.length === 1 ? t('tap', '次点击') : t('taps', '次点击')) + '</div>' +
+          route +
+          (task ? '<div class="sy-watch"><b>' + t('Checks', '在查') + '</b> ' + checkText(task) + '</div>' : '') +
+          '</div>';
+      }).join('');
+      var other = SY.mode === '5s'
+        ? '<button class="sy-btn" id="syGoTasks">' + t('Run the timed tasks', '接着跑限时任务') + '</button>'
+        : '<button class="sy-btn" id="syGo5">' + t('Run the 5-second test', '接着跑五秒测试') + '</button>';
+      panel.innerHTML =
+        '<div class="sy-step">' + t('Session', '本次') + ' · ' + optTag() + '</div>' +
+        '<div class="sy-task">' + t('What the harness kept.', '工具记下的结果。') + '</div>' +
+        '<div class="sy-cards">' + rows + '</div>' +
+        '<div class="sy-actions">' + other +
+          '<button class="sy-btn ghost" id="syCopy">' + t('Copy results', '复制结果') + '</button>' +
+          '<button class="sy-btn ghost" id="syRestart">' + t('Back', '返回') + '</button>' +
+        '</div>';
+      return;
+    }
+
+    if (SY.mode === '5s') {
+      var showing = SY.phase === 'showing';
+      panel.innerHTML =
+        '<div class="sy-step">' + t('5-second test', '五秒测试') + ' · ' + optTag() + (showing ? ' · <span id="syCount">5</span>s' : '') + '</div>' +
+        '<div class="sy-task">' + (showing
+          ? t('Look at the screen.', '看屏幕。')
+          : t('What is the total asset balance, and is the portfolio up or down today?', '总资产是多少？今天 portfolio 是涨还是跌？')) + '</div>' +
+        (showing
+          ? '<div class="sy-bar"><i id="syBar"></i></div><div class="sy-hint">' + t('Five seconds, then the screen is covered. Exact cents are not the point — the total, and the direction.', '五秒后界面会被盖住。精确到分不是重点 —— 要的是总数，以及涨跌方向。') + '</div>'
+          : '<div class="sy-hint">' + t('Ask it once. Write down their words, not a cleaned-up version.', '只问一次。记下原话，不要整理成更顺的句子。') + '</div>' +
+            '<textarea class="sy-note" id="syNote" placeholder="' + t('What they said, in their words…', '对方的原话…') + '"></textarea>' +
+            '<div class="sy-actions"><button class="sy-btn" id="syNext">' + t('Record answer', '记下回答') + '</button></div>');
+      if (showing) {
+        var bar = document.getElementById('syBar');
+        if (bar) {
+          bar.style.transition = 'transform 5s linear';
+          requestAnimationFrame(function () { bar.style.transform = 'scaleX(0)'; });
+        }
+      }
+      return;
+    }
+
+    var cur = TASKS[SY.idx];
+    panel.innerHTML =
+      '<div class="sy-step">' + t('Task', '任务') + ' ' + (SY.idx + 1) + ' / ' + TASKS.length + ' · ' + optTag() + '</div>' +
+      '<div class="sy-task">' + (LANG === 'zh' ? cur.zh : cur.en) + '</div>' +
+      '<div class="sy-hint">' + t('Tap the phone. Time is recorded. You will not see a clock.', '在手机上操作。耗时会被记录。你看不到计时。') + '</div>' +
+      '<div class="sy-actions">' +
+        (SY.taps.length ? '<button class="sy-btn" id="syFound">' + t('I’m done', '我完成了') + '</button>' : '') +
+        '<button class="sy-btn ghost" id="sySkip">' + t('I can’t find it', '我找不到') + '</button>' +
+      '</div>';
+  }
+
+  function syReport() {
+    var lines = ['Asset study — ' + (OPT === 'A' ? 'option A prototype' : 'option B study screen') + ' — ' + (SY.mode === '5s' ? '5-second' : 'findability'), ''];
+    SY.results.forEach(function (r, i) {
+      if (SY.mode === '5s') {
+        lines.push((i + 1) + '. recall');
+        lines.push('   ' + (r.note || '(no note)'));
+        lines.push('   Fails if: ' + failLine('en'));
+      } else {
+        var verdict = r.how === 'gave' ? 'GAVE UP' : r.how === 'auto' ? 'found' : (r.verified ? 'found (said so)' : 'SAID DONE — not there');
+        lines.push((i + 1) + '. ' + r.id + '  ' + verdict);
+        lines.push('   ' + (r.ms / 1000).toFixed(1) + 's · ' + r.taps.length + ' taps');
+        lines.push('   ' + (r.taps.map(function (x) { return x.page + '/' + x.label; }).join(' → ') || 'no taps'));
+      }
+      lines.push('');
+    });
+    return lines.join('\n');
+  }
+
+  function arm(fn) {
+    if (OPT !== 'A') { fn(); return; }
+    if (frame.dataset.ready === '1' && docA() && docA().getElementById('page-assets')) { fn(); return; }
+    SY.pending = fn;
+    warmA();
+    panel.innerHTML =
+      '<div class="sy-step">' + t('Loading', '加载') + ' · ' + optTag() + '</div>' +
+      '<div class="sy-task">' + t('Opening the shipped prototype.', '正在打开交付的原型。') + '</div>';
+  }
+
+  function syStart(mode) {
+    syClearTimer();
+    SY.mode = mode;
+    SY.results = [];
+    SY.idx = -1;
+    arm(function () {
+      if (mode === '5s') syStart5();
+      else syStartTask(0);
+    });
+  }
+
+  function syStart5() {
+    SY.phase = 'showing';
+    if (OPT === 'A') resetA(); else resetPhone();
+    captureKey();
+    cover(false);
+    SY.t0 = Date.now();
+    syRender();
+    var left = 5;
+    SY.timer = setInterval(function () {
+      left -= 1;
+      var el = document.getElementById('syCount');
+      if (el) el.textContent = String(Math.max(left, 0));
+      if (left <= 0) {
+        syClearTimer();
+        cover(true);
+        SY.phase = 'asking';
+        syRender();
+      }
+    }, 1000);
+  }
+
+  function syStartTask(i) {
+    if (i >= TASKS.length) { SY.phase = 'done'; cover(true); syRender(); return; }
+    SY.locking = false;
+    SY.phase = 'reset';
+    if (OPT === 'A') resetA(); else resetPhone();
+    cover(false);
+    SY.idx = i;
+    SY.taps = [];
+    SY.t0 = Date.now();
+    SY.phase = 'task';
+    syRender();
+  }
+
+  function syFinish(how) {
+    syClearTimer();
+    if (SY.mode === '5s') {
+      var noteEl = document.getElementById('syNote');
+      SY.results.push({ id: 'recall', how: 'said', note: noteEl ? noteEl.value.trim() : '', ms: 5000, taps: [] });
+      SY.phase = 'done';
+      cover(true);
+      syRender();
+      return;
+    }
+    var task = TASKS[SY.idx];
+    SY.results.push({
+      id: task.id,
+      how: how,
+      verified: how === 'gave' ? false : !!taskDone(task),
+      ms: Date.now() - SY.t0,
+      taps: SY.taps.slice()
+    });
+    syStartTask(SY.idx + 1);
+  }
+
+  function syLabel(el) {
+    var b = el.closest('[data-tap], button, [role="button"]');
+    if (!b) return t('· nothing ·', '· 空白 ·');
+    if (LANG === 'en' && b.getAttribute('data-tap')) return b.getAttribute('data-tap');
+    var txt = (b.innerText || '').trim().replace(/\s+/g, ' ');
+    if (txt) return txt.slice(0, 42);
+    return b.getAttribute('data-tap') || b.tagName.toLowerCase();
+  }
+
+  function noteTap(page, label) {
+    if (SY.phase !== 'task' || SY.resetting) return;
+    SY.taps.push({ page: page, label: label, ms: Date.now() - SY.t0 });
+    setTimeout(function () {
+      if (SY.phase !== 'task') return;
+      syRender();
+      var task = TASKS[SY.idx];
+      if (task && taskDone(task) && !SY.locking) {
+        SY.locking = true;
+        setTimeout(function () {
+          SY.locking = false;
+          if (SY.phase === 'task') syFinish('auto');
+        }, 700);
+      }
+    }, 40);
+  }
+
+  function onAClick(e) {
+    if (OPT !== 'A' || SY.resetting || SY.phase !== 'task') return;
+    noteTap(pageA(), labelA(e.target));
+  }
+
+  function onAScroll() {
+    if (SY.phase !== 'task' || OPT !== 'A' || SY.resetting || SY.locking) return;
+    var task = TASKS[SY.idx];
+    if (!task || task.id !== 'borrow' || !taskDone(task)) return;
+    if (!SY.taps.length) SY.taps.push({ page: 'Crypto', label: t('Scrolled', '滚动'), ms: Date.now() - SY.t0 });
+    SY.locking = true;
+    setTimeout(function () {
+      SY.locking = false;
+      if (SY.phase === 'task') syFinish('auto');
+    }, 700);
+  }
+
+  panel.addEventListener('click', function (e) {
+    var optBtn = e.target.closest('[data-opt]');
+    if (optBtn && (SY.phase === 'intro' || SY.phase === 'done')) {
+      OPT = optBtn.getAttribute('data-opt') === 'B' ? 'B' : 'A';
+      showOpt();
+      syClearTimer();
+      SY.phase = 'intro';
+      SY.mode = null;
+      cover(true);
+      syRender();
+      return;
+    }
+    if (e.target.closest('#syGo5')) { syStart('5s'); return; }
+    if (e.target.closest('#syGoTasks')) { syStart('1'); return; }
+    if (e.target.closest('#syNext')) { syFinish('said'); return; }
+    if (e.target.closest('#syFound')) { syFinish('said'); return; }
+    if (e.target.closest('#sySkip')) { syFinish('gave'); return; }
+    if (e.target.closest('#syRestart')) {
+      syClearTimer();
+      SY.phase = 'intro';
+      SY.mode = null;
+      resetPhone();
+      cover(true);
+      syRender();
+      return;
+    }
+    if (e.target.closest('#syCopy')) {
+      var ta = document.createElement('textarea');
+      ta.value = syReport();
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      ta.remove();
+      e.target.textContent = t('Copied', '已复制');
+    }
+  });
+
+  phone.addEventListener('click', function (e) {
+    if (OPT === 'A') return;
+    var pageAtTap = state.page;
+    var label = syLabel(e.target);
+    var filter = e.target.closest('[data-filter]');
+    if (filter) {
+      var k = filter.getAttribute('data-filter');
+      state.filter[k] = !state.filter[k];
+      openSheet('filter');
+    }
+    var acct = e.target.closest('[data-account]');
+    if (acct) {
+      state.account = acct.getAttribute('data-account');
+      paintAccount();
+      closeSheet();
+    }
+    if (e.target.closest('#btnFilter')) openSheet('filter');
+    if (e.target.closest('#btnAcct')) openSheet('switch');
+    if (e.target.closest('#sheet') && e.target.id === 'sheet') closeSheet();
+    if (e.target.closest('#tabSec')) { setTab('sec'); scroll.scrollTop = 0; }
+    if (e.target.closest('#tabCrypto')) { setTab('crypto'); scroll.scrollTop = 0; }
+    if (e.target.closest('#btnDebt')) openSub('debt');
+    if (e.target.closest('#btnBp')) openSub('bp-us');
+    if (e.target.closest('#btnBpHk')) openSub('bp-hk');
+    if (e.target.closest('#btnLiq') || e.target.closest('#btnCash')) { /* distractors: a tap, not a destination */ }
+    if (e.target.closest('#subBack')) closeSub();
+
+    if (SY.phase !== 'task') return;
+    noteTap(pageAtTap, label);
+  });
+
+  function parentLang() {
+    try {
+      var lang = window.parent && window.parent.document.documentElement.getAttribute('data-lang');
+      return lang === 'zh' ? 'zh' : 'en';
+    } catch (e) { return 'en'; }
+  }
+
+  function fit() {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var stacked = w < 360;
+    var compact = !stacked && w < 640;
+    var pw = Math.round(Math.max(180, Math.min(220, w * 0.44)));
+    document.body.classList.toggle('stacked', stacked);
+    document.body.classList.toggle('compact', compact);
+    document.documentElement.style.setProperty('--pw', pw + 'px');
+    var availW = stacked ? w - 24 : compact ? w - pw - 12 - 24 : w - 320 - 22 - 36;
+    var availH = stacked ? h * 0.56 : compact ? h - 24 : h - 32;
+    var zoom = Math.min(availW / 395, availH / 780, 1);
+    document.documentElement.style.setProperty('--fit', String(Math.max(0.42, zoom)));
+  }
+
+  LANG = parentLang();
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.document.addEventListener('case:lang', function (ev) {
+        LANG = ev.detail && ev.detail.lang === 'zh' ? 'zh' : 'en';
+        applyLang();
+      });
+    }
+  } catch (e) {}
+
+  resetPhone();
+  showOpt();
+  cover(true);
+  applyLang();
+  fit();
+  window.addEventListener('resize', fit);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assets Dashboard</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+  :root {
+    --primary: #3474ff;
+    --primary-soft: #e8efff;
+    --canvas: #ffffff;
+    --surface: #f4f5f8;
+    --surface-soft: #f7f7f8;
+    --surface-strong: #eef0f3;
+    --hairline: #dee1e6;
+    --hairline-soft: #eef0f3;
+    --ink: #0a0b0d;
+    --body: #5b616e;
+    --muted: #7c828a;
+    --up: #05b169;
+    --down: #cf202f;
+    --warn: #f4b000;
+    --radius-card: 16px;
+    --radius-sm: 10px;
+    /* Single horizontal gutter — every card, row and edge aligns to it */
+    --gutter: 16px;
+    --shadow-card: 0 1px 2px rgba(10,11,13,0.04), 0 6px 16px rgba(10,11,13,0.05);
+    --focus-ring: 0 0 0 3px rgba(52,116,255,0.28);
+  }
+
+  body {
+    font-family: -apple-system, 'Inter', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #ffffff;
+    margin: 0;
+    color: var(--body);
+  }
+
+  /* Financial figures stay column-aligned while values change */
+  .val-field, .hero-num, .section-total, .sub-val, .bk-val,
+  .finance-val, .sec-mini-val, .sec-mini-pct, .agg-sum-val, .sheet-opt-bal {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  button { font-family: inherit; }
+  button:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 8px; }
+
+  /* ── Phone Shell ── */
+  .phone {
+    width: 100%;
+    height: 100vh;
+    max-width: none;
+    background: var(--canvas);
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Status bar */
+  .statusbar {
+    flex-shrink: 0;
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 var(--gutter) 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  .statusbar-right { display: flex; align-items: center; gap: 6px; }
+  .sb-icon { width: 18px; height: 10px; display: flex; align-items: center; }
+  .notch {
+    display: none;
+    position: absolute;
+    top: 12px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 34px;
+    background: #0a0b0d;
+    border-radius: 20px;
+  }
+
+  /* App area */
+  .app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ── Header ──
+     Two tiers so identity and controls never compete for the same row. */
+  .header {
+    flex-shrink: 0;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--hairline-soft);
+    padding: 6px var(--gutter) 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .header-row { display: flex; align-items: center; gap: 10px; }
+  .acct-btn {
+    flex: 1; display: flex; align-items: center; gap: 8px;
+    min-width: 0; background: none; border: none; cursor: pointer; text-align: left;
+    padding: 4px; margin: -4px; border-radius: var(--radius-sm);
+    transition: background 0.15s;
+  }
+  .acct-btn:active { background: var(--surface-soft); }
+  .acct-text { display: flex; flex-direction: column; min-width: 0; }
+  .acct-name { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .acct-num { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .tag {
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+    white-space: nowrap; flex-shrink: 0; line-height: 1.3;
+  }
+  .tag-primary { color: var(--primary); background: var(--primary-soft); }
+  .tag-green { color: #05b169; background: #e6f9f0; }
+  .tag-orange { color: #ff9233; background: #fff3e8; }
+  svg.chev { flex-shrink: 0; color: var(--muted); }
+
+  .header-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+  .multi-btn {
+    font-size: 12px; font-weight: 700;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1.5px solid var(--hairline);
+    color: var(--body); background: none; cursor: pointer; white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .multi-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .cur-toggle { display: flex; background: var(--surface-soft); border-radius: 9px; padding: 3px; gap: 2px; flex-shrink: 0; }
+  .cur-btn {
+    font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 7px;
+    color: var(--muted); background: none; border: none; cursor: pointer; transition: all 0.15s;
+  }
+  .cur-btn.active { background: var(--canvas); color: var(--ink); box-shadow: 0 1px 3px rgba(10,11,13,0.12); }
+
+  .eye-btn {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    padding: 8px; margin: -8px -4px -8px 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .eye-btn:active { background: var(--surface-soft); color: var(--ink); }
+
+  /* ── Scroll area ── */
+  .scroll {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    background: var(--surface); scrollbar-width: none;
+  }
+  .scroll::-webkit-scrollbar { display: none; }
+
+  /* ── Multi-account banner ── */
+  .agg-banner {
+    background: var(--canvas); padding: 14px var(--gutter);
+    border-bottom: 1px solid var(--hairline-soft);
+    display: none;
+  }
+  .agg-banner.show { display: block; }
+  .agg-banner-title { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .agg-chips { display: flex; flex-direction: column; gap: 7px; }
+  .agg-chip {
+    display: flex; align-items: center; gap: 10px; padding: 11px 12px;
+    border-radius: var(--radius-sm); background: var(--surface-soft);
+    border: 1.5px solid transparent; cursor: pointer; transition: all 0.15s;
+  }
+  .agg-chip.sel { border-color: var(--primary); background: var(--primary-soft); }
+  .chip-check {
+    width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--hairline);
+    background: var(--canvas); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .chip-check.checked { background: var(--primary); border-color: var(--primary); }
+  .chip-name { font-size: 12px; font-weight: 600; color: var(--ink); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chip-tag { font-size: 10px; font-weight: 700; flex-shrink: 0; }
+
+  /* ── Card base ── */
+  .card {
+    background: var(--canvas); border-radius: var(--radius-card);
+    margin: 12px var(--gutter) 0; padding: 16px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ── Hero card ── */
+  .hero { display: flex; align-items: flex-start; gap: 14px; }
+  .hero-left { flex: 1; min-width: 0; }
+  .hero-label-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .hero-label { font-size: 13px; font-weight: 600; color: var(--body); }
+  .hero-formula {
+    font-size: 10px; color: var(--muted); background: var(--surface-soft);
+    padding: 3px 8px; border-radius: 20px; white-space: nowrap; line-height: 1.4;
+  }
+  .hero-num {
+    display: flex; align-items: baseline; gap: 6px;
+    font-size: 26px; font-weight: 800; letter-spacing: -0.8px; color: var(--ink); line-height: 1.15;
+    flex-wrap: nowrap; min-width: 0;
+  }
+  .hero-num .val-field { overflow: hidden; text-overflow: ellipsis; }
+  .hero-cur { font-size: 13px; font-weight: 600; color: var(--muted); flex-shrink: 0; }
+  .hero-pnl { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .hero-pnl-label { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .hero-pnl .val-field { font-size: 13px; font-weight: 700; }
+  .spark-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+  .spark-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+  /* agg summary 3-col */
+  .agg-sum {
+    display: flex; margin-top: 14px;
+    background: var(--surface-soft); border-radius: var(--radius-sm); padding: 12px 0;
+  }
+  .agg-sum-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 6px; text-align: center; }
+  .agg-sum-sep { width: 1px; background: var(--hairline); margin: 4px 0; opacity: 0.7; }
+  .agg-sum-label { font-size: 10px; color: var(--muted); line-height: 1.3; white-space: nowrap; }
+  .agg-sum-val { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .agg-sum-val.red { color: var(--down); }
+  .agg-sum-val.blue { color: var(--primary); }
+
+  /* ── Breakdown strip ── */
+  .breakdown { padding: 14px 16px; background: var(--canvas); border-radius: var(--radius-card); margin: 12px var(--gutter) 0; box-shadow: var(--shadow-card); }
+  .bk-title { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  .bk-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 12px; }
+  .bk-row { display: flex; align-items: center; gap: 8px; }
+  .bk-dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+  .bk-name { font-size: 12px; color: var(--body); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bk-val { font-size: 12px; font-weight: 700; color: var(--ink); flex-shrink: 0; }
+  .bk-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; gap: 2px; }
+  .bk-seg { height: 100%; border-radius: 1px; }
+
+  /* ── Quick actions ── */
+  .actions { display: flex; background: var(--canvas); border-radius: var(--radius-card); margin: 12px var(--gutter) 0; padding: 14px 4px; box-shadow: var(--shadow-card); }
+  .act-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 7px; background: none; border: none; cursor: pointer; padding: 0; }
+  .act-icon {
+    width: 40px; height: 40px; border-radius: 12px; background: var(--surface-soft);
+    display: flex; align-items: center; justify-content: center; color: var(--ink);
+    transition: background 0.15s;
+  }
+  .act-btn:active .act-icon { background: var(--surface-strong); }
+  .act-label { font-size: 11px; color: var(--body); font-weight: 600; }
+
+  /* ── Section card ── */
+  .section { background: var(--canvas); border-radius: var(--radius-card); margin: 12px var(--gutter) 0; box-shadow: var(--shadow-card); overflow: hidden; }
+  .section-head {
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    cursor: pointer; width: 100%; background: none; border: none; text-align: left;
+    transition: background 0.15s;
+  }
+  .section-head:active { background: var(--surface-soft); }
+  .section-head-left { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; }
+  .section-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .section-head-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .section-total { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .section-hint { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .chev-anim { transition: transform 0.2s ease; display: flex; align-items: center; }
+  .chev-anim.open { transform: rotate(180deg); }
+
+  .section-body { padding: 0 16px 16px; }
+
+  /* sub-rows */
+  .sub-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--hairline-soft); }
+  .sub-row:last-of-type { border-bottom: none; }
+  .sub-left { display: flex; align-items: center; gap: 11px; flex: 1; min-width: 0; }
+  .sub-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .sub-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+  .sub-name { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sub-desc { font-size: 11px; color: var(--muted); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sub-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
+  .sub-val { font-size: 14px; font-weight: 700; color: var(--ink); white-space: nowrap; letter-spacing: -0.2px; }
+  .sub-cur { font-size: 10px; color: var(--muted); }
+  .sub-yield { font-size: 11px; font-weight: 700; color: var(--up); white-space: nowrap; }
+
+  /* Safety bar */
+  .safety { margin-top: 12px; padding: 10px 0 2px; border-top: 1px solid var(--hairline-soft); }
+  .safety-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+  .safety-label { font-size: 11px; color: var(--muted); }
+  .safety-status { font-size: 11px; font-weight: 700; }
+  .safety-track { height: 6px; background: var(--surface-strong); border-radius: 3px; overflow: hidden; }
+  .safety-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+  /* Securities mini list */
+  .sec-mini { display: flex; flex-direction: column; margin-top: 4px; }
+  .sec-mini-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--hairline-soft); cursor: pointer; }
+  .sec-mini-row:last-of-type { border-bottom: none; }
+  .ticker-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
+  .sec-mini-name { flex: 1; font-size: 12px; color: var(--body); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sec-mini-val { font-size: 12px; font-weight: 700; color: var(--ink); flex-shrink: 0; }
+  .sec-mini-pct { font-size: 11px; font-weight: 700; width: 54px; text-align: right; flex-shrink: 0; }
+  .view-all {
+    display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--primary);
+    font-weight: 700; padding: 12px 0 2px; background: none; border: none; cursor: pointer;
+  }
+
+  /* Finance grid */
+  .finance-grid { display: flex; border: 1px solid var(--hairline-soft); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 12px; }
+  .finance-cell { flex: 1; min-width: 0; padding: 13px 12px; display: flex; flex-direction: column; gap: 4px; }
+  .finance-cell + .finance-cell { border-left: 1px solid var(--hairline-soft); }
+  .finance-label { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .finance-val { font-size: 15px; font-weight: 800; letter-spacing: -0.4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .finance-val.blue { color: var(--primary); }
+  .finance-val.red { color: var(--down); }
+  .finance-desc { font-size: 10px; color: var(--muted); line-height: 1.35; }
+
+  /* Repay */
+  .repay {
+    display: flex; align-items: center; gap: 12px; padding: 12px;
+    border: 1px solid #fde68a; border-radius: var(--radius-sm); margin-bottom: 10px;
+    background: #fffbf5;
+  }
+  .repay-left { flex: 1; min-width: 0; }
+  .repay-title { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .repay-title.warn { color: var(--warn); }
+  .repay-meta { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .repay-btn {
+    font-size: 12px; font-weight: 700; padding: 8px 15px; border-radius: 20px;
+    background: var(--primary); color: #fff; border: none; cursor: pointer; white-space: nowrap;
+    flex-shrink: 0; transition: opacity 0.15s;
+  }
+  .repay-btn:active { opacity: 0.8; }
+
+  /* Finance hint */
+  .finance-hint { display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: var(--muted); line-height: 1.5; padding: 2px 0; }
+
+  /* ── Bottom nav ── */
+  .bnav {
+    position: relative; flex-shrink: 0; height: 76px;
+    background: var(--canvas); border-top: 1px solid var(--hairline-soft);
+    display: flex; justify-content: space-around; align-items: flex-start;
+    padding: 9px 4px 0;
+  }
+  /* Home indicator — keeps labels clear of the screen edge */
+  .bnav::after {
+    content: ""; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 130px; height: 5px; border-radius: 3px; background: var(--ink); opacity: 0.85;
+  }
+  .bnav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    background: none; border: none; cursor: pointer; padding: 0;
+    color: var(--muted); font-size: 10px; font-weight: 600; line-height: 1.2;
+  }
+  .bnav-item span { white-space: nowrap; }
+  .bnav-item.active { color: var(--primary); }
+  .bnav-item svg { opacity: 0.6; }
+  .bnav-item.active svg { opacity: 1; }
+
+  /* ── Account sheet ── */
+  .sheet-overlay {
+    position: absolute; inset: 0; background: rgba(10,11,13,0.45); z-index: 100;
+    display: none; align-items: flex-end; overflow: hidden;
+    animation: fadeIn 0.2s ease;
+  }
+  .sheet-overlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .sheet {
+    width: 100%; background: var(--canvas);
+    border-radius: 22px 22px 0 0;
+    padding: 0 0 28px;
+    animation: slideUp 0.28s cubic-bezier(0.32,0.72,0,1);
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--hairline); margin: 10px auto 14px; }
+  .sheet-title { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; padding: 0 var(--gutter) 10px; }
+  .sheet-option {
+    display: flex; align-items: center; gap: 12px; padding: 14px var(--gutter);
+    background: none; border: none; cursor: pointer; width: 100%; text-align: left;
+    border-bottom: 1px solid var(--hairline-soft); transition: background 0.1s;
+  }
+  .sheet-option:active { background: var(--surface-soft); }
+  .sheet-option:last-of-type { border-bottom: none; }
+  .sheet-opt-info { flex: 1; min-width: 0; }
+  .sheet-opt-name { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sheet-opt-sub { font-size: 11px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 7px; }
+  .sheet-opt-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+  .sheet-opt-bal { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .sheet-opt-pnl { font-size: 11px; font-weight: 700; white-space: nowrap; }
+  /* Reserved on every row so balances stay column-aligned */
+  .sheet-opt-check { width: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+  /* Typography helpers */
+  .up { color: var(--up); }
+  .down { color: var(--down); }
+  .muted { color: var(--muted); }
+
+  /* Sparkline canvas */
+  canvas.spark { display: block; }
+
+  /* Blurred sensitive data */
+  .hidden-val { filter: blur(6px); user-select: none; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Notch -->
+  <div class="notch"></div>
+
+  <!-- Status Bar -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <div class="statusbar-right">
+      <!-- Signal bars -->
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+        <rect x="0" y="8" width="3" height="4" rx="0.5" opacity="0.4"/>
+        <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5" opacity="0.6"/>
+        <rect x="9" y="2.5" width="3" height="9.5" rx="0.5" opacity="0.8"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+      </svg>
+      <!-- WiFi -->
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+        <path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/>
+        <path d="M8 6a5 5 0 00-3.54 1.46l1.42 1.42A3 3 0 018 8a3 3 0 012.12.88l1.42-1.42A5 5 0 008 6z" opacity="0.7"/>
+        <path d="M8 2.5a8.5 8.5 0 00-6.01 2.49l1.42 1.42A6.5 6.5 0 018 4.5a6.5 6.5 0 014.59 1.91l1.42-1.42A8.5 8.5 0 008 2.5z" opacity="0.4"/>
+      </svg>
+      <!-- Battery -->
+      <svg width="25" height="12" viewBox="0 0 25 12">
+        <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="currentColor" stroke-opacity="0.35" fill="none"/>
+        <rect x="22.5" y="3.5" width="2" height="5" rx="1" fill="currentColor" fill-opacity="0.4"/>
+        <rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+    <!-- ═══ HEADER ═══ -->
+    <div class="header">
+      <div class="header-row">
+        <button class="acct-btn" onclick="openSheet()" aria-label="Switch account">
+          <div class="acct-text">
+            <span class="acct-name" id="hdr-name">Alen Wang · Personal</span>
+            <span class="acct-num" id="hdr-num">·· 1135</span>
+          </div>
+          <span class="tag tag-primary" id="hdr-tag">Main</span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <button class="eye-btn" onclick="toggleHide(this)" aria-label="Hide balances">
+          <svg id="eyeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="header-controls">
+        <button class="multi-btn" id="multiBtn" onclick="toggleMulti()">Combine accounts</button>
+        <div class="cur-toggle">
+          <button class="cur-btn active" onclick="setCur(this,'USD')">USD</button>
+          <button class="cur-btn" onclick="setCur(this,'HKD')">HKD</button>
+          <button class="cur-btn" onclick="setCur(this,'CNY')">CNY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCROLL ═══ -->
+    <div class="scroll" id="mainScroll">
+
+      <!-- Multi-account banner -->
+      <div class="agg-banner" id="aggBanner">
+        <div class="agg-banner-title">Select accounts to combine</div>
+        <div class="agg-chips" id="aggChips"></div>
+      </div>
+
+      <!-- Hero card -->
+      <div class="card" style="padding:18px 16px 16px;">
+        <div class="hero">
+          <div class="hero-left">
+            <div class="hero-label-row">
+              <span class="hero-label" id="heroLabel">My net worth</span>
+              <span class="hero-formula">= Total assets − Borrowed</span>
+            </div>
+            <div class="hero-num">
+              <span class="val-field" id="heroNum">387,100,200.52</span>
+              <span class="hero-cur" id="heroCur">USD</span>
+            </div>
+            <div class="hero-pnl" id="heroPnlRow">
+              <span class="hero-pnl-label">Today's P&L</span>
+              <span class="up val-field">+1,200,320.88 (+0.31%)</span>
+            </div>
+            <!-- Aggregation summary (hidden by default) -->
+            <div class="agg-sum" id="aggSum" style="display:none;">
+              <div class="agg-sum-cell">
+                <span class="agg-sum-label">Total assets</span>
+                <span class="agg-sum-val val-field" id="sumTotal">—</span>
+              </div>
+              <div class="agg-sum-sep"></div>
+              <div class="agg-sum-cell">
+                <span class="agg-sum-label">Total borrowed</span>
+                <span class="agg-sum-val red val-field" id="sumBorrow">—</span>
+              </div>
+              <div class="agg-sum-sep"></div>
+              <div class="agg-sum-cell">
+                <span class="agg-sum-label">Buying power</span>
+                <span class="agg-sum-val blue val-field" id="sumPower">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="spark-wrap" id="heroSpark">
+            <canvas class="spark" id="sparkCanvas" width="80" height="44"></canvas>
+            <span class="spark-label">30-day trend</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakdown strip -->
+      <div class="breakdown" id="breakdownStrip">
+        <div class="bk-title" id="bkTitle">Total assets 388,100,200.52 USD</div>
+        <div class="bk-list">
+          <div class="bk-row"><span class="bk-dot" style="background:#3474ff"></span><span class="bk-name">Crypto spot</span><span class="bk-val val-field" id="bk0">92,864,646.00</span></div>
+          <div class="bk-row"><span class="bk-dot" style="background:#05b169"></span><span class="bk-name">Crypto Earn</span><span class="bk-val val-field" id="bk1">30,000,000.00</span></div>
+          <div class="bk-row"><span class="bk-dot" style="background:#7c3aed"></span><span class="bk-name">Futures margin</span><span class="bk-val val-field" id="bk2">15,235,554.52</span></div>
+          <div class="bk-row"><span class="bk-dot" style="background:#f4b000"></span><span class="bk-name">Securities</span><span class="bk-val val-field" id="bk3">250,000,000.00</span></div>
+        </div>
+        <div class="bk-bar" id="bkBar">
+          <div class="bk-seg" style="flex:92864646;background:#3474ff"></div>
+          <div class="bk-seg" style="flex:30000000;background:#05b169"></div>
+          <div class="bk-seg" style="flex:15235554;background:#7c3aed"></div>
+          <div class="bk-seg" style="flex:250000000;background:#f4b000"></div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="actions">
+        <button class="act-btn">
+          <div class="act-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </div>
+          <span class="act-label">Deposit</span>
+        </button>
+        <button class="act-btn">
+          <div class="act-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          </div>
+          <span class="act-label">Withdraw</span>
+        </button>
+        <button class="act-btn">
+          <div class="act-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          </div>
+          <span class="act-label">Transfer</span>
+        </button>
+        <button class="act-btn">
+          <div class="act-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9h4.5a2 2 0 010 4H9m0-4v4m0 0h5a2 2 0 010 4H9v-4"/></svg>
+          </div>
+          <span class="act-label">Earn</span>
+        </button>
+      </div>
+
+      <!-- ═══ CRYPTO SECTION ═══ -->
+      <div class="section">
+        <button class="section-head" onclick="toggleSection('crypto')">
+          <div class="section-head-left">
+            <span class="section-dot" style="background:#3474ff"></span>
+            <span class="section-title">Crypto</span>
+          </div>
+          <div class="section-head-right">
+            <span class="section-total val-field">138,100,200.52 USD</span>
+            <span class="chev-anim open" id="cryptoChev">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </div>
+        </button>
+        <div class="section-body" id="cryptoBody">
+          <div class="sub-row">
+            <div class="sub-left">
+              <div class="sub-icon" style="background:#eff4ff">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3474ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9h4.5a2 2 0 010 4H9m0-4v4m0 0h5a2 2 0 010 4H9v-4"/></svg>
+              </div>
+              <div class="sub-info">
+                <span class="sub-name">Crypto spot</span>
+                <span class="sub-desc">BTC / ETH / USDT · 12 assets</span>
+              </div>
+            </div>
+            <div class="sub-right">
+              <span class="sub-val val-field">92,864,646.00</span>
+              <span class="sub-cur">USD</span>
+            </div>
+          </div>
+          <div class="sub-row">
+            <div class="sub-left">
+              <div class="sub-icon" style="background:#ecfdf5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#05b169" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="sub-info">
+                <span class="sub-name">Crypto Earn</span>
+                <span class="sub-desc">Flexible + fixed · 6.2% APY</span>
+              </div>
+            </div>
+            <div class="sub-right">
+              <span class="sub-val val-field">30,000,000.00</span>
+              <span class="sub-cur">USD</span>
+              <span class="sub-yield val-field">+5,230.00/mo</span>
+            </div>
+          </div>
+          <div class="sub-row">
+            <div class="sub-left">
+              <div class="sub-icon" style="background:#f5f3ff">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              </div>
+              <div class="sub-info">
+                <span class="sub-name">Futures + margin</span>
+                <span class="sub-desc">Margin used by positions</span>
+              </div>
+            </div>
+            <div class="sub-right">
+              <span class="sub-val val-field">15,235,554.52</span>
+              <span class="sub-cur">USD</span>
+            </div>
+          </div>
+          <!-- Safety Bar -->
+          <div class="safety">
+            <div class="safety-head">
+              <span class="safety-label">Safety buffer</span>
+              <span class="safety-status" style="color:#05b169">Healthy</span>
+            </div>
+            <div class="safety-track">
+              <div class="safety-fill" style="width:72%;background:#05b169"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SECURITIES SECTION ═══ -->
+      <div class="section">
+        <button class="section-head" onclick="toggleSection('sec')">
+          <div class="section-head-left">
+            <span class="section-dot" style="background:#f4b000"></span>
+            <span class="section-title">Securities</span>
+          </div>
+          <div class="section-head-right">
+            <span class="section-total val-field">250,000,000.00 USD</span>
+            <span class="chev-anim open" id="secChev">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </div>
+        </button>
+        <div class="section-body" id="secBody">
+          <div class="sub-row">
+            <div class="sub-left">
+              <div class="sub-icon" style="background:#fffbeb">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f4b000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              </div>
+              <div class="sub-info">
+                <span class="sub-name">Stocks / funds / bonds</span>
+                <span class="sub-desc">AAPL / TSLA / NVDA · 8 holdings</span>
+              </div>
+            </div>
+            <div class="sub-right">
+              <span class="sub-val val-field">250,000,000.00</span>
+              <span class="sub-cur">USD</span>
+              <span class="sub-yield val-field">+1,402,200.00 (+2.14%)</span>
+            </div>
+          </div>
+          <div class="sec-mini">
+            <div class="sec-mini-row">
+              <div class="ticker-avatar" style="background:#000;color:#fff">A</div>
+              <span class="sec-mini-name">Apple Inc.</span>
+              <span class="sec-mini-val val-field">22,791.60</span>
+              <span class="sec-mini-pct up">+1.23%</span>
+            </div>
+            <div class="sec-mini-row">
+              <div class="ticker-avatar" style="background:#76b900;color:#fff">N</div>
+              <span class="sec-mini-name">NVIDIA Corp.</span>
+              <span class="sec-mini-val val-field">34,165.50</span>
+              <span class="sec-mini-pct up">+2.86%</span>
+            </div>
+            <div class="sec-mini-row">
+              <div class="ticker-avatar" style="background:#cc0000;color:#fff">T</div>
+              <span class="sec-mini-name">Tesla, Inc.</span>
+              <span class="sec-mini-val val-field">8,917.50</span>
+              <span class="sec-mini-pct down">−0.32%</span>
+            </div>
+            <button class="view-all">
+              View all holdings
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ FINANCING SECTION ═══ -->
+      <div class="section">
+        <button class="section-head" onclick="toggleSection('fin')">
+          <div class="section-head-left">
+            <span class="section-dot" style="background:#cf202f"></span>
+            <span class="section-title">Financing & liquidity</span>
+          </div>
+          <div class="section-head-right">
+            <span class="section-hint" id="finHint">Expand</span>
+            <span class="chev-anim" id="finChev">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </div>
+        </button>
+        <div class="section-body" id="finBody" style="display:none;">
+          <div class="finance-grid">
+            <div class="finance-cell">
+              <span class="finance-label">Available to borrow</span>
+              <span class="finance-val blue val-field">120,000,000.00</span>
+              <span class="finance-desc">Without selling assets</span>
+            </div>
+            <div class="finance-cell">
+              <span class="finance-label">Currently borrowed</span>
+              <span class="finance-val red val-field">1,000,000.00</span>
+              <span class="finance-desc">≈ 0.26% of net worth</span>
+            </div>
+          </div>
+          <div class="repay">
+            <div class="repay-left">
+              <div class="repay-title">Repayment due soon</div>
+              <div class="repay-meta"><b>500,000.00 USD</b> · due in 14 days</div>
+            </div>
+            <button class="repay-btn">Repay now</button>
+          </div>
+          <div class="finance-hint">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Buying power ≈ total assets × pledge ratio − borrowed. Add spot or reduce borrowing to raise it.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:28px"></div>
+    </div><!-- /scroll -->
+
+    <!-- ═══ BOTTOM NAV ═══ -->
+    <div class="bnav">
+      <button class="bnav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m3 11 9-8 9 8v9a2 2 0 0 1-2 2h-3v-7h-8v7H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="bnav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>
+        <span>Markets</span>
+      </button>
+      <button class="bnav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+        <span>Trade</span>
+      </button>
+      <button class="bnav-item active">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        <span>Assets</span>
+      </button>
+    </div>
+
+    <!-- ═══ ACCOUNT SHEET ═══ -->
+    <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet(event)">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Switch account</div>
+        <div id="sheetOptions"></div>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+</div><!-- /phone -->
+
+<script>
+/* ─── DATA ─── */
+const ACCOUNTS = [
+  { id:'1135', name:'Alen Wang · Personal', num:'·· 1135', tag:'Main', tagClass:'tag-primary',
+    net:'387,100,200.52', total:'388,100,200.52', borrowed:'1,000,000.00', power:'120,000,000.00',
+    pnl:'+1,200,320.88 (+0.31%)', pnlUp:true },
+  { id:'2847', name:'BlackRock Capital Fund', num:'·· 2847', tag:'Institution', tagClass:'tag-green',
+    net:'2,478,000,000.00', total:'2,480,000,000.00', borrowed:'2,000,000.00', power:'800,000,000.00',
+    pnl:'+3,200,000.00 (+0.13%)', pnlUp:true },
+  { id:'3201', name:'Citadel Securities LLC', num:'·· 3201', tag:'Institution', tagClass:'tag-green',
+    net:'1,119,000,000.00', total:'1,120,500,000.00', borrowed:'1,500,000.00', power:'450,000,000.00',
+    pnl:'−800,000.00 (−0.07%)', pnlUp:false },
+  { id:'0892', name:'Renaissance Technologies', num:'·· 0892', tag:'Hedge', tagClass:'tag-orange',
+    net:'4,745,000,000.00', total:'4,750,000,000.00', borrowed:'5,000,000.00', power:'1,500,000,000.00',
+    pnl:'+9,200,000.00 (+0.19%)', pnlUp:true },
+];
+
+let curAcctIdx = 0;
+let multiMode = false;
+let selectedIds = new Set(['1135']);
+let hidden = false;
+
+/* ─── SPARKLINE ─── */
+function drawSpark(canvasEl, seed) {
+  const ctx = canvasEl.getContext('2d');
+  const W = canvasEl.width, H = canvasEl.height;
+  ctx.clearRect(0, 0, W, H);
+  let x = seed, base = 50, pts = [];
+  for (let i = 0; i < 24; i++) {
+    x = (x * 9301 + 49297) % 233280;
+    base += (x/233280 - 0.5)*8 + 0.4;
+    pts.push(base);
+  }
+  const mn = Math.min(...pts), mx = Math.max(...pts), range = mx - mn || 1;
+  const px = (i) => (i/(pts.length-1))*W;
+  const py = (v) => H - ((v-mn)/range)*(H-4) - 2;
+  ctx.beginPath();
+  ctx.moveTo(px(0), py(pts[0]));
+  for (let i=1;i<pts.length;i++) ctx.lineTo(px(i), py(pts[i]));
+  ctx.strokeStyle = '#05b169';
+  ctx.lineWidth = 1.8;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.stroke();
+}
+drawSpark(document.getElementById('sparkCanvas'), 7);
+
+/* ─── TOGGLE SECTION ─── */
+function toggleSection(id) {
+  const body = document.getElementById(id+'Body');
+  const chev = document.getElementById(id+'Chev');
+  const hint = document.getElementById(id+'Hint');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  chev.classList.toggle('open', !open);
+  if (hint) hint.textContent = open ? 'Expand' : 'Collapse';
+}
+
+/* ─── CURRENCY ─── */
+function setCur(btn, cur) {
+  document.querySelectorAll('.cur-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('heroCur').textContent = cur;
+}
+
+/* ─── HIDE/SHOW ─── */
+function toggleHide(btn) {
+  hidden = !hidden;
+  document.querySelectorAll('.val-field').forEach(el => {
+    el.classList.toggle('hidden-val', hidden);
+  });
+  const icon = document.getElementById('eyeIcon');
+  icon.innerHTML = hidden
+    ? '<path d="M9.88 9.88a3 3 0 104.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0112 5c7 0 10 7 10 7a13.16 13.16 0 01-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 002 12s3 7 10 7a9.74 9.74 0 005.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>'
+    : '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+}
+
+/* ─── ACCOUNT SHEET ─── */
+function openSheet() {
+  const overlay = document.getElementById('sheetOverlay');
+  const opts = document.getElementById('sheetOptions');
+  opts.innerHTML = ACCOUNTS.map((a,i) => `
+    <button class="sheet-option" onclick="selectAcct(${i})">
+      <div class="sheet-opt-info">
+        <div class="sheet-opt-name">${a.name}</div>
+        <div class="sheet-opt-sub">
+          <span>${a.num}</span>
+          <span class="tag ${a.tagClass}">${a.tag}</span>
+        </div>
+      </div>
+      <div class="sheet-opt-right">
+        <span class="sheet-opt-bal">${a.net}</span>
+        <span class="sheet-opt-pnl ${a.pnlUp?'up':'down'}">${a.pnl}</span>
+      </div>
+      <span class="sheet-opt-check">
+        ${i===curAcctIdx ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </span>
+    </button>
+  `).join('');
+  overlay.classList.add('show');
+}
+function closeSheet(e) {
+  if (e.target === e.currentTarget) document.getElementById('sheetOverlay').classList.remove('show');
+}
+function selectAcct(i) {
+  curAcctIdx = i;
+  const a = ACCOUNTS[i];
+  document.getElementById('hdr-name').textContent = a.name;
+  document.getElementById('hdr-num').textContent = a.num;
+  const tag = document.getElementById('hdr-tag');
+  tag.textContent = a.tag;
+  tag.className = `tag ${a.tagClass}`;
+  document.getElementById('heroNum').textContent = a.net;
+  const pnlRow = document.getElementById('heroPnlRow');
+  pnlRow.querySelector('span:last-child').textContent = a.pnl;
+  pnlRow.querySelector('span:last-child').className = a.pnlUp ? 'up val-field' : 'down val-field';
+  document.getElementById('sheetOverlay').classList.remove('show');
+}
+
+/* ─── MULTI-ACCOUNT AGGREGATION ─── */
+function fmt(n) {
+  return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function parseNum(s) { return parseFloat(s.replace(/,/g,'')) || 0; }
+
+function buildChips() {
+  const container = document.getElementById('aggChips');
+  container.innerHTML = ACCOUNTS.map(a => `
+    <div class="agg-chip ${selectedIds.has(a.id)?'sel':''}" onclick="toggleChip('${a.id}',this)">
+      <div class="chip-check ${selectedIds.has(a.id)?'checked':''}" id="chk-${a.id}">
+        ${selectedIds.has(a.id) ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </div>
+      <span class="chip-name">${a.name}</span>
+      <span class="chip-tag ${a.tagClass}">${a.tag}</span>
+    </div>
+  `).join('');
+}
+
+function toggleChip(id, el) {
+  if (selectedIds.has(id)) {
+    if (selectedIds.size === 1) return; // keep at least 1
+    selectedIds.delete(id);
+  } else {
+    selectedIds.add(id);
+  }
+  buildChips();
+  updateAggSummary();
+}
+
+function updateAggSummary() {
+  const sel = ACCOUNTS.filter(a => selectedIds.has(a.id));
+  if (!sel.length) return;
+  const totalAssets = sel.reduce((s,a) => s + parseNum(a.total), 0);
+  const borrowed = sel.reduce((s,a) => s + parseNum(a.borrowed), 0);
+  const power = sel.reduce((s,a) => s + parseNum(a.power), 0);
+  const net = totalAssets - borrowed;
+
+  document.getElementById('heroLabel').textContent =
+    sel.length === 1 ? 'My net worth' : `${sel.length} accounts · net worth`;
+  document.getElementById('heroNum').textContent = fmt(net);
+  document.getElementById('sumTotal').textContent = fmt(totalAssets);
+  document.getElementById('sumBorrow').textContent = fmt(borrowed);
+  document.getElementById('sumPower').textContent = fmt(power);
+}
+
+function toggleMulti() {
+  multiMode = !multiMode;
+  const btn = document.getElementById('multiBtn');
+  const banner = document.getElementById('aggBanner');
+  const spark = document.getElementById('heroSpark');
+  const pnlRow = document.getElementById('heroPnlRow');
+  const aggSum = document.getElementById('aggSum');
+  const breakdown = document.getElementById('breakdownStrip');
+
+  btn.textContent = multiMode ? 'Exit combine' : 'Combine accounts';
+  btn.classList.toggle('active', multiMode);
+  banner.classList.toggle('show', multiMode);
+  spark.style.display = multiMode ? 'none' : '';
+  pnlRow.style.display = multiMode ? 'none' : '';
+  aggSum.style.display = multiMode ? 'flex' : 'none';
+  breakdown.style.display = multiMode ? 'none' : '';
+
+  if (multiMode) {
+    selectedIds = new Set([ACCOUNTS[curAcctIdx].id]);
+    buildChips();
+    updateAggSummary();
+  } else {
+    const a = ACCOUNTS[curAcctIdx];
+    document.getElementById('heroLabel').textContent = 'My net worth';
+    document.getElementById('heroNum').textContent = a.net;
+  }
+}
+</script>
+</body>
+</html>

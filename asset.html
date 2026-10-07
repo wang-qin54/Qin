@@ -4095,17 +4095,18 @@ a.list.active {
         }
         /* Clear of the 10px hover wash, so one note's highlight does not sit on the next. */
         .as-problems--in-diag { gap: 32px; }
-        /* While the three cards scroll, the phone frame stays put under the tabs.
-           The screenshot inside is moved by the page scroll, not its own scrollbar. */
+        /* On wider screens the section reads as one static board: no problem tabs,
+           the phone scrolls away with the page, and the screenshot inside only
+           moves when a number or a note is hovered or tapped. */
         @media (min-width: 721px) {
+            .as-problem-scope .as-subnav-rail { display: none; }
+            .as-problem-scope .as-problem { scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
             .as-problem-scope .as-diag2__shot {
-                position: sticky;
-                top: calc(var(--header-h) + var(--subnav-h) + var(--space-4));
                 align-self: start;
                 z-index: 1;
             }
             .as-problem-scope .as-diag2__shot .as-phone.as-phone--proto {
-                width: min(100%, calc((100vh - var(--header-h) - var(--subnav-h) - var(--space-4) - 44px) * 375 / 810));
+                width: min(100%, calc((100vh - var(--header-h) - var(--space-4) - 44px) * 375 / 810));
                 margin-left: auto;
                 margin-right: 0;
             }
@@ -9064,9 +9065,7 @@ document.addEventListener('DOMContentLoaded', function () {
         col.style.paddingBottom = '';
         col.style.paddingTop = '';
       } else {
-        var extra = Math.ceil(shot.getBoundingClientRect().height - last.getBoundingClientRect().height);
-        var padBot = extra > 8 ? (extra + 16) + 'px' : '';
-        if (col.style.paddingBottom !== padBot) col.style.paddingBottom = padBot;
+        if (col.style.paddingBottom) col.style.paddingBottom = '';
         /* Closed disclosure: sit the notes on the phone's vertical center. */
         var more = col.querySelector('.as-problem__more');
         var cards = col.querySelectorAll(':scope > .as-problem');
@@ -9280,7 +9279,7 @@ document.addEventListener('DOMContentLoaded', function () {
     img.src = s.src;
     img.width = 375;
     img.height = s.h;
-    /* Long screens are positioned by the page scroll. Resetting here flashes the top. */
+    /* Long screens keep their scroll position. Resetting here flashes the top. */
     if (state !== 'crypto' && state !== 'securities') {
       scroll.scrollTop = 0;
       proto2Pinned = false;
@@ -9289,7 +9288,6 @@ document.addEventListener('DOMContentLoaded', function () {
     renderHotspots(state);
     whenImageReady(function () {
       applyMarks();
-      syncScreenToCards();
       requestAnimationFrame(function () { drawLinks(); updateFade(); });
     });
   }
@@ -9525,62 +9523,11 @@ document.addEventListener('DOMContentLoaded', function () {
         guideId = pinnedProblem;
         scrollProblemIntoPhone(pinnedProblem, 'smooth');
         paintGuide();
-      } else {
-        syncScreenToCards();
-        requestAnimationFrame(function () { drawLinks(); updateFade(); });
       }
     }, 90);
   }
 
-  /* Page scroll through the cards drives the screenshot. The frame itself is sticky. */
   var phoneFromPage = false;
-  function syncScreenToCards() {
-    if (hoverLock || pinnedProblem) return;
-    if (window.matchMedia('(max-width: 720px)').matches) return;
-    var state = stage.getAttribute('data-state');
-    if (state !== 'crypto' && state !== 'securities') return;
-    if (!card1 || !card2 || !card3 || !card4 || !img.naturalWidth) return;
-    var phone = scroll.getBoundingClientRect();
-    if (phone.height < 40) return;
-    var line = phone.top + 12;
-    var anchors = [
-      { top: card1.getBoundingClientRect().top, y: problemScroll[1] },
-      { top: card2.getBoundingClientRect().top, y: problemScroll[2] },
-      { top: card3.getBoundingClientRect().top, y: problemScroll[3] },
-      { top: card4.getBoundingClientRect().top, y: problemScroll[4] }
-    ];
-    var designY = anchors[0].y;
-    var last = anchors.length - 1;
-    if (line <= anchors[0].top) designY = anchors[0].y;
-    else if (line >= anchors[last].top) designY = anchors[last].y;
-    else {
-      for (var i = 0; i < anchors.length - 1; i++) {
-        var a = anchors[i], b = anchors[i + 1];
-        if (line >= a.top && line <= b.top) {
-          var span = b.top - a.top || 1;
-          designY = a.y + ((line - a.top) / span) * (b.y - a.y);
-          break;
-        }
-      }
-    }
-    var canvasH = (screens[state] && screens[state].h) || img.height || 1;
-    var imgH = img.getBoundingClientRect().height;
-    if (!imgH) return;
-    var y = (designY / canvasH) * imgH;
-    var max = Math.max(0, scroll.scrollHeight - scroll.clientHeight);
-    var top = Math.max(0, Math.min(y - scroll.clientHeight * 0.18, max));
-    var nearest = 1;
-    var nearestD = Infinity;
-    [1, 2, 3, 4].forEach(function (k) {
-      var d = Math.abs(problemScroll[k] - designY);
-      if (d < nearestD) { nearestD = d; nearest = k; }
-    });
-    if (nearest !== guideId) { guideId = nearest; paintGuide(); }
-    if (Math.abs(scroll.scrollTop - top) < 1) return;
-    phoneFromPage = true;
-    scroll.scrollTop = top;
-    requestAnimationFrame(function () { phoneFromPage = false; });
-  }
 
   var guideId = 0;
   function paintGuide() {
@@ -9827,8 +9774,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!a) return;
         var n = parseInt((a.getAttribute('href') || '').replace('#as-problem-', ''), 10);
         if (!n) return;
-        /* The page glide already moves the screenshot through syncScreenToCards.
-           A second jump here snaps ahead, then snaps back — that is the flicker. */
         var state = stage.getAttribute('data-state');
         var next = n === 1 ? 'crypto' : (state === 'securities' ? 'securities' : 'crypto');
         if (state !== next) setState(next);
@@ -9843,11 +9788,20 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }, { passive: true });
     window.addEventListener('scroll', function () {
-      if (pinnedProblem) pinnedProblem = 0;
-      syncScreenToCards();
       requestAnimationFrame(function () { drawLinks(); updateFade(); });
     }, { passive: true });
-    window.addEventListener('resize', function () { syncScreenToCards(); drawLinks(); updateFade(); });
+    window.addEventListener('resize', function () { drawLinks(); updateFade(); });
+    /* "Solves Problem N" links elsewhere land on the note; bring its screen into the phone too. */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#as-problem-"]');
+      if (!a || a.closest('.as-problem-scope')) return;
+      var n = parseInt((a.getAttribute('href') || '').replace('#as-problem-', ''), 10);
+      if (!problemScroll[n]) return;
+      pinnedProblem = n;
+      guideId = n;
+      paintGuide();
+      scrollProblemIntoPhone(n, 'auto');
+    });
     document.addEventListener('case:lang', function () { requestAnimationFrame(drawLinks); });
     document.addEventListener('as:diag2-resize', function () { requestAnimationFrame(function () { drawLinks(); updateFade(); }); });
     if (typeof ResizeObserver !== 'undefined') {
@@ -9855,7 +9809,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function onImgReady() {
       applyMarks();
-      syncScreenToCards();
       requestAnimationFrame(function () { drawLinks(); updateFade(); });
     }
     if (!img.complete) img.addEventListener('load', onImgReady);

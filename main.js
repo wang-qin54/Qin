@@ -269,10 +269,10 @@
 
     const onScroll = () => {
       if (sections.length) {
-        const y = window.scrollY + 140;
         let current = sections[0];
         for (let i = 0; i < sections.length; i++) {
-          if (sections[i].el.getBoundingClientRect().top + window.scrollY <= y) {
+          const smt = parseFloat(getComputedStyle(sections[i].el).scrollMarginTop) || 0;
+          if (sections[i].el.getBoundingClientRect().top <= Math.max(140, smt + 8)) {
             current = sections[i];
           }
         }
@@ -290,6 +290,32 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     onScroll();
+  }
+
+  // Case-study hero: "Back" returns to the previous in-site page (preserves work filters).
+  const caseBackLink = document.querySelector('.case-back__link');
+  if (caseBackLink) {
+    const canUseHistoryBack = () => {
+      if (window.history.length <= 1) return false;
+      let referrer = '';
+      try {
+        referrer = document.referrer || '';
+      } catch (_) {}
+      if (!referrer) return true;
+      try {
+        const refUrl = new URL(referrer, location.href);
+        return refUrl.origin === location.origin || refUrl.protocol === 'file:';
+      } catch (_) {
+        return false;
+      }
+    };
+
+    caseBackLink.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      if (!canUseHistoryBack()) return;
+      event.preventDefault();
+      history.back();
+    });
   }
 
   // Homepage: "Selected work" scrolls to the section below the intro.

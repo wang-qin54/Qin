@@ -493,31 +493,31 @@
     {
       id: 'borrow',
       en: 'Find how much you currently owe on borrowed crypto.',
-      zh: '找出你现在借的 crypto 还欠多少。',
+      zh: '找出你借入的加密货币还欠多少。',
       checkEn: 'The amount sits on Total borrowed, inside Crypto — not on the home total.',
-      checkZh: '数字在加密里的「总借币」，不在首页的总资产上。',
+      checkZh: '答案在加密页的「总借币」里，而不是首页的总资产。',
       checkAEn: 'Total borrowed, on the crypto overview. The home total is not the debt.',
-      checkAZh: '数字在加密总览的「总借币」。首页总资产不是欠款。',
+      checkAZh: '答案在加密总览的「总借币」中，首页的总资产并不代表欠款。',
       done: function () { return state.sub === 'debt'; }
     },
     {
       id: 'power',
       en: 'Check your remaining spending power for US stocks.',
-      zh: '查看美股还剩多少购买力。',
+      zh: '查看美股还有多少可用购买力。',
       checkEn: 'US buying power, not excess liquidity, estimated cash, or the HK figure.',
-      checkZh: '要的是美股购买力，不是剩余流动性、预估现金，或港股那个数。',
+      checkZh: '要找的是美股购买力，而不是剩余流动性、预估现金或港股购买力。',
       checkAEn: 'Buying power is the cell on the securities card. The whole card opens the margin account, so a tap on excess liquidity or estimated cash opens it too.',
-      checkAZh: '购买力是证券卡片上的那一格。整张卡片都会打开保证金账户，所以点剩余流动性或预估现金也会进去。',
+      checkAZh: '购买力位于证券卡片中。点击卡片任意位置都会打开保证金账户，因此点剩余流动性或预估现金也能进入。',
       done: function () { return state.sub === 'bp-us'; }
     },
     {
       id: 'switch',
       en: 'Switch your active workspace to your secondary portfolio account.',
-      zh: '把当前工作区切到第二个 portfolio 账户。',
+      zh: '将当前账户切换到第二个组合账户。',
       checkEn: 'The account card switches the workspace. Accounts (7) only filters the total.',
-      checkZh: '账户卡片才是切换工作区。上方「已选账户 (7)」只筛选总数。',
+      checkZh: '切换账户要用账户卡片；上方的「已选账户 (7)」只筛选汇总数字。',
       checkAEn: 'The account row switches the workspace. Selected accounts only changes what rolls into the total.',
-      checkAZh: '账户那一行才是切换工作区。上方「已选账户」只改变计入总数的范围。',
+      checkAZh: '切换账户要用账户那一行；上方的「已选账户」只改变计入总数的范围。',
       done: function () { return state.account === 'secondary'; }
     }
   ];
@@ -543,8 +543,8 @@
         t(titleEn, titleZh) + '<small>' + t(subEn, subZh) + '</small></button>';
     }
     return '<div class="sy-opts">' +
-      one('A', 'A · Prototype', 'A · 原型', 'Shipped app', '交付的界面') +
-      one('B', 'B · Study screen', 'B · 测试屏', 'Same jobs, fewer paths', '同样的任务，路径更少') +
+      one('A', 'A · Prototype', 'A · 原型', 'Shipped app', '上线的界面') +
+      one('B', 'B · Study screen', 'B · 精简版', 'Same jobs, fewer paths', '任务相同，路径更短') +
       '</div>';
   }
 
@@ -754,14 +754,14 @@
       card.innerHTML =
         '<div class="grab"></div>' +
         '<h2>' + t('Included in the total', '计入总资产的账户') + '</h2>' +
-        '<p class="lead">' + t('These add up to the number above. This does not change the account you are viewing.', '这些账户加总成上方的数字。这里不会切换你正在查看的账户。') + '</p>' +
+        '<p class="lead">' + t('These add up to the number above. This does not change the account you are viewing.', '这些账户合计为上方的数字，在这里操作不会切换你当前查看的账户。') + '</p>' +
         filterRow('main', 'Trader Account', 'Main', '主') +
         filterRow('secondary', 'Family office', 'Secondary', '次');
     } else {
       card.innerHTML =
         '<div class="grab"></div>' +
         '<h2>' + t('Switch account', '切换账户') + '</h2>' +
-        '<p class="lead">' + t('The account whose positions and buying power you are looking at.', '你正在查看持仓和购买力的那个账户。') + '</p>' +
+        '<p class="lead">' + t('The account whose positions and buying power you are looking at.', '当前用于查看持仓和购买力的账户。') + '</p>' +
         switchRow('main') + switchRow('secondary');
     }
   }
@@ -801,7 +801,7 @@
       body.innerHTML =
         '<div class="hero-num down">−31,900<small>USD</small></div>' +
         '<p class="lead" style="color:#767880;font-size:13px;line-height:18px;margin-bottom:8px">' +
-          t('This is what the account currently owes on borrowed crypto.', '这是该账户目前在借币上还欠的金额。') + '</p>' +
+          t('This is what the account currently owes on borrowed crypto.', '该账户当前借币尚未归还的金额。') + '</p>' +
         '<div class="kv"><span>USDT</span><b>−18,400.00</b></div>' +
         '<div class="kv"><span>USDC</span><b>−13,500.00</b></div>';
     } else if (kind === 'bp-us') {
@@ -810,7 +810,7 @@
       body.innerHTML =
         '<div class="hero-num">84,200<small>USD</small></div>' +
         '<p class="lead" style="color:#767880;font-size:13px;line-height:18px;margin-bottom:8px">' +
-          t('Remaining spending power for US stocks in this account.', '该账户美股剩余可花的购买力。') + '</p>' +
+          t('Remaining spending power for US stocks in this account.', '该账户在美股的剩余可用购买力。') + '</p>' +
         '<div class="kv"><span>' + t('Excess liquidity', '剩余流动性') + '</span><b>162,957.50</b></div>' +
         '<div class="kv"><span>' + t('Est. cash', '预估现金') + '</span><b>135,105.97</b></div>';
     } else {
@@ -819,7 +819,7 @@
       body.innerHTML =
         '<div class="hero-num">26,400<small>USD</small></div>' +
         '<p class="lead" style="color:#767880;font-size:13px;line-height:18px">' +
-          t('This is Hong Kong, not US stocks.', '这是港股，不是美股。') + '</p>';
+          t('This is Hong Kong, not US stocks.', '这是港股购买力，不是美股。') + '</p>';
     }
     /* Same frame as leaving display:none, so the detail is on screen immediately. */
     sub.classList.add('open');
@@ -858,12 +858,12 @@
     if (SY.phase === 'intro') {
       panel.innerHTML =
         '<div class="sy-step">' + t('Future UX validation', '未来体验验证') + '</div>' +
-        '<div class="sy-task">' + t('Same two tests, on either screen. A is the shipped prototype. B is a reduced screen with the same jobs.', '同一套测试，两块屏幕。A 是交付的原型。B 是收过的测试屏，任务相同。') + '</div>' +
-        '<div class="sy-hint">' + t('The screen stays covered until a test starts, so the five-second glance is not spoiled by reading this panel.', '测试开始前界面保持遮住，避免先读到面板而破坏五秒测试。') + '</div>' +
+        '<div class="sy-task">' + t('Same two tests, on either screen. A is the shipped prototype. B is a reduced screen with the same jobs.', '同一套测试，两版界面：A 为上线原型，B 为精简后的测试版，任务完全相同。') + '</div>' +
+        '<div class="sy-hint">' + t('The screen stays covered until a test starts, so the five-second glance is not spoiled by reading this panel.', '测试开始前界面保持遮挡，以免受试者提前看到内容，影响五秒测试。') + '</div>' +
         optButtons() +
         '<div class="sy-actions">' +
-          '<button class="sy-btn" id="syGo5">'+ t('Run the 5-second test', '跑五秒测试') + '</button>' +
-          '<button class="sy-btn ghost" id="syGoTasks">' + t('Run the timed tasks', '跑限时任务') + '</button>' +
+          '<button class="sy-btn" id="syGo5">'+ t('Run the 5-second test', '开始五秒测试') + '</button>' +
+          '<button class="sy-btn ghost" id="syGoTasks">' + t('Run the timed tasks', '开始限时任务') + '</button>' +
         '</div>';
       return;
     }
@@ -878,7 +878,7 @@
         var cls = r.how === 'gave' ? 'bad' : (r.how === 'auto' || r.verified) ? 'ok' : 'bad';
         var verdict = r.how === 'gave' ? t('Gave up', '放弃了')
           : r.how === 'auto' ? t('Found it', '找到了')
-          : (r.verified ? t('Found it (said so)', '找到了（自己说的）') : t('Said done — wasn’t there', '说完成了，但还没到'));
+          : (r.verified ? t('Found it (said so)', '找到了（自己说的）') : t('Said done — wasn’t there', '自称完成，但并未找到'));
         var route = r.taps.length
           ? '<div class="sy-route">' + r.taps.map(function (x) {
               return '<span class="sy-hop"><i>' + esc(x.page) + '</i>' + esc(x.label) + '</span>';
@@ -892,11 +892,11 @@
           '</div>';
       }).join('');
       var other = SY.mode === '5s'
-        ? '<button class="sy-btn" id="syGoTasks">' + t('Run the timed tasks', '接着跑限时任务') + '</button>'
-        : '<button class="sy-btn" id="syGo5">' + t('Run the 5-second test', '接着跑五秒测试') + '</button>';
+        ? '<button class="sy-btn" id="syGoTasks">' + t('Run the timed tasks', '继续限时任务') + '</button>'
+        : '<button class="sy-btn" id="syGo5">' + t('Run the 5-second test', '继续五秒测试') + '</button>';
       panel.innerHTML =
         '<div class="sy-step">' + t('Session', '本次') + ' · ' + optTag() + '</div>' +
-        '<div class="sy-task">' + t('What the harness kept.', '工具记下的结果。') + '</div>' +
+        '<div class="sy-task">' + t('What the harness kept.', '由工具自动记录的结果。') + '</div>' +
         '<div class="sy-cards">' + rows + '</div>' +
         '<div class="sy-actions">' + other +
           '<button class="sy-btn ghost" id="syCopy">' + t('Copy results', '复制结果') + '</button>' +
@@ -910,11 +910,11 @@
       panel.innerHTML =
         '<div class="sy-step">' + t('5-second test', '五秒测试') + ' · ' + optTag() + (showing ? ' · <span id="syCount">5</span>s' : '') + '</div>' +
         '<div class="sy-task">' + (showing
-          ? t('Look at the screen.', '看屏幕。')
-          : t('What is the total asset balance, and is the portfolio up or down today?', '总资产是多少？今天 portfolio 是涨还是跌？')) + '</div>' +
+          ? t('Look at the screen.', '请看屏幕。')
+          : t('What is the total asset balance, and is the portfolio up or down today?', '总资产是多少？今天的投资组合是涨还是跌？')) + '</div>' +
         (showing
-          ? '<div class="sy-bar"><i id="syBar"></i></div><div class="sy-hint">' + t('Five seconds, then the screen is covered. Exact cents are not the point — the total, and the direction.', '五秒后界面会被盖住。精确到分不是重点 —— 要的是总数，以及涨跌方向。') + '</div>'
-          : '<div class="sy-hint">' + t('Ask it once. Write down their words, not a cleaned-up version.', '只问一次。记下原话，不要整理成更顺的句子。') + '</div>' +
+          ? '<div class="sy-bar"><i id="syBar"></i></div><div class="sy-hint">' + t('Five seconds, then the screen is covered. Exact cents are not the point — the total, and the direction.', '五秒后界面会被遮住。不必精确到分，记住总数和涨跌方向即可。') + '</div>'
+          : '<div class="sy-hint">' + t('Ask it once. Write down their words, not a cleaned-up version.', '只问一次。请记录原话，不要润色。') + '</div>' +
             '<textarea class="sy-note" id="syNote" placeholder="' + t('What they said, in their words…', '对方的原话…') + '"></textarea>' +
             '<div class="sy-actions"><button class="sy-btn" id="syNext">' + t('Record answer', '记下回答') + '</button></div>');
       if (showing) {
@@ -931,7 +931,7 @@
     panel.innerHTML =
       '<div class="sy-step">' + t('Task', '任务') + ' ' + (SY.idx + 1) + ' / ' + TASKS.length + ' · ' + optTag() + '</div>' +
       '<div class="sy-task">' + (LANG === 'zh' ? cur.zh : cur.en) + '</div>' +
-      '<div class="sy-hint">' + t('Tap the phone. Time is recorded. You will not see a clock.', '在手机上操作。耗时会被记录。你看不到计时。') + '</div>' +
+      '<div class="sy-hint">' + t('Tap the phone. Time is recorded. You will not see a clock.', '请在手机上操作。系统会记录用时，但不会显示计时。') + '</div>' +
       '<div class="sy-actions">' +
         (SY.taps.length ? '<button class="sy-btn" id="syFound">' + t('I’m done', '我完成了') + '</button>' : '') +
         '<button class="sy-btn ghost" id="sySkip">' + t('I can’t find it', '我找不到') + '</button>' +
@@ -963,7 +963,7 @@
     warmA();
     panel.innerHTML =
       '<div class="sy-step">' + t('Loading', '加载') + ' · ' + optTag() + '</div>' +
-      '<div class="sy-task">' + t('Opening the shipped prototype.', '正在打开交付的原型。') + '</div>';
+      '<div class="sy-task">' + t('Opening the shipped prototype.', '正在打开上线原型。') + '</div>';
   }
 
   function syStart(mode) {

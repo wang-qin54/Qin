@@ -11268,7 +11268,16 @@ window.addEventListener("message", function (e) {
 })();
 </script>
 <script>
-if ((document.documentElement.classList.contains("embed") || document.documentElement.classList.contains("showcase")) && window.setLang) window.setLang("en");
+/* Embedded in the case study: follow the page's EN / 中文 switch. */
+if ((document.documentElement.classList.contains("embed") || document.documentElement.classList.contains("showcase")) && window.setLang) {
+  (function () {
+    var host = null;
+    try { host = window.parent !== window ? window.parent.document : null; } catch (_) {}
+    function pick(l) { return l === "zh" ? "zh" : "en"; }
+    window.setLang(pick(host && host.documentElement.getAttribute("data-lang")));
+    if (host) host.addEventListener("case:lang", function (e) { window.setLang(pick(e.detail && e.detail.lang)); });
+  })();
+}
 </script>
 <!-- UMX-INSPECTOR:END -->
 </body>

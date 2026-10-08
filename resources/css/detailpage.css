@@ -347,6 +347,7 @@ h2 {
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1.1;
+  margin-bottom: 0;
 }
 
 h3.section {
@@ -555,6 +556,11 @@ html[lang="zh-CN"] body {
   max-width: 520px;
   padding-top: var(--space-4);
   border-top: 1px solid var(--border);
+}
+
+.page-title-box .as-meta {
+  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .as-meta dt,

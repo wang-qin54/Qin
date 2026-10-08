@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume — Qin Wang · Product Designer</title>
+    <title>Resume — Qin Wang · Senior UI/UX Designer</title>
     <meta name="robots" content="noindex">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230034F0'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Plus Jakarta Sans,sans-serif' font-weight='600' font-size='18' fill='white'%3EQ%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230034F0'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round'%3E%3Ccircle cx='14' cy='15' r='7.4'/%3E%3Cpath d='M17.6 20.7H25'/%3E%3C/g%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --text: #161616;
-            --text-secondary: #4a4a4a;
-            --text-tertiary: #7a7a7a;
+            --text: #111111;
+            --text-secondary: #4d4d4d;
+            --text-tertiary: #8a8a8a;
             --border: #e6e4df;
             --accent: #0034F0;
             --accent-soft: #eef1ff;
@@ -107,8 +107,10 @@
         }
         .resume-header .subtitle {
             font-size: 14.5px;
-            line-height: 1.6;
-            color: #6b6b6b;
+            line-height: 1.65;
+            letter-spacing: -0.015em;
+            font-weight: 400;
+            color: var(--text-secondary);
             max-width: none;
             margin-bottom: 0;
         }
@@ -155,52 +157,6 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        button.contact-item {
-            font-family: var(--font);
-            font-size: 13px;
-            font-weight: 500;
-            line-height: inherit;
-            cursor: pointer;
-            gap: 8px;
-        }
-        button.contact-item:hover {
-            background: #eceae4;
-        }
-        .copy-icon {
-            width: 14px;
-            height: 14px;
-            flex-shrink: 0;
-            opacity: 0.7;
-        }
-        button.contact-item:hover .copy-icon {
-            opacity: 1;
-        }
-        .print-password {
-            display: none;
-        }
-        .toast {
-            position: fixed;
-            left: 50%;
-            bottom: 28px;
-            transform: translateX(-50%) translateY(12px);
-            background: #161616;
-            color: #fff;
-            font-family: var(--font);
-            font-size: 13px;
-            font-weight: 500;
-            padding: 10px 16px;
-            border-radius: 8px;
-            box-shadow: 0 8px 24px rgba(22, 22, 22, 0.18);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 200;
-        }
-        .toast.is-visible {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
         .layout {
             display: grid;
             grid-template-columns: 1fr 220px;
@@ -274,16 +230,22 @@
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
+        .role-scope--muted {
+            color: var(--text-tertiary);
+            background: #f0efeb;
+        }
         .role ul {
             padding-left: 18px;
             font-size: 13.5px;
-            line-height: 1.55;
+            line-height: 1.65;
+            letter-spacing: -0.015em;
+            font-weight: 400;
             color: var(--text-secondary);
         }
         .role li { margin-bottom: 6px; }
         .role li:last-child { margin-bottom: 0; }
         .role li::marker { color: #b8b6b0; }
-        .kw { font-weight: 500; color: var(--text); }
+        .kw { font-weight: 600; color: var(--text); }
 
         .side {
             padding-left: 8px;
@@ -291,7 +253,9 @@
         .side-list {
             list-style: none;
             font-size: 13px;
-            line-height: 1.45;
+            line-height: 1.55;
+            letter-spacing: -0.015em;
+            font-weight: 400;
             color: var(--text-secondary);
             display: flex;
             flex-direction: column;
@@ -311,8 +275,97 @@
         .edu-entry .school { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
         .edu-entry .year { display: block; font-size: 12px; color: var(--text-tertiary); margin-top: 3px; }
 
+        .portfolio-page {
+            margin-top: 36px;
+        }
+        .portfolio-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .portfolio-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin: 0;
+        }
+        .portfolio-access {
+            margin: 0;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .portfolio-access a { text-decoration: none; }
+        .portfolio-access strong { font-weight: 600; color: var(--text); }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 16px;
+        }
+        .work-card {
+            display: block;
+            min-width: 0;
+            text-decoration: none;
+            color: inherit;
+        }
+        .work-shot {
+            aspect-ratio: 16 / 10;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background: #f3f2ee;
+            overflow: hidden;
+        }
+        .work-shot img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9px;
+        }
+        .work-shot--agent {
+            background: #f4f5f6;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .work-shot--agent img {
+            object-fit: contain;
+            object-position: center;
+        }
+        .work-shot--kyc img { object-position: 17% center; }
+        .work-shot--dash img { object-position: center 30%; }
+        .work-meta {
+            margin-bottom: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .work-title {
+            margin-bottom: 4px;
+            font-size: 14.5px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        .work-outcome {
+            font-size: 12.5px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+
         @media print {
             .toolbar { display: none !important; }
+            #preview-page-gap { display: none !important; }
+            .page { padding-bottom: 0 !important; }
+        }
+
+        /* Screen preview uses the same type, spacing, and image crop as the PDF. */
+        @media screen, print {
             html { font-size: 13px; }
             body {
                 background: white;
@@ -344,12 +397,17 @@
             }
             .resume-header .subtitle {
                 font-size: 12.5px;
-                line-height: 1.55;
+                line-height: 1.6;
+                letter-spacing: -0.015em;
+                font-weight: 400;
                 margin-bottom: 0;
-                color: #6b6b6b;
+                color: var(--text-secondary);
             }
             .resume-header .subtitle .kw {
-                color: var(--text);
+                color: var(--text) !important;
+                font-weight: 600 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .resume-header .contact {
                 display: flex !important;
@@ -371,21 +429,6 @@
                 background: var(--accent-soft) !important;
                 border-color: #d5dcff !important;
                 text-decoration: none;
-            }
-            .contact-item:not(a) {
-                background: #f6f5f1 !important;
-                border: 1px solid var(--border) !important;
-            }
-            .copy-icon {
-                display: none !important;
-            }
-            .print-password {
-                display: inline !important;
-                font-weight: 500;
-                color: var(--text);
-            }
-            .toast {
-                display: none !important;
             }
             .layout {
                 display: grid !important;
@@ -413,7 +456,16 @@
                 break-inside: avoid;
                 page-break-inside: avoid;
             }
-            .role.role--no-rule {
+            /* EN: OKX ends page 1 before the forced break — hide its rule */
+            html[lang="en"] .role.role--no-rule {
+                border-bottom: 0;
+            }
+            /* ZH: OKX stays mid-page — keep the divider */
+            html[lang="zh-CN"] .role.role--no-rule {
+                border-bottom: 1px solid var(--border);
+            }
+            /* ZH: Manulife ends page 1 — no trailing rule above the page break */
+            html[lang="zh-CN"] .role.role--page-two {
                 border-bottom: 0;
             }
             .role-title { font-size: 14px; }
@@ -440,17 +492,37 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .role-scope--muted {
+                color: var(--text-tertiary) !important;
+                background: #f0efeb !important;
+            }
             .role ul {
                 font-size: 12px;
-                line-height: 1.5;
+                line-height: 1.55;
+                letter-spacing: -0.015em;
+                font-weight: 400;
                 padding-left: 16px;
+                color: var(--text-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .role li { margin-bottom: 4px; }
+            .kw {
+                color: var(--text) !important;
+                font-weight: 600 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
             .side { padding-left: 4px; }
             .side-list {
                 font-size: 11.5px;
                 gap: 12px;
-                line-height: 1.45;
+                line-height: 1.5;
+                letter-spacing: -0.015em;
+                font-weight: 400;
+                color: var(--text-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .side-list strong {
                 font-size: 11px;
@@ -471,12 +543,104 @@
             body {
                 padding: 12mm 14mm !important;
             }
-            /* Match page-1 top inset when this block starts page 2 */
-            .role--page-two {
+            /* Match page-1 top inset when a role starts page 2.
+               EN breaks before Manulife; ZH is denser and breaks before Quantifeed. */
+            html[lang="en"] .role--page-two,
+            html[lang="zh-CN"] .role--page-two-zh {
                 break-before: page;
                 page-break-before: always;
                 padding-top: 12mm;
             }
+            /* EN page 2 holds three roles plus the portfolio. A slightly
+               tighter rhythm keeps both on the page without crowding. */
+            html[lang="en"] .role--page-two,
+            html[lang="en"] .role--page-two ~ .role {
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+            }
+            html[lang="en"] .role--page-two ul,
+            html[lang="en"] .role--page-two ~ .role ul {
+                line-height: 1.42;
+            }
+            html[lang="en"] .role--page-two li,
+            html[lang="en"] .role--page-two ~ .role li {
+                margin-bottom: 2px;
+            }
+            html[lang="en"] .role--page-two ~ .role:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: 0;
+            }
+            .portfolio-page {
+                break-before: auto;
+                page-break-before: auto;
+                /* Same width as the experience column (1fr beside a 200px side, 32px gap). */
+                width: calc(100% - 232px);
+                margin-top: 18px;
+                margin-left: 0;
+                margin-right: auto;
+                padding-top: 0;
+            }
+            .portfolio-head { margin-bottom: 8px; }
+            .portfolio-grid {
+                gap: 10px 14px;
+                align-items: start;
+                justify-content: stretch;
+            }
+            .work-card {
+                width: auto;
+                max-width: none;
+                margin: 0;
+            }
+            /* Same frame colors as the screen: covers composite on #f3f2ee,
+               the agent workspace on #f4f5f6. */
+            .work-shot,
+            .work-shot--kyc,
+            .work-shot--dash {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 10;
+                display: block;
+                margin: 0 0 4px;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #f3f2ee;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .work-shot--agent {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 10;
+                display: block;
+                margin: 0 0 4px;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #f4f5f6;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .work-shot img,
+            .work-shot--kyc img,
+            .work-shot--dash img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                max-height: none;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 0;
+            }
+            .work-shot--agent img {
+                object-fit: contain;
+                object-position: center;
+            }
+            .work-shot--kyc img { object-position: 17% center; }
+            .work-shot--dash img { object-position: center 30%; }
+            .work-meta { font-size: 9.5px; margin-bottom: 1px; }
+            .work-title { font-size: 11.5px; margin-bottom: 1px; line-height: 1.25; }
+            .work-outcome { font-size: 10px; line-height: 1.3; margin: 0; }
         }
 
         @media (max-width: 700px) {
@@ -486,13 +650,15 @@
                 grid-template-columns: 1fr 168px;
                 gap: 20px;
             }
-            .role-header { flex-direction: column; gap: 4px; }
         }
 
         @media (max-width: 520px) {
             .resume-header .intro { grid-template-columns: 1fr; gap: 16px; }
             .resume-header .contact { flex-direction: row; flex-wrap: wrap; }
             .resume-header .contact .contact-item { width: auto; }
+            .portfolio-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .portfolio-access { white-space: normal; }
+            .portfolio-grid { grid-template-columns: 1fr; }
         }
 
         body.force-print-desktop .layout,
@@ -508,38 +674,91 @@
         body.force-print-desktop .role-header {
             flex-direction: row !important;
         }
+
+        @media screen {
+            html { background: var(--page); }
+            body {
+                background: var(--page) !important;
+                padding: 88px 16px 48px !important;
+                line-height: 1.5;
+            }
+            .role { border-bottom: 0 !important; }
+            .page {
+                position: relative;
+                isolation: isolate;
+                width: 210mm;
+                margin: 0 auto;
+                background: transparent;
+                padding-top: 12mm !important;
+                padding-right: 14mm !important;
+                padding-left: 14mm !important;
+                padding-bottom: 0;
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .page::before,
+            .page::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 297mm;
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                box-shadow: 0 1px 2px rgba(22, 22, 22, 0.04), 0 18px 40px rgba(22, 22, 22, 0.05);
+                z-index: -1;
+                pointer-events: none;
+            }
+            .page::before { top: 0; }
+            .page::after { bottom: 0; }
+            .layout,
+            .resume-header .intro {
+                display: grid !important;
+                grid-template-columns: 1fr 200px !important;
+                gap: 32px !important;
+            }
+            .portfolio-grid { grid-template-columns: 1fr 1fr !important; }
+            #a4-ruler {
+                position: absolute;
+                width: 0;
+                height: 297mm;
+                overflow: hidden;
+                visibility: hidden;
+                pointer-events: none;
+            }
+            #preview-page-gap { display: block; }
+            .preview-page-cut {
+                height: 28px;
+            }
+        }
     </style>
 </head>
 <body>
 
+<div id="a4-ruler" aria-hidden="true"></div>
 <div class="toolbar">
     <a href="index.html" id="back-to-portfolio">&larr; Back to portfolio</a>
     <span class="spacer"></span>
+    <button type="button" id="language-toggle" aria-label="Switch resume language">中文</button>
     <span class="label">Export:</span>
     <button type="button" id="save-pdf">Save as PDF</button>
 </div>
 
 <div class="page">
 <header class="resume-header">
-    <p class="eyebrow">Senior product designer</p>
+    <p class="eyebrow">Senior UI/UX designer</p>
     <div class="intro">
         <div class="identity">
             <h1>Qin Wang</h1>
             <p class="subtitle">
-                Senior Product Designer with <span class="kw">7+ years</span> of experience across <span class="kw">fintech</span>, <span class="kw">crypto</span>, and AI-enabled products. Experienced in designing <span class="kw">asset management</span> &amp; <span class="kw">institutional portfolio management</span> platforms, <span class="kw">customer onboarding</span> workflows, and enterprise/internal systems, including <span class="kw">KYC/KYB, AML</span>, and AI-powered customer service tools. Wealth management platforms I’ve designed have been used by <span class="kw">HSBC, DBS,</span> and <span class="kw">MUFG</span>.
+Senior UI/UX designer with <span class="kw">7+ years</span> in financial services, designing <span class="kw">mobile and web</span> products for wealth, regulated onboarding, and compliance. I turn complex business and technology requirements — <span class="kw">KYC/KYB</span>, portfolio and risk data, and <span class="kw">AI-assisted workflows</span> — into clear customer and operator experiences. Wealth products I designed are used by <span class="kw">HSBC, DBS,</span> and <span class="kw">MUFG</span>.
             </p>
         </div>
         <div class="contact">
             <a class="contact-item" href="mailto:54wangqin1995@gmail.com">54wangqin1995@gmail.com</a>
             <a class="contact-item" href="https://www.qin-wang.net" target="_blank" rel="noopener">Portfolio <span class="hint">↗</span></a>
-            <button type="button" class="contact-item" id="copy-password" data-password="qinwang26" aria-label="Copy portfolio password">
-                Password
-                <svg class="copy-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
-                    <path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-                <span class="print-password">qinwang26</span>
-            </button>
             <a class="contact-item" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener">LinkedIn <span class="hint">↗</span></a>
         </div>
     </div>
@@ -553,18 +772,18 @@
             <div class="role">
                 <div class="role-header">
                     <span class="role-title">Avenir Group</span>
-                    <span class="role-meta">Dec 2025 – Present</span>
+                    <span class="role-meta">Dec 2025 – Sep 2026</span>
                 </div>
                 <div class="role-org">Staff Product Designer · Hong Kong</div>
                 <div class="role-scopes">
-                    <span class="role-scope">Asset dashboard</span>
-                    <span class="role-scope">Multi-Account</span>
+                    <span class="role-scope">Portfolio dashboard</span>
                     <span class="role-scope">Crypto &amp; Security</span>
+                    <span class="role-scope">HNW users</span>
+                    <span class="role-scope role-scope--muted">Mobile &amp; Web</span>
                 </div>
                 <ul>
-                    <li>Owned and redesigned the <span class="kw">Assets</span> experience on <span class="kw">App and Web</span> — unified <span class="kw">crypto</span> and <span class="kw">US/HK securities</span> for institutional and HNW clients. Shipped in a <span class="kw">controlled rollout</span>.</li>
-                    <li>Reframed the portfolio experience around <span class="kw">overall performance</span> vs. <span class="kw">individual holdings</span>, establishing a clearer information architecture across Homepage and Assets.</li>
-                    <li>Used interactive and coded prototypes to accelerate <span class="kw">design exploration, Product/Engineering alignment, and handoff</span>, including a bilingual prototype as a source of truth.</li>
+                    <li>Led the <span class="kw">mobile-first</span> redesign of UMX’s <span class="kw">Assets</span> experience for institutional and high-net-worth clients, unifying <span class="kw">crypto</span> and <span class="kw">US/HK securities</span> into one portfolio on app and web.</li>
+                    <li>Worked daily with the founder, management, and Product to set direction and priorities; aligned in <span class="kw">one week</span> through rapid prototypes, and the app launched publicly <span class="kw">four months</span> later.</li>
                 </ul>
             </div>
 
@@ -575,14 +794,14 @@
                 </div>
                 <div class="role-org">Senior / Lead UI/UX Designer · Hong Kong</div>
                 <div class="role-scopes">
-                    <span class="role-scope">Client onboarding</span>
-                    <span class="role-scope">Internal platforms</span>
-                    <span class="role-scope">Conversion funnel analysis</span>
+                    <span class="role-scope">Onboarding</span>
+                    <span class="role-scope">Internal Platforms</span>
+                    <span class="role-scope">Design System</span>
+                    <span class="role-scope role-scope--muted">Mobile &amp; Web</span>
                 </div>
                 <ul>
-                    <li>Owned <span class="kw">0→1 client onboarding</span> for <span class="kw">Australia and Europe</span> — translating regulatory <span class="kw">KYC/KYB</span> requirements into clear consumer and institutional flows.</li>
-                    <li>Led <span class="kw">3 designers</span> to ship <span class="kw">5 internal platforms</span> and a <span class="kw">shared design system</span> in <span class="kw">6 months</span> for operations, compliance and customer success.</li>
-                    <li>Designed the UI/UX for an AI chatbot configuration system and customer-service routing workflows, enabling teams to configure AI agents, service scenarios, and routing logic.</li>
+                    <li>Owned <span class="kw">0→1 consumer and institutional onboarding</span> for <span class="kw">Australia and Europe</span>, translating <span class="kw">KYC/KYB</span> requirements into clear, low-friction <span class="kw">mobile and web</span> journeys.</li>
+                    <li>Led <span class="kw">3 designers</span> to ship <span class="kw">5 internal platforms</span> and a <span class="kw">shared design system</span> in <span class="kw">6 months</span>, including an agent workspace for <span class="kw">200+ support agents</span> with <span class="kw">AI reply suggestions</span> and <span class="kw">chat summaries</span>, designed so agents review and send the response themselves.</li>
                 </ul>
             </div>
 
@@ -593,13 +812,15 @@
                 </div>
                 <div class="role-org">Product Designer · Hong Kong</div>
                 <div class="role-scopes">
-                    <span class="role-scope">Blockchain Analytics</span>
-                    <span class="role-scope">Crypto Compliance</span>
-                    <span class="role-scope">Web3</span>
+                    <span class="role-scope">On-Chain AML</span>
+                    <span class="role-scope">Web 3 Transaction-tracing Graph</span>
+                    <span class="role-scope role-scope--muted">ToB, ToG</span>
+                    <span class="role-scope role-scope--muted">Web</span>
                 </div>
                 <ul>
-                    <li>Designed a multi-step <span class="kw">risk-analysis system</span> for analysts, translating a complex <span class="kw">investigation workflow</span> into a <span class="kw">compliance &amp; regulation platform</span> for web3 regulators &amp; compliance officers.</li>
-                    <li>Conducted <span class="kw">user research</span> with analysts and introduced <span class="kw">event tracking</span> to validate usage and inform roadmap decisions.</li>
+                    <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
+                    <li>Made complex risk signals actionable through graph visualisation and a multi-step investigation workflow; built a <span class="kw">FATF-compliant risk-scoring</span> UI with <span class="kw">14+ configurable risk factors</span>.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
                 </ul>
             </div>
 
@@ -612,27 +833,30 @@
                 <div class="role-scopes">
                     <span class="role-scope">Internal tools</span>
                     <span class="role-scope">Agent recruitment</span>
+                    <span class="role-scope role-scope--muted">Web</span>
                 </div>
                 <ul>
                     <li>Led <span class="kw">0→1 UX</span> for an <span class="kw">agent recruitment</span> system.</li>
-                    <li>Worked with research, BAs, engineering and the <span class="kw">design-system</span> owner to define flows and a <span class="kw">scalable</span> solution.</li>
+                    <li>Collaborated with research, BAs, engineering and the <span class="kw">design-system</span> owner to define flows and a <span class="kw">scalable</span> solution.</li>
                 </ul>
             </div>
 
-            <div class="role">
+            <div class="role role--page-two-zh">
                 <div class="role-header">
                     <span class="role-title">Quantifeed</span>
                     <span class="role-meta">Sep 2020 – Jul 2022</span>
                 </div>
                 <div class="role-org">UX/UI Designer · Hong Kong</div>
                 <div class="role-scopes">
-                    <span class="role-scope">Wealth management</span>
-                    <span class="role-scope">Portfolio</span>
+                    <span class="role-scope">Institutional wealth</span>
+                    <span class="role-scope">Portfolio management</span>
                     <span class="role-scope">Advisor tools</span>
+                    <span class="role-scope role-scope--muted">ToB</span>
+                    <span class="role-scope role-scope--muted">Web</span>
                 </div>
                 <ul>
-                    <li>Designed a discretionary wealth and portfolio platform used by <span class="kw">HSBC, DBS, MUFG and Yachin</span>, supporting professional users across portfolio construction, monitoring, and management.</li>
-                    <li>Led discovery for a financial-advisor product through interviews, card sorting, and workshops with investment-bank directors to define requirements and roadmap.</li>
+                    <li>Designed institutional wealth and portfolio-management products used by <span class="kw">HSBC, DBS, MUFG</span> and <span class="kw">Yachin</span>, supporting professional users across portfolio construction, monitoring, and management.</li>
+                    <li>Led discovery for a financial-advisor product through interviews, card sorting, and workshops with investment-bank directors, and used that evidence to prioritise the roadmap.</li>
                     <li>Introduced <span class="kw">user research, usability testing, and A/B testing</span> to make product decisions more evidence-led.</li>
                 </ul>
             </div>
@@ -643,8 +867,13 @@
                     <span class="role-meta">Dec 2018 – Oct 2019</span>
                 </div>
                 <div class="role-org">UX Designer · Beijing</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Advertising</span>
+                    <span class="role-scope role-scope--muted">ToB</span>
+                    <span class="role-scope role-scope--muted">Web</span>
+                </div>
                 <ul>
-                    <li>Designed <span class="kw">consumer flows</span> and specs for <span class="kw">Microsoft Ads</span> (US); refined <span class="kw">design-system</span> patterns used by <span class="kw">50+ designers</span>.</li>
+                    <li>Designed <span class="kw">ad-campaign creation flows</span> for <span class="kw">Microsoft Ads</span> (US), and refined <span class="kw">design-system</span> patterns to the <span class="kw">WCAG</span> accessibility standard, used by <span class="kw">50+ designers</span>.</li>
                 </ul>
             </div>
         </section>
@@ -656,27 +885,23 @@
             <ul class="side-list">
                 <li>
                     <strong>Product Design</strong>
-                    End-to-end product design · Information architecture · Interaction design · Web &amp; mobile · Design systems · Prototyping
+                    Mobile and web · End-to-end journeys · Information architecture · UI patterns and design systems
                 </li>
                 <li>
                     <strong>Research &amp; Data</strong>
-                    User interviews · Usability testing · Synthesis · A/B testing · Event tracking · Behavioral analysis
+                    User interviews · Usability testing · A/B testing · Event tracking · Behavioral analysis
                 </li>
                 <li>
                     <strong>Domain</strong>
-                    Wealth &amp; Asset · Onboarding · KYC/KYB · Compliance · AML
-                </li>
-                <li>
-                    <strong>Collaboration</strong>
-                    Product · Engineering · Operations · Risk · Design leadership
+                    Wealth · Banking clients · KYC/KYB · AML and compliance · AI-assisted workflows
                 </li>
                 <li>
                     <strong>Tools</strong>
-                    Figma · Prototyping · Claude · Cursor
+                    Figma · Prototypes · Claude · Cursor
                 </li>
                 <li>
                     <strong>Languages</strong>
-                    Chinese (native) · English (fluent) · Cantonese
+                    Chinese (native) · English (fluent)
                 </li>
             </ul>
         </section>
@@ -705,12 +930,195 @@
         </section>
     </aside>
 </div>
-</div>
 
-<div class="toast" id="copy-toast" role="status" aria-live="polite">Password copied</div>
+<section class="portfolio-page" aria-labelledby="portfolio-heading">
+    <div class="portfolio-head">
+        <h2 class="portfolio-title" id="portfolio-heading">Selected work</h2>
+        <p class="portfolio-access"><a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a></p>
+    </div>
+    <div class="portfolio-grid">
+        <a class="work-card" href="https://www.qin-wang.net/asset.html" target="_blank" rel="noopener">
+            <div class="work-shot">
+                <img src="resources/images-asset/asset-cover-centered.png?v=3" width="1024" height="640" alt="Mobile Assets screens with a unified crypto and securities portfolio">
+            </div>
+            <p class="work-meta">2026 · Avenir Group</p>
+            <h3 class="work-title">Assets — mobile-first portfolio</h3>
+            <p class="work-outcome">Aligned in a week; the app launched publicly in four months.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/internal-system.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--agent">
+                <img src="resources/images-internal-system/cover-img.png" width="2078" height="1212" alt="Agent workspace with an AI suggested reply the agent can paste and send">
+            </div>
+            <p class="work-meta">2024–25 · KuCoin</p>
+            <h3 class="work-title">Agent workspace — AI reply suggestions</h3>
+            <p class="work-outcome">Chat summaries and suggested replies for 200+ agents, who review and send the response themselves.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/kyc-aus.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--kyc">
+                <img src="resources/images-kyc-aus/cover_img.png" width="1778" height="1000" alt="Retail KYC on laptop and phone for a regulated identity check">
+            </div>
+            <p class="work-meta">2025 · KuCoin</p>
+            <h3 class="work-title">Retail KYC — Australia and Europe</h3>
+            <p class="work-outcome">Regulated identity checks turned into a short mobile and web flow.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/dashboard.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--dash">
+                <img src="resources/images/dashboard-coverimg.png" width="1440" height="960" alt="Wealth dashboard with allocation, performance, and client investments">
+            </div>
+            <p class="work-meta">2020–22 · Quantifeed</p>
+            <h3 class="work-title">Wealth dashboard — shared across three systems</h3>
+            <p class="work-outcome">One pattern used by HSBC, DBS, and MUFG.</p>
+        </a>
+    </div>
+</section>
+</div>
 
 <script>
     (function () {
+        const languageToggle = document.getElementById('language-toggle');
+        const resumeTranslations = {
+            zh: {
+                title: '简历 — 王芹 · 高级 UI/UX 设计师',
+                eyebrow: '高级 UI/UX 设计师',
+                subtitle: '高级 UI/UX 设计师，在金融服务领域拥有 <span class="kw">7 年以上</span>经验，为财富管理、受监管开户与合规设计<span class="kw">移动端与 Web</span> 产品。我把复杂的业务与技术要求——<span class="kw">KYC/KYB</span>、投资组合与风险数据，以及 <span class="kw">AI 辅助工作流</span>——转化为清晰的客户体验与内部操作体验。我设计的财富管理产品已被 <span class="kw">HSBC、DBS</span> 和 <span class="kw">MUFG</span> 使用。',
+                sections: ['工作经历', '技能', '教育背景', '研究经历'],
+                orgs: [
+                    'Staff 产品设计师 · 香港',
+                    '高级／负责人 UI/UX 设计师 · 香港',
+                    '产品设计师 · 香港',
+                    'UX 设计师 · 香港',
+                    'UX/UI 设计师 · 香港',
+                    'UX 设计师 · 北京'
+                ],
+                scopes: [
+                    '投资组合仪表盘', '加密与证券', '高净值用户', '移动端 & Web',
+                    '客户开户', '内部平台', '设计系统', '移动端 & Web',
+                    '链上反洗钱', 'Web 3 交易追踪图谱', 'ToB, ToG', 'Web',
+                    '内部工具', '代理人招聘', 'Web',
+                    '机构财富管理', '投资组合管理', '顾问工具', 'ToB', 'Web',
+                    '广告', 'ToB', 'Web'
+                ],
+                bullets: [
+                    '主导 UMX <span class="kw">资产</span>体验的<span class="kw">移动端优先</span>重设计，为机构及高净值客户将<span class="kw">加密资产</span>与<span class="kw">美股／港股</span>整合为 App 与 Web 上的统一投资组合。',
+                    '与创始人、管理层及产品团队每日协作，确定方向与优先级；通过快速原型在<span class="kw">一周</span>内对齐，应用在 <span class="kw">4 个月</span>后公开发布。',
+                    '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，将<span class="kw">KYC/KYB</span>要求转化为清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
+                    '带领 <span class="kw">3 名设计师</span>，在 <span class="kw">6 个月</span>内交付 <span class="kw">5 个内部平台</span>及一套<span class="kw">共享设计系统</span>，其中包括服务 <span class="kw">200+</span> 客服坐席的工作台，含<span class="kw">AI 回复建议</span>与<span class="kw">对话摘要</span>，由坐席审核后再发送。',
+                    '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
+                    '通过图谱可视化与多步骤调查工作流将复杂风险信号转化为可执行洞察；搭建<span class="kw">符合 FATF 的风险评分</span>界面，支持<span class="kw">14+ 项可配置风险因子</span>。',
+                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
+                    '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
+                    '设计被 <span class="kw">HSBC、DBS、MUFG</span> 与 <span class="kw">Yachin</span> 使用的机构财富及投资组合管理产品，支持专业用户进行投资组合构建、监控与管理。',
+                    '通过访谈、卡片分类，以及与投行负责人的工作坊，主导理财顾问产品的探索，并据此排定产品路线图的优先级。',
+                    '引入<span class="kw">用户研究、可用性测试和 A/B 测试</span>，使产品决策更具实证依据。',
+                    '为美国市场的 <span class="kw">Microsoft Ads</span> 设计<span class="kw">广告投放创建流程</span>，并按 <span class="kw">WCAG</span> 无障碍标准完善被 <span class="kw">50+ 设计师</span>使用的<span class="kw">设计系统</span>模式。'
+                ],
+                skills: [
+                    '<strong>产品设计</strong>移动端与 Web · 端到端旅程 · 信息架构 · UI 模式与设计系统',
+                    '<strong>研究与数据</strong>用户访谈 · 可用性测试 · A/B 测试 · 事件埋点 · 行为分析',
+                    '<strong>专业领域</strong>财富管理 · 银行客户 · KYC/KYB · 反洗钱与合规 · AI 辅助工作流',
+                    '<strong>工具</strong>Figma · 原型 · Claude · Cursor',
+                    '<strong>语言</strong>中文（母语） · 英文（流利）'
+                ],
+                degrees: ['人机交互理学硕士', '产品设计理学学士', '研究助理'],
+                portfolioTitle: '精选作品',
+                portfolioAccess: '<a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a>',
+                workMeta: [
+                    '2026 · Avenir Group',
+                    '2024–25 · KuCoin',
+                    '2025 · KuCoin',
+                    '2020–22 · Quantifeed'
+                ],
+                workTitle: [
+                    '资产 — 移动端优先的投资组合',
+                    '客服工作台 — AI 回复建议',
+                    '零售 KYC — 澳大利亚与欧洲',
+                    '财富仪表盘 — 三套系统共用'
+                ],
+                workOutcome: [
+                    '一周内对齐方向，四个月后公开发布。',
+                    '为 200+ 坐席设计对话摘要与回复建议，由坐席审核后再发送。',
+                    '将受监管的身份核验做成简短的移动端与 Web 流程。',
+                    '同一套模式被 HSBC、DBS 与 MUFG 使用。'
+                ]
+            }
+        };
+
+        function setCollection(selector, values) {
+            document.querySelectorAll(selector).forEach(function (element, index) {
+                if (!element.dataset.en) element.dataset.en = element.innerHTML;
+                element.innerHTML = values ? values[index] : element.dataset.en;
+            });
+        }
+
+        function setLanguage(language) {
+            const copy = language === 'zh' ? resumeTranslations.zh : null;
+            document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+            document.title = copy ? copy.title : 'Resume — Qin Wang · Senior UI/UX Designer';
+            const eyebrow = document.querySelector('.eyebrow');
+            const subtitle = document.querySelector('.subtitle');
+            if (!eyebrow.dataset.en) eyebrow.dataset.en = eyebrow.innerHTML;
+            if (!subtitle.dataset.en) subtitle.dataset.en = subtitle.innerHTML;
+            eyebrow.innerHTML = copy ? copy.eyebrow : eyebrow.dataset.en;
+            subtitle.innerHTML = copy ? copy.subtitle : subtitle.dataset.en;
+            setCollection('.section-title', copy ? copy.sections : null);
+            setCollection('.role-org', copy ? copy.orgs : null);
+            setCollection('.role-scope', copy ? copy.scopes : null);
+            setCollection('.role li', copy ? copy.bullets : null);
+            setCollection('.side-list li', copy ? copy.skills : null);
+            setCollection('.degree', copy ? copy.degrees : null);
+            const portfolioTitle = document.querySelector('.portfolio-title');
+            const portfolioAccess = document.querySelector('.portfolio-access');
+            if (portfolioTitle && !portfolioTitle.dataset.en) portfolioTitle.dataset.en = portfolioTitle.innerHTML;
+            if (portfolioAccess && !portfolioAccess.dataset.en) portfolioAccess.dataset.en = portfolioAccess.innerHTML;
+            if (portfolioTitle) portfolioTitle.innerHTML = copy ? copy.portfolioTitle : portfolioTitle.dataset.en;
+            if (portfolioAccess) portfolioAccess.innerHTML = copy ? copy.portfolioAccess : portfolioAccess.dataset.en;
+            setCollection('.work-meta', copy ? copy.workMeta : null);
+            setCollection('.work-title', copy ? copy.workTitle : null);
+            setCollection('.work-outcome', copy ? copy.workOutcome : null);
+            languageToggle.textContent = language === 'zh' ? 'EN' : '中文';
+            languageToggle.setAttribute('aria-label', language === 'zh' ? '切换至英文简历' : '切换至中文简历');
+            localStorage.setItem('resume-language', language);
+            syncPreviewPages();
+        }
+
+        function syncPreviewPages() {
+            const page = document.querySelector('.page');
+            const ruler = document.getElementById('a4-ruler');
+            const zh = document.documentElement.lang === 'zh-CN';
+            const breakEl = document.querySelector(zh ? '.role--page-two-zh' : '.role--page-two');
+            if (!page || !ruler || !breakEl) return;
+
+            let gap = document.getElementById('preview-page-gap');
+            if (!gap) {
+                gap = document.createElement('div');
+                gap.id = 'preview-page-gap';
+                gap.setAttribute('aria-hidden', 'true');
+                gap.innerHTML = '<div class="preview-page-rest"></div><div class="preview-page-cut"></div>';
+            }
+            breakEl.parentNode.insertBefore(gap, breakEl);
+            page.style.paddingBottom = '';
+            gap.querySelector('.preview-page-rest').style.height = '0px';
+
+            const pageH = ruler.getBoundingClientRect().height;
+            const cut = gap.querySelector('.preview-page-cut');
+            const cutH = cut.getBoundingClientRect().height;
+            const used = breakEl.getBoundingClientRect().top - page.getBoundingClientRect().top - cutH;
+            gap.querySelector('.preview-page-rest').style.height = Math.max(0, pageH - used) + 'px';
+
+            const page2Start = breakEl.getBoundingClientRect().top - page.getBoundingClientRect().top;
+            const page2Used = page.scrollHeight - page2Start;
+            page.style.paddingBottom = Math.max(0, pageH - page2Used) + 'px';
+        }
+
+        if (languageToggle) {
+            const savedLanguage = localStorage.getItem('resume-language');
+            if (new URLSearchParams(location.search).get('lang') === 'zh' || savedLanguage === 'zh') setLanguage('zh');
+            languageToggle.addEventListener('click', function () {
+                setLanguage(document.documentElement.lang === 'zh-CN' ? 'en' : 'zh');
+            });
+        }
+
         const back = document.getElementById('back-to-portfolio');
         if (back) {
             let sameOrigin = false;
@@ -728,44 +1136,6 @@
             }
         }
 
-        const copyPassword = document.getElementById('copy-password');
-        const copyToast = document.getElementById('copy-toast');
-        let toastTimer = null;
-
-        function showToast(message) {
-            if (!copyToast) return;
-            copyToast.textContent = message;
-            copyToast.classList.add('is-visible');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(function () {
-                copyToast.classList.remove('is-visible');
-            }, 1800);
-        }
-
-        if (copyPassword) {
-            copyPassword.addEventListener('click', async function () {
-                const password = copyPassword.getAttribute('data-password') || 'qinwang26';
-                try {
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        await navigator.clipboard.writeText(password);
-                    } else {
-                        const input = document.createElement('textarea');
-                        input.value = password;
-                        input.setAttribute('readonly', '');
-                        input.style.position = 'fixed';
-                        input.style.left = '-9999px';
-                        document.body.appendChild(input);
-                        input.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(input);
-                    }
-                    showToast('Password copied');
-                } catch (err) {
-                    showToast('Couldn’t copy password');
-                }
-            });
-        }
-
         function savePdf() {
             const now = new Date();
             const yymm = String(now.getFullYear()).slice(-2) +
@@ -780,6 +1150,7 @@
                 document.title = previousTitle;
                 document.body.classList.remove('force-print-desktop');
                 window.removeEventListener('afterprint', cleanup);
+                syncPreviewPages();
             };
 
             window.addEventListener('afterprint', cleanup);
@@ -792,6 +1163,18 @@
         if (saveButton) {
             saveButton.addEventListener('click', savePdf);
         }
+
+        function schedulePreviewPages() {
+            syncPreviewPages();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncPreviewPages);
+        }
+        window.addEventListener('load', schedulePreviewPages);
+        window.addEventListener('resize', syncPreviewPages);
+        window.addEventListener('beforeprint', function () {
+            const page = document.querySelector('.page');
+            if (page) page.style.paddingBottom = '';
+        });
+        schedulePreviewPages();
 
         if (new URLSearchParams(window.location.search).has('pdf')) {
             window.addEventListener('load', function () {

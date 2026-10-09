@@ -6,7 +6,7 @@
 //   <site-header></site-header>
 //
 // Edit THIS file to change nav for the whole site. Optional:
-//   <site-header current="home|work|about"></site-header>
+//   <site-header current="work|about"></site-header>
 //   <site-header lang-switch></site-header>   EN / 中文, off by default
 //   <site-header progress></site-header>      reading-progress bar
 // If current is omitted, it is inferred from the URL.
@@ -47,7 +47,6 @@
 
   const inferCurrent = () => {
     const file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    if (file === '' || file === 'index.html') return 'home';
     if (file === 'about.html') return 'about';
     return 'work';
   };
@@ -87,8 +86,7 @@
             </a>
             <div class="site-header__end">
                 <nav class="site-nav" aria-label="Primary">
-                    ${navLink('index.html', 'home', 'Home', current)}
-                    ${navLink('work.html', 'work', 'Work', current)}
+                    ${navLink('index.html', 'work', 'Work', current)}
                     ${navLink('about.html', 'about', 'About', current)}
                     <span class="site-nav__divider" aria-hidden="true"></span>
                 </nav>
@@ -101,8 +99,7 @@
             </div>
         </div>
         <div id="menu" role="menu">
-            <a href="index.html" role="menuitem">Home</a>
-            <a href="work.html" role="menuitem">Work</a>
+            <a href="index.html" role="menuitem">Work</a>
             <a href="about.html" role="menuitem">About</a>
         </div>
         ${progressMarkup}

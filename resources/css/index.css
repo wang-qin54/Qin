@@ -387,8 +387,6 @@ p {
   display: grid;
   grid-template-columns: max-content 1fr;
   column-gap: var(--space-3);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--border);
   margin: 0 0 var(--space-5);
 }
 
@@ -463,6 +461,8 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-4);
   margin-top: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
 }
 
 .stat {
@@ -677,6 +677,19 @@ p {
   color: var(--text-secondary);
   max-width: 60ch;
   margin-bottom: var(--space-6);
+}
+
+.work-page__resume {
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+}
+
+.work-page__resume:hover {
+  text-decoration-color: var(--text-primary);
 }
 
 /* non-linked project cards */

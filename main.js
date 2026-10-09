@@ -44,7 +44,9 @@
 
     const chips = filterContainer.querySelectorAll('[data-filter]');
     const recentGrid = document.querySelector('[data-filter-layout="recent"]');
+    const featuredGrid = document.querySelector('[data-filter-layout="featured"]');
     const curatedGrid = document.querySelector('[data-filter-layout="all"]');
+    const defaultFilter = featuredGrid ? 'featured' : 'all';
     const timelineGrid = document.querySelector('[data-filter-layout="timeline"]');
 
     const updateSectionVisibility = (root) => {
@@ -117,13 +119,15 @@
     const applyFilter = (filter) => {
       if (filter === 'recent') filter = 'all';
       const isAll = filter === 'all';
+      const isFeatured = filter === 'featured';
       const isRecent = false;
 
       if (recentGrid) recentGrid.hidden = !isRecent;
+      if (featuredGrid) featuredGrid.hidden = !isFeatured;
       if (curatedGrid) curatedGrid.hidden = !isAll;
-      if (timelineGrid) timelineGrid.hidden = isAll || isRecent;
+      if (timelineGrid) timelineGrid.hidden = isAll || isFeatured || isRecent;
 
-      if (isAll || isRecent || !timelineGrid) {
+      if (isAll || isFeatured || isRecent || !timelineGrid) {
         // Restore section headings for next time timeline is used
         if (timelineGrid) {
           timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
@@ -160,7 +164,7 @@
     };
 
     const setActiveFilter = (filter) => {
-      const normalized = (filter || 'all').toLowerCase();
+      const normalized = (filter || defaultFilter).toLowerCase();
       const chip = Array.from(chips).find(
         (c) => c.getAttribute('data-filter') === normalized
       );
@@ -192,13 +196,13 @@
       if (!chip) return false;
 
       setActiveFilter(filter);
-      if (filter !== 'all') updateFilterUrl(filter);
+      if (filter !== defaultFilter) updateFilterUrl(filter);
       return true;
     };
 
     const updateFilterUrl = (filter) => {
       const path = window.location.pathname;
-      if (filter && filter !== 'all') {
+      if (filter && filter !== defaultFilter) {
         window.history.replaceState(null, '', `${path}?filter=${filter}`);
       } else {
         window.history.replaceState(null, '', path);

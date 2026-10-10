@@ -1,0 +1,226 @@
+/* ==================================================================
+   Case-study page pattern (reference: asset.html)
+   Load after detailpage.css. Everything is opt-in by class, so a page
+   only changes once it is moved onto the pattern.
+   ================================================================== */
+
+/* ------------------------------------------------------------------
+   1. Hero  —  <div class="page-title-box case-hero">
+   Title, role line, stage strip, spec sheet, optional backstory on the
+   left; a bottom-aligned device image on the right that sits on the
+   hero's bottom edge.
+   ------------------------------------------------------------------ */
+
+.page-title-box.case-hero {
+  padding: 64px 40px 0;
+  border-bottom: 0;
+  overflow: hidden;
+}
+.case-hero .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0;
+  align-items: end;
+}
+.case-hero .page-title-content {
+  justify-self: start;
+  align-self: end;
+  width: 100%;
+  max-width: 520px;
+  margin-left: var(--space-5);
+  padding-bottom: 40px;
+  box-sizing: border-box;
+}
+.case-hero .page-title-content h2 {
+  font-family: var(--font-title);
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* Role line: bold title · plain responsibilities */
+.case-hero .as-role { margin: 12px 0 0; font-size: 15px; line-height: 1.45; color: var(--text-secondary); }
+.case-hero .as-role strong { color: var(--text-primary); font-weight: 600; }
+.case-hero .as-role__rest { white-space: nowrap; }
+
+/* Stage strip: one surface read left to right as time; .is-turn marks
+   the stage the case is about. 3–4 stages. */
+.case-hero .as-stats {
+  display: grid;
+  grid-template-columns: repeat(var(--stats-n, 4), minmax(0, 1fr));
+  gap: 0;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 520px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.case-hero .as-stats li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 16px 16px 14px;
+  background: transparent;
+  border-right: 1px solid var(--border);
+}
+.case-hero .as-stats li:last-child { border-right: 0; }
+.case-hero .as-stats li.is-turn { background: rgba(0, 52, 240, 0.05); }
+.case-hero .as-stats__num {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text-primary);
+}
+.case-hero .as-stats li.is-turn .as-stats__num { color: var(--accent); }
+.case-hero .as-stats__label {
+  font-size: 12px;
+  line-height: 1.25;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Spec sheet: label column + value, one row per <div> */
+.case-hero .as-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  max-width: 520px;
+  border-top: 0;
+}
+.case-hero .as-meta > div {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: baseline;
+  min-width: 0;
+}
+.case-hero .as-meta dt,
+.case-hero .as-meta dd { margin: 0; padding: 0; }
+.case-hero .as-meta dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.case-hero .as-meta dd { font-size: 14px; line-height: 1.45; color: var(--text-primary); }
+
+/* Optional backstory disclosure */
+.case-hero .as-hero-more {
+  margin: 20px 0 0;
+  max-width: 520px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.case-hero .as-hero-more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+.case-hero .as-hero-more summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.case-hero .as-hero-more summary::-webkit-details-marker { display: none; }
+.case-hero .as-hero-more summary::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  margin-top: -1px;
+  flex: none;
+}
+.case-hero .as-hero-more[open] summary::before { transform: rotate(45deg); margin-top: 2px; }
+.case-hero .as-hero-more summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.case-hero .as-hero-more p {
+  margin: 10px 0 0;
+  padding: 0 0 0 12px;
+  border-left: 2px solid var(--border-strong);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Hero image: transparent PNG, devices standing on the bottom edge */
+.case-hero .title-img {
+  display: flex;
+  justify-content: center;
+  align-self: end;
+  position: relative;
+  line-height: 0;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  margin: 0 0 -1px;
+}
+.case-hero .title-img img,
+.case-hero .title-img video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 360px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* Chinese: CJK needs more leading and no negative tracking */
+html[data-lang="zh"] .case-hero .page-title-content h2 { letter-spacing: -0.01em; line-height: 1.35; }
+html[data-lang="zh"] .case-hero .as-meta dt { font-size: 12px; letter-spacing: 0.06em; }
+
+@media (max-width: 1100px) {
+  .case-hero .grid {
+    max-width: var(--container-narrow);
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    align-items: center;
+    justify-items: start;
+  }
+  .case-hero .page-title-content { grid-column: 1 / -1; justify-self: start; margin-left: var(--space-5); }
+  .case-hero .title-img { grid-column: 1 / -1; justify-content: center; width: 100%; margin: 0 0 -1px; }
+  .case-hero .title-img img,
+  .case-hero .title-img video { max-height: 260px; object-position: center bottom; }
+}
+@media (max-width: 720px) {
+  .page-title-box.case-hero { padding-left: 16px; padding-right: 16px; }
+  .case-hero .page-title-content { margin-left: 0; margin-right: 0; }
+  .case-hero .page-title-content h2 { font-size: 24px; }
+  .case-hero .as-role { font-size: 13.5px; }
+  .case-hero .as-stats__num { font-size: 17px; }
+  .case-hero .as-meta dd { font-size: 13px; }
+}
+@media (max-width: 560px) {
+  .case-hero .as-stats { grid-template-columns: 1fr 1fr; }
+  .case-hero .as-stats li { border-right: 0; border-bottom: 1px solid var(--border); }
+  .case-hero .as-stats li:nth-child(odd) { border-right: 1px solid var(--border); }
+  .case-hero .as-stats li:nth-last-child(-n+2) { border-bottom: 0; }
+  .case-hero .as-meta > div { grid-template-columns: 92px minmax(0, 1fr); }
+}
+@media (pointer: coarse) {
+  .case-hero .as-hero-more summary { padding-block: 10px; margin-block: -10px; }
+}

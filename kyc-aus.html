@@ -428,7 +428,7 @@
             .lightbox__img { max-height: 74vh; }
         }
     </style>
-    <script src="site-chrome.js?v=4"></script>
+    <script src="site-chrome.js?v=8"></script>
 </head>
 
 <body>
@@ -773,6 +773,7 @@
                 document.querySelectorAll('.kyc-shot img, .kyc-bench-card__frame img')
             );
             if (!figureImgs.length) return;
+            figureImgs.forEach(function (img) { img.setAttribute('data-no-zoom', ''); });
 
             var slides = figureImgs.map(function (img) {
                 var cap = '';

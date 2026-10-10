@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset management dashboard — Qin Wang</title>
-    <meta name="description" content="A shared account-dashboard pattern for portfolio managers, financial advisors, and white-labeled retail apps.">
+    <title>Portfolio management system — Qin Wang</title>
+    <meta name="description" content="An institutional portfolio management system: the design system under three products, plus deep dives on the shared account dashboard, model portfolio creation and a metrics comparison test.">
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
     <style>
         /* Page-scoped readability polish. Tokens come from detailpage.css. */
@@ -145,6 +145,135 @@
             color: var(--text-tertiary);
         }
 
+        .db-glance {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+            overflow: hidden;
+        }
+        .db-glance > div {
+            display: grid;
+            grid-template-columns: 96px minmax(0, 1fr);
+            column-gap: var(--space-4);
+            align-items: baseline;
+            padding: 14px 18px;
+            border-top: 1px solid var(--border);
+        }
+        .db-glance > div:first-child { border-top: 0; }
+        .db-glance dt {
+            margin: 0;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .db-glance dd {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.55;
+            color: var(--text-primary);
+        }
+        .db-chapter-meta {
+            margin: var(--space-3) 0 var(--space-5);
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .db-journey {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: var(--space-2);
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            list-style: none;
+            counter-reset: none;
+        }
+        .db-journey li {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 0;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            line-height: 1.35;
+            color: var(--text-secondary);
+        }
+        .db-journey li.is-mine {
+            border-color: var(--accent);
+            background: var(--accent-subtle);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .db-journey__n {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+        .db-journey em {
+            font-style: normal;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        .db-part {
+            margin: var(--space-7) 0 0;
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+        @media (max-width: 560px) {
+            .db-journey { grid-template-columns: 1fr 1fr; }
+        }
+
+        .db-more {
+            margin: var(--space-5) 0 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .db-more > summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 0;
+            cursor: pointer;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .db-more > summary::-webkit-details-marker { display: none; }
+        .db-more > summary::before {
+            content: "";
+            flex: none;
+            width: 6px;
+            height: 6px;
+            border-right: 1.5px solid currentColor;
+            border-bottom: 1.5px solid currentColor;
+            transform: rotate(-45deg);
+            transition: transform 0.15s ease;
+        }
+        .db-more[open] > summary::before { transform: rotate(45deg); }
+        .db-more > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .db-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+        .db-more[open] { padding-bottom: var(--space-5); }
+        .db-more > .db-sub:first-of-type { margin-top: var(--space-2); }
+
+        @media (max-width: 560px) {
+            .db-glance > div { grid-template-columns: 1fr; row-gap: 4px; padding: 12px 14px; }
+            .db-glance dd { font-size: 14px; }
+        }
+
         .db-embed {
             margin: var(--space-5) 0 var(--space-3);
             border: 1px solid var(--border);
@@ -160,6 +289,124 @@
             background: #fff;
         }
 
+        .sys-overview {
+            border-bottom: 1px solid var(--border);
+            padding: var(--space-8) 0;
+        }
+        .sys-overview__inner {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 var(--space-5);
+        }
+        .sys-overview .db-kicker { margin-top: 0; }
+        .sys-overview h3 {
+            margin: 0 0 var(--space-3);
+            font-size: 28px;
+            letter-spacing: -0.02em;
+        }
+        .sys-overview__lede {
+            margin: 0 0 var(--space-6);
+            max-width: 68ch;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        .sys-modules {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: var(--space-4);
+        }
+        .sys-module a {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
+        }
+        .sys-module__thumb {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+            transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+        }
+        .sys-module__thumb img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top left;
+        }
+        .sys-module a:hover .sys-module__thumb,
+        .sys-module a:focus-visible .sys-module__thumb {
+            border-color: var(--accent);
+            box-shadow: 0 12px 32px rgba(17, 17, 17, 0.08);
+        }
+        .sys-module__step {
+            display: block;
+            margin-top: var(--space-3);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .sys-module__name {
+            margin: 2px 0 4px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+        .sys-module__desc {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .sys-module__badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-inverse);
+            background: var(--accent);
+            border-radius: var(--radius-pill);
+            padding: 4px 8px;
+        }
+        .sys-module--current .sys-module__name { color: var(--accent); }
+        .sys-overview__note {
+            margin: var(--space-4) 0 0;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .db-module-list {
+            margin: var(--space-3) 0 0;
+            padding-left: 1.2em;
+        }
+        .db-module-list li {
+            margin-bottom: 6px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1100px) {
+            .sys-overview__inner { max-width: var(--container-narrow); }
+            .sys-modules { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        @media (max-width: 560px) {
+            .sys-modules { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
         @media (max-width: 720px) {
             .db-audience li,
             .db-pair {
@@ -172,61 +419,167 @@
             }
         }
     </style>
-    <script src="site-chrome.js?v=4"></script>
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
+    <style>
+        /* Portrait screenshot: show the top as a screen resting on the hero edge */
+        .case-hero .title-img img {
+            aspect-ratio: 4 / 3;
+            max-height: 380px;
+            object-fit: cover;
+            object-position: center top;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-bottom: 0;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.08);
+        }
+        @media (max-width: 1100px) {
+            .case-hero .title-img img { max-height: 280px; width: auto; }
+        }
+    </style>
+    <script src="site-chrome.js?v=8"></script>
 </head>
 
 <body>
     <site-header></site-header>
 
     <div class="anchor" id="top"></div>
-    <div class="page-title-box">
+    <div class="page-title-box case-hero">
         <div class="grid">
             <div class="page-title-content">
-                <nav class="case-back" aria-label="Case study navigation">
-                    <a class="case-back__link" href="work.html">
-                        <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span data-zh="返回">Back</span>
-                    </a>
-                </nav>
-                <h2>Asset management dashboard</h2>
-                <p class="as-lede">Designing a core portfolio-analysis experience that could scale across products</p>
+                <h2>Portfolio management system</h2>
+                <p class="as-role"><strong>Product designer</strong> &middot; <span class="as-role__rest">Owned the B2B tool</span></p>
+
+                <ol class="as-stats" aria-label="Project at a glance">
+                    <li class="is-turn"><span class="as-stats__num">6</span><span class="as-stats__label">Modules</span></li>
+                    <li><span class="as-stats__num">3</span><span class="as-stats__label">Products</span></li>
+                    <li><span class="as-stats__num">1</span><span class="as-stats__label">Design system</span></li>
+                    <li><span class="as-stats__num">2020&ndash;22</span><span class="as-stats__label">At Quantifeed</span></li>
+                </ol>
+
                 <dl class="as-meta">
-                    <dt>Timeline</dt><dd>1 month | Product design</dd>
-                    <dt>Team</dt><dd>3 designers + 1 PM + 3 front-end engineers</dd>
+                    <div><dt>Product</dt><dd>Wealthsight &ndash; institutional wealth management platform</dd></div>
+                    <div><dt>Clients</dt><dd>Wealth products used by HSBC, DBS and MUFG</dd></div>
+                    <div><dt>Target users</dt><dd>Portfolio managers, financial advisors, individual investors</dd></div>
+                    <div><dt>Scope</dt><dd>All six modules of the B2B tool; the dashboard pattern shared by three products; the design system</dd></div>
                 </dl>
-                
-                
-                
             </div>
             <div class="title-img">
-                <img src="resources/images/dashboard-headerimg.png" alt="Wealthsight portfolio dashboard showing allocation, performance, and holdings">
+                <img src="resources/images/dashboard-headerimg.png" alt="Wealthsight portfolio dashboard showing allocation, performance, and holdings" width="2161" height="2701">
             </div>
         </div>
     </div>
 
+    <section class="sys-overview" id="system" aria-labelledby="sys-title">
+        <div class="sys-overview__inner">
+            <span class="db-kicker">System overview</span>
+            <h3 id="sys-title">Six modules, one Wealthsight tool</h3>
+            <p class="sys-overview__lede">Wealthsight is the tool banks use to run model-portfolio investing. Portfolio managers create model portfolios from an instrument universe, rebalance client accounts to them, and track the orders and trades that follow. Day to day I designed across the whole tool &mdash; wireframes, high-fidelity screens and client demos.</p>
+            <ul class="sys-modules">
+                <li class="sys-module sys-module--current">
+                    <a href="#dive-dashboard">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-user-accounts.png" width="4320" height="5253" alt="User account dashboard with account summary, allocation and holdings" loading="lazy" decoding="async">
+                            <span class="sys-module__badge">Deep dive</span>
+                        </span>
+                        <span class="sys-module__step">Monitor</span>
+                        <p class="sys-module__name">User Accounts</p>
+                        <p class="sys-module__desc">Account summary, allocation, performance and holdings.</p>
+                    </a>
+                </li>
+                <li class="sys-module sys-module--current">
+                    <a href="#dive-model">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-model-portfolio.png?v=2" width="4176" height="4131" alt="Model portfolio list with risk level, currency and publish status" loading="lazy" decoding="async">
+                            <span class="sys-module__badge">Deep dive</span>
+                        </span>
+                        <span class="sys-module__step">Create</span>
+                        <p class="sys-module__name">Model Portfolio</p>
+                        <p class="sys-module__desc">Model library with risk level, benchmark and publish state.</p>
+                    </a>
+                </li>
+                <li class="sys-module">
+                    <a href="#module-instruments">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-instruments.png?v=2" width="4320" height="2700" alt="Instruments table with asset class, category, benchmark and watchlist" loading="lazy" decoding="async">
+                        </span>
+                        <span class="sys-module__step">Manage</span>
+                        <p class="sys-module__name">Instruments</p>
+                        <p class="sys-module__desc">Instrument universe with asset class, benchmark and watchlist.</p>
+                    </a>
+                </li>
+                <li class="sys-module">
+                    <a href="#module-rebalance">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-rebalance.png" width="4320" height="2400" alt="Rebalance buy/sell list comparing before and after weights per instrument" loading="lazy" decoding="async">
+                        </span>
+                        <span class="sys-module__step">Manage</span>
+                        <p class="sys-module__name">Rebalance</p>
+                        <p class="sys-module__desc">Bulk buy/sell list reviewed before orders go out.</p>
+                    </a>
+                </li>
+                <li class="sys-module">
+                    <a href="#module-orders">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-orders.png?v=2" width="4320" height="2700" alt="Orders table with action, order status, account and model portfolio" loading="lazy" decoding="async">
+                        </span>
+                        <span class="sys-module__step">Monitor</span>
+                        <p class="sys-module__name">Orders</p>
+                        <p class="sys-module__desc">Buy, sell and rebalance orders with status tracking.</p>
+                    </a>
+                </li>
+                <li class="sys-module">
+                    <a href="#module-trades">
+                        <span class="sys-module__thumb">
+                            <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
+                        </span>
+                        <span class="sys-module__step">Settle</span>
+                        <p class="sys-module__name">Trades</p>
+                        <p class="sys-module__desc">Trade records, notional and reconciliation status.</p>
+                    </a>
+                </li>
+            </ul>
+            <p class="sys-overview__note">Select a module to jump to its screens. Below: two deep dives &mdash; the account dashboard shared by three products, and the model portfolio module &mdash; then the design system underneath, and what the work led to.</p>
+        </div>
+    </section>
+
         <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Asset management dashboard</span>
+        <span class="scrollspy__title">Portfolio management system</span>
         <div class="scrollspy__list">
-        <a href="#section1" class="list">01 Intro</a>
-        <a href="#section2" class="list">02 Challenges</a>
-        <a href="#section3" class="list">03 Research</a>
-        <a href="#section4" class="list">04 Solution</a>
-        <a href="#section5" class="list">05 Testing</a>
-        <a href="#section6" class="list">06 Refined</a>
-        <a href="#section7" class="list">07 Constraints</a>
-        <a href="#section8" class="list">08 Prototype</a>
-        <a href="#section9" class="list">09 Future work</a>
+        <a href="#role" class="list">01 My role</a>
+        <a href="#dive-dashboard" class="list">02 Dashboard</a>
+        <a href="#dive-model" class="list">03 Model portfolio</a>
+        <a href="#section9" class="list">04 Other modules</a>
+        <a href="#foundation" class="list">05 Design system</a>
+        <a href="#section10" class="list">06 What it led to</a>
         <a href="#top" class="list">Back to top</a>
         </div>
     </div>
 <div class="one-col">
-        <div class="anchor" id="section1"></div>
-        <span class="db-kicker">01 · Intro</span>
-        <h3 class="section">A module shared by three systems</h3>
-        <p>The user account dashboard is an interface module shared between 3 systems:</p>
+        <div class="anchor" id="role"></div>
+        <span class="db-kicker">01 · My role</span>
+        <h3 class="section">I owned the B2B tool; we shared one dashboard</h3>
+        <p>We were three product designers, one per product. I owned the B2B portfolio management tool. The other two designers worked on a consumer app for banks&rsquo; clients and a concept prototype for a project still at the pitching stage. The account dashboard was the one pattern all three products had to share.</p>
+        <ul class="db-module-list">
+            <li><b>The B2B tool, end to end:</b> all six modules, from wireframes to high-fidelity screens and client demos.</li>
+            <li><b>The shared dashboard:</b> I planned and facilitated the work with the other two designers, gathered desktop research with them, then did the analysis, summary and final solution, consulting them along the way.</li>
+            <li><b>The model portfolio module:</b> redesigned the create flow and the metrics table on the detail page.</li>
+            <li><b>The design system:</b> led the rebuild the three products share.</li>
+            <li><b>A new product:</b> wrote the research plan the founder asked for after the dashboard work.</li>
+        </ul>
+
+        <div class="anchor" id="dive-dashboard"></div>
+        <span class="db-kicker">02 · Deep dive · Account dashboard</span>
+        <h3 class="section">One account dashboard for three products</h3>
+        <dl class="db-glance">
+            <div><dt>Problem</dt><dd>The same client-account page had to serve portfolio managers, advisors and individual investors &mdash; three products, three designers &mdash; with little prior research and a client deadline.</dd></div>
+            <div><dt>Method</dt><dd>I planned and ran a workshop with the other two designers and we gathered desktop research together. I did the analysis and summary, then checked the concept in a guerrilla walkthrough with 5 colleagues.</dd></div>
+            <div><dt>Decision</dt><dd>A shared first fold &mdash; account summary, allocation and performance, then holdings &mdash; on a grid that works on desktop and tablet.</dd></div>
+            <div><dt>Result</dt><dd>One dashboard pattern for all three products to share. The walkthrough backed the design, and the founder asked me to plan research for a new product.</dd></div>
+        </dl>
+        <p class="db-chapter-meta">Led across 3 designers &middot; 1 PM, 3 front-end engineers &middot; 1 month</p>
+
         <ul class="db-audience">
             <li>
                 <span class="who">Portfolio managers</span>
@@ -241,38 +594,9 @@
                 <p>Add or modify their personal investment portfolios on the page via white-labeled <a href="https://www.quantifeed.com/solutions/direct-to-customer/">customer-facing applications (e.g. bank app)</a>.</p>
             </li>
         </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/relations_3system.png" alt="The same client account dashboard reused by the advisor platform, individual investor app, and portfolio manager system">
-            <figcaption class="db-figcap">One client-account dashboard, reused across the advisor platform, the individual-investor app, and the portfolio-manager system.</figcaption>
-        </figure>
 
-        <div class="anchor" id="section2"></div>
-        <span class="db-kicker">02 · Challenges &amp; opportunities</span>
-        <h3 class="section">What made a single pattern hard</h3>
-        <figure>
-            <img src="resources/images/dashboard-3requriement.png" alt="Three requirement streams — scalability, client needs, and user types — meeting at business, technology, and users">
-            <figcaption class="db-figcap">Business, technology, and users pulled the same screen in different directions — scalability, client requirements, and two very different user types.</figcaption>
-        </figure>
-        <div class="db-challenges">
-            <article class="db-challenge">
-                <h4>Multi-faceted requirements — business, clients &amp; maintenance</h4>
-                <p>Incorporate multi-faceted requirements from clients, business value, user experience and technical strategy perspectives. Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
-            </article>
-            <article class="db-challenge">
-                <h4>One pattern for customers &amp; professionals</h4>
-                <p>It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
-            </article>
-            <article class="db-challenge">
-                <h4>Limited prior research</h4>
-                <p>Because of the timeline to ship the feature to clients — and because some were concepts for a marketing pitch with no existing users asking for them — we had limited knowledge and resources to understand users&rsquo; needs and mental models.</p>
-            </article>
-        </div>
-
-        <div class="anchor" id="section3"></div>
-        <span class="db-kicker">03 · Research to design</span>
-        <h3 class="section">Translate research findings to design</h3>
         <h4 class="db-sub">Audit products: workshop &amp; desktop research</h4>
-        <p>With the design team, I launched desktop research and a workshop to extract the common modules that the customer, advisor and management tools all share. Based on the results, we were able to define what structure and modules to include in the first fold of the screen, and documented the differences between customer and investment-professional tools.</p>
+        <p>I planned and facilitated a workshop with the other two designers to pull out the modules the customer, advisor and management tools all share, and we collected desktop research together. I then analysed and summarised the results into what belongs in the first fold, and documented where customer and investment-professional tools need to differ.</p>
         <figure>
             <img src="resources/images/dashboard-workshop.png" alt="Workshop matrix comparing advisor, portfolio-management, and customer tools, then mapping shared modules">
             <figcaption class="db-figcap">Workshop output: what each tool already showed, then a shared structure for advisor, portfolio-management, and customer surfaces.</figcaption>
@@ -282,76 +606,314 @@
             <img src="resources/images/dashboard-design.png" alt="Dashboard anatomy annotated with account summary, allocation and performance, and holdings">
             <figcaption class="db-figcap">The shared first-fold pattern: account summary, allocation &amp; performance, then the holdings list.</figcaption>
         </figure>
-
-        <div class="anchor" id="section4"></div>
-        <span class="db-kicker">04 · Solution &amp; prototype</span>
-        <h3 class="section">From concept to a responsive grid</h3>
-        <h4 class="db-sub">Concept &amp; prototype</h4>
-        <figure>
-            <img src="resources/images/dashboard-flowchart.png" alt="Flowchart of the dashboard concept and prototype">
-            <figcaption class="db-figcap">The concept flow we prototyped before locking the visual system.</figcaption>
-        </figure>
-        <h4 class="db-sub">Responsive grid — desktop &amp; tablet</h4>
-        <figure>
-            <img src="resources/images/dashboard-responsivegrid.png" alt="Responsive grid for the dashboard on desktop and tablet">
-            <figcaption class="db-figcap">A grid that holds the same modules on desktop and tablet without rewriting the hierarchy.</figcaption>
-        </figure>
-
-        <div class="anchor" id="section5"></div>
-        <span class="db-kicker">05 · Usability testing</span>
-        <h3 class="section">A short cognitive walkthrough</h3>
-        <p>To make sure there were no basic usability problems within a short period of time, I ran a cognitive walkthrough with 5 colleagues to find out how easy it is for users to complete the pre-defined tasks with the concept design.</p>
-        <figure>
-            <img src="resources/images/dashboard-usabilitytest.png" alt="Usability-test notes from a cognitive walkthrough with five colleagues">
-            <figcaption class="db-figcap">Findings from the walkthrough — enough to catch basic usability issues before we refined the design.</figcaption>
-        </figure>
-
-        <div class="anchor" id="section6"></div>
-        <span class="db-kicker">06 · Refined design</span>
-        <h3 class="section">The version we took forward</h3>
-        <p>Create concept design and prototypes to validate our ideas.</p>
+        <h4 class="db-sub">The version we took forward</h4>
         <figure>
             <img src="resources/images/dashboard-refineddesign.png" alt="Refined dashboard design after the usability walkthrough">
-            <figcaption class="db-figcap">The refined concept after the walkthrough — still a prototype used to validate the idea, not a visual restyle for its own sake.</figcaption>
+            <figcaption class="db-figcap">The refined pattern after the walkthrough.</figcaption>
         </figure>
 
-        <div class="anchor" id="section7"></div>
-        <span class="db-kicker">07 · Constraints &amp; alternatives</span>
-        <h3 class="section">What we could not do, and what we did instead</h3>
-        <div class="db-pairs">
-            <div class="db-pair">
-                <p class="q">Unable to define use scenarios without thorough analysis of first-hand data at an early stage — what information to include?</p>
-                <p class="a">Desktop research</p>
+        <details class="db-more">
+            <summary>Full process: challenges, concept, grid, walkthrough, constraints and prototype</summary>
+            <h4 class="db-sub">One page, three products</h4>
+            <figure>
+                <img src="resources/images/images-dashboard/relations_3system.png" alt="The same client account dashboard reused by the advisor platform, individual investor app, and portfolio manager system">
+                <figcaption class="db-figcap">One client-account dashboard, reused across the advisor platform, the individual-investor app, and the portfolio-manager system.</figcaption>
+            </figure>
+            <h4 class="db-sub">What made a single pattern hard</h4>
+            <figure>
+                <img src="resources/images/dashboard-3requriement.png" alt="Three requirement streams — scalability, client needs, and user types — meeting at business, technology, and users">
+                <figcaption class="db-figcap">Business, technology, and users pulled the same screen in different directions — scalability, client requirements, and two very different user types.</figcaption>
+            </figure>
+            <div class="db-challenges">
+                <article class="db-challenge">
+                    <h4>Multi-faceted requirements — business, clients &amp; maintenance</h4>
+                    <p>Incorporate multi-faceted requirements from clients, business value, user experience and technical strategy perspectives. Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
+                </article>
+                <article class="db-challenge">
+                    <h4>One pattern for customers &amp; professionals</h4>
+                    <p>It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
+                </article>
+                <article class="db-challenge">
+                    <h4>Limited prior research</h4>
+                    <p>Because of the timeline to ship the feature to clients — and because some were concepts for a marketing pitch with no existing users asking for them — we had limited knowledge and resources to understand users&rsquo; needs and mental models.</p>
+                </article>
             </div>
-            <div class="db-pair">
-                <p class="q">Introduced new design patterns, which might be hard to anticipate most technical issues that may need a design update.</p>
-                <p class="a">Stay open to iteration</p>
+            <h4 class="db-sub">Concept &amp; prototype</h4>
+            <figure>
+                <img src="resources/images/dashboard-flowchart.png" alt="Flowchart of the dashboard concept and prototype">
+                <figcaption class="db-figcap">The concept flow we prototyped before locking the visual system.</figcaption>
+            </figure>
+            <h4 class="db-sub">Responsive grid — desktop &amp; tablet</h4>
+            <figure>
+                <img src="resources/images/dashboard-responsivegrid.png" alt="Responsive grid for the dashboard on desktop and tablet">
+                <figcaption class="db-figcap">A grid that holds the same modules on desktop and tablet without rewriting the hierarchy.</figcaption>
+            </figure>
+            <h4 class="db-sub">A guerrilla walkthrough</h4>
+            <p>To catch basic usability problems quickly, I ran a guerrilla cognitive walkthrough with 5 colleagues, asking them to complete pre-defined tasks with the concept design.</p>
+            <figure>
+                <img src="resources/images/dashboard-usabilitytest.png" alt="Usability-test notes from a cognitive walkthrough with five colleagues">
+                <figcaption class="db-figcap">Findings from the walkthrough — enough to catch basic usability issues before we refined the design.</figcaption>
+            </figure>
+            <h4 class="db-sub">What we could not do, and what we did instead</h4>
+            <div class="db-pairs">
+                <div class="db-pair">
+                    <p class="q">Unable to define use scenarios without thorough analysis of first-hand data at an early stage — what information to include?</p>
+                    <p class="a">Desktop research</p>
+                </div>
+                <div class="db-pair">
+                    <p class="q">Introduced new design patterns, which might be hard to anticipate most technical issues that may need a design update.</p>
+                    <p class="a">Stay open to iteration</p>
+                </div>
+                <div class="db-pair">
+                    <p class="q">Not able to solidly validate the design with real target users.</p>
+                    <p class="a">Cognitive walkthrough</p>
+                </div>
             </div>
-            <div class="db-pair">
-                <p class="q">Not able to solidly validate the design with real target users.</p>
-                <p class="a">Cognitive walkthrough</p>
+            <h4 class="db-sub">Click through the dashboard</h4>
+            <div class="db-embed">
+                <iframe title="Interactive dashboard prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421" allowfullscreen></iframe>
             </div>
-        </div>
+        </details>
 
-        <div class="anchor" id="section8"></div>
-        <span class="db-kicker">08 · Interactive prototype</span>
-        <h3 class="section">Click through the dashboard</h3>
-        <div class="db-embed">
-            <iframe title="Interactive dashboard prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421" allowfullscreen></iframe>
+        <div class="anchor" id="dive-model"></div>
+        <span class="db-kicker">03 · Deep dive · Model portfolio module</span>
+        <h3 class="section">Creating a model portfolio, then reading it</h3>
+        <p>Portfolio managers enter model portfolios here; bank staff then recommend each model to clients whose risk score matches it. I redesigned both ends of the module: the flow that creates a portfolio, and the table that shows how it performs.</p>
+        <ol class="db-journey" aria-label="Model portfolio journey">
+            <li><span class="db-journey__n">1</span>Model portfolio list</li>
+            <li class="is-mine"><span class="db-journey__n">2</span>Create a portfolio <em>Part 1</em></li>
+            <li><span class="db-journey__n">3</span>Open its detail page</li>
+            <li class="is-mine"><span class="db-journey__n">4</span>Compare its metrics <em>Part 2</em></li>
+        </ol>
+
+        <div class="anchor" id="dive-create"></div>
+        <h4 class="db-part">Part 1 &middot; Making creation hard to get wrong</h4>
+        <dl class="db-glance">
+            <div><dt>Problem</dt><dd>Creating a model portfolio meant many linked compliance fields, with errors shown only at the end. Even internal staff got confused, and the flow was hard to demo to prospective clients.</dd></div>
+            <div><dt>Method</dt><dd>With no access to users, a heuristic evaluation against Nielsen&rsquo;s 10 heuristics, a platform audit, and interviews with the product owner and engineers.</dd></div>
+            <div><dt>Decision</dt><dd>Split creation into 4 steps with a stepper, mark required fields, and validate linked fields step by step. Regroup the view page so managers find what they came for.</dd></div>
+            <div><dt>Result</dt><dd>After launch, clients raised no complaints about the flow, and the company onboarded a new client &mdash; not credited to this redesign alone.</dd></div>
+        </dl>
+        <p class="db-chapter-meta">Sole designer &middot; 1 PM, 1 front-end engineer &middot; 2 months</p>
+
+        <h4 class="db-sub">What the heuristic evaluation found</h4>
+        <figure>
+            <img src="resources/images/portfolio-oldscreen.png" width="1863" height="2439" alt="Original create, edit and detail pages annotated with heuristic problems: no required-field cues, hidden dependencies, uneditable fields with no cue, and long scrolling">
+            <figcaption class="db-figcap">Before: required fields only revealed on submit, linked fields with no cue, locked fields that looked editable, and a detail page that needed a long scroll.</figcaption>
+        </figure>
+        <div class="db-challenges">
+            <article class="db-challenge">
+                <h4>Prevent errors up front</h4>
+                <p>Many fields are interlinked, and learning that from an error popup at the end is frustrating. Make the prerequisites visible before people need them.</p>
+            </article>
+            <article class="db-challenge">
+                <h4>Efficient navigation, less distraction</h4>
+                <p>Portfolio managers arrive with a clear target. Let them get to the information they want quickly.</p>
+            </article>
+            <article class="db-challenge">
+                <h4>A flexible journey, not a fixed line</h4>
+                <p>People come to this page for different reasons, so they need more than one way to move through it.</p>
+            </article>
         </div>
-        <p class="db-figcap">Figma prototype of the user-account dashboard. Use the frame to click through the flow.</p>
+        <h4 class="db-sub">Refined design: creation</h4>
+        <figure>
+            <img src="resources/images/portfolio-createview.png" width="1932" height="1959" alt="Redesigned create flow with a four-step stepper, required-field markers, and fees on its own step">
+            <figcaption class="db-figcap">Four steps with a stepper; required fields marked; linked fields grouped into their own step so each is validated before moving on.</figcaption>
+        </figure>
+        <h4 class="db-sub">Refined design: view page</h4>
+        <figure>
+            <img src="resources/images/portfolio-3viewpages.png" width="9400" height="6692" alt="Redesigned portfolio view page in three tabs: info with key facts and fees, current composition, and draft composition with performance" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">The view page split into info, current composition and draft composition, each with its own performance view.</figcaption>
+        </figure>
+
+        <details class="db-more">
+            <summary>Full process: audit, wireframes, information architecture and prototype</summary>
+            <h4 class="db-sub">Audit, mapping and desktop research</h4>
+            <p>I audited the existing platforms, interviewed the product owner and technical team to understand the logic and constraints, and reviewed the solution with product and front-end to weigh business value and feasibility.</p>
+            <figure>
+                <img src="resources/images/portfolio-flow.png" width="9124" height="2752" alt="Model portfolio flow from creation to recommendation" loading="lazy" decoding="async">
+            </figure>
+            <figure>
+                <img src="resources/images/portfolio-ideation.png" width="15324" height="5408" alt="Ideation board: audit, field mapping and desktop research" loading="lazy" decoding="async">
+            </figure>
+            <h4 class="db-sub">Wireframes: creation</h4>
+            <figure>
+                <img src="resources/images/portfolio-wireframe.png" width="9898" height="3938" alt="Wireframes of the step-by-step creation flow" loading="lazy" decoding="async">
+            </figure>
+            <h4 class="db-sub">Information architecture: view page</h4>
+            <figure>
+                <img src="resources/images/portfolio-IA.png" width="4912" height="3154" alt="Two information architectures compared: current versus draft portfolio, and performance versus composition">
+                <figcaption class="db-figcap">Two ways to organise the view page, with the trade-offs of each for new and existing users.</figcaption>
+            </figure>
+            <h4 class="db-sub">Interactive prototype</h4>
+            <div class="db-embed">
+                <iframe title="Model portfolio creation prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FTj33o5BjyN7dlhwGEsKFo6%2FMAP-Portfolios-24062021Q2%3Fpage-id%3D75%253A102%26node-id%3D2657%253A76336%26viewport%3D704%252C329%252C0.12%26scaling%3Dscale-down%26starting-point-node-id%3D2657%253A76336" allowfullscreen></iframe>
+            </div>
+        </details>
+
+        <div class="anchor" id="dive-compare"></div>
+        <h4 class="db-part">Part 2 &middot; Testing 4 layouts for the metrics table</h4>
+        <dl class="db-glance">
+            <div><dt>Problem</dt><dd>On the detail page, managers were getting the option to add instruments and benchmarks to the performance view, so one table had to compare several portfolios across returns, volatility, Sharpe and Sortino over seven time periods.</dd></div>
+            <div><dt>Method</dt><dd>Research access was limited, so I ran a comparative usability test with 5 colleagues. Three variables &mdash; colour coding, which axis holds the portfolios, tabs or a dropdown &mdash; became 4 layouts. Testers rated each for ease of comparison (1&ndash;5), some in reversed order, then explained their scores in follow-up interviews.</dd></div>
+            <div><dt>Decision</dt><dd>Option 2: colour-coded rows, portfolios down the side and time periods across the top, with tabs to switch metric.</dd></div>
+            <div><dt>Result</dt><dd>Option 2 scored highest (32, against 25, 23 and 18). 3 of 5 interviewees said it worked like the spreadsheets they already use.</dd></div>
+        </dl>
+        <p class="db-chapter-meta">Sole designer &middot; comparative usability test with colleagues</p>
+
+        <figure>
+            <img src="resources/images/ab_test/metrics_demo_page.png" width="6418" height="6532" alt="Model portfolio detail page with the performance section highlighted, where instruments and benchmarks can be added for comparison" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Where the table lives: the performance section of a model portfolio&rsquo;s detail page.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images/ab-testdesign.png" width="2992" height="2414" alt="Test design: colour coding, axis orientation and tabs versus dropdown combined into four layout options">
+            <figcaption class="db-figcap">2 &times; 2 &times; 2 variables, tested as four layouts.</figcaption>
+        </figure>
+        <figure>
+            <img src="resources/images/ab-result.png" width="3544" height="2148" alt="Results: ease-of-comparison scores per option per tester, and follow-up interview notes for options 2 and 4">
+            <figcaption class="db-figcap">Scores per tester, and why: names down the side matched the line-chart tooltip and spreadsheets; the dropdown meant too much scrolling.</figcaption>
+        </figure>
 
         <div class="anchor" id="section9"></div>
-        <span class="db-kicker">09 · Future work</span>
-        <h3 class="section">Build the advisor tool starting from the dashboard</h3>
-        <h4 class="db-sub">Create a research plan to inform the product roadmap</h4>
-        <p>To expand the dashboard feature to financial advisors, I proposed a user research plan to better understand advisors&rsquo; needs and pain points when managing clients&rsquo; portfolios. The research will help us identify key features and functionalities that should be included in the advisor tool.</p>
+        <span class="db-kicker">04 · Other modules</span>
+        <h3 class="section">Model portfolios, instruments, rebalance, orders and trades</h3>
+        <p>The rest of the tool covers what happens after a portfolio manager decides to act. These screens are built from the same design system, so dense tables, filters and status patterns behave the same everywhere.</p>
+
+        <div class="anchor" id="module-models"></div>
+        <h4 class="db-sub">Model portfolios</h4>
+        <p>Portfolio managers maintain a library of model portfolios that client accounts follow.</p>
+        <ul class="db-module-list">
+            <li>Each card surfaces the facts needed to pick a model: risk level (PRR), currency, instrument type, benchmark and publish status.</li>
+            <li>Latest publish and rebalance dates sit side by side, so stale models are easy to spot.</li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/system-model-portfolio.png?v=2" width="4176" height="4131" alt="Model portfolio list with risk level, currency, instrument type and publish status" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Model portfolio library, filterable by publish time, instrument type, currency, risk level and segment.</figcaption>
+        </figure>
+
+        <div class="anchor" id="module-instruments"></div>
+        <h4 class="db-sub">Instruments</h4>
+        <p>The instrument universe that model portfolios are built from.</p>
+        <ul class="db-module-list">
+            <li>Each row pairs the instrument name with its ISIN, asset class, category and benchmark.</li>
+            <li>Asset class can be edited in place, with the original classification kept underneath for reference.</li>
+            <li>Ten filters &mdash; watchlist, category, benchmark, type, currency, asset class, complexity, risk, segment and channel &mdash; narrow a long list quickly.</li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/system-instruments.png?v=2" width="4320" height="2700" alt="Instruments table with asset class, category, benchmark and watchlist" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Instruments: searchable by ISIN or name, with watchlist and export.</figcaption>
+        </figure>
+
+        <div class="anchor" id="module-rebalance"></div>
+        <h4 class="db-sub">Rebalance: review the buy/sell list before submitting</h4>
+        <p>A rebalance can touch many model portfolios at once. The buy/sell list turns that batch into something a portfolio manager can check before any order is created.</p>
+        <ul class="db-module-list">
+            <li>Left column lists every model portfolio affected by the current filter (here 12 of 20), so the scope of the batch is visible up front.</li>
+            <li>For each instrument the table shows weight before, after and the difference, with the resulting Buy, Sell or N/A action.</li>
+            <li>Sells and buys are colour-coded and cash is shown as its own line, so the net effect is readable at a glance.</li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/system-rebalance.png" width="4320" height="2400" alt="Rebalance buy/sell list comparing before and after weights per instrument" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Focus rebalance: the buy/sell list for each model portfolio, reviewed before moving on.</figcaption>
+        </figure>
+
+        <div class="anchor" id="module-orders"></div>
+        <h4 class="db-sub">Orders: track status and catch exceptions</h4>
+        <p>Every buy, sell and rebalance instruction lands in the orders table, where operations and portfolio managers follow it to completion.</p>
+        <ul class="db-module-list">
+            <li>Order status (Pending, Complete, Error, Disable) sits next to the action, so failed orders stand out in a long list.</li>
+            <li>Each row links the order to its account, trading account, model portfolio, order ID and creation time.</li>
+            <li>Filters for action, status, model portfolio, date, creator and account, plus expandable rows and full export for reconciliation.</li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/system-orders.png?v=2" width="4320" height="2700" alt="Orders table with action, order status, account, trading account and model portfolio" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Orders: status-first table with filters and export.</figcaption>
+        </figure>
+
+        <div class="anchor" id="module-trades"></div>
+        <h4 class="db-sub">Trades: notional and reconciliation</h4>
+        <p>The trades view records the outcome of each order instruction, so teams can reconcile it.</p>
+        <ul class="db-module-list">
+            <li>Rows carry action, account code, trading account, group code, model portfolio, notional and order instruction ID.</li>
+            <li>Reconciliation status and portfolio segment filters help teams find trades that still need checking.</li>
+        </ul>
+        <figure>
+            <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
+            <figcaption class="db-figcap">Trades: trade records with notional and reconciliation filters.</figcaption>
+        </figure>
+
+        <div class="anchor" id="foundation"></div>
+        <span class="db-kicker">05 · Foundation</span>
+        <h3 class="section">One design system under three products</h3>
+        <dl class="db-glance">
+            <div><dt>Problem</dt><dd>Colours missed WCAG contrast, type sizes had drifted, and design and front-end used different names for the same things.</dd></div>
+            <div><dt>Method</dt><dd>Audited existing patterns across the product, ran feedback sessions with designers and the web team, then structured workshops on how to use the system.</dd></div>
+            <div><dt>Decision</dt><dd>Start from Material Design, use it flexibly, and keep one pattern library across all three products. A simple rule for every new screen: reuse a component, adjust it, or create and document a new one.</dd></div>
+            <div><dt>Result</dt><dd>New modules were assembled from existing components. Updated components were shared through a monthly design &times; web meeting and a shared channel.</dd></div>
+        </dl>
+        <p class="db-chapter-meta">Led the rebuild &middot; 3 designers, 5 front-end engineers</p>
+
+        <h4 class="db-sub">Style guide: contrast and type</h4>
+        <p>I updated colours to meet WCAG contrast, refined font sizes from designer and web-team feedback, and aligned naming with the front-end so a style in Figma had the same name in code.</p>
+        <figure>
+            <img src="resources/images/designsys-styleguide.png" width="2000" height="1060" alt="Style guide showing type levels on list and detail pages, colours, statuses and data-visualisation palette">
+            <figcaption class="db-figcap">Type levels mapped to real list and detail pages, plus colours, statuses and the chart palette.</figcaption>
+        </figure>
+
+        <h4 class="db-sub">Guidelines: when to confirm, when to undo</h4>
+        <p>Components came with rules for when to use them. A confirmation box is only worth the interruption when an action is irreversible, severe, complex and rare; everything else gets an undo toast.</p>
+        <figure>
+            <img src="resources/images/designsys-guideline.png" width="1840" height="1268" alt="Guideline comparing a confirmation box with an undo toast, using off-boarding a client portfolio as the example">
+            <figcaption class="db-figcap">Off-boarding a client portfolio meets all four tests &mdash; it can&rsquo;t be restored, it triggers a fund transaction, and the record stays for 7 years &mdash; so it gets a confirmation box.</figcaption>
+        </figure>
+
+        <details class="db-more">
+            <summary>More from the design system: components, writing guide, grid, and how we ran it</summary>
+            <h4 class="db-sub">New components</h4>
+            <p>Modals, chips, breadcrumbs, scrollspy and snackbar, added where products kept building their own versions.</p>
+            <figure>
+                <img src="resources/images/designsys-components.png" width="1880" height="434" alt="New components: modals, chips, breadcrumbs, scrollspy and snackbar">
+            </figure>
+            <h4 class="db-sub">UX writing guide</h4>
+            <figure>
+                <img src="resources/images/designsys-copy.png" width="1840" height="968" alt="Writing guide for confirmation dialogs: do and don't for title, description and buttons">
+                <figcaption class="db-figcap">Dialog copy: one clear question in the title, consequences in the description, buttons that echo the title.</figcaption>
+            </figure>
+            <h4 class="db-sub">Grid</h4>
+            <p>A grid tailored to the platform&rsquo;s layouts and task priority.</p>
+            <figure>
+                <img src="resources/images/designsys-grid.png" width="1840" height="500" alt="Grid system for the platform">
+            </figure>
+            <h4 class="db-sub">Usage guide and decision path</h4>
+            <p>I ran structured workshops with developers and designers to agree goals and process, then wrote them up as a usage guide.</p>
+            <figure>
+                <img src="resources/images-design-system/guide.png" width="1920" height="3017" alt="Usage guide: goals, current status, usage principles, a decision path for reusing or creating components, and the web UI library preview">
+                <figcaption class="db-figcap">Goals, principles and the reuse &rarr; adjust &rarr; create decision path, with the live web UI library.</figcaption>
+            </figure>
+            <h4 class="db-sub">Pattern audit</h4>
+            <p>A product audit grouped every dialog by job &mdash; selection, edit, tooltip, input, upload, confirmation &mdash; so we could standardise each pattern and review it regularly.</p>
+            <figure>
+                <img src="resources/images-design-system/audit.png" width="8555" height="3364" alt="Audit of dialogs across the product grouped by selection, edit, tooltip, input box, upload and confirmation">
+            </figure>
+        </details>
+
+        <div class="anchor" id="section10"></div>
+        <span class="db-kicker">06 · What it led to</span>
+        <h3 class="section">From evidence on small decisions to planning a new product</h3>
+        <p>Across these projects I backed design decisions with whatever evidence I could get: a guerrilla walkthrough for the dashboard, a heuristic evaluation for creation, a comparative usability test for the metrics table. When I presented the dashboard and its walkthrough results, the founder asked me to plan the research for a new product &mdash; what advisors need, what to build, and in what order.</p>
+        <dl class="db-glance">
+            <div><dt>Research</dt><dd>With the product manager, I interviewed 5 financial advisory directors, mostly from Swiss investment banks, recruited through the founder&rsquo;s network.</dd></div>
+            <div><dt>Synthesis</dt><dd>I mapped their journey, pain points and the features a new tool would need.</dd></div>
+            <div><dt>Next</dt><dd>I wrote a feature-prioritisation workshop plan and a prototype-testing plan. I left before either was run.</dd></div>
+        </dl>
+        <p class="db-chapter-meta">Research lead &middot; with 1 PM</p>
+        <h4 class="db-sub">The research plan</h4>
         <div class="db-embed">
-            <iframe title="Advisor-tool research plan prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
+            <iframe title="Advisor-tool research plan prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
         </div>
-        <h4 class="db-sub">Phase 2: summarise interview findings into a journey map, persona, and next step</h4>
+        <h4 class="db-sub">Interview findings: journey map, persona and next steps</h4>
         <div class="db-embed">
-            <iframe title="Advisor journey map and persona prototype" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+            <iframe title="Advisor journey map and persona prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
         </div>
     </div>
     </div><!-- /case-layout -->

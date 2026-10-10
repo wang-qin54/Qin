@@ -46,8 +46,10 @@
     const recentGrid = document.querySelector('[data-filter-layout="recent"]');
     const featuredGrid = document.querySelector('[data-filter-layout="featured"]');
     const curatedGrid = document.querySelector('[data-filter-layout="all"]');
-    const defaultFilter = featuredGrid ? 'featured' : 'all';
     const timelineGrid = document.querySelector('[data-filter-layout="timeline"]');
+    const singleGrid = !!timelineGrid && !featuredGrid && !curatedGrid;
+    const hasFeaturedTag = !!timelineGrid && !!timelineGrid.querySelector('[data-tags*="featured"]');
+    const defaultFilter = featuredGrid || hasFeaturedTag ? 'featured' : 'all';
 
     const updateSectionVisibility = (root) => {
       if (!root) return;
@@ -122,12 +124,34 @@
       const isFeatured = filter === 'featured';
       const isRecent = false;
 
+      if (singleGrid) {
+        timelineGrid.hidden = false;
+        timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
+          card.style.order = isFeatured ? card.getAttribute('data-featured-order') || '' : '';
+        });
+        if (isAll) {
+          timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
+            card.hidden = false;
+          });
+          timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
+            h.hidden = false;
+            h.classList.remove('section-title--first-visible');
+          });
+          timelineGrid.querySelectorAll('[data-earlier-work-intro]').forEach((intro) => {
+            intro.hidden = false;
+          });
+          updateSectionVisibility(timelineGrid);
+          markEarlierWorkRowStart(timelineGrid);
+          return;
+        }
+      }
+
       if (recentGrid) recentGrid.hidden = !isRecent;
       if (featuredGrid) featuredGrid.hidden = !isFeatured;
       if (curatedGrid) curatedGrid.hidden = !isAll;
-      if (timelineGrid) timelineGrid.hidden = isAll || isFeatured || isRecent;
+      if (timelineGrid && !singleGrid) timelineGrid.hidden = isAll || isFeatured || isRecent;
 
-      if (isAll || isFeatured || isRecent || !timelineGrid) {
+      if (!singleGrid && (isAll || isFeatured || isRecent || !timelineGrid)) {
         // Restore section headings for next time timeline is used
         if (timelineGrid) {
           timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
@@ -218,10 +242,12 @@
       });
     });
 
-    const initFiltersFromUrl = () => applyFilterFromUrl();
+    const initFiltersFromUrl = () => {
+      if (!applyFilterFromUrl()) setActiveFilter(defaultFilter);
+    };
 
     initFiltersFromUrl();
-    window.addEventListener('popstate', () => applyFilterFromUrl());
+    window.addEventListener('popstate', () => initFiltersFromUrl());
     window.addEventListener('pageshow', (event) => {
       if (event.persisted) initFiltersFromUrl();
     });

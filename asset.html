@@ -3886,121 +3886,6 @@ a.list.active {
             }
             .as-layers li:nth-child(n) { margin-left: 0; }
         }
-        /* ---- Header meta: a quiet spec sheet under the title ---- */
-        .page-title-content .as-role { margin: 12px 0 0; font-size: 15px; line-height: 1.45; color: var(--text-secondary); }
-        .as-role strong { color: var(--text-primary); font-weight: 600; }
-        .as-role__rest { white-space: nowrap; }
-        /* One strip, four stages. Separate cards wrapped the labels and read as
-           four unrelated KPIs; a shared surface reads left to right as time. */
-        .as-stats {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 0;
-            margin: 24px 0 0;
-            padding: 0;
-            list-style: none;
-            max-width: 520px;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-        }
-        .as-stats li {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 0;
-            padding: 16px 16px 14px;
-            background: transparent;
-            border-right: 1px solid var(--border);
-        }
-        .as-stats li:last-child { border-right: 0; }
-        .as-stats li.is-turn { background: rgba(0, 52, 240, 0.05); }
-        .as-stats__num {
-            font-family: var(--font-title);
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: -0.03em;
-            line-height: 1;
-            color: var(--text-primary);
-        }
-        .as-stats li.is-turn .as-stats__num { color: var(--accent); }
-        .as-stats__label {
-            font-size: 12px;
-            line-height: 1.25;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        .as-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 24px 0 0;
-            max-width: 520px;
-        }
-        .as-meta > div {
-            display: grid;
-            grid-template-columns: 96px minmax(0, 1fr);
-            column-gap: 12px;
-            align-items: baseline;
-            min-width: 0;
-        }
-        .as-meta dt, .as-meta dd { margin: 0; padding: 0; }
-        .as-meta dt {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-tertiary);
-        }
-        .as-meta dd { font-size: 14px; line-height: 1.45; color: var(--text-primary); }
-        .as-hero-more {
-            margin: 20px 0 0;
-            max-width: 520px;
-            font-size: 13px;
-            line-height: 1.55;
-            color: var(--text-secondary);
-        }
-        .as-hero-more summary {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            list-style: none;
-        }
-        .as-hero-more summary:hover { text-decoration: underline; text-underline-offset: 3px; }
-        .as-hero-more summary::-webkit-details-marker { display: none; }
-        .as-hero-more summary::before {
-            content: "";
-            width: 5px;
-            height: 5px;
-            border-right: 1.5px solid currentColor;
-            border-bottom: 1.5px solid currentColor;
-            transform: rotate(-45deg);
-            margin-top: -1px;
-            flex: none;
-        }
-        .as-hero-more[open] summary::before { transform: rotate(45deg); margin-top: 2px; }
-        .as-hero-more summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-        .page-title-content .as-hero-more p {
-            margin: 10px 0 0;
-            padding: 0 0 0 12px;
-            border-left: 2px solid var(--border-strong);
-            font-size: 13px;
-            line-height: 1.55;
-            color: var(--text-secondary);
-        }
-        @media (max-width: 560px) {
-            .as-stats { grid-template-columns: 1fr 1fr; }
-            .as-stats li { border-right: 0; border-bottom: 1px solid var(--border); }
-            .as-stats li:nth-child(odd) { border-right: 1px solid var(--border); }
-            .as-stats li:nth-last-child(-n+2) { border-bottom: 0; }
-            .as-stats__num { font-size: 20px; }
-            .as-meta > div { grid-template-columns: 92px minmax(0, 1fr); }
-        }
         /* ---- Daily filmstrip ---- */
         .as-film { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: var(--space-4) 0 0; align-items: start; }
         .as-film figure { margin: 0; }
@@ -7047,9 +6932,6 @@ a.list.active {
             .page-title-box { padding-left: 16px; padding-right: 16px; }
             .page-title-box .page-title-content { margin-left: 0; margin-right: 0; }
             body .page-title-content h2 { font-size: 24px; }
-            body .page-title-content .as-role { font-size: 13.5px; }
-            body .as-stats__num { font-size: 17px; }
-            body .as-meta dd { font-size: 13px; }
 
             :where(.one-col) p { font-size: 14.5px; line-height: 1.6; }
             body .one-col .as-lead,
@@ -7103,15 +6985,16 @@ a.list.active {
             body .one-col .as-annoset--fix1 .as-fix3-cap__t { font-size: 12.5px; line-height: 1.3; }
         }
     </style>
-    <script src="site-chrome.js?v=4"></script>
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
+    <script src="site-chrome.js?v=8"></script>
 </head>
 
-<body>
+<body data-no-zoom>
     <site-header lang-switch progress></site-header>
 
     <div class="anchor" id="top"></div>
     <div class="anchor" id="section1"></div>
-    <div class="page-title-box">
+    <div class="page-title-box case-hero">
         <div class="grid">
             <div class="page-title-content">
                 <h2 data-zh="资产页改版">Asset redesign</h2>
@@ -7514,9 +7397,9 @@ a.list.active {
                     <figure class="win">
                         <span class="tag" data-zh="改版后">After</span>
                         <span class="anno">
-                            <img src="resources/images-asset/fix1-after.png?v=en3x" data-zh-src="resources/images-asset/fix1-after-zh.png?v=3x2" width="1125" height="1605" alt="After: a dark block for the multi-select total, and a light card for the single account switcher">
+                            <img src="resources/images-asset/fix1-after.png?v=en3x" data-zh-src="resources/images-asset/fix1-after-zh.png?v=3x3" width="1125" height="1605" alt="After: a dark block for the multi-select total, and a light card for the single account switcher">
                             <b class="pin" style="left:46%;top:17%">1</b>
-                            <b class="pin" style="left:52%;top:39%" data-zh-style="left:52%;top:56.5%">2</b>
+                            <b class="pin" style="left:52%;top:39%" data-zh-style="left:52%;top:35.6%">2</b>
                         </span>
                         <figcaption class="as-fix3-cap as-fix3-cap--fix"><span class="as-fix3-cap__t" data-zh="两种范围，两种容器">Two scopes, two surfaces</span><span class="as-fix3-cap__b" data-zh="每个控件的外观都与它影响的范围一致，两者不会再被混为一谈。">Each control now looks like the scope it changes, so the two no longer read as one.</span></figcaption>
                     </figure>
@@ -8550,13 +8433,13 @@ a.list.active {
             <div class="as-ship-afters">
                 <figure>
                     <span class="as-fix2-phone as-ship-phone">
-                        <img src="resources/images-asset/fix2-crypto-after-en.png?v=3x" width="1125" height="3069" alt="Crypto tab after aligning to securities">
+                        <img src="resources/images-asset/fix2-crypto-after-en.png?v=3x" data-zh-src="resources/images-asset/fix2-crypto-after-zh.png?v=3x2" width="1125" height="3069" data-zh-height="3119" alt="Crypto tab after aligning to securities">
                     </span>
                     <figcaption class="tag" data-zh="加密 Tab">Crypto tab</figcaption>
                 </figure>
                 <figure>
                     <span class="as-fix2-phone as-ship-phone">
-                        <img src="resources/images-asset/fix2-sec-after.png?v=3x-1007d" width="1125" height="3069" alt="Securities tab after">
+                        <img src="resources/images-asset/fix2-sec-after.png?v=3x-1007d" data-zh-src="resources/images-asset/fix2-sec-after-zh.png?v=3x2" width="1125" height="3069" data-zh-height="3119" alt="Securities tab after">
                     </span>
                     <figcaption class="tag" data-zh="证券 Tab">Securities tab</figcaption>
                 </figure>
@@ -8601,10 +8484,10 @@ a.list.active {
                 <figure class="win">
                     <span class="tag" data-zh="改版后">After</span>
                     <div class="as-phone as-phone--proto">
-                        <div class="as-phone-scroll as-phone-scroll--proto" data-fix3-scroll="0.54" data-zh-fix3-scroll="0.39">
+                        <div class="as-phone-scroll as-phone-scroll--proto" data-fix3-scroll="0.54" data-zh-fix3-scroll="0.341">
                             <span class="as-fix3-shot">
-                                <img class="as-proto-img" src="resources/images-asset/fix3-after.png?v=en3x" data-zh-src="resources/images-asset/fix3-after-zh.png?v=3x" width="1125" height="2770" data-zh-height="4494" alt="My positions module after consolidating coins and positions">
-                                <span class="as-fix3-mark" style="top:56.1%;height:40.3%" data-zh-style="top:41.72%;height:54.74%"></span>
+                                <img class="as-proto-img" src="resources/images-asset/fix3-after.png?v=en3x" data-zh-src="resources/images-asset/fix3-after-zh.png?v=3x2" width="1125" height="2770" data-zh-height="4158" alt="My positions module after consolidating coins and positions">
+                                <span class="as-fix3-mark" style="top:56.1%;height:40.3%" data-zh-style="top:37.01%;height:59.17%"></span>
                             </span>
                         </div>
                         <div class="as-phone-nav" aria-hidden="true">
@@ -8869,7 +8752,7 @@ a.list.active {
                 <p class="as-fd-x__p" data-zh="层级无需再讨论：&lt;strong&gt;数据顺序、控件和用语都保持一致&lt;/strong&gt;。宽屏只是把「再点一下」变成了右侧的一栏。">No second debate about hierarchy: <strong>the same data order, controls, and language</strong>. The wide screen only turns &ldquo;one tap down&rdquo; into the column on the right.</p>
                 <figure class="as-ch-web">
                     <div class="as-ch-web__frame">
-                        <iframe title="Final web prototype — interactive" src="resources/demos/asset-web-prototype.html?embed=1&amp;v=2" loading="lazy"></iframe>
+                        <iframe title="Final web prototype — interactive" src="resources/demos/asset-web-prototype.html?embed=1&amp;v=3" loading="lazy"></iframe>
                     </div>
                     <figcaption data-zh="Web 原型 · 可直接体验">Web prototype · try it here</figcaption>
                 </figure>

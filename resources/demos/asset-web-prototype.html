@@ -1195,6 +1195,9 @@
   /* 2026-09-13 收紧：24（1.50）折行后两行之间太空，改 22（1.38），与 app 侧同一档。
      原来的 21（=稿的 130%）对拉丁字母又太挤，1.38 是这两者之间合适的位置。 */
   html[lang="en"] .wp-promo .wp-title { line-height:22px; }
+  /* 英文「Trade | Wealth | Transfer ⋮」约 195px，160px 的操作列装不下会向左溢出压住价格列 */
+  html[lang="en"] #cryptoSpotList > div > div:nth-child(4) { min-width:200px; }
+  html[lang="en"] #cryptoSpotList > div > div:nth-child(5) { min-width:200px; width:200px; }
   .wp-promo .wp-desc { font-size:14px; font-weight:400; color:var(--an-ui-txt_secondary); line-height:18px; }
   .wp-promo .wp-cta { align-self:flex-start; display:inline-flex; align-items:center; gap:4px; font-size:14px; font-weight:600; line-height:18px; color:var(--an-ui-txt_link); text-decoration:none; cursor:pointer; }
   .wp-promo .wp-cta svg { flex-shrink:0; display:block; }

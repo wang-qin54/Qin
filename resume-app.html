@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume — Qin Wang · Senior UI/UX Designer</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230034F0'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round'%3E%3Ccircle cx='14' cy='15' r='7.4'/%3E%3Cpath d='M17.6 20.7H25'/%3E%3C/g%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text: #111111;
+            --text-secondary: #4d4d4d;
+            --text-tertiary: #8a8a8a;
+            --border: #e6e4df;
+            --accent: #0034F0;
+            --accent-soft: #eef1ff;
+            --page: #f4f3ef;
+            --card: #fff;
+            --page-max: 880px;
+            --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { font-size: 15px; line-height: 1.55; }
+
+        body {
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--page);
+            padding: 40px 24px 64px;
+        }
+
+        .page {
+            max-width: var(--page-max);
+            margin: 0 auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 44px 44px;
+            box-shadow: 0 1px 2px rgba(22, 22, 22, 0.04), 0 18px 40px rgba(22, 22, 22, 0.05);
+        }
+
+        a { color: var(--accent); }
+
+        .toolbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: #fafafa;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            font-size: 13px;
+        }
+        .toolbar a,
+        .toolbar button {
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .toolbar button:hover,
+        .toolbar a:hover { background: #f0f0f0; text-decoration: none; }
+        .toolbar .spacer { flex: 1; }
+        .toolbar .cv-tabs {
+            display: inline-flex;
+            gap: 2px;
+            padding: 3px;
+            border-radius: 8px;
+            background: #ececec;
+        }
+        .toolbar .cv-tabs a {
+            padding: 5px 12px;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-tertiary);
+        }
+        .toolbar .cv-tabs a:hover { background: rgba(0, 0, 0, 0.04); }
+        .toolbar .cv-tabs a[aria-current="page"] {
+            background: white;
+            color: var(--text);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+        .toolbar .label { color: var(--text-tertiary); }
+
+        body { padding-top: 88px; }
+
+        .resume-header {
+            margin-bottom: 28px;
+        }
+        .resume-header .intro {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 40px;
+            align-items: start;
+        }
+        .resume-header .identity {
+            min-width: 0;
+        }
+        .resume-header .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .resume-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .resume-header .subtitle {
+            font-size: 14.5px;
+            line-height: 1.65;
+            letter-spacing: -0.015em;
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: none;
+            margin-bottom: 0;
+        }
+        .resume-header .subtitle .kw {
+            color: var(--text);
+        }
+        .resume-header .contact {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+            gap: 12px;
+            padding-top: 0;
+        }
+        .resume-header .contact .contact-item {
+            justify-content: flex-start;
+            width: auto;
+        }
+        .contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: #f6f5f1;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 12px;
+            text-decoration: none;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        a.contact-item {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-color: #d5dcff;
+        }
+        a.contact-item:hover {
+            background: #e0e6ff;
+        }
+        a.contact-item .hint {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 220px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .section { margin-bottom: 26px; }
+        .section:last-child { margin-bottom: 0; }
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .role {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .role:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 3px;
+        }
+        .role-title { font-size: 16px; font-weight: 600; letter-spacing: -0.02em; }
+        .role-meta {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+            background: #f6f5f1;
+            border-radius: 999px;
+            padding: 3px 9px;
+        }
+        .role-org { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .role-scopes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 0 0 10px;
+        }
+        .role-scope {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-radius: 6px;
+            padding: 3px 8px;
+            margin: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .role-scope--muted {
+            color: var(--text-tertiary);
+            background: #f0efeb;
+        }
+        .role ul {
+            padding-left: 18px;
+            font-size: 13.5px;
+            line-height: 1.65;
+            letter-spacing: -0.015em;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .role li { margin-bottom: 6px; }
+        .role li:last-child { margin-bottom: 0; }
+        .role li::marker { color: #b8b6b0; }
+        .kw { font-weight: 600; color: var(--text); }
+
+        .side {
+            padding-left: 8px;
+        }
+        .side-list {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.55;
+            letter-spacing: -0.015em;
+            font-weight: 400;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .side-list strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 3px;
+        }
+
+        .edu-entry { margin-bottom: 14px; }
+        .edu-entry:last-child { margin-bottom: 0; }
+        .edu-entry .degree { display: block; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; }
+        .edu-entry .school { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+        .edu-entry .year { display: block; font-size: 12px; color: var(--text-tertiary); margin-top: 3px; }
+
+        .portfolio-page {
+            margin-top: 36px;
+        }
+        .portfolio-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .portfolio-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            margin: 0;
+        }
+        .portfolio-access {
+            margin: 0;
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .portfolio-access a { text-decoration: none; }
+        .portfolio-access strong { font-weight: 600; color: var(--text); }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 16px;
+        }
+        .work-card {
+            display: block;
+            min-width: 0;
+            text-decoration: none;
+            color: inherit;
+        }
+        .work-shot {
+            aspect-ratio: 16 / 10;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background: #f3f2ee;
+            overflow: hidden;
+        }
+        .work-shot img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9px;
+        }
+        .work-shot--agent {
+            background: #f4f5f6;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .work-shot--agent img {
+            object-fit: contain;
+            object-position: center;
+        }
+        .work-shot--kyc img { object-position: center; }
+        .work-shot--dash img { object-position: center 30%; }
+        .work-meta {
+            margin-bottom: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .work-title {
+            margin-bottom: 4px;
+            font-size: 14.5px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        .work-outcome {
+            font-size: 12.5px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+
+        @media print {
+            .toolbar { display: none !important; }
+            #preview-page-gap { display: none !important; }
+            .page { padding-bottom: 0 !important; }
+        }
+
+        /* Screen preview uses the same type, spacing, and image crop as the PDF. */
+        @media screen, print {
+            html { font-size: 13px; }
+            body {
+                background: white;
+                line-height: 1.5;
+            }
+            .page {
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 0;
+                max-width: none;
+            }
+            .resume-header {
+                margin-bottom: 24px;
+            }
+            .resume-header .eyebrow {
+                margin-bottom: 6px;
+                font-size: 10px;
+            }
+            .resume-header h1 {
+                font-size: 26px;
+                margin-bottom: 14px;
+            }
+            .resume-header .intro {
+                display: grid !important;
+                grid-template-columns: 1fr 200px !important;
+                gap: 32px !important;
+                align-items: start !important;
+            }
+            .resume-header .subtitle {
+                font-size: 12.5px;
+                line-height: 1.6;
+                letter-spacing: -0.015em;
+                font-weight: 400;
+                margin-bottom: 0;
+                color: var(--text-secondary);
+            }
+            .resume-header .subtitle .kw {
+                color: var(--text) !important;
+                font-weight: 600 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .resume-header .contact {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px;
+            }
+            .resume-header .contact .contact-item {
+                width: auto !important;
+            }
+            .contact-item {
+                font-size: 11.5px;
+                padding: 5px 11px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            a.contact-item {
+                color: var(--accent) !important;
+                background: var(--accent-soft) !important;
+                border-color: #d5dcff !important;
+                text-decoration: none;
+            }
+            .layout {
+                display: grid !important;
+                gap: 32px !important;
+                grid-template-columns: 1fr 200px !important;
+                align-items: start !important;
+            }
+            .section { margin-bottom: 20px; }
+            .section-title {
+                margin-bottom: 14px;
+                gap: 10px;
+                font-size: 10.5px;
+            }
+            .section-title::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--border) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .role {
+                margin-bottom: 16px;
+                padding-bottom: 16px;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            /* EN: OKX ends page 1 before the forced break — hide its rule */
+            html[lang="en"] .role.role--no-rule {
+                border-bottom: 0;
+            }
+            /* ZH: OKX stays mid-page — keep the divider */
+            html[lang="zh-CN"] .role.role--no-rule {
+                border-bottom: 1px solid var(--border);
+            }
+            /* ZH: Manulife ends page 1 — no trailing rule above the page break */
+            html[lang="zh-CN"] .role.role--page-two {
+                border-bottom: 0;
+            }
+            .role-title { font-size: 14px; }
+            .role-meta {
+                font-size: 11px;
+                padding: 2px 8px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .role-org {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+            .role-scopes {
+                gap: 5px;
+                margin: 0 0 8px;
+            }
+            .role-scope {
+                font-size: 11px;
+                padding: 2px 7px;
+                color: var(--accent) !important;
+                background: var(--accent-soft) !important;
+                border-radius: 5px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .role-scope--muted {
+                color: var(--text-tertiary) !important;
+                background: #f0efeb !important;
+            }
+            .role ul {
+                font-size: 12px;
+                line-height: 1.55;
+                letter-spacing: -0.015em;
+                font-weight: 400;
+                padding-left: 16px;
+                color: var(--text-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .role li { margin-bottom: 4px; }
+            .kw {
+                color: var(--text) !important;
+                font-weight: 600 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .side { padding-left: 4px; }
+            .side-list {
+                font-size: 11.5px;
+                gap: 12px;
+                line-height: 1.5;
+                letter-spacing: -0.015em;
+                font-weight: 400;
+                color: var(--text-secondary) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .side-list strong {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+            .side .section { margin-bottom: 0; }
+            .side .section + .section {
+                margin-top: 22px;
+            }
+            .edu-entry { margin-bottom: 10px; }
+            .edu-entry .degree { font-size: 12px; }
+            .edu-entry .school, .edu-entry .year { font-size: 11px; }
+            /*
+              Browser date/title/URL headers render inside @page margins.
+              Zero margins clip them; body padding keeps content inset on page 1.
+            */
+            @page { size: A4; margin: 0; }
+            body {
+                padding: 12mm 14mm !important;
+            }
+            /* Match page-1 top inset when a role starts page 2.
+               EN breaks before Manulife; ZH is denser and breaks before Quantifeed. */
+            html[lang="en"] .role--page-two,
+            html[lang="zh-CN"] .role--page-two-zh {
+                break-before: page;
+                page-break-before: always;
+                padding-top: 12mm;
+            }
+            /* EN page 2 holds three roles plus the portfolio. A slightly
+               tighter rhythm keeps both on the page without crowding. */
+            html[lang="en"] .role--page-two,
+            html[lang="en"] .role--page-two ~ .role {
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+            }
+            html[lang="en"] .role--page-two ul,
+            html[lang="en"] .role--page-two ~ .role ul {
+                line-height: 1.42;
+            }
+            html[lang="en"] .role--page-two li,
+            html[lang="en"] .role--page-two ~ .role li {
+                margin-bottom: 2px;
+            }
+            html[lang="en"] .role--page-two ~ .role:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: 0;
+            }
+            .portfolio-page {
+                break-before: auto;
+                page-break-before: auto;
+                /* Same width as the experience column (1fr beside a 200px side, 32px gap). */
+                width: calc(100% - 232px);
+                margin-top: 18px;
+                margin-left: 0;
+                margin-right: auto;
+                padding-top: 0;
+            }
+            .portfolio-head { margin-bottom: 10px; }
+            .portfolio-grid {
+                gap: 16px 16px;
+                align-items: start;
+                justify-content: stretch;
+            }
+            .work-card {
+                width: auto;
+                max-width: none;
+                margin: 0;
+            }
+            /* Same frame colors as the screen: covers composite on #f3f2ee,
+               the agent workspace on #f4f5f6. */
+            .work-shot,
+            .work-shot--kyc,
+            .work-shot--dash {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 10;
+                display: block;
+                margin: 0 0 8px;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #f3f2ee;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .work-shot--agent {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 10;
+                display: block;
+                margin: 0 0 8px;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #f4f5f6;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .work-shot img,
+            .work-shot--kyc img,
+            .work-shot--dash img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                max-height: none;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 0;
+            }
+            .work-shot--agent img {
+                object-fit: contain;
+                object-position: center;
+            }
+            .work-shot--kyc img { object-position: center; }
+            .work-shot--dash img { object-position: center 30%; }
+            .work-shot--kyb img { object-position: center top; }
+            .work-meta { font-size: 9.5px; margin-bottom: 3px; }
+            .work-title { font-size: 11.5px; margin-bottom: 3px; line-height: 1.3; }
+            .work-outcome { font-size: 10px; line-height: 1.45; margin: 0; }
+        }
+
+        @media (max-width: 700px) {
+            .page { padding: 28px 20px; }
+            .layout { grid-template-columns: 1fr; gap: 28px; }
+            .resume-header .intro {
+                grid-template-columns: 1fr 168px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .resume-header .intro { grid-template-columns: 1fr; gap: 16px; }
+            .resume-header .contact { flex-direction: row; flex-wrap: wrap; }
+            .resume-header .contact .contact-item { width: auto; }
+            .portfolio-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .portfolio-access { white-space: normal; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+
+        body.force-print-desktop .layout,
+        body.force-print-desktop .resume-header .intro {
+            display: grid !important;
+            grid-template-columns: 1fr 200px !important;
+            gap: 32px !important;
+        }
+        body.force-print-desktop .resume-header .contact {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+        body.force-print-desktop .role-header {
+            flex-direction: row !important;
+        }
+
+        @media screen {
+            html { background: var(--page); }
+            body {
+                background: var(--page) !important;
+                padding: 88px 16px 48px !important;
+                line-height: 1.5;
+            }
+            .role { border-bottom: 0 !important; }
+            .page {
+                position: relative;
+                isolation: isolate;
+                width: 210mm;
+                margin: 0 auto;
+                background: transparent;
+                padding-top: 12mm !important;
+                padding-right: 14mm !important;
+                padding-left: 14mm !important;
+                padding-bottom: 0;
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .page::before,
+            .page::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 297mm;
+                background: #fff;
+                border: 1px solid var(--border);
+                border-radius: 16px;
+                box-shadow: 0 1px 2px rgba(22, 22, 22, 0.04), 0 18px 40px rgba(22, 22, 22, 0.05);
+                z-index: -1;
+                pointer-events: none;
+            }
+            .page::before { top: 0; }
+            .page::after { bottom: 0; }
+            .layout,
+            .resume-header .intro {
+                display: grid !important;
+                grid-template-columns: 1fr 200px !important;
+                gap: 32px !important;
+            }
+            .portfolio-grid { grid-template-columns: 1fr 1fr !important; }
+            #a4-ruler {
+                position: absolute;
+                width: 0;
+                height: 297mm;
+                overflow: hidden;
+                visibility: hidden;
+                pointer-events: none;
+            }
+            #preview-page-gap { display: block; }
+            .preview-page-cut {
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="a4-ruler" aria-hidden="true"></div>
+<div class="toolbar">
+    <a href="index.html" id="back-to-portfolio">&larr; Back to portfolio</a>
+    <nav class="cv-tabs" aria-label="Resume focus">
+        <a href="resume.html" data-zh="资深设计师">Senior designer</a>
+        <a href="resume-app.html" data-zh="设计管理" aria-current="page">Leadership</a>
+    </nav>
+    <span class="spacer"></span>
+    <button type="button" id="language-toggle" aria-label="Switch resume language">中文</button>
+    <span class="label">Export:</span>
+    <button type="button" id="save-pdf">Save as PDF</button>
+</div>
+
+<div class="page">
+<header class="resume-header">
+    <p class="eyebrow">Senior UI/UX designer · Design lead</p>
+    <div class="intro">
+        <div class="identity">
+            <h1>Qin Wang</h1>
+            <p class="subtitle">
+<span class="kw">6+ years</span> in product design, <span class="kw">5+</span> in financial services. I design <span class="kw">mobile-first</span> financial apps for international markets — regulated onboarding for <span class="kw">Australia and Europe</span>, unified asset views on app and web, and the <span class="kw">design systems</span> behind them. At KuCoin I led <span class="kw">3 designers</span> and kept <span class="kw">5 internal platforms</span> consistent through shared components and design reviews.
+            </p>
+        </div>
+        <div class="contact">
+            <a class="contact-item" href="mailto:54wangqin1995@gmail.com">54wangqin1995@gmail.com</a>
+            <a class="contact-item" href="https://www.qin-wang.net" target="_blank" rel="noopener">Portfolio <span class="hint">↗</span></a>
+            <a class="contact-item" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener">LinkedIn <span class="hint">↗</span></a>
+        </div>
+    </div>
+</header>
+
+<div class="layout">
+    <div class="main">
+        <section class="section">
+            <h2 class="section-title">Experience</h2>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Avenir Group</span>
+                    <span class="role-meta">Dec 2025 – Sep 2026</span>
+                </div>
+                <div class="role-org">Staff Product Designer · Hong Kong</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Mobile-first</span>
+                    <span class="role-scope">Asset view</span>
+                    <span class="role-scope">HNW users</span>
+                    <span class="role-scope role-scope--muted">App &amp; Web</span>
+                </div>
+                <ul>
+                    <li>Led the <span class="kw">mobile-first</span> redesign of UMX’s <span class="kw">Assets</span> experience for institutional and high-net-worth clients, unifying <span class="kw">crypto</span> and <span class="kw">US/HK securities</span> into one portfolio on app and web.</li>
+                    <li>Worked daily with the founder, management, and Product to set direction and priorities; aligned in <span class="kw">one week</span> through rapid prototypes, and the app launched publicly <span class="kw">four months</span> later.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">KuCoin</span>
+                    <span class="role-meta">Feb 2024 – Dec 2025</span>
+                </div>
+                <div class="role-org">Senior / Lead UI/UX Designer · Hong Kong</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Onboarding</span>
+                    <span class="role-scope">Team lead</span>
+                    <span class="role-scope">Design System</span>
+                    <span class="role-scope role-scope--muted">App &amp; Web</span>
+                </div>
+                <ul>
+                    <li>Owned <span class="kw">0→1 consumer and institutional onboarding</span> for <span class="kw">Australia and Europe</span>, adapting each market’s <span class="kw">KYC/KYB</span> rules into clear, low-friction <span class="kw">mobile and web</span> journeys.</li>
+                    <li>Led <span class="kw">3 designers</span> to ship <span class="kw">5 internal platforms</span> and a <span class="kw">shared design system</span> in <span class="kw">6 months</span>, using shared components and <span class="kw">design reviews</span> to hold quality across every platform.</li>
+                    <li>Led a <span class="kw">2-week</span> redesign of the agent workspace for <span class="kw">200+ support agents</span>: observed agents at work, fixed three workflow blockers, and designed <span class="kw">AI reply suggestions</span> and <span class="kw">chat summaries</span> that agents review before sending.</li>
+                </ul>
+            </div>
+
+            <div class="role role--no-rule">
+                <div class="role-header">
+                    <span class="role-title">OKX</span>
+                    <span class="role-meta">Jul 2023 – Feb 2024</span>
+                </div>
+                <div class="role-org">Product Designer · Hong Kong</div>
+                <div class="role-scopes">
+                    <span class="role-scope">On-Chain AML</span>
+                    <span class="role-scope">Web 3 Transaction-tracing Graph</span>
+                    <span class="role-scope role-scope--muted">ToB, ToG</span>
+                    <span class="role-scope role-scope--muted">Web</span>
+                </div>
+                <ul>
+                    <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
+                </ul>
+            </div>
+
+            <div class="role role--page-two">
+                <div class="role-header">
+                    <span class="role-title">Manulife</span>
+                    <span class="role-meta">Aug 2022 – Dec 2022</span>
+                </div>
+                <div class="role-org">UX Designer · Hong Kong</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Internal tools</span>
+                    <span class="role-scope">Agent recruitment</span>
+                    <span class="role-scope role-scope--muted">Web</span>
+                </div>
+                <ul>
+                    <li>Led <span class="kw">0→1 UX</span> for an <span class="kw">agent recruitment</span> system.</li>
+                    <li>Collaborated with research, BAs, engineering and the <span class="kw">design-system</span> owner to define flows and a <span class="kw">scalable</span> solution.</li>
+                </ul>
+            </div>
+
+            <div class="role role--page-two-zh">
+                <div class="role-header">
+                    <span class="role-title">Quantifeed</span>
+                    <span class="role-meta">Sep 2020 – Jul 2022</span>
+                </div>
+                <div class="role-org">UX/UI Designer · Hong Kong</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Institutional wealth</span>
+                    <span class="role-scope">Portfolio management</span>
+                    <span class="role-scope">Advisor tools</span>
+                    <span class="role-scope role-scope--muted">ToB</span>
+                    <span class="role-scope role-scope--muted">Web</span>
+                </div>
+                <ul>
+                    <li>Led design of the core portfolio-management platform for <span class="kw">DBS</span> (Singapore, India), <span class="kw">MUFG</span> (Japan) and <span class="kw">Yachin</span> (Taiwan); the wealth products were also used by <span class="kw">HSBC</span>.</li>
+                    <li>Ran <span class="kw">design critiques</span> and stakeholder reviews across <span class="kw">3 platforms</span>, and planned design work in roadmap and sprint planning with management and engineering.</li>
+                    <li><span class="kw">Hired</span> designers, created candidate evaluation criteria, and <span class="kw">mentored</span> peers; introduced <span class="kw">user research and usability testing</span> to guide the roadmap.</li>
+                </ul>
+            </div>
+
+            <div class="role">
+                <div class="role-header">
+                    <span class="role-title">Microsoft</span>
+                    <span class="role-meta">Dec 2018 – Oct 2019</span>
+                </div>
+                <div class="role-org">UX Designer · Beijing</div>
+                <div class="role-scopes">
+                    <span class="role-scope">Advertising</span>
+                    <span class="role-scope role-scope--muted">ToB</span>
+                    <span class="role-scope role-scope--muted">Web</span>
+                </div>
+                <ul>
+                    <li>Designed <span class="kw">ad-campaign creation flows</span> for <span class="kw">Microsoft Ads</span> (US), and refined <span class="kw">design-system</span> patterns to the <span class="kw">WCAG</span> accessibility standard, used by <span class="kw">50+ designers</span>.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <aside class="side">
+        <section class="section">
+            <h2 class="section-title">Skills</h2>
+            <ul class="side-list">
+                <li>
+                    <strong>Product Design</strong>
+                    Mobile apps &amp; web · End-to-end journeys · Interaction and visual design · Design systems and component libraries
+                </li>
+                <li>
+                    <strong>Leadership</strong>
+                    Team of 3 designers · Hiring and mentoring · Design reviews · Prioritisation and scoping · Cross-border collaboration
+                </li>
+                <li>
+                    <strong>Research &amp; Data</strong>
+                    User interviews · Usability testing · Comparative testing · Event tracking · Behavioral analysis
+                </li>
+                <li>
+                    <strong>Tools</strong>
+                    Figma · Prototypes · Claude · Cursor
+                </li>
+                <li>
+                    <strong>Languages</strong>
+                    English (fluent) · Chinese (native)
+                </li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="edu-entry">
+                <span class="degree">MSc Human-Computer Interaction</span>
+                <span class="school">University College London (UCL)</span>
+                <span class="year">2017 – 2018</span>
+            </div>
+            <div class="edu-entry">
+                <span class="degree">BSc Product Design</span>
+                <span class="school">Huazhong University of Science and Technology</span>
+                <span class="year">2013 – 2017</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Research</h2>
+            <div class="edu-entry">
+                <span class="degree">Research Assistant</span>
+                <span class="school">City University of Hong Kong</span>
+                <span class="year">2019 – 2020</span>
+            </div>
+        </section>
+    </aside>
+</div>
+
+<section class="portfolio-page" aria-labelledby="portfolio-heading">
+    <div class="portfolio-head">
+        <h2 class="portfolio-title" id="portfolio-heading">Case studies</h2>
+        <p class="portfolio-access"><a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a></p>
+    </div>
+    <div class="portfolio-grid">
+        <a class="work-card" href="https://www.qin-wang.net/asset.html" target="_blank" rel="noopener">
+            <div class="work-shot">
+                <img src="resources/images-asset/asset-cover-centered.png?v=3" width="1024" height="640" alt="Mobile Assets screens with a unified crypto and securities portfolio">
+            </div>
+            <p class="work-meta">2026 · Avenir Group</p>
+            <h3 class="work-title">Assets — mobile-first portfolio</h3>
+            <p class="work-outcome">Aligned in a week; the app launched publicly in four months.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/kyc-aus.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--kyc">
+                <img src="resources/images-kyc-aus/kyc-cover-app.png?v=4" width="2400" height="1500" alt="Retail KYC on mobile: the same country-selection step for Australia and Germany, with different requirements">
+            </div>
+            <p class="work-meta">2025 · KuCoin</p>
+            <h3 class="work-title">Retail KYC — Australia and Europe</h3>
+            <p class="work-outcome">Demoed to the EU regulator for the MiCA licence application; the licence was granted.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/kyb-global.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--kyb">
+                <img src="resources/images-kyb/cover_img.png" width="1980" height="1440" alt="Institutional onboarding before and after: a text-heavy form and a guided document checklist">
+            </div>
+            <p class="work-meta">2025 · KuCoin</p>
+            <h3 class="work-title">KYB onboarding — research-led redesign</h3>
+            <p class="work-outcome">82% of users had submitted more than once; a guided checklist replaced the wall of text.</p>
+        </a>
+        <a class="work-card" href="https://www.qin-wang.net/internal-system.html" target="_blank" rel="noopener">
+            <div class="work-shot work-shot--agent">
+                <img src="resources/images-internal-system/cover-img.png" width="2078" height="1212" alt="Agent workspace with an AI suggested reply the agent can paste and send">
+            </div>
+            <p class="work-meta">2024–25 · KuCoin</p>
+            <h3 class="work-title">Agent workspace — team-led rescue</h3>
+            <p class="work-outcome">Led the 2-week redesign for 200+ agents, with AI reply suggestions they review before sending.</p>
+        </a>
+    </div>
+</section>
+</div>
+
+<script>
+    (function () {
+        const languageToggle = document.getElementById('language-toggle');
+        const resumeTranslations = {
+            zh: {
+                title: '简历 — Qin Wang · 资深 UI/UX 设计师',
+                eyebrow: '资深 UI/UX 设计师 · 设计负责人',
+                subtitle: '拥有 <span class="kw">6+ 年</span>产品设计经验，其中 <span class="kw">5+ 年</span>在金融科技 & 加密领域。我为海外市场设计<span class="kw">移动端优先</span>的金融 App：<span class="kw">澳大利亚与欧洲</span>的受监管开户、App 与 Web 上的统一资产视图，以及背后的<span class="kw">设计系统</span>。在 KuCoin 带领 <span class="kw">3 名设计师</span>，通过共享组件与设计评审，让 <span class="kw">5 个内部平台</span>保持一致的体验。',
+                sections: ['工作经历', '技能', '教育背景', '研究经历'],
+                orgs: [
+                    'Staff 产品设计师 · 香港',
+                    '资深／负责人 UI/UX 设计师 · 香港',
+                    '产品设计师 · 香港',
+                    'UX 设计师 · 香港',
+                    'UX/UI 设计师 · 香港',
+                    'UX 设计师 · 北京'
+                ],
+                scopes: [
+                    '移动端优先', '资产视图', '高净值用户', 'App & Web',
+                    '客户开户', '团队管理', '设计系统', 'App & Web',
+                    '链上反洗钱', 'Web 3 交易追踪图谱', 'ToB, ToG', 'Web',
+                    '内部工具', '代理人招聘', 'Web',
+                    '机构财富管理', '投资组合管理', '顾问工具', 'ToB', 'Web',
+                    '广告', 'ToB', 'Web'
+                ],
+                bullets: [
+                    '主导 UMX <span class="kw">资产</span>体验的<span class="kw">移动端优先</span>改版，为机构及高净值客户将<span class="kw">加密资产</span>与<span class="kw">美股／港股</span>整合为 App 与 Web 上的统一投资组合。',
+                    '与创始人、管理层及产品团队每日协作，确定方向与优先级；通过快速原型在<span class="kw">一周</span>内对齐，应用在 <span class="kw">4 个月</span>后公开发布。',
+                    '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，按各市场的 <span class="kw">KYC/KYB</span> 规则设计清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
+                    '带领 <span class="kw">3 名设计师</span>，在 <span class="kw">6 个月</span>内交付 <span class="kw">5 个内部平台</span>及一套<span class="kw">共享设计系统</span>，以共享组件与<span class="kw">设计评审</span>保证各平台的体验质量。',
+                    '用 <span class="kw">2 周</span>主导服务 <span class="kw">200+</span> 客服坐席的工作台改版：现场观察坐席操作，解决三处流程阻塞，并设计<span class="kw">AI 回复建议</span>与<span class="kw">对话摘要</span>，由坐席审核后再发送。',
+                    '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
+                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
+                    '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
+                    '主导投资组合管理核心平台的设计，服务 <span class="kw">DBS</span>（新加坡、印度）、<span class="kw">MUFG</span>（日本）与 <span class="kw">Yachin</span>（台湾）；相关财富管理产品亦被 <span class="kw">HSBC</span> 使用。',
+                    '在 <span class="kw">3 个平台</span>上组织<span class="kw">设计评审</span>与利益相关方评审，并与管理层和工程团队一起做路线图与迭代规划。',
+                    '参与<span class="kw">招聘</span>设计师并制定候选人评估标准，<span class="kw">辅导</span>同组设计师；引入<span class="kw">用户研究与可用性测试</span>指导产品路线图。',
+                    '为美国市场的 <span class="kw">Microsoft Ads</span> 设计<span class="kw">广告投放创建流程</span>，并按 <span class="kw">WCAG</span> 无障碍标准完善被 <span class="kw">50+ 设计师</span>使用的<span class="kw">设计系统</span>模式。'
+                ],
+                skills: [
+                    '<strong>产品设计</strong>移动端 App & Web · 端到端旅程 · 交互与视觉设计 · 设计系统与组件库',
+                    '<strong>团队管理</strong>带领 3 名设计师 · 招聘与辅导 · 设计评审 · 优先级与范围管理 · 跨境协作',
+                    '<strong>研究与数据</strong>用户访谈 · 可用性测试 · 对比测试 · 事件埋点 · 行为分析',
+                    '<strong>工具</strong>Figma · 原型 · Claude · Cursor',
+                    '<strong>语言</strong>英文（流利） · 中文（母语）'
+                ],
+                degrees: ['人机交互理学硕士', '产品设计理学学士', '研究助理'],
+                portfolioTitle: '项目案例',
+                portfolioAccess: '<a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a>',
+                workMeta: [
+                    '2026 · Avenir Group',
+                    '2025 · KuCoin',
+                    '2025 · KuCoin',
+                    '2024–25 · KuCoin'
+                ],
+                workTitle: [
+                    '资产 — 移动端优先的投资组合',
+                    '零售 KYC — 澳大利亚与欧洲',
+                    'KYB 开户 — 数据研究驱动的改版',
+                    '客服工作台 — 带队完成改版'
+                ],
+                workOutcome: [
+                    '一周内对齐方向，四个月后公开发布。',
+                    '向欧洲监管机构演示，用于 MiCA 牌照申请，最终获批。',
+                    '82% 的用户曾重复提交；用引导式文件清单取代大段说明文字。',
+                    '用 2 周带队为 200+ 坐席完成改版，AI 回复建议由坐席审核后再发送。'
+                ]
+            }
+        };
+
+        function setCollection(selector, values) {
+            document.querySelectorAll(selector).forEach(function (element, index) {
+                if (!element.dataset.en) element.dataset.en = element.innerHTML;
+                element.innerHTML = values ? values[index] : element.dataset.en;
+            });
+        }
+
+        function setLanguage(language) {
+            const copy = language === 'zh' ? resumeTranslations.zh : null;
+            document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+            document.title = copy ? copy.title : 'Resume — Qin Wang · Senior UI/UX Designer';
+            const eyebrow = document.querySelector('.eyebrow');
+            const subtitle = document.querySelector('.subtitle');
+            if (!eyebrow.dataset.en) eyebrow.dataset.en = eyebrow.innerHTML;
+            if (!subtitle.dataset.en) subtitle.dataset.en = subtitle.innerHTML;
+            eyebrow.innerHTML = copy ? copy.eyebrow : eyebrow.dataset.en;
+            subtitle.innerHTML = copy ? copy.subtitle : subtitle.dataset.en;
+            setCollection('.section-title', copy ? copy.sections : null);
+            setCollection('.role-org', copy ? copy.orgs : null);
+            setCollection('.role-scope', copy ? copy.scopes : null);
+            setCollection('.role li', copy ? copy.bullets : null);
+            setCollection('.side-list li', copy ? copy.skills : null);
+            setCollection('.degree', copy ? copy.degrees : null);
+            const portfolioTitle = document.querySelector('.portfolio-title');
+            const portfolioAccess = document.querySelector('.portfolio-access');
+            if (portfolioTitle && !portfolioTitle.dataset.en) portfolioTitle.dataset.en = portfolioTitle.innerHTML;
+            if (portfolioAccess && !portfolioAccess.dataset.en) portfolioAccess.dataset.en = portfolioAccess.innerHTML;
+            if (portfolioTitle) portfolioTitle.innerHTML = copy ? copy.portfolioTitle : portfolioTitle.dataset.en;
+            if (portfolioAccess) portfolioAccess.innerHTML = copy ? copy.portfolioAccess : portfolioAccess.dataset.en;
+            setCollection('.work-meta', copy ? copy.workMeta : null);
+            setCollection('.work-title', copy ? copy.workTitle : null);
+            setCollection('.work-outcome', copy ? copy.workOutcome : null);
+            document.querySelectorAll('.cv-tabs a').forEach(function (tab) {
+                if (!tab.dataset.en) tab.dataset.en = tab.textContent;
+                tab.textContent = copy ? tab.dataset.zh : tab.dataset.en;
+            });
+            languageToggle.textContent = language === 'zh' ? 'EN' : '中文';
+            languageToggle.setAttribute('aria-label', language === 'zh' ? '切换至英文简历' : '切换至中文简历');
+            localStorage.setItem('resume-language', language);
+            syncPreviewPages();
+        }
+
+        function syncPreviewPages() {
+            const page = document.querySelector('.page');
+            const ruler = document.getElementById('a4-ruler');
+            const zh = document.documentElement.lang === 'zh-CN';
+            const breakEl = document.querySelector(zh ? '.role--page-two-zh' : '.role--page-two');
+            if (!page || !ruler || !breakEl) return;
+
+            let gap = document.getElementById('preview-page-gap');
+            if (!gap) {
+                gap = document.createElement('div');
+                gap.id = 'preview-page-gap';
+                gap.setAttribute('aria-hidden', 'true');
+                gap.innerHTML = '<div class="preview-page-rest"></div><div class="preview-page-cut"></div>';
+            }
+            breakEl.parentNode.insertBefore(gap, breakEl);
+            page.style.paddingBottom = '';
+            gap.querySelector('.preview-page-rest').style.height = '0px';
+
+            const pageH = ruler.getBoundingClientRect().height;
+            const cut = gap.querySelector('.preview-page-cut');
+            const cutH = cut.getBoundingClientRect().height;
+            const used = breakEl.getBoundingClientRect().top - page.getBoundingClientRect().top - cutH;
+            gap.querySelector('.preview-page-rest').style.height = Math.max(0, pageH - used) + 'px';
+
+            const page2Start = breakEl.getBoundingClientRect().top - page.getBoundingClientRect().top;
+            const page2Used = page.scrollHeight - page2Start;
+            page.style.paddingBottom = Math.max(0, pageH - page2Used) + 'px';
+        }
+
+        if (languageToggle) {
+            const savedLanguage = localStorage.getItem('resume-language');
+            if (new URLSearchParams(location.search).get('lang') === 'zh' || savedLanguage === 'zh') setLanguage('zh');
+            languageToggle.addEventListener('click', function () {
+                setLanguage(document.documentElement.lang === 'zh-CN' ? 'en' : 'zh');
+            });
+        }
+
+        const back = document.getElementById('back-to-portfolio');
+        if (back) {
+            let sameOrigin = false;
+            try {
+                const ref = new URL(document.referrer);
+                sameOrigin = ref.origin === location.origin && !/\/resume(-app)?\.html$/.test(ref.pathname);
+            } catch (e) {
+                sameOrigin = false;
+            }
+
+            if (sameOrigin) {
+                back.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    history.back();
+                });
+            }
+        }
+
+        function savePdf() {
+            const now = new Date();
+            const yymm = String(now.getFullYear()).slice(-2) +
+                String(now.getMonth() + 1).padStart(2, '0');
+
+            document.body.classList.add('force-print-desktop');
+            const previousTitle = document.title;
+            // Suggested filename in the system Save dialog
+            document.title = 'Qin CV Lead ' + yymm;
+
+            const cleanup = function () {
+                document.title = previousTitle;
+                document.body.classList.remove('force-print-desktop');
+                window.removeEventListener('afterprint', cleanup);
+                syncPreviewPages();
+            };
+
+            window.addEventListener('afterprint', cleanup);
+            setTimeout(cleanup, 60 * 1000);
+            // Opens the system print dialog — choose "Save as PDF" to pick a location
+            window.print();
+        }
+
+        const saveButton = document.getElementById('save-pdf');
+        if (saveButton) {
+            saveButton.addEventListener('click', savePdf);
+        }
+
+        function schedulePreviewPages() {
+            syncPreviewPages();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncPreviewPages);
+        }
+        window.addEventListener('load', schedulePreviewPages);
+        window.addEventListener('resize', syncPreviewPages);
+        window.addEventListener('beforeprint', function () {
+            const page = document.querySelector('.page');
+            if (page) page.style.paddingBottom = '';
+        });
+        schedulePreviewPages();
+
+        if (new URLSearchParams(window.location.search).has('pdf')) {
+            window.addEventListener('load', function () {
+                setTimeout(savePdf, 400);
+            });
+        }
+    })();
+</script>
+</body>
+</html>

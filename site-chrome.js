@@ -260,7 +260,8 @@
   function open(img) {
     if (!dlg) build();
     lastFocus = img;
-    group = [...document.querySelectorAll('img.lbx-zoom')].filter((el) => eligible(el) && visible(el));
+    const scope = img.closest('dialog[open]') || document;
+    group = [...scope.querySelectorAll('img.lbx-zoom')].filter((el) => eligible(el) && visible(el));
     if (!group.includes(img)) group = [img];
     dlg.classList.toggle('lbx--multi', group.length > 1);
     dlg.classList.toggle('lbx--single', group.length < 2);

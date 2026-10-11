@@ -814,6 +814,10 @@ p {
   transition: transform 600ms var(--ease);
 }
 
+.coverimg--top {
+  object-position: center top;
+}
+
 .card:hover .coverimg,
 .card-feature:hover .coverimg {
   transform: scale(1.04);

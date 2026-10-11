@@ -4,20 +4,260 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Agent Workplace Redesign — Qin Wang</title>
+    <title>KuCoin internal platforms — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=1" type="text/css" rel="stylesheet">
     <style>
-        .page-title-box .title-img { align-self: end; }
-        .page-title-box .title-img img {
+        .cs-embed {
+            margin: var(--space-4) 0 var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-subtle);
+        }
+        .cs-embed iframe {
+            display: block;
             width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            object-position: center top;
-            margin-bottom: 0;
-            border: none;
-            box-shadow: none;
+            height: 560px;
+            border: 0;
+            background: #fff;
+        }
+        .cs-figcap a { color: var(--accent); }
+        .cs-eco {
+            display: grid;
+            grid-template-columns: 1fr 2.6fr;
+            gap: var(--space-4);
+            margin: var(--space-5) 0 var(--space-6);
+        }
+        .cs-eco__pair { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+        .cs-eco__card {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+        }
+        .cs-eco__card.is-focus { border-color: rgba(0, 52, 240, 0.35); box-shadow: 0 0 0 3px var(--accent-subtle); }
+        .cs-eco__media {
+            display: grid;
+            place-items: center;
+            aspect-ratio: 16 / 10;
+            padding: var(--space-3);
+            border-radius: 8px;
+            background: var(--bg-subtle);
+        }
+        .cs-eco__card.is-chat .cs-eco__media { position: relative; flex: 1; aspect-ratio: auto; min-height: 0; }
+        .one-col .cs-eco__card.is-chat .cs-eco__media img { position: absolute; inset: var(--space-3); width: calc(100% - var(--space-3) * 2); height: calc(100% - var(--space-3) * 2); max-width: none; max-height: none; object-fit: contain; }
+        .one-col .cs-eco__media img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            margin: 0;
+            border: 0;
+            border-radius: 0;
+        }
+        .cs-eco__text { padding: var(--space-3) var(--space-1) var(--space-1); }
+        .cs-eco__who { margin: 0 0 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .cs-eco__card h4 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 2px; font-family: var(--font-title); font-size: 15px; line-height: 1.4; }
+        .cs-eco__tag { padding: 1px 8px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 600; line-height: 1.6; }
+        .cs-eco__card p.cs-eco__desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .cs-why {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin: var(--space-3) 0 var(--space-4);
+        }
+        .cs-why > div {
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+        }
+        .cs-why b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .cs-why span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .cs-callout p { margin: 0; }
+        .cs-callout p b { font-weight: 600; color: var(--text-primary); }
+        html[data-lang="zh"] .cs-eco__who { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        @media (max-width: 560px) {
+            .cs-eco, .cs-eco__pair { grid-template-columns: 1fr; }
+            .cs-eco__card.is-chat .cs-eco__media { height: 300px; flex: none; }
+            .cs-replaced, .cs-why { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 720px) {
+            .cs-embed iframe { height: 420px; }
         }
         .cs-kicker + h3.section { margin-top: var(--space-4); }
+        @media (min-width: 1101px) {
+            .case-hero .title-img { padding-left: var(--space-6); box-sizing: border-box; }
+        }
+
+        .cs-entry {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            width: 100%;
+            margin: var(--space-2) 0 var(--space-6);
+            padding: var(--space-4) var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+            font: inherit;
+            text-align: left;
+            color: inherit;
+            cursor: pointer;
+            transition: border-color 160ms ease, background 160ms ease;
+        }
+        .cs-entry:hover { border-color: rgba(0, 52, 240, 0.35); background: var(--accent-subtle); }
+        .cs-entry:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .cs-entry__text { flex: 1; min-width: 0; }
+        .cs-entry__text b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-entry__text span { display: block; margin-top: 2px; font-size: 13.5px; color: var(--text-tertiary); }
+        .cs-entry__arrow {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--accent);
+            transition: transform 160ms ease;
+        }
+        .cs-entry:hover .cs-entry__arrow { transform: translateX(3px); }
+        .cs-entry__arrow svg { width: 16px; height: 16px; }
+
+        dialog.cs-drawer {
+            position: fixed;
+            inset: 0 0 0 auto;
+            width: min(720px, 100vw);
+            max-width: 100vw;
+            height: 100dvh;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-left: 1px solid var(--border);
+            background: #fff;
+            box-shadow: -24px 0 64px rgba(17, 17, 17, 0.12);
+            color: var(--text-primary);
+        }
+        dialog.cs-drawer::backdrop { background: rgba(17, 17, 17, 0.32); }
+        dialog.cs-drawer[open] { animation: cs-drawer-in 260ms cubic-bezier(.2, .8, .2, 1); }
+        @keyframes cs-drawer-in { from { transform: translateX(40px); opacity: 0; } }
+        .cs-drawer__scroll { height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+        .cs-drawer__bar {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            padding: var(--space-3) var(--space-6);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+        .cs-drawer__bar span { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+        html[data-lang="zh"] .cs-drawer__bar span { letter-spacing: 0.04em; }
+        .cs-drawer__close {
+            display: grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .cs-drawer__close:hover { background: var(--bg-subtle); color: var(--text-primary); }
+        .cs-drawer__close svg { width: 16px; height: 16px; }
+        .cs-drawer__body { padding: var(--space-6) var(--space-6) var(--space-8); }
+        .cs-drawer__body h2 {
+            font-family: var(--font-title);
+            font-size: 28px;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            margin: 0 0 var(--space-2);
+        }
+        .cs-drawer__lead { font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin: 0 0 var(--space-5); }
+        .cs-drawer__meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1px;
+            margin: 0 0 var(--space-7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--border);
+            overflow: hidden;
+        }
+        .cs-drawer__meta div { background: #fff; padding: var(--space-3) var(--space-4); }
+        .cs-drawer__meta dt { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
+        .cs-drawer__meta dd { margin: 2px 0 0; font-size: 14px; line-height: 1.5; color: var(--text-primary); }
+        .cs-drawer__sec { margin: 0 0 var(--space-7); }
+        .cs-drawer__sec > h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-family: var(--font-title);
+            font-size: 20px;
+            letter-spacing: -0.01em;
+            margin: 0 0 var(--space-3);
+        }
+        .cs-drawer__sec > h3 .cs-how__n { margin: 0; flex: none; }
+        .cs-drawer__sec p { font-size: 15.5px; line-height: 1.7; color: var(--text-secondary); margin: 0 0 var(--space-3); }
+        .cs-drawer__sec .cs-list li { font-size: 15px; }
+        .cs-drawer__sec h4 { font-size: 16px; font-weight: 600; margin: var(--space-5) 0 var(--space-1); color: var(--text-primary); }
+        .cs-drawer__sec .cs-shot { margin-top: var(--space-3); }
+        .cs-drawer__sec .cs-shot img { border-radius: var(--radius-md); }
+        .cs-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin: var(--space-3) 0 var(--space-4);
+            padding: 0;
+            list-style: none;
+            counter-reset: flow;
+        }
+        .cs-flow li {
+            counter-increment: flow;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px 6px 6px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--bg-subtle);
+            font-size: 13.5px;
+            color: var(--text-primary);
+        }
+        .cs-flow li::before {
+            content: counter(flow);
+            display: grid;
+            place-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+        html.cs-drawer-lock, html.cs-drawer-lock body { overflow: hidden; }
+        @media (max-width: 720px) {
+            .cs-drawer__bar { padding: var(--space-3) var(--space-4); }
+            .cs-drawer__body { padding: var(--space-5) var(--space-4) var(--space-7); }
+            .cs-drawer__body h2 { font-size: 23px; }
+            .cs-drawer__meta { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) { dialog.cs-drawer[open] { animation: none; } }
         .cs-kicker {
             display: block;
             font-size: 11px;
@@ -94,68 +334,6 @@
             color: var(--text-tertiary);
             margin: -6px 0 var(--space-6);
         }
-        .cs-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-4);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        .cs-cards--3 { grid-template-columns: repeat(3, 1fr); }
-        .cs-card {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-5);
-            background: var(--bg);
-        }
-        .cs-card .tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
-        }
-        .cs-card h4 {
-            font-family: var(--font-title);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 var(--space-3);
-            letter-spacing: -0.01em;
-        }
-        .cs-card p, .cs-card li {
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0;
-            color: var(--text-secondary);
-        }
-        .cs-card .cs-list li { font-size: 14px; }
-        .cs-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        .cs-stat {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-5);
-            background: var(--bg-subtle);
-            text-align: center;
-        }
-        .cs-stat strong {
-            display: block;
-            font-family: var(--font-title);
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-1);
-        }
-        .cs-stat span {
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
         .cs-compare {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -186,316 +364,1239 @@
         }
         .cs-panel .cs-list li { font-size: 14.5px; }
         @media (max-width: 720px) {
-            .cs-cards, .cs-cards--3, .cs-compare, .cs-stats {
+            .cs-cards, .cs-cards--3, .cs-compare, .cs-stats, .cs-sys {
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ── Reading polish ─────────────────────────────── */
+        .cs-kicker {
+            margin-top: var(--space-8);
+            padding-top: var(--space-7);
+            border-top: 1px solid var(--border);
+        }
+        #section2 + .cs-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
+        .cs-kicker + h3.section {
+            margin: var(--space-2) 0 var(--space-3);
+            font-size: 26px;
+            line-height: 1.25;
+        }
+        .cs-kicker + h3.section + p {
+            font-size: 17px;
+            line-height: 1.65;
+            color: #333;
+        }
+        .one-col h5 { margin-top: var(--space-6); font-size: 17px; letter-spacing: -0.01em; }
+        .cs-figcap { font-size: 13px; line-height: 1.5; }
+        .cs-eco img, .cs-replaced img, .cs-sys__img img { margin: 0; border: 0; border-radius: 0; }
+
+        .cs-callout .lbl { color: var(--accent); }
+        .cs-callout p { font-size: 15.5px; line-height: 1.65; }
+
+        .cs-panel { border-top: 3px solid var(--accent); }
+
+        .cs-list--check li { padding-left: 28px; }
+        .cs-list--check li::before {
+            content: "";
+            left: 0;
+            top: 6px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(18, 140, 86, 0.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23127a4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+        }
+        .cs-list--check li.is-muted { color: var(--text-tertiary); font-size: 14px; }
+        .cs-list--check li.is-muted::before {
+            background: var(--bg-muted) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8h7' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+        }
+
+        .cs-learns { display: grid; gap: var(--space-3); margin: var(--space-4) 0; }
+        .cs-learn {
+            display: flex;
+            gap: var(--space-4);
+            padding: var(--space-4) var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+        }
+        .cs-learn__n {
+            flex: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-subtle);
+            color: var(--accent);
+            font-family: var(--font-title);
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 32px;
+            text-align: center;
+        }
+        .cs-learn h5 { margin: 4px 0 var(--space-1) !important; font-size: 16px; }
+        .cs-learn p { margin: 0; font-size: 15px; line-height: 1.6; }
+        @media (max-width: 560px) {
+            .cs-kicker { margin-top: var(--space-7); padding-top: var(--space-6); }
+            .cs-kicker + h3.section { font-size: 22px; }
+            .cs-learn { padding: var(--space-4); }
+        }
+
+
+        /* ── Agent journey ──────────────────────────────── */
+        .cs-journey { margin: 0 0 var(--space-6); padding: var(--space-5); border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+        .cs-journey__grid { display: grid; grid-template-columns: 92px repeat(5, minmax(0, 1fr)); grid-template-rows: auto auto auto; grid-auto-flow: column; }
+        .cs-journey__labels, .one-col .cs-journey__steps, .one-col .cs-journey__steps li { display: contents; }
+        .cs-journey__labels span { padding: 10px 12px 12px 0; font-size: 11px; font-weight: 700; line-height: 1.35; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .cs-journey__labels span + span,
+        .cs-journey__does,
+        .cs-journey__broke { border-top: 1px solid var(--border); }
+        .cs-journey__labels span + span { padding-top: 14px; }
+        .cs-journey__phase { margin: 0 8px 14px 0; padding: 8px 10px; border-radius: 8px; background: var(--accent-subtle); color: var(--accent); font-size: 13px; font-weight: 600; line-height: 1.35; }
+        .one-col p.cs-journey__does { margin: 0; padding: 14px 10px 14px 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .cs-journey__broke { padding: 14px 8px 0 0; }
+        .one-col p.cs-journey__ok { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--bg-subtle); font-size: 12.5px; line-height: 1.4; color: var(--text-tertiary); }
+        .cs-journey__block { padding: 10px; border-radius: 8px; background: var(--bg-muted); }
+        .cs-journey__block span { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--text-primary); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+        .one-col .cs-journey__block p { margin: 8px 0 0; font-size: 13px; font-weight: 500; line-height: 1.45; color: var(--text-primary); }
+        .cs-journey figcaption { margin-top: var(--space-4); font-size: 12px; line-height: 1.5; color: var(--text-tertiary); }
+        html[data-lang="zh"] .cs-journey__labels span,
+        html[data-lang="zh"] .cs-journey__block span { letter-spacing: 0.02em; text-transform: none; }
+        @media (max-width: 720px) {
+            .cs-journey { padding: 0; border: 0; border-radius: 0; }
+            .cs-journey__grid { display: block; }
+            .cs-journey__labels { display: none; }
+            .one-col .cs-journey__steps { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+            .one-col .cs-journey__steps li { display: block; margin: 0; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); }
+            .cs-journey__phase { display: block; margin: 0 0 var(--space-2); }
+            .one-col p.cs-journey__does { padding: 0 0 var(--space-3); border-top: 0; }
+            .cs-journey__broke { padding: 0; border-top: 0; }
+        }
+
+        /* ── Story blocks ───────────────────────────────── */
+        .cs-sum {
+            margin: var(--space-6) 0 0;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .cs-sum__row {
+            display: grid;
+            grid-template-columns: 132px 1fr;
+            gap: var(--space-4);
+            align-items: baseline;
+            padding: var(--space-4) var(--space-5);
+            background: #fff;
+        }
+        .cs-sum__row + .cs-sum__row { border-top: 1px solid var(--border); }
+        .cs-sum__row.is-turn { background: var(--accent-subtle); }
+        .cs-sum__k { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .cs-sum__row.is-turn .cs-sum__k { color: var(--accent); }
+        .cs-sum__row p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+
+        .one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-size: 17px; }
+        .one-col .cs-kicker + h3.section + p + h5.cs-sub { margin-top: var(--space-5); }
+
+        .cs-roles-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin: var(--space-7) 0 var(--space-3); }
+        .one-col .cs-roles-head h5.cs-sub { margin: 0; }
+        .cs-roles-nav { flex: none; display: flex; align-items: center; gap: var(--space-2); }
+        .cs-roles-nav__count { min-width: 40px; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--text-tertiary); text-align: right; }
+        .cs-roles-nav button {
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: border-color .15s, background .15s, opacity .15s;
+        }
+        .cs-roles-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+        .cs-roles-nav button:disabled { opacity: .35; cursor: default; }
+        .cs-roles-nav svg { width: 16px; height: 16px; }
+
+        .cs-roles {
+            list-style: none;
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: calc((100% - var(--space-4) * 2) / 2.2);
+            gap: var(--space-4);
+            margin: 0 0 var(--space-3);
+            padding: 2px 2px var(--space-2);
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+        .cs-roles::-webkit-scrollbar { display: none; }
+        .cs-roles.has-next { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent); }
+        .cs-roles:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--radius-md); }
+        .cs-roles li {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            margin: 0;
+            padding: var(--space-3);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+            scroll-snap-align: start;
+        }
+        .cs-roles li.is-focus { border-color: rgba(0, 52, 240, 0.25); background: var(--accent-subtle); }
+        .one-col .cs-roles img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 10;
+            margin: 0;
+            object-fit: cover;
+            object-position: left top;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-subtle);
+        }
+        .cs-roles li > div { padding: 0 var(--space-1); }
+        .one-col .cs-roles img { cursor: zoom-in; }
+        .cs-peek {
+            position: fixed;
+            z-index: 1000;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+            box-shadow: 0 12px 40px rgba(16, 24, 40, 0.18);
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.97);
+            transform-origin: var(--peek-origin, center);
+            transition: opacity .15s ease, transform .15s ease;
+        }
+        .cs-peek.is-on { opacity: 1; transform: none; }
+        .cs-peek img { display: block; width: 100%; height: auto; border-radius: 8px; }
+        .cs-roles em { align-self: flex-start; margin: auto 0 0 var(--space-1); }
+        .cs-roles b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-roles span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.45; color: var(--text-tertiary); }
+        .cs-roles em {
+            font-style: normal;
+            padding: 3px 10px;
+            border-radius: var(--radius-pill);
+            background: var(--bg-muted);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .cs-roles li.is-focus em { background: var(--accent); color: #fff; }
+
+        .cs-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+        .cs-how > div {
+            padding: var(--space-4);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+        }
+        .cs-how__n {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            margin-bottom: var(--space-3);
+            border-radius: 50%;
+            background: var(--accent-subtle);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .cs-how b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-how span:not(.cs-how__n) { display: block; margin-top: var(--space-1); font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
+        .cs-note { font-size: 14px; line-height: 1.6; color: var(--text-tertiary); }
+        .cs-panel .cs-list--check li { font-size: 14.5px; }
+
+        @media (max-width: 720px) {
+            .cs-sum__row { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-4); }
+            .cs-roles { grid-auto-columns: 82%; gap: var(--space-3); }
+            .cs-how { grid-template-columns: 1fr; }
+        }
+
+        /* ── Annotated screen (screenshot-annotation.mdc, from dashboard.html) ── */
+        .db-anno { margin: var(--space-5) 0 var(--space-6); }
+        .db-anno__stage {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #fff;
+        }
+        .one-col .db-anno__stage img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+        .db-pin {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
+        }
+        .db-anno__stage .db-pin { position: absolute; transform: translate(-50%, -50%); }
+        .db-anno__notes {
+            list-style: none;
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 24px;
+        }
+        .db-anno__notes li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; margin: -8px -10px; border-radius: 10px; transition: background .16s ease; }
+        .db-anno__notes li.on { background: var(--accent-subtle); }
+        .db-anno__notes .db-pin { flex: none; width: 18px; height: 18px; font-size: 10px; box-shadow: none; margin-top: 1px; }
+        .db-anno__notes b { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .db-anno__notes span:not(.db-pin) { display: block; font-size: 12px; line-height: 1.45; color: var(--text-secondary); }
+        .db-anno__stage .db-pin { width: 10px; height: 10px; font-size: 0; box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 52, 240, .15); cursor: pointer; transition: transform .16s ease, opacity .16s ease; }
+        .db-anno__stage .db-pin::after { content: ""; position: absolute; inset: -8px; }
+        .db-anno__stage .db-pin.on { transform: translate(-50%, -50%) scale(1.3); }
+        .db-anno.has-on .db-anno__stage .db-pin:not(.on) { opacity: .4; }
+        .db-anno__links { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2; }
+        .db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: .55; transition: opacity .2s ease, stroke-width .16s ease; }
+        .db-anno.has-on .db-anno__links path { opacity: 0; }
+        .db-anno.has-on .db-anno__links path.on { opacity: 1; stroke-width: 1.75; stroke-dasharray: none; }
+        .db-anno > figcaption { margin: var(--space-4) 0 0; }
+        @media (min-width: 721px) {
+            .db-anno { position: relative; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); column-gap: 36px; align-items: start; }
+            .db-anno__notes { display: flex; flex-direction: column; justify-content: space-around; gap: 16px; margin: 0; }
+            .db-anno > figcaption { grid-column: 1 / -1; }
+            .db-anno__notes.is-placed { position: relative; display: block; }
+            .db-anno__notes.is-placed li { position: absolute; left: -10px; right: -10px; margin: 0; }
+        }
+        @media (max-width: 720px) {
+            .db-anno__links { display: none; }
+            .db-anno__notes { grid-template-columns: 1fr; }
+            .db-anno__stage .db-pin { width: 18px; height: 18px; font-size: 10px; }
+        }
+
+        /* ── Before / after cards (screenshot-annotation.mdc) ── */
+        .db-wt { display: grid; gap: var(--space-5); margin: var(--space-5) 0 0; }
+        .db-wt__card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+        .db-wt__head { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+        .db-wt__n { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
+        .one-col h5.db-wt__k { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .db-wt__pill { margin-left: auto; flex: none; padding: 3px 10px; border-radius: 999px; background: #fdecec; color: #b42318; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .one-col .db-wt__pair { position: relative; display: grid; gap: 10px; margin: 0; }
+        .db-wt__shot { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
+        .one-col .db-wt__shot img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+        .db-wt__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 8px; background: rgba(0, 52, 240, .06); transition: box-shadow .15s, background .15s; }
+        .db-wt__box--before { border-color: #d14343; background: rgba(209, 67, 67, .06); }
+        .db-wt__shot--scroll { aspect-ratio: var(--ratio); }
+        .db-wt__scroller { height: 100%; overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-x: contain; }
+        .db-wt__scroller::-webkit-scrollbar { display: none; }
+        .db-wt__progress {
+            position: absolute; left: 50%; bottom: 10px; z-index: 2; transform: translateX(-50%);
+            width: 96px; height: 6px; border-radius: 999px;
+            background: rgba(17, 17, 17, .16); box-shadow: 0 0 0 2px rgba(255, 255, 255, .9);
+            overflow: hidden; pointer-events: none;
+        }
+        .db-wt__progress i { position: absolute; top: 0; bottom: 0; left: var(--p-left, 0); width: var(--p-width, 30%); border-radius: inherit; background: var(--accent); }
+        .db-wt__scroller:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+        .db-wt__track { position: relative; height: 100%; width: max-content; }
+        .one-col .db-wt__shot--scroll img { width: auto; height: 100%; max-width: none; }
+        .db-wt__nav {
+            position: absolute; top: 50%; z-index: 2;
+            display: grid; place-items: center;
+            width: 36px; height: 36px; margin-top: -18px;
+            border: 1px solid var(--border); border-radius: 50%;
+            background: rgba(255, 255, 255, .94); color: var(--text-primary);
+            box-shadow: 0 4px 14px rgba(17, 17, 17, .12);
+            cursor: pointer; transition: opacity .15s;
+        }
+        .db-wt__nav:hover { color: var(--accent); border-color: var(--accent); }
+        .db-wt__nav svg { width: 16px; height: 16px; }
+        .db-wt__nav--prev { left: 10px; }
+        .db-wt__nav--next { right: 10px; }
+        .db-wt__nav:disabled { opacity: 0; pointer-events: none; }
+        .db-wt__hint {
+            position: absolute; left: 50%; bottom: 24px; z-index: 2; transform: translateX(-50%);
+            padding: 3px 10px; border-radius: 999px;
+            background: rgba(17, 17, 17, .72); color: #fff; font-size: 12px; white-space: nowrap;
+            pointer-events: none; transition: opacity .2s;
+        }
+        .db-wt__shot--scroll.is-scrolled .db-wt__hint { opacity: 0; }
+        .one-col .db-wt__cap { position: relative; display: flex; align-items: baseline; gap: 8px; width: fit-content; max-width: 100%; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); transition: color .15s; }
+        .db-wt__cap b { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .db-wt__cap--before b { background: #fdecec; color: #b42318; }
+        .db-wt__line { position: absolute; width: 0; border-left: 1.5px dashed var(--accent); opacity: .55; pointer-events: none; transition: opacity .15s; }
+        .db-wt__line--before { border-left-color: #d14343; }
+        .db-wt__pair.has-on .db-wt__line { opacity: .2; }
+        .db-wt__pair .db-wt__line.on { opacity: 1; border-left-style: solid; }
+        .db-wt__box.on { box-shadow: 0 0 0 4px rgba(0, 52, 240, .14); background: rgba(0, 52, 240, .1); }
+        .db-wt__box--before.on { box-shadow: 0 0 0 4px rgba(209, 67, 67, .14); background: rgba(209, 67, 67, .1); }
+        .db-wt__cap.on { color: var(--text-primary); }
+        html[data-lang="zh"] .db-wt__cap b { text-transform: none; letter-spacing: 0; }
+        @media (max-width: 720px) {
+            .db-wt__card { padding: 14px; }
+            .db-wt__head { flex-wrap: wrap; }
+            .db-wt__pill { margin-left: 32px; }
+        }
+
+        html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
+        html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .cs-figcap { line-height: 1.8; letter-spacing: 0; }
+        html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .one-col h4, html[data-lang="zh"] .one-col h5 { letter-spacing: -0.01em; line-height: 1.4; }
+        html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .cs-card .tag, html[data-lang="zh"] .cs-panel__flag { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
     </style>
-    <script src="site-chrome.js?v=8"></script>
+    <script src="site-chrome.js?v=9"></script>
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch></site-header>
 
     <div class="anchor" id="top"></div>
-    <div class="page-title-box">
+    <div class="anchor" id="section1"></div>
+    <div class="page-title-box case-hero">
         <div class="grid">
             <div class="page-title-content">
-                <nav class="case-back" aria-label="Case study navigation">
-                    <a class="case-back__link" href="work.html">
-                        <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span data-zh="返回">Back</span>
-                    </a>
-                </nav>
-                <h2>Customer Agent Workplace Redesign</h2>
-                <p class="as-lede">Building an end-to-end AI-enhanced internal support system for KuCoin — redesigning the core workspace for 200+ agents, introducing contextual AI assistance, and rescuing a broken MVP in two weeks.</p>
+                <h2 data-zh="KuCoin 内部平台">KuCoin internal platforms</h2>
+                <p data-zh="&lt;strong&gt;设计负责人&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;3 名设计师 · 5 个平台 · 设计系统&lt;/span&gt;" class="as-role"><strong>Design lead</strong> &middot; <span class="as-role__rest">3 designers · 5 platforms · design system</span></p>
+                <ol class="as-stats" aria-label="From the programme to the agent workspace redesign">
+                    <li><span class="as-stats__num">5</span><span data-zh="从 0 到 1 的平台" class="as-stats__label">Platforms, 0→1</span></li>
+                    <li><span data-zh="6 个月" class="as-stats__num">6 months</span><span data-zh="项目周期" class="as-stats__label">Programme</span></li>
+                    <li class="is-turn"><span data-zh="2 周" class="as-stats__num">2 weeks</span><span data-zh="改版" class="as-stats__label">Redesign</span></li>
+                    <li><span class="as-stats__num">20</span><span data-zh="试点客服" class="as-stats__label">Pilot agents</span></li>
+                </ol>
                 <dl class="as-meta">
-                    <dt>Timeline</dt><dd>2024–25 · KuCoin · UX + UI + AI Design · Internal B2B</dd>
-                    <dt>Role</dt><dd>Design lead — led 2 designers through a 2-week rescue sprint (Jan 1–15, 2025)</dd>
-                    <dt>Scope</dt><dd>Agent workplace redesign · AI augmentation · journey optimisation</dd>
+                    <div><dt data-zh="产品">Product</dt><dd data-zh="自研中后台平台，替代第三方工具（Zendesk、Ada）">In-house back-office platforms replacing third-party tools (Zendesk, Ada)</dd></div>
+                    <div><dt data-zh="目标用户">Target users</dt><dd data-zh="200+ 名客服专员、客服主管、合规官、数据团队">200+ support agents, team leads, compliance officers, data teams</dd></div>
+                    <div><dt data-zh="范围">Scope</dt><dd data-zh="负责整体设计；重点案例：客服工作台改版与 AI 辅助">Programme lead; deep dive: agent workspace redesign and AI assistance</dd></div>
+                    <div><dt data-zh="团队">Team</dt><dd data-zh="3 名设计师（我带领）· 2024–25 · 香港">3 designers (I led) · 2024–25 · Hong Kong</dd></div>
                 </dl>
-                
-                
-                
-                
             </div>
             <div class="title-img">
-                <img src="resources/images-internal-system/cs_workspace_overview.png?v=2" alt="Customer Agent Workplace — live chat workspace with AI reply suggestions and consolidated user info panels">
+                <img src="resources/images-internal-system/cover-programme.png?v=1" width="2078" height="1212" alt="The redesigned agent workspace beside the four other platforms: customer-service console, chatbot configuration, data platform and compliance system, all on one design system">
             </div>
         </div>
     </div>
 
-        <div class="case-layout">
+    <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Customer Agent Workplace Redesign</span>
+        <span data-zh="KuCoin 内部平台" class="scrollspy__title">KuCoin internal platforms</span>
         <div class="scrollspy__list">
-        <a href="#section0" class="list">Overview</a>
-        <a href="#section1" class="list">Background</a>
-        <a href="#section2" class="list">My role</a>
-        <a href="#section3" class="list">Capabilities</a>
-        <a href="#section4" class="list">Challenge</a>
-        <a href="#section5" class="list">Research</a>
-        <a href="#section6" class="list">Redesign</a>
-        <a href="#section7" class="list">Result</a>
-        <a href="#section8" class="list">Reflection</a>
-        <a href="#top" class="list">Back to top</a>
+        <a data-zh="02 概要" href="#section2" class="list">02 In short</a>
+        <a data-zh="03 带领项目" href="#section3" class="list">03 Leading the programme</a>
+        <a data-zh="04 亲自下场" href="#section4" class="list">04 Stepping in</a>
+        <a data-zh="05 用户研究" href="#section5" class="list">05 Research</a>
+        <a data-zh="06 三项改进" href="#section6" class="list">06 Three fixes</a>
+        <a data-zh="07 AI 辅助" href="#section7" class="list">07 AI assistance</a>
+        <a data-zh="08 数据平台" href="#section8" class="list">08 Data platform</a>
+        <a data-zh="09 结果" href="#section9" class="list">09 Result</a>
+        <a data-zh="10 复盘" href="#section10" class="list">10 Reflection</a>
+        <a data-zh="回到顶部" href="#top" class="list">Back to top</a>
         </div>
     </div>
 <div class="one-col">
 
-        <!-- ── INTRO ──────────────────────────────────────────── -->
-        <div class="anchor" id="section0"></div>
-        <span class="cs-kicker">Overview</span>
-        <h3 class="section">What is the Agent Workplace?</h3>
-        <p>The Agent Workplace is the central workspace where KuCoin customer support agents handle inbound issues. It combines live chat, ticketing, user data, operational tools, and AI assistance in one high-volume environment — replacing third-party tools like Zendesk and Ada with a purpose-built system tailored to crypto-specific operations.</p>
+        <!-- ── IN SHORT ───────────────────────────────────────── -->
+        <div class="anchor" id="section2"></div>
+        <span data-zh="02 · 概要" class="cs-kicker">02 · In short</span>
+        <h3 data-zh="带领五个平台，并在关键时刻亲自下场" class="section">Leading five platforms, and stepping in where it mattered</h3>
+        <p data-zh="KuCoin 决定用自研平台替代 Zendesk、Ada 等第三方工具。我带领 3 名设计师负责全部五个平台和一套共用设计系统。当最关键的客服工作台 MVP 让客服无从下手时，我亲自接手改版。">KuCoin set out to replace Zendesk, Ada and other third-party tools with in-house platforms. I led a team of 3 designers across all five platforms and a shared design system. When the most critical one, the agent workspace, left agents stuck, I stepped in to redesign it.</p>
+
+        <div class="cs-sum">
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="任务">The brief</span>
+                <p data-zh="六个月内为五个不同团队从零搭建内部平台：客服、客服管理、机器人运营、数据和合规。">Five internal platforms for five different teams, built from scratch in six months: support, support leads, chatbot, data and compliance.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="我如何带团队">How I led</span>
+                <p data-zh="先做共用设计系统，评审每个平台，控制每个 MVP 的范围，并按设计师的长处分配工作。">Shared design system first, a review on every platform, a tight scope for each MVP, and work matched to each designer's strength.</p>
+            </div>
+            <div class="cs-sum__row is-turn">
+                <span class="cs-sum__k" data-zh="亲自下场">Stepping in</span>
+                <p data-zh="客服工作台 MVP 中，80% 被观察的客服不知道要先领取工单。我带 2 名设计师用两周观察 5 名客服，并把发现转化为三项改进。">In the agent workspace MVP, 80% of observed agents didn't know to claim a ticket first. With 2 designers, I observed 5 agents and turned the findings into three fixes in two weeks.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="结果">Outcome</span>
+                <p data-zh="五个平台和设计系统在六个月内完成；改版后的客服工作台可进入 20 人试点。">Five platforms and a design system built in six months; the redesigned agent workspace ready for a 20-agent pilot.</p>
+            </div>
+        </div>
+
+
+        <!-- ── THE PROGRAMME ──────────────────────────────────── -->
+        <div class="anchor" id="section3"></div>
+        <span data-zh="03 · 带领项目" class="cs-kicker">03 · Leading the programme</span>
+        <h3 data-zh="五个平台，一个设计团队" class="section">Five platforms, one design team</h3>
+        <p data-zh="第三方工具成本高，也跟不上加密业务的需求。自建平台意味着三名设计师要同时服务五个团队，所以我先定下共用的规范，再决定自己在哪里亲自设计、在哪里负责评审。">Third-party tools were costly and couldn't keep up with crypto-specific work. Building in-house meant three designers serving five teams, so I set shared foundations first, then chose where to design hands-on and where to lead through review.</p>
+
+        <div class="cs-why">
+            <div><b data-zh="降低成本">Lower cost</b><span data-zh="替代 Zendesk 和 Ada">Replace Zendesk and Ada</span></div>
+            <div><b data-zh="贴合加密业务">Built for crypto</b><span data-zh="流程围绕加密业务设计">Workflows shaped around crypto support</span></div>
+            <div><b data-zh="全天候">Always on</b><span data-zh="支撑 7×24 小时全球客服">Built for 24/7 global support</span></div>
+            <div><b data-zh="深度集成">Connected</b><span data-zh="对接风控、KYC、交易和账户系统">Linked to risk, KYC, trading and account systems</span></div>
+        </div>
+
+        <div class="cs-roles-head">
+            <h5 data-zh="我在每个平台的角色" class="cs-sub" id="roles-title">My role on each platform</h5>
+            <div class="cs-roles-nav">
+                <span class="cs-roles-nav__count" aria-live="polite">1 / 6</span>
+                <button type="button" class="cs-roles-nav__prev" aria-label="Previous platform"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+                <button type="button" class="cs-roles-nav__next" aria-label="Next platform"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+            </div>
+        </div>
+        <ul class="cs-roles" tabindex="0" aria-labelledby="roles-title">
+            <li class="is-focus">
+                <img src="resources/images-internal-system/cover-img.png" width="2078" height="1212" alt="Agent workspace" loading="lazy">
+                <div><b data-zh="客服工作台">Agent workspace</b><span data-zh="200+ 名客服专员 · 替代 Zendesk">200+ support agents · replaced Zendesk</span></div>
+                <em data-zh="主导改版 · 亲自设计">Led redesign · hands-on</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-cs-config.png" width="1536" height="960" alt="Customer-service console" loading="lazy">
+                <div><b data-zh="客服管理后台">Customer-service console</b><span data-zh="客服组长 · 分配规则、SLA、指标">Team leads · routing, SLAs, metrics</span></div>
+                <em data-zh="设计约一半">Designed about half</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-chatbot.png" width="1533" height="960" alt="Chatbot configuration" loading="lazy">
+                <div><b data-zh="机器人配置系统">Chatbot configuration</b><span data-zh="机器人运营 · 替代 Ada">Chatbot operators · replaced Ada</span></div>
+                <em data-zh="设计部分流程">Designed some flows</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-diting.png" width="1533" height="1014" alt="Diting data platform" loading="lazy">
+                <div><b data-zh="谛听数据平台">Data platform (Diting)</b><span data-zh="数据与业务团队 · 一站式查数">Data and business teams · one search for data</span></div>
+                <em data-zh="设计大部分">Designed most of it</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-compliance.png" width="1533" height="957" alt="Compliance system" loading="lazy">
+                <div><b data-zh="合规系统">Compliance system</b><span data-zh="合规官 · 团队从 1 人扩展到 13 人">Compliance officers · team grew from 1 to 13</span></div>
+                <em data-zh="设计一个模块">Designed 1 module</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-design-system.png" width="1533" height="873" alt="Shared design system" loading="lazy">
+                <div><b data-zh="共用设计系统">Shared design system</b><span data-zh="全部五个平台">All five platforms</span></div>
+                <em data-zh="完成约一半">Built about half</em>
+            </li>
+        </ul>
+        <p data-zh="其余部分由我带领并评审。界面为中文版，面向内部团队。" class="cs-figcap">Everything else I led and reviewed. Screens captured in Chinese, as built for the internal teams.</p>
+
+        <h5 data-zh="五个平台如何保证质量" class="cs-sub">How I kept quality across five platforms</h5>
+        <div class="cs-how">
+            <div><span class="cs-how__n">1</span><b data-zh="组件先行">Shared components first</b><span data-zh="设计系统先统一导航和核心组件，每个平台都从同一套规范起步。">The design system set navigation and core components once, so every platform started from the same patterns.</span></div>
+            <div><span class="cs-how__n">2</span><b data-zh="每个平台都评审">Review on every platform</b><span data-zh="三个客服工具保持同一套交互模式。">Kept the three support tools on one interaction model.</span></div>
+            <div><span class="cs-how__n">3</span><b data-zh="控制范围">Tight MVP scope</b><span data-zh="每个 MVP 只做必需流程，其余放到后续迭代。">Each MVP covered the must-have workflow; the rest went into later iterations.</span></div>
+        </div>
+
+
+        <!-- ── AGENT WORKSPACE ────────────────────────────────── -->
+        <div class="anchor" id="section4"></div>
+        <span data-zh="04 · 亲自下场 · 客服工作台" class="cs-kicker">04 · Stepping in · Agent workspace</span>
+        <h3 data-zh="最常用的平台需要重新梳理" class="section">The busiest platform needed a rethink</h3>
+        <p data-zh="客户打开 KuCoin 在线客服时，背后有三个平台在运转。客服工作台是 200+ 名客服每天处理对话和工单的地方。">When a customer opens KuCoin Support, three platforms work behind the scenes. The agent workspace is where 200+ agents handle chats and tickets all day.</p>
+
+        <div class="cs-eco">
+            <figure class="cs-eco__card is-chat">
+                <div class="cs-eco__media"><img src="resources/images-internal-system/eco_toc-panel.png?v=1" width="1601" height="3096" alt="KuCoin Support chat on the customer side, with bot replies and related topics" loading="lazy"></div>
+                <figcaption class="cs-eco__text">
+                    <p class="cs-eco__who" data-zh="客户">Customers</p>
+                    <h4 data-zh="KuCoin 在线客服">KuCoin Support</h4>
+                    <p class="cs-eco__desc" data-zh="客户在这里提问">Where customers ask for help</p>
+                </figcaption>
+            </figure>
+            <figure class="cs-eco__card is-focus">
+                <div class="cs-eco__media"><img src="resources/images-internal-system/eco_agent-workplace.png?v=2" width="1480" height="914" alt="Agent workspace: chat list, conversation with an AI suggested reply, and user info" loading="lazy"></div>
+                <figcaption class="cs-eco__text">
+                    <p class="cs-eco__who" data-zh="客服专员">Support agents</p>
+                    <h4><span data-zh="客服工作台">Agent workspace</span><span class="cs-eco__tag" data-zh="本案例重点">Case study focus</span></h4>
+                    <p class="cs-eco__desc" data-zh="每天在这里处理在线对话和工单">Where agents handle chats and tickets every day</p>
+                </figcaption>
+            </figure>
+            <div class="cs-eco__pair">
+                <figure class="cs-eco__card">
+                    <div class="cs-eco__media"><img src="resources/images-internal-system/eco_config.png?v=1" width="1524" height="894" alt="Customer-service console: trigger conditions and an assign-to-team action" loading="lazy"></div>
+                    <figcaption class="cs-eco__text">
+                        <p class="cs-eco__who" data-zh="客服组长">Team leads</p>
+                        <h4 data-zh="客服管理后台">Customer-service console</h4>
+                        <p class="cs-eco__desc" data-zh="设置分配规则、SLA 和运营指标">Sets routing rules, SLAs and metrics</p>
+                    </figcaption>
+                </figure>
+                <figure class="cs-eco__card">
+                    <div class="cs-eco__media"><img src="resources/images-internal-system/eco_chatbot_config.png?v=1" width="1524" height="816" alt="Chatbot configuration: scenario list and the AI reply scenario with conditions and a behaviour" loading="lazy"></div>
+                    <figcaption class="cs-eco__text">
+                        <p class="cs-eco__who" data-zh="机器人运营">Chatbot operators</p>
+                        <h4 data-zh="机器人配置系统">Chatbot configuration</h4>
+                        <p class="cs-eco__desc" data-zh="设置自动回复、知识库和 AI 逻辑">Sets auto-replies, knowledge base and AI logic</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
 
         <div class="cs-callout">
-            <div class="lbl">Goal</div>
-            <span class="quote">Improve agent efficiency, discoverability, and support quality.</span>
-            <span class="sub">This case study focuses on the Agent Workplace: its redesign, AI augmentation, and journey optimisation.</span>
-        </div>
-
-        <ul class="cs-list">
-            <li>Designed and rebuilt the core workspace for <b>200+ support agents</b></li>
-            <li>Introduced <b>contextual AI replies &amp; summaries</b> to improve efficiency</li>
-            <li>Led the redesign under <b>tight timelines and limited staffing</b></li>
-        </ul>
-
-        <div class="cs-shot"><img src="resources/images-internal-system/cs_ecosystem.png?v=2" alt="KuCoin customer support ecosystem — Agent Workplace, Config System, and Chatbot Config"></div>
-        <p class="cs-figcap">The KuCoin customer support ecosystem: three interconnected back-end systems power the KuCoin Support chat experience. This case study focuses on the Agent Workplace.</p>
-
-
-        <!-- ── SECTION 1: BACKGROUND ──────────────────────────── -->
-        <div class="anchor" id="section1"></div>
-        <span class="cs-kicker">01 · Background</span>
-        <h3 class="section">Why build an in-house Agent Workplace?</h3>
-        <p>As KuCoin scaled, customer service ran on expensive third-party tools that couldn't cover crypto-specific workflows — verifying KYC status mid-ticket, cross-referencing transaction holds, or surfacing compliance flags while an agent is actively responding.</p>
-
-        <ul class="cs-list">
-            <li>Replace expensive <b>third-party tools</b> (Zendesk, Ada)</li>
-            <li>Tailor workflows to <b>crypto-specific</b> operations</li>
-            <li>Improve <b>performance &amp; speed</b> for 24/7 global support</li>
-            <li>Enable <b>deeper integration</b> with internal risk, KYC, trading, and account systems</li>
-        </ul>
-
-        <div class="cs-shot"><img src="resources/images-internal-system/slide_5.png?v=2" alt="Ada and Zendesk — legacy third-party tools replaced by KuCoin's in-house system"></div>
-        <p class="cs-figcap">The legacy stack: Ada for chatbot configuration and Zendesk as the agent workplace — both replaced by purpose-built internal tools.</p>
-
-
-        <!-- ── SECTION 2: MY ROLE ───────────────────────────── -->
-        <div class="anchor" id="section2"></div>
-        <span class="cs-kicker">02 · My role</span>
-        <h3 class="section">Lead · Mentor · Co-design</h3>
-        <p>With 3 designers responsible for five internal platforms and a shared design system — all 0→1 within 6 months — I stepped in to own the Agent Workplace rescue when the initial MVP failed usability testing.</p>
-
-        <ul class="cs-list">
-            <li><b>Led 2 designers</b> to deliver the redesigned solution in 2 weeks</li>
-            <li><b>Guided research:</b> user interviews, observation &amp; testing</li>
-            <li><b>Co-designed 0→1 core flows</b> due to limited resources and tight timelines</li>
-            <li>Ensured <b>cross-system consistency</b> through shared patterns and design system usage</li>
-        </ul>
-
-        <div class="cs-stats">
-            <div class="cs-stat"><strong>2 Designers</strong><span>Led through the rescue sprint</span></div>
-            <div class="cs-stat"><strong>2 weeks</strong><span>Jan 1–15, 2025</span></div>
+            <div class="lbl" data-zh="我为什么接手">Why I stepped in</div>
+            <p data-zh="第一版 MVP 在时间压力下完成，上线前没有客服用过。评审时客服频频卡住：关键操作藏得太深，界面顺序也和实际工作顺序对不上。&lt;b&gt;距开发截止只剩两周，我带着 2 名设计师（其中一名刚入职）接手改版。&lt;/b&gt;">The first MVP was built under time pressure, before any agent had tried it. In review, agents kept getting stuck: key actions were hidden and the screens didn't follow their workflow. <b>With two weeks to the development deadline, I took over the redesign with 2 designers, one of them newly hired.</b></p>
         </div>
 
 
-        <!-- ── SECTION 3: WHY THIS CASE STUDY ───────────────── -->
-        <div class="anchor" id="section3"></div>
-        <span class="cs-kicker">03 · Why this case study</span>
-        <h3 class="section">A showcase of senior capabilities</h3>
-        <p>Beyond the rescue sprint, this project demonstrates the range of skills I bring to complex B2B product work — from AI feature design to team leadership under pressure.</p>
-
-        <div class="cs-cards">
-            <div class="cs-card">
-                <div class="tag">AI Design</div>
-                <h4>AI design experience</h4>
-                <ul class="cs-list">
-                    <li>AI Reply Suggestions</li>
-                    <li>AI Summary Panel</li>
-                    <li>Familiarity with AI design principles</li>
-                </ul>
-            </div>
-            <div class="cs-card">
-                <div class="tag">B2B</div>
-                <h4>Large-scale B2B workflow design</h4>
-                <p>Customer support ecosystem — three interconnected systems designed for different user groups but sharing a consistent interaction model.</p>
-            </div>
-            <div class="cs-card">
-                <div class="tag">Leadership</div>
-                <h4>Design leadership</h4>
-                <p>Led <b>3 designers</b> to deliver <b>5 internal platforms</b> and a shared design system in <b>6 months</b>, while personally owning the highest-urgency rescue sprint.</p>
-            </div>
-            <div class="cs-card">
-                <div class="tag">Research</div>
-                <h4>User research &amp; systems thinking</h4>
-                <ul class="cs-list">
-                    <li>Ran <b>pre-design interviews</b> to uncover workflows</li>
-                    <li>Ran <b>post-launch usability testing &amp; observations</b> to validate and iterate</li>
-                    <li>Research practice later adopted by other teams</li>
-                </ul>
-            </div>
-        </div>
-
-        <h5>AI features I designed</h5>
-        <p>Guided by Ant AI Design Guidelines and competitive benchmarking, both features follow the principle that AI in enterprise contexts must be <b>contextual and timely</b> — supporting the agent's judgment, not replacing it.</p>
-
-        <div class="cs-compare">
-            <div class="cs-panel">
-                <div class="cs-panel__flag">AI Reply Suggestions</div>
-                <h4>One-click suggested responses</h4>
-                <ul class="cs-list">
-                    <li>Detects intent and keywords in customer messages</li>
-                    <li>Provides one-click suggested responses</li>
-                    <li>Improved accuracy and reduced handling time</li>
-                </ul>
-            </div>
-            <div class="cs-panel">
-                <div class="cs-panel__flag">AI Summary Panel</div>
-                <h4>Ticket-level cognitive offload</h4>
-                <ul class="cs-list">
-                    <li>Summarises customer sentiment, issue, and recommended next step</li>
-                    <li>Helps reduce cognitive load for agents handling multiple tickets</li>
-                    <li>Agents can re-orient in seconds rather than re-reading full threads</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="cs-shot"><img src="resources/images-internal-system/slide_8.png?v=2" alt="AI Reply Suggestions and AI Summary Panel UI in the agent workspace"></div>
-        <p class="cs-figcap">AI Reply Suggestions surface draft responses in the chat area; the AI Summary Panel consolidates emotion, sensitivity flags, category, and recommended reply at the top of each ticket.</p>
-
-
-        <!-- ── SECTION 4: KEY CHALLENGE ─────────────────────── -->
-        <div class="anchor" id="section4"></div>
-        <span class="cs-kicker">04 · Key challenge</span>
-        <h3 class="section">Limited team bandwidth &amp; time pressure</h3>
-
-        <div class="cs-compare">
-            <div class="cs-panel">
-                <div class="cs-panel__flag">The constraint</div>
-                <h4>Parallel 0→1 work at small-team scale</h4>
-                <ul class="cs-list">
-                    <li>Team bandwidth: <b>3 designers</b> building <b>5 internal platforms and a shared design system</b> in parallel, all 0→1</li>
-                    <li>The original Agent Workplace MVP <b>lacked end-to-end user journey logic</b>; key features were hidden or inaccessible</li>
-                </ul>
-            </div>
-            <div class="cs-panel">
-                <div class="cs-panel__flag">The response</div>
-                <h4>Rescuing the Agent Workplace in 2 weeks</h4>
-                <ul class="cs-list">
-                    <li>Stepped in after MVP usability issues</li>
-                    <li>Paired with newly hired B2B designer</li>
-                    <li>Reframed journey, fixed IA, improved workflows</li>
-                    <li>Prioritised must-have usability fixes for the dev deadline</li>
-                </ul>
-            </div>
-        </div>
-
-
-        <!-- ── SECTION 5: STRATEGY & RESEARCH ─────────────────── -->
+        <!-- ── RESEARCH ───────────────────────────────────────── -->
         <div class="anchor" id="section5"></div>
-        <span class="cs-kicker">05 · Strategy &amp; research</span>
-        <h3 class="section">Live observation with 5 agents</h3>
-        <p>No surveys, no hypothetical scenarios — just real agents trying to use real software. I ran live observation sessions with 5 agents using the existing MVP prototype, watching 2–3 agents per session and mapping confusion points, dead-ends, and workarounds.</p>
+        <span data-zh="05 · 用户研究" class="cs-kicker">05 · Research</span>
+        <h3 data-zh="先看客服怎么用，再动手改" class="section">Watch agents first, then redesign</h3>
+        <p data-zh="时间只有两周，我没有直接改界面，而是先组织现场观察：5 名客服在可用的 MVP 上操作，每场 2–3 人。我们把每个困惑点标在界面上，再归纳为三个结构性障碍。">With only two weeks, I started with observation rather than screens: 5 agents worked on the live MVP, 2–3 per session. We pinned every point of confusion to the screen, then grouped them into three structural blockers.</p>
 
-        <ul class="cs-list">
-            <li>Observed 2–3 agents using the MVP per session</li>
-            <li>Identified major workflow blockers</li>
-            <li>Mapped <b>confusion points, dead-ends,</b> and <b>workarounds</b></li>
-            <li>Consolidated findings into three structural UX blockers</li>
-        </ul>
+        <figure class="db-anno">
+            <div class="db-anno__stage">
+                <img src="resources/images-internal-system/observation-mvp.png?v=1" width="1024" height="617" alt="The live MVP during an observation session" loading="lazy">
+                <span class="db-pin" style="left:25.4%;top:11.5%" aria-hidden="true">1</span>
+                <span class="db-pin" style="left:24.6%;top:25.6%" aria-hidden="true">2</span>
+                <span class="db-pin" style="left:58.2%;top:42.6%" aria-hidden="true">3</span>
+                <span class="db-pin" style="left:25.4%;top:57.6%" aria-hidden="true">4</span>
+            </div>
+            <ol class="db-anno__notes">
+                <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="标题来源不明">Unclear title</b><span data-zh="标题取的是哪个字段？需要加小标题说明。">Which field does it come from? Needs a label.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">2</span><div><b data-zh="新对话没有提示">No new-chat alert</b><span data-zh="进了一个在线对话，但没有明显提示。">A live chat arrived without a clear signal.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">3</span><div><b data-zh="Bot 和人工难区分">Bot and agent look alike</b><span data-zh="Bot 消息和人工消息一眼分不清，考虑折叠。">Bot and agent messages look alike; consider collapsing bot replies.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">4</span><div><b data-zh="消息框太窄">Narrow bubbles</b><span data-zh="客户消息框太窄，不便浏览。">Message bubbles are too narrow to scan.</span></div></li>
+            </ol>
+            <figcaption data-zh="一次观察中的记录，标在可用的 MVP 上。" class="cs-figcap">Notes from one observation session, pinned to the live MVP.</figcaption>
+        </figure>
 
-        <div class="cs-shot"><img src="resources/images-internal-system/slide_10.png?v=2" alt="Annotated MVP prototype from live observation sessions"></div>
-        <p class="cs-figcap">Observation notes mapped directly onto the MVP prototype — each annotation became a targeted redesign.</p>
 
-
-        <!-- ── SECTION 6: FINDINGS & REDESIGN ─────────────────── -->
+        <!-- ── THREE FIXES ────────────────────────────────────── -->
         <div class="anchor" id="section6"></div>
-        <span class="cs-kicker">06 · Findings &amp; redesign</span>
-        <h3 class="section">Three structural blockers, three targeted fixes</h3>
-        <p>Three findings accounted for almost all the friction agents experienced. Each became a focused redesign shipped within the 2-week sprint.</p>
+        <span data-zh="06 · 三项改进" class="cs-kicker">06 · Three fixes</span>
+        <h3 data-zh="三个障碍，三项改进" class="section">Three blockers, three fixes</h3>
+        <p data-zh="三个障碍解释了几乎所有阻力。我把每个障碍对应到一处聚焦的改动，范围控制在开发截止日期内。">Three blockers explained almost all the friction. I scoped each to one focused change that fit the development deadline.</p>
 
-        <h5>Finding 1 — Broken entry flow</h5>
-        <p>80% of agents didn't realise they had to <b>claim</b> a ticket before they could reply. The claim action was buried under tabs, scrolling, and a tiny link — agents got stuck at the very first step, unable to respond to customers.</p>
-        <ul class="cs-list">
-            <li>Moved "Claim Ticket" directly into the main input area</li>
-            <li>Disabled the chat box until the ticket was claimed — clarity through constraints</li>
-            <li>Significantly reduced steps and eliminated entry confusion</li>
-        </ul>
-        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_claim_flow.png?v=2" alt="Before and after: ticket claim flow in the agent workspace"></div>
-        <p class="cs-figcap">Before: claim action buried in a side panel. After: "Take the ticket to start reply" blocks the input until claimed.</p>
+        <h5 data-zh="客服在哪一步卡住" class="cs-sub">Where agents got stuck</h5>
+        <figure class="cs-journey">
+            <div class="cs-journey__grid">
+                <div class="cs-journey__labels" aria-hidden="true">
+                    <span data-zh="阶段">Phase</span>
+                    <span data-zh="客服在做什么">What the agent does</span>
+                    <span data-zh="卡点">Friction point</span>
+                </div>
+                <ol class="cs-journey__steps">
+                    <li>
+                        <b class="cs-journey__phase" data-zh="上线接入">Sign in &amp; go online</b>
+                        <p class="cs-journey__does" data-zh="切换为在线并进入队列">Set status to online and join the queue</p>
+                        <div class="cs-journey__broke"><p class="cs-journey__ok" data-zh="未观察到障碍">No friction observed</p></div>
+                    </li>
+                    <li>
+                        <b class="cs-journey__phase" data-zh="领取工单">Pick up the ticket</b>
+                        <p class="cs-journey__does" data-zh="接入新对话或领取未分配工单">Take an incoming chat or an unassigned ticket</p>
+                        <div class="cs-journey__broke"><div class="cs-journey__block"><span data-zh="障碍 1">Blocker 1</span><p data-zh="客服不知道要先领取工单才能回复">Agents didn't know to take a ticket before replying</p></div></div>
+                    </li>
+                    <li>
+                        <b class="cs-journey__phase" data-zh="查看上下文">Read the context</b>
+                        <p class="cs-journey__does" data-zh="查看用户身份、KYC 等级、冻结状态和历史工单">Check who the user is, their KYC level, any holds, and past tickets</p>
+                        <div class="cs-journey__broke"><div class="cs-journey__block"><span data-zh="障碍 2">Blocker 2</span><p data-zh="用户、工单和历史分散在不同 Tab">User, ticket and history split across tabs</p></div></div>
+                    </li>
+                    <li>
+                        <b class="cs-journey__phase" data-zh="撰写回复">Write the reply</b>
+                        <p class="cs-journey__does" data-zh="翻译、选择快捷回复、添加内部备注">Translate, pick a macro, add an internal note</p>
+                        <div class="cs-journey__broke"><div class="cs-journey__block"><span data-zh="障碍 3">Blocker 3</span><p data-zh="最常用的工具最难找到">Most-used tools were the hardest to find</p></div></div>
+                    </li>
+                    <li>
+                        <b class="cs-journey__phase" data-zh="提交、升级或关闭">Submit, escalate or close</b>
+                        <p class="cs-journey__does" data-zh="提交为待处理、升级为管理工单，或关闭并跟进">Submit as open, raise an admin ticket, or close and follow up</p>
+                        <div class="cs-journey__broke"><p class="cs-journey__ok" data-zh="未观察到障碍">No friction observed</p></div>
+                    </li>
+                </ol>
+            </div>
+            <figcaption data-zh="每个障碍标在客服遇到它的那一步。">Each blocker sits at the step where agents hit it.</figcaption>
+        </figure>
 
-        <h5>Finding 2 — Disconnected information</h5>
-        <p>Ticket details, user profile, and case history were hidden in tabs — agents had to jump around to find critical details while composing replies. High-volume agents handling dozens of tickets per shift found this cognitively exhausting.</p>
-        <ul class="cs-list">
-            <li>Introduced a <b>3-panel information column</b> on the right</li>
-            <li>Consolidated User Info / Ticket Details / History in one panel</li>
-            <li>Each section partially visible with collapsible sections for quick scanning</li>
-            <li>Reduced cognitive load and context-switching time</li>
-        </ul>
-        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_info_arch.png?v=2" alt="Redesigned agent workspace with consolidated user info and ticket history panels"></div>
-        <p class="cs-figcap">Before: fragmented tabs. After: User Info, Ticket History, and Ticket Info stacked in a scannable right column.</p>
+        <div class="db-wt">
+            <article class="db-wt__card">
+                <header class="db-wt__head">
+                    <span class="db-wt__n">1</span>
+                    <h5 data-zh="领取工单藏得太深" class="db-wt__k">Hidden claim step</h5>
+                    <span data-zh="5 人中 4 人" class="db-wt__pill">4 of 5 agents</span>
+                </header>
+                <figure class="db-wt__pair">
+                    <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="领取按钮：很小，藏在第三个界面">Claim button: tiny, three screens in</span></p>
+                    <div class="db-wt__shot db-wt__shot--scroll" style="--ratio: 6480 / 2400">
+                        <div class="db-wt__scroller" tabindex="0" aria-label="Before: three screens, scroll sideways">
+                            <div class="db-wt__track">
+                                <img src="resources/images-internal-system/fix1-before.png?v=3" width="4800" height="712" alt="Before: three screens to claim a ticket, ending at a small claim button in the side panel" loading="lazy">
+                                <span class="db-wt__box db-wt__box--before" style="--x:96.2%;--y:44%;--w:2.7%;--h:12%" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <button type="button" class="db-wt__nav db-wt__nav--prev" aria-label="Scroll left"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+                        <button type="button" class="db-wt__nav db-wt__nav--next" aria-label="Scroll right"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+                        <span class="db-wt__hint" data-zh="左右滑动查看 3 个界面">Scroll to see all 3 screens</span>
+                        <span class="db-wt__progress" aria-hidden="true"><i></i></span>
+                    </div>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-internal-system/fix1-after.png?v=2" width="4320" height="2400" alt="After: the reply box reads Take the ticket to start reply, with Take it" loading="lazy">
+                        <span class="db-wt__box" style="--x:25.2%;--y:93.4%;--w:27.4%;--h:5.8%" aria-hidden="true"></span>
+                    </div>
+                    <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="在回复框里直接领取">Take it, right in the reply box</span></p>
+                </figure>
+            </article>
+            <article class="db-wt__card">
+                <header class="db-wt__head">
+                    <span class="db-wt__n">2</span>
+                    <h5 data-zh="上下文分散在不同 Tab" class="db-wt__k">Context split across tabs</h5>
+                </header>
+                <figure class="db-wt__pair">
+                    <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="两个 Tab：用户信息、工单信息">Two tabs: user info, ticket info</span></p>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-internal-system/fix2-before.png?v=2" width="5760" height="3240" alt="Before: user info and ticket info as two tabs in the right panel" loading="lazy">
+                        <span class="db-wt__box db-wt__box--before" style="--x:69%;--y:7%;--w:12.2%;--h:5%" aria-hidden="true"></span>
+                    </div>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-internal-system/fix2-after.png?v=2" width="5760" height="3219" alt="After: user info, ticket history and ticket info stacked in one right-hand column" loading="lazy">
+                        <span class="db-wt__box" style="--x:71.6%;--y:4.9%;--w:28.2%;--h:91.2%" aria-hidden="true"></span>
+                    </div>
+                    <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="一栏：用户、历史、工单">One column: user, history, ticket</span></p>
+                </figure>
+            </article>
+            <article class="db-wt__card">
+                <header class="db-wt__head">
+                    <span class="db-wt__n">3</span>
+                    <h5 data-zh="常用工具藏在小图标里" class="db-wt__k">Everyday tools hidden in icons</h5>
+                    <span data-zh="没人自己找到" class="db-wt__pill">None found them unaided</span>
+                </header>
+                <figure class="db-wt__pair">
+                    <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="内部备注：侧栏里的小图标">Internal notes: a tiny side-rail icon</span></p>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-internal-system/fix2-before.png?v=2" width="5760" height="3240" alt="Before: internal notes open from a tiny icon in the right-hand rail" loading="lazy">
+                        <span class="db-wt__box db-wt__box--before" style="--x:97%;--y:17%;--w:2.9%;--h:5.2%" aria-hidden="true"></span>
+                    </div>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-internal-system/fix2-after.png?v=2" width="5760" height="3219" alt="After: Quick Reply, Add Note, Ask Help and survey as labelled buttons above the reply box" loading="lazy">
+                        <span class="db-wt__box" style="--x:21.1%;--y:77.2%;--w:27.6%;--h:3.8%" aria-hidden="true"></span>
+                    </div>
+                    <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="带文字的工具，放在回复框上方">Labelled tools, right above the reply box</span></p>
+                </figure>
+            </article>
+        </div>
 
-        <h5>Finding 3 — Hidden high-frequency tools</h5>
-        <p>Internal Notes, Quick Replies, and Translation were represented by tiny nested icons. Zero agents discovered them without being told — despite these being among the most-used operations in a full shift.</p>
-        <ul class="cs-list">
-            <li>Redesigned icons and added text labels</li>
-            <li>Moved them above the input field</li>
-            <li>Increased visibility for frequently used tools</li>
-        </ul>
-        <div class="cs-shot"><img src="resources/images-internal-system/cs_redesign_tools_visibility.png?v=2" alt="Before and after: tool buttons surfaced above the reply area"></div>
-        <p class="cs-figcap">Before: invisible icon-only tools. After: labelled action buttons positioned above the reply area.</p>
-
-        <h5>Validation before development</h5>
-        <p>Before handing off to engineering, pilot agents confirmed the redesign addressed the core pain points:</p>
-        <ul class="cs-list">
-            <li>Smoother navigation and faster comprehension</li>
-            <li>Feature discoverability increased dramatically</li>
-            <li>Major workflow pain points eliminated</li>
-            <li>Reduced onboarding time for new agents</li>
-        </ul>
+        <h5 data-zh="试用改版后的工作台">Try the redesigned workspace</h5>
+        <p data-zh="从登录页开始，完整体验改版后的流程。原型较大，加载需要一点时间。">Try it here: start at the sign-in screen and follow the redesign as one flow. The prototype is large, so it takes a moment to load.</p>
+        <div class="cs-embed">
+            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FgS3HJQ2Tl5oUzClzItP3kk%2F%25E5%25AE%25A2%25E6%259C%258D%25E5%25B7%25A5%25E4%25BD%259C%25E5%258C%25BA-UX-2025%3Fpage-id%3D2206%253A351874%26node-id%3D2206-395367%26viewport%3D-6602%252C-175%252C0.31%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2206%253A395367" allowfullscreen></iframe>
+        </div>
+        <p data-zh="Figma 原型，界面为中文版。&lt;a href=&quot;https://www.figma.com/proto/gS3HJQ2Tl5oUzClzItP3kk/%E5%AE%A2%E6%9C%8D%E5%B7%A5%E4%BD%9C%E5%8C%BA-UX-2025?page-id=2206%3A351874&amp;amp;node-id=2206-395367&amp;amp;viewport=-6602%2C-175%2C0.31&amp;amp;scaling=scale-down&amp;amp;content-scaling=fixed&amp;amp;starting-point-node-id=2206%3A395367&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开&lt;/a&gt;" class="cs-figcap">Figma prototype, captured in Chinese. <a href="https://www.figma.com/proto/gS3HJQ2Tl5oUzClzItP3kk/%E5%AE%A2%E6%9C%8D%E5%B7%A5%E4%BD%9C%E5%8C%BA-UX-2025?page-id=2206%3A351874&amp;node-id=2206-395367&amp;viewport=-6602%2C-175%2C0.31&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2206%3A395367" target="_blank" rel="noopener">Open full screen</a></p>
 
 
-        <!-- ── SECTION 7: RESULT ──────────────────────────────── -->
+        <!-- ── AI ASSISTANCE ──────────────────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <span class="cs-kicker">07 · Result</span>
-        <h3 class="section">Follow-up &amp; impact</h3>
-        <p>The redesigned solution was prepared for rollout to a <b>20-agent team</b> for testing. Before full rollout, the team was restructured and I shifted to a customer-facing project — but the design work became the baseline for future iteration.</p>
+        <span data-zh="07 · AI 辅助" class="cs-kicker">07 · AI assistance</span>
+        <h3 data-zh="AI 辅助客服判断，而不是替代" class="section">AI that supports the agent's judgment</h3>
+        <p data-zh="我给两项 AI 功能定了同一条原则：紧扣客服眼前的工单，回复始终由客服审核后发送。设计参考了 Ant Design 的 AI 规范和竞品客服工具。">I set one rule for both AI features: tie them to the ticket in front of the agent, and let the agent review and send every reply. The design followed the Ant Design AI guidelines and a review of competing support tools.</p>
 
-        <ul class="cs-list">
-            <li>In small-scale testing, agents reported <b>clearer navigation &amp; journey logic</b></li>
-            <li><b>Faster access to key features</b> — tools that had zero discoverability were now used without prompting</li>
-            <li><b>Less confusion</b> in the claim-ticket and info-scanning flows</li>
-            <li>Redesign became the foundation for future iteration across the CS workspace</li>
-        </ul>
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div data-zh="AI 回复建议" class="cs-panel__flag">AI reply suggestions</div>
+                <h4 data-zh="一键生成回复草稿">A draft reply in one click</h4>
+                <ul class="cs-list">
+                    <li data-zh="识别客户问题，给出可修改的回复">Detects the issue and suggests a reply to edit</li>
+                    <li data-zh="旨在减少输入和处理时间">Designed to cut typing and handling time</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div data-zh="AI 摘要" class="cs-panel__flag">AI summary</div>
+                <h4 data-zh="一眼看懂工单">The ticket at a glance</h4>
+                <ul class="cs-list">
+                    <li data-zh="总结情绪、问题和建议的下一步">Sentiment, issue and a suggested next step</li>
+                    <li data-zh="切换工单时不用重读整段对话">Pick up a case without rereading the thread</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cs-shot"><img src="resources/images-internal-system/slide_8.png?v=2" width="778" height="176" alt="AI reply suggestions and AI summary in the agent workspace"></div>
+        <p data-zh="回复建议显示在对话中；摘要位于每个工单顶部，展示情绪、敏感标记、分类和建议回复。" class="cs-figcap">Reply suggestions appear in the chat; the summary shows sentiment, sensitivity flags, category and a suggested reply at the top of each ticket.</p>
 
 
-        <!-- ── SECTION 8: REFLECTION ──────────────────────────── -->
+        <!-- ── DATA PLATFORM ──────────────────────────────────── -->
         <div class="anchor" id="section8"></div>
-        <span class="cs-kicker">08 · Reflection</span>
-        <h3 class="section">AI · User-centric · Talent matching · Leadership</h3>
+        <span data-zh="08 · 亲自设计 · 数据平台" class="cs-kicker">08 · Also hands-on · Data platform</span>
+        <h3 data-zh="不写 SQL 也能自助取数" class="section">Self-serve data, without writing SQL</h3>
+        <p data-zh="谛听是公司的内部数据平台。另一位设计师负责一两个模块，其余约八到九成由我设计。我先和用户通话，梳理他们取数的完整流程，再动手设计。">Diting is KuCoin's internal data platform. Another designer took one or two modules; I designed most of the rest. Before designing, I had calls with its users to map how a data request actually moved.</p>
 
-        <h5>1. Contextual AI is essential in enterprise UX</h5>
-        <p>Both AI features only work because they're tied to real-time task context — the ticket content, not generic model outputs. AI Reply Suggestions reduce typing and errors; the AI Summary Panel detects emotion and issue type to recommend next steps. The Ant AI Design Guidelines principle of "contextual and timely" held up in testing.</p>
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div data-zh="原流程" class="cs-panel__flag">Before</div>
+                <h4 data-zh="每次取数都要找分析师">Every request went through an analyst</h4>
+                <ul class="cs-list">
+                    <li data-zh="Jira 提需求、写 SQL、核对，再用邮件发表格">Jira ticket, SQL, a double-check, then a spreadsheet by email</li>
+                    <li data-zh="导出上限 5 万行，大数据量要分段导出">Exports capped at 50,000 rows, so large pulls were split</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div data-zh="新设计" class="cs-panel__flag">Redesign</div>
+                <h4 data-zh="常用需求做成模板">Templates for repeat requests</h4>
+                <ul class="cs-list">
+                    <li data-zh="选数据模型、字段和筛选条件即可取数">Pick a data model, columns and filters</li>
+                    <li data-zh="旨在减少步骤和出错">Designed to cut steps and errors</li>
+                </ul>
+            </div>
+        </div>
 
-        <h5>2. Early user research saves time and dev cost</h5>
-        <p>Skipping validation on the original MVP created a design that had to be substantially rebuilt. Two weeks of observation after the fact was more expensive than one week before the MVP shipped. Real user observation is the fastest path to clarity.</p>
+        <div class="cs-shot"><img src="resources/images-internal-system/diting-self-serve.png?v=1" width="2880" height="2658" alt="Diting self-serve query: data model fields on the left, selected columns and nested and/or filters on the right" loading="lazy"></div>
+        <p data-zh="自助取数：左侧选择字段，右侧用“且 / 或”组合筛选条件。" class="cs-figcap">Self-serve query: pick fields on the left, combine and/or filters on the right. Captured in Chinese.</p>
 
-        <h5>3. Match talent to task early</h5>
-        <p>Pairing a designer with strong interaction logic skills on the claim-flow problem, and a designer with strong visual execution skills on the information architecture — rather than splitting work arbitrarily — significantly reduced rework cycles.</p>
+        <button type="button" class="cs-entry" data-drawer="diting-case" aria-haspopup="dialog">
+            <span class="cs-entry__text">
+                <b data-zh="阅读谛听迷你案例">Read the Diting mini case study</b>
+                <span data-zh="调研、范围和三项核心设计">Research, scope and the three core designs</span>
+            </span>
+            <span class="cs-entry__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </button>
 
-        <h5>4. Strong design leadership means stepping in, reframing, and shipping</h5>
-        <p>When the MVP failed usability testing, the response wasn't a longer timeline — it was stepping in, reframing the journey, and shipping targeted fixes within the existing dev deadline. Leadership here meant unblocking the team, not managing it from a distance.</p>
+        <dialog class="cs-drawer" id="diting-case" aria-labelledby="diting-title">
+            <div class="cs-drawer__scroll">
+                <div class="cs-drawer__bar">
+                    <span data-zh="迷你案例 · 谛听数据平台">Mini case study · Diting</span>
+                    <button type="button" class="cs-drawer__close" aria-label="Close"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+                </div>
+                <div class="cs-drawer__body">
+                    <h2 id="diting-title" data-zh="谛听：让分析师自助取数">Diting: self-serve data for analysts</h2>
+                    <p class="cs-drawer__lead" data-zh="把重复的取数需求做成模板，让分析师不写 SQL 也能取数，之后再开放给运营。">Turning repeat data requests into templates, so analysts could pull data without writing SQL, and operations could later do it themselves.</p>
+
+                    <dl class="cs-drawer__meta">
+                        <div><dt data-zh="角色">Role</dt><dd data-zh="产品设计师，亲自设计大部分模块">Product designer, hands-on on most modules</dd></div>
+                        <div><dt data-zh="团队">Team</dt><dd data-zh="另 1 名设计师、产品经理、数据研发">1 other designer, PM, data engineers</dd></div>
+                        <div><dt data-zh="用户">Users</dt><dd data-zh="数据研发和分析师，后续开放给运营">Data engineers and analysts; operations later</dd></div>
+                        <div><dt data-zh="时间">Year</dt><dd>2024 · KuCoin</dd></div>
+                    </dl>
+
+                    <section class="cs-drawer__sec">
+                        <h3><span class="cs-how__n">1</span><span data-zh="背景">Context</span></h3>
+                        <p data-zh="数据分析师和数据研发负责为运营提取用户数据，例如筛选符合发奖条件的用户名单。每次取数都从提需求开始，以一份表格结束。第一期服务这两类用户，后续再开放给运营自助取数。">Analysts and data engineers pull user data for operations, such as the list of users who qualify for a reward campaign. Every pull started as a request and ended as a spreadsheet. The first release served these two roles; later releases would let operations pull data themselves.</p>
+                    </section>
+
+                    <section class="cs-drawer__sec">
+                        <h3><span class="cs-how__n">2</span><span data-zh="调研：一次取数怎么走完">Research: how a request moved</span></h3>
+                        <p data-zh="我和用户通话，逐步走一遍真实需求，再梳理出数据研发和分析师两类角色的完整流程。以发奖为例：">I had calls with users to walk through real requests, then mapped the flow for both data engineers and analysts. A reward request, for example:</p>
+                        <ol class="cs-flow">
+                            <li data-zh="Jira 提需求">Jira request</li>
+                            <li data-zh="Teams 确认">Confirm on Teams</li>
+                            <li data-zh="在 HUE 写 SQL">SQL in HUE</li>
+                            <li data-zh="核对数据">Double-check</li>
+                            <li data-zh="与业务确认">Confirm with business</li>
+                            <li data-zh="上传或邮件交付">Upload or email</li>
+                        </ol>
+                        <h4 data-zh="发现的问题">What slowed it down</h4>
+                        <ul class="cs-list">
+                            <li data-zh="发奖等重复需求，每次都要重写 SQL">Repeat requests, such as reward lists, rewritten in SQL each time</li>
+                            <li data-zh="按发奖金额人工核对，或与数据研发交叉验证">Manual checks against reward amounts, or cross-checks with data engineering</li>
+                            <li data-zh="导出上限 5 万行，大数据量要拆成几段导出">Exports capped at 50,000 rows, so large pulls were split into parts</li>
+                            <li data-zh="结果靠邮件来回传递">Results passed around by email</li>
+                        </ul>
+                    </section>
+
+                    <section class="cs-drawer__sec">
+                        <h3><span class="cs-how__n">3</span><span data-zh="范围">Scope</span></h3>
+                        <p data-zh="产品经理规划了四个模块。我按交付顺序推进：先做数据工具，再做数据服务（API），之后用数据资产和数据地图把数据开放给运营。设计前我也调研了 DataLeap 等同类数据平台。">The PM planned four modules, and I worked to the delivery order: data tools first, then the data service (APIs), with data assets and a data map opening data to operations later. Before designing, I also reviewed comparable data platforms, such as DataLeap.</p>
+                    </section>
+
+                    <section class="cs-drawer__sec">
+                        <h3><span class="cs-how__n">4</span><span data-zh="设计">Design</span></h3>
+
+                        <h4 data-zh="常用需求做成模板">Templates for repeat requests</h4>
+                        <p data-zh="把常用需求做成模板。按模板创建任务时只展示需要填写的参数，结果自动上传发奖平台或发送邮件。">A common request becomes a template. Running a task shows only the parameters it needs, then sends the result to the reward platform or by email automatically.</p>
+                        <div class="cs-shot"><img src="resources/images-internal-system/diting-templates.png?v=1" width="3420" height="800" alt="Three steps: create a template, create a task from it with only the needed parameters, then track task progress" loading="lazy"></div>
+                        <p class="cs-figcap" data-zh="创建模板、按模板创建任务、查看任务进度。红字标注自动展示的参数和自动交付。">Create a template, run a task from it, track progress. Red notes mark the auto-filled parameters and the automatic hand-off.</p>
+
+                        <h4 data-zh="不写 SQL 的自助取数">Self-serve query, no SQL</h4>
+                        <p data-zh="选择数据模型和字段，再用“且 / 或”组合筛选条件。先服务分析师，之后可直接开放给运营。">Pick a data model and columns, then combine and/or filters. Built for analysts first, and ready to open to operations later.</p>
+                        <div class="cs-shot"><img src="resources/images-internal-system/diting-self-serve.png?v=1" width="2880" height="2658" alt="Self-serve query: data model fields on the left, selected columns and nested and/or filters on the right" loading="lazy"></div>
+
+                        <h4 data-zh="用数据地图找数据">Data map to find data</h4>
+                        <p data-zh="一个入口搜索表、任务、Topic 和 API，并按业务线分组。系统管理支持配置账号、角色和菜单，日志供审计使用。">One search across tables, tasks, topics and APIs, grouped by business line. Admin pages cover accounts, roles and menus, with logs for auditors.</p>
+                        <div class="cs-shot"><img src="resources/images-internal-system/sys-diting.png" width="1533" height="1014" alt="Data map: one search box, asset types and business lines, with top searched and top viewed tables" loading="lazy"></div>
+                    </section>
+
+                    <section class="cs-drawer__sec">
+                        <h3><span class="cs-how__n">5</span><span data-zh="收获">What I learned</span></h3>
+                        <p data-zh="走一遍真实需求，比先列功能清单更有用：模板这个方案，正是来自看到同一个发奖需求被一次次重写。">Walking through real requests mattered more than starting from a feature list. The template idea came from seeing the same reward request rewritten again and again.</p>
+                        <p class="cs-note" data-zh="谛听并非公司重点项目，没有收集使用数据。">Diting wasn't a company priority, and no usage data was collected.</p>
+                    </section>
+                </div>
+            </div>
+        </dialog>
+
+
+        <!-- ── RESULT ─────────────────────────────────────────── -->
+        <div class="anchor" id="section9"></div>
+        <span data-zh="09 · 结果" class="cs-kicker">09 · Result</span>
+        <h3 data-zh="五个平台落地，工作台可进入试点" class="section">Five platforms built, one workspace ready to pilot</h3>
+        <p data-zh="项目在六个月内交付了五个平台和一套共用设计系统；改版后的客服工作台已可进入 20 人试点。">The programme delivered five platforms and a shared design system in six months, and the redesigned agent workspace was ready for a 20-agent pilot.</p>
+
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div data-zh="整体项目" class="cs-panel__flag">Programme</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="六个月内从零搭建五个平台">Five platforms built from scratch in six months</li>
+                    <li data-zh="自研工具替代 Zendesk 和 Ada">Zendesk and Ada replaced by in-house tools</li>
+                    <li data-zh="五个平台共用一套设计系统">One design system shared by all five</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div data-zh="客服工作台" class="cs-panel__flag">Agent workspace</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="参与评审的客服确认主要痛点已解决">Agents in review confirmed the main pain points were resolved</li>
+                    <li data-zh="关键操作放在客服工作的位置">Key actions now sit where agents work</li>
+                    <li data-zh="可进入 20 人试点">Ready for a 20-agent pilot</li>
+                </ul>
+            </div>
+        </div>
+        <p class="cs-note" data-zh="试点开始前团队调整，我转到面向用户的项目，因此没有收集使用数据。这版设计留作工作台后续迭代的基础。">Before the pilot ran, the team was restructured and I moved to a customer-facing project, so usage metrics weren't collected. The redesign stayed as the baseline for the workspace.</p>
+
+
+        <!-- ── REFLECTION ─────────────────────────────────────── -->
+        <div class="anchor" id="section10"></div>
+        <span data-zh="10 · 复盘" class="cs-kicker">10 · Reflection</span>
+        <h3 data-zh="作为负责人，我会继续坚持的做法" class="section">What I'd keep doing as a lead</h3>
+        <div class="cs-learns">
+        <div class="cs-learn">
+            <span class="cs-learn__n">1</span>
+            <div>
+                <h5 data-zh="按问题匹配设计师">Match designers to the problem</h5>
+                <p data-zh="按设计师的长处分配工作，比如交互逻辑或视觉设计，可以避免后期代价高昂的返工。">Assigning work by each designer's strength, such as interaction logic or visual design, avoids costly redesigns later.</p>
+            </div>
+        </div>
+
+        <div class="cs-learn">
+            <span class="cs-learn__n">2</span>
+            <div>
+                <h5 data-zh="在 MVP 之前观察用户，而不是之后">Watch users before the MVP, not after</h5>
+                <p data-zh="跳过早期验证，MVP 和客服的实际工作方式脱节，只能返工，也浪费了开发时间。观察真实用户，是理清使用路径最快的方法。">Skipping early validation left the MVP out of step with how agents work, so it needed rework and cost development time. Watching real users is the fastest path to clarity.</p>
+            </div>
+        </div>
+
+        <div class="cs-learn">
+            <span class="cs-learn__n">3</span>
+            <div>
+                <h5 data-zh="AI 紧扣任务才有用">AI works when it's tied to the task</h5>
+                <p data-zh="两项 AI 功能之所以有用，是因为它们基于客服眼前的工单，而发送什么始终由客服决定。">Both AI features help because they read the ticket in front of the agent, and the agent stays in control of what gets sent.</p>
+            </div>
+        </div>
+        </div>
 
     </div>
     </div><!-- /case-layout -->
 
-
-    
-
     <script src="main.js"></script>
+    <script>
+    (function () {
+        var track = document.querySelector('.cs-roles');
+        if (!track) return;
+        var items = track.children;
+        var prev = document.querySelector('.cs-roles-nav__prev');
+        var next = document.querySelector('.cs-roles-nav__next');
+        var count = document.querySelector('.cs-roles-nav__count');
+        var inView = false;
+
+        function step() {
+            return items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : track.clientWidth;
+        }
+        function index() {
+            return Math.min(items.length - 1, Math.round(track.scrollLeft / step()));
+        }
+        function update() {
+            var max = track.scrollWidth - track.clientWidth - 2;
+            prev.disabled = track.scrollLeft <= 2;
+            next.disabled = track.scrollLeft >= max;
+            track.classList.toggle('has-next', !next.disabled);
+            var last = next.disabled ? items.length : index() + 1;
+            count.textContent = last + ' / ' + items.length;
+        }
+        function go(dir) {
+            track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+        }
+
+        prev.addEventListener('click', function () { go(-1); });
+        next.addEventListener('click', function () { go(1); });
+        track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+        window.addEventListener('resize', update);
+
+        new IntersectionObserver(function (entries) {
+            inView = entries[0].isIntersecting;
+        }, { threshold: 0.6 }).observe(track);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+            var t = e.target;
+            if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|IFRAME)$/.test(t.tagName))) return;
+            if (!inView && t !== track) return;
+            e.preventDefault();
+            go(e.key === 'ArrowRight' ? 1 : -1);
+        });
+
+        update();
+
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        var peek = document.createElement('div');
+        peek.className = 'cs-peek';
+        peek.setAttribute('aria-hidden', 'true');
+        var peekImg = document.createElement('img');
+        peekImg.alt = '';
+        peek.appendChild(peekImg);
+        document.body.appendChild(peek);
+        var timer;
+
+        function show(img) {
+            var r = img.getBoundingClientRect();
+            var vw = window.innerWidth, vh = window.innerHeight, m = 16;
+            var ratio = (img.naturalHeight || img.height) / (img.naturalWidth || img.width);
+            var w = Math.min(760, vw - m * 2);
+            var h = w * ratio + 12;
+            if (h > vh - m * 2) { h = vh - m * 2; w = (h - 12) / ratio; }
+            var left = Math.max(m, Math.min(r.left + r.width / 2 - w / 2, vw - w - m));
+            var top;
+            if (r.top - h - 12 >= m) { top = r.top - h - 12; peek.style.setProperty('--peek-origin', 'center bottom'); }
+            else if (r.bottom + h + 12 <= vh - m) { top = r.bottom + 12; peek.style.setProperty('--peek-origin', 'center top'); }
+            else { top = Math.max(m, (vh - h) / 2); peek.style.setProperty('--peek-origin', 'center'); }
+            peekImg.src = img.currentSrc || img.src;
+            peek.style.width = w + 'px';
+            peek.style.left = left + 'px';
+            peek.style.top = top + 'px';
+            peek.classList.add('is-on');
+        }
+        function hide() {
+            clearTimeout(timer);
+            peek.classList.remove('is-on');
+        }
+        Array.prototype.forEach.call(track.querySelectorAll('img'), function (img) {
+            img.addEventListener('mouseenter', function () {
+                clearTimeout(timer);
+                timer = setTimeout(function () { show(img); }, 120);
+            });
+            img.addEventListener('mouseleave', hide);
+        });
+        track.addEventListener('scroll', hide, { passive: true });
+        window.addEventListener('scroll', hide, { passive: true });
+    })();
+    </script>
+    <script>
+        (function () {
+            var NS = 'http://www.w3.org/2000/svg';
+            document.querySelectorAll('.db-anno').forEach(function (fig) {
+                var stage = fig.querySelector('.db-anno__stage');
+                var pins = stage.querySelectorAll('.db-pin');
+                var notes = fig.querySelectorAll('.db-anno__notes li');
+                if (!pins.length || pins.length !== notes.length) return;
+                var svg = document.createElementNS(NS, 'svg');
+                svg.setAttribute('class', 'db-anno__links');
+                svg.setAttribute('aria-hidden', 'true');
+                fig.appendChild(svg);
+                var paths = Array.prototype.map.call(pins, function () {
+                    var p = document.createElementNS(NS, 'path');
+                    svg.appendChild(p);
+                    return p;
+                });
+                var wide = window.matchMedia('(min-width: 721px)');
+
+                var list = fig.querySelector('.db-anno__notes');
+
+                function place() {
+                    var gap = 12;
+                    list.classList.add('is-placed');
+                    var L = list.getBoundingClientRect();
+                    var tops = [];
+                    var prev = -Infinity;
+                    notes.forEach(function (li, i) {
+                        var p = pins[i].getBoundingClientRect();
+                        var b = li.querySelector('.db-pin').getBoundingClientRect();
+                        var badgeMid = b.top + b.height / 2 - li.getBoundingClientRect().top;
+                        var t = i === 0 ? -8 : Math.max(p.top + p.height / 2 - L.top - badgeMid, prev);
+                        tops.push(t);
+                        prev = t + li.offsetHeight + gap;
+                    });
+                    notes.forEach(function (li, i) { li.style.top = tops[i] + 'px'; });
+                    list.style.minHeight = Math.ceil(prev - gap) + 'px';
+                }
+
+                function draw() {
+                    if (!wide.matches) {
+                        list.classList.remove('is-placed');
+                        list.style.minHeight = '';
+                        notes.forEach(function (li) { li.style.top = ''; });
+                        return;
+                    }
+                    place();
+                    var f = fig.getBoundingClientRect();
+                    svg.setAttribute('viewBox', '0 0 ' + f.width + ' ' + f.height);
+                    svg.setAttribute('width', f.width);
+                    svg.setAttribute('height', f.height);
+                    pins.forEach(function (pin, i) {
+                        var a = pin.getBoundingClientRect();
+                        var b = notes[i].querySelector('.db-pin').getBoundingClientRect();
+                        var x1 = a.right - f.left;
+                        var y1 = a.top + a.height / 2 - f.top;
+                        var x2 = b.left - f.left - 4;
+                        var y2 = b.top + b.height / 2 - f.top;
+                        var gutter = stage.getBoundingClientRect().right - f.left;
+                        var mid = (gutter + x2) / 2;
+                        paths[i].setAttribute('d', 'M' + x1 + ' ' + y1 + ' L' + gutter + ' ' + y1 + ' C' + mid + ' ' + y1 + ',' + mid + ' ' + y2 + ',' + x2 + ' ' + y2);
+                    });
+                }
+
+                function set(n) {
+                    fig.classList.toggle('has-on', n >= 0);
+                    [pins, notes, paths].forEach(function (list) {
+                        Array.prototype.forEach.call(list, function (el, j) { el.classList.toggle('on', j === n); });
+                    });
+                }
+
+                [pins, notes].forEach(function (list) {
+                    Array.prototype.forEach.call(list, function (el, i) {
+                        el.addEventListener('mouseenter', function () { set(i); });
+                        el.addEventListener('mouseleave', function () { set(-1); });
+                    });
+                });
+
+                var img = stage.querySelector('img');
+                if (img && !img.complete) img.addEventListener('load', draw);
+                if (window.ResizeObserver) {
+                    var ro = new ResizeObserver(draw);
+                    ro.observe(fig);
+                    notes.forEach(function (li) { ro.observe(li); });
+                }
+                if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+                window.addEventListener('resize', draw);
+                document.addEventListener('case:lang', draw);
+                draw();
+            });
+        })();
+    (function () {
+        document.querySelectorAll('.db-wt__pair').forEach(function (fig) {
+            var shots = fig.querySelectorAll('.db-wt__shot');
+            var caps = fig.querySelectorAll('.db-wt__cap');
+            var pairs = Array.prototype.map.call(shots, function (shot, i) {
+                var box = shot.querySelector('.db-wt__box');
+                var line = document.createElement('i');
+                line.className = 'db-wt__line' + (box.classList.contains('db-wt__box--before') ? ' db-wt__line--before' : '');
+                fig.appendChild(line);
+                return { box: box, cap: caps[i], line: line, above: i === 0, scroller: shot.querySelector('.db-wt__scroller') };
+            });
+
+            function draw() {
+                var f = fig.getBoundingClientRect();
+                pairs.forEach(function (p) {
+                    p.cap.style.left = '0px';
+                    var b = p.box.getBoundingClientRect();
+                    var w = p.cap.getBoundingClientRect().width;
+                    var cx = b.left + b.width / 2 - f.left;
+                    var view = p.scroller && p.scroller.getBoundingClientRect();
+                    var hidden = view && (cx < view.left - f.left || cx > view.right - f.left);
+                    var left = hidden ? 0 : Math.max(0, Math.min(cx - w / 2, f.width - w));
+                    p.cap.style.left = left + 'px';
+                    var c = p.cap.getBoundingClientRect();
+                    var y1 = p.above ? c.bottom - f.top + 2 : b.bottom - f.top;
+                    var y2 = p.above ? b.top - f.top : c.top - f.top - 2;
+                    p.line.style.left = cx + 'px';
+                    p.line.style.top = y1 + 'px';
+                    p.line.style.height = hidden ? '0px' : Math.max(0, y2 - y1) + 'px';
+                });
+            }
+
+            function set(n) {
+                fig.classList.toggle('has-on', n >= 0);
+                pairs.forEach(function (p, j) {
+                    [p.box, p.cap, p.line].forEach(function (el) { el.classList.toggle('on', j === n); });
+                });
+            }
+
+            pairs.forEach(function (p, i) {
+                [p.box.parentNode, p.cap].forEach(function (el) {
+                    el.addEventListener('mouseenter', function () { set(i); });
+                    el.addEventListener('mouseleave', function () { set(-1); });
+                });
+            });
+
+            fig.querySelectorAll('.db-wt__shot--scroll').forEach(function (shot) {
+                var sc = shot.querySelector('.db-wt__scroller');
+                var prev = shot.querySelector('.db-wt__nav--prev');
+                var next = shot.querySelector('.db-wt__nav--next');
+                var bar = shot.querySelector('.db-wt__progress');
+                function sync() {
+                    var max = sc.scrollWidth - sc.clientWidth;
+                    if (sc.scrollWidth) {
+                        bar.style.setProperty('--p-width', (sc.clientWidth / sc.scrollWidth * 100) + '%');
+                        bar.style.setProperty('--p-left', (sc.scrollLeft / sc.scrollWidth * 100) + '%');
+                    }
+                    prev.disabled = sc.scrollLeft <= 2;
+                    next.disabled = sc.scrollLeft >= max - 2;
+                    if (sc.scrollLeft > 2) shot.classList.add('is-scrolled');
+                    draw();
+                }
+                prev.addEventListener('click', function () { sc.scrollBy({ left: -sc.clientWidth * 0.9 }); });
+                next.addEventListener('click', function () { sc.scrollBy({ left: sc.clientWidth * 0.9 }); });
+                sc.addEventListener('scroll', sync, { passive: true });
+                if (window.ResizeObserver) new ResizeObserver(sync).observe(sc);
+                shot.querySelector('img').addEventListener('load', sync);
+                sync();
+            });
+
+            fig.querySelectorAll('img').forEach(function (img) { if (!img.complete) img.addEventListener('load', draw); });
+            if (window.ResizeObserver) new ResizeObserver(draw).observe(fig);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+            document.addEventListener('case:lang', draw);
+            draw();
+        });
+    })();
+    </script>
+    <script>
+    /* Language switch: every translatable node carries data-zh; the English original is
+       cached on first switch so the two directions stay lossless. */
+    (function () {
+        var KEY = 'case-lang';
+        function apply(lang, save) {
+            var root = document.documentElement;
+            root.setAttribute('data-lang', lang);
+            root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            var nodes = document.querySelectorAll('[data-zh]');
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                if (el.innerHTML !== want) el.innerHTML = want;
+            }
+            var btns = document.querySelectorAll('.langsw button');
+            for (var j = 0; j < btns.length; j++) {
+                var on = btns[j].getAttribute('data-lang') === lang;
+                btns[j].classList.toggle('on', on);
+                btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+            }
+            if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+            document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+        }
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('.langsw button');
+            if (b) apply(b.getAttribute('data-lang'), true);
+        });
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        document.addEventListener('DOMContentLoaded', function () { if (saved === 'zh') apply('zh', false); });
+    })();
+    </script>
+    <script>
+    (function () {
+        var root = document.documentElement;
+        document.querySelectorAll('[data-drawer]').forEach(function (btn) {
+            var dlg = document.getElementById(btn.getAttribute('data-drawer'));
+            if (!dlg || typeof dlg.showModal !== 'function') return;
+            btn.addEventListener('click', function () {
+                dlg.showModal();
+                root.classList.add('cs-drawer-lock');
+                dlg.querySelector('.cs-drawer__scroll').scrollTop = 0;
+            });
+            dlg.querySelector('.cs-drawer__close').addEventListener('click', function () { dlg.close(); });
+            dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+            dlg.addEventListener('close', function () {
+                root.classList.remove('cs-drawer-lock');
+                btn.focus({ preventScroll: true });
+            });
+        });
+    })();
+    </script>
 </body>
 </html>

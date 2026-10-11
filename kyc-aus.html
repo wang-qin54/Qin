@@ -4,25 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retail KYC — Designing for Compliance Without Losing User Trust</title>
+    <title>Retail KYC, AU + EU — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
     <style>
         /* ---- KYC case · page-scoped components (built on detailpage.css tokens) ---- */
-        /* Hero image: 16:9 crop, no frame, bottom-aligned with the title text and
-           sitting flush inside the standard gray title box (scoped to this page;
-           the global .title-img rule keeps every other case study unchanged). */
-        .page-title-box .title-img {
-            align-self: end;
-        }
-        .page-title-box .title-img img {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            object-position: center;
-            margin-bottom: 0;
-            border: none;
-            box-shadow: none;
-        }
         /* Pull each section heading up close to its blue kicker label.
            (space-4 collapses with the kicker's space-2 bottom margin to keep the
            original ~16px kicker→heading gap once the kicker is a block.) */
@@ -71,33 +56,63 @@
         .kyc-list li b { color: var(--text-primary); font-weight: 600; }
         /* Callout — the brief / a key note */
         .kyc-callout {
-            border-left: 3px solid var(--accent);
-            background: var(--accent-subtle);
-            border-radius: var(--radius-md);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-5) 0;
+            margin: var(--space-7) 0 0;
+            padding: 28px 32px;
+            border: 1px solid rgba(0, 52, 240, 0.14);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(120% 140% at 100% 0%, rgba(0, 52, 240, 0.07), transparent 55%),
+                linear-gradient(180deg, rgba(0, 52, 240, 0.035), #fff);
         }
         .kyc-callout .lbl {
-            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px 4px 4px;
+            border: 1px solid rgba(0, 52, 240, 0.16);
+            border-radius: 999px;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .kyc-callout .lbl::before {
+            content: "?";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-family: var(--font-title);
+            font-size: 12px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
         }
         .kyc-callout .quote {
+            display: block;
+            max-width: 34em;
+            margin-top: 16px;
             font-family: var(--font-title);
-            font-size: 18px;
-            font-weight: 500;
+            font-size: clamp(19px, 2.2vw, 24px);
+            font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: -0.01em;
-            line-height: 1.4;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
+            text-wrap: balance;
         }
         .kyc-callout .sub {
             display: block;
-            margin-top: var(--space-2);
-            font-size: 13px;
-            color: var(--text-tertiary);
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 52, 240, 0.12);
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        @media (max-width: 720px) {
+            .kyc-callout { padding: 20px; border-radius: var(--radius-md); }
         }
         /* Screenshot — fills its container edge to edge */
         .kyc-shot {
@@ -288,10 +303,178 @@
             margin: -6px 0 var(--space-6);
             letter-spacing: 0;
         }
+        /* Chinese: CJK fonts, more leading, no tracked caps */
+        html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
+        html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .kyc-why dd { line-height: 1.8; letter-spacing: 0; }
+        html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .kyc-decision__h, html[data-lang="zh"] .kyc-callout .quote { letter-spacing: -0.01em; line-height: 1.4; }
+        html[data-lang="zh"] .kyc-kicker, html[data-lang="zh"] .kyc-card .tag, html[data-lang="zh"] .kyc-callout .lbl,
+        html[data-lang="zh"] .kyc-panel__flag { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
+        @media (min-width: 721px) {
+            html[data-lang="zh"] .kyc-why { grid-template-columns: 56px minmax(0, 1fr); }
+        }
+        /* Before/after flow diagram (02 Problem), drawn in HTML so it stays sharp and bilingual */
+        .kyc-flow {
+            margin: var(--space-4) 0 var(--space-3);
+            padding: var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg, 16px);
+            background: var(--bg-subtle);
+        }
+        .kyc-flow__hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            margin-bottom: 10px;
+        }
+        .kyc-flow__k {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .kyc-flow__n { font-size: 12px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+        .kyc-flow__n b { font-size: 14px; color: var(--text-primary); }
+        .kyc-flow__row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+        .kyc-flow__row li { display: flex; align-items: center; gap: 6px; margin: 0; }
+        .kyc-flow__row li span {
+            padding: 5px 10px;
+            font-size: 13px;
+            line-height: 1.3;
+            color: var(--text-primary);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+        }
+        .kyc-flow__row li:not(:last-child)::after { content: "\2192"; font-size: 12px; color: var(--text-tertiary); }
+        .kyc-flow__shift {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: var(--space-5) 0 var(--space-3);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .kyc-flow__shift::before { content: "\2193"; }
+        .kyc-flow__shift::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+        .kyc-flow__after { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+        .kyc-flow__lane {
+            padding: var(--space-4);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+        .kyc-flow__lane-t { font-family: var(--font-title); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .kyc-flow__lvl-k { display: block; margin: 0 0 6px; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+        .kyc-flow__lvl--l2 { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px dashed var(--border); }
+        .kyc-flow__list { margin: 0; padding: 0; list-style: none; }
+        .kyc-flow__list li {
+            position: relative;
+            margin: 0;
+            padding: 3px 0 3px 28px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-primary);
+        }
+        .kyc-flow__list li::before {
+            content: counter(list-item);
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 19px;
+            height: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg-subtle);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            font-variant-numeric: tabular-nums;
+        }
+        .kyc-flow__list li.is-gate { color: var(--accent); font-weight: 600; }
+        .kyc-flow__list li.is-gate::before { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .kyc-flow__branch { margin: 6px 0 0 9px; padding-left: 12px; border-left: 2px solid var(--border); }
+        .kyc-flow__br { display: block; margin: 2px 0 2px; font-size: 12px; font-weight: 600; color: var(--text-tertiary); }
+        .kyc-flow__legend {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: var(--space-4) 0 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .kyc-flow__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); flex: none; }
+        html[data-lang="zh"] .kyc-flow__k { font-size: 12px; letter-spacing: 0.04em; }
+        @media (max-width: 720px) {
+            .kyc-flow { padding: var(--space-4); }
+            .kyc-flow__after { grid-template-columns: 1fr; }
+        }
+        /* Key decisions: numbered title, image, then a Problem / Decision / Trade-off sheet */
+        .kyc-decision { margin-top: var(--space-7); }
+        .kyc-decision__h {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            font-family: var(--font-title);
+            font-size: clamp(18px, 2vw, 22px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+            color: var(--text-primary);
+            margin: 0 0 12px;
+        }
+        .kyc-decision__n {
+            font-weight: 500;
+            color: #a3a3a3;
+            font-variant-numeric: tabular-nums;
+        }
+        .kyc-why {
+            display: grid;
+            grid-template-columns: 96px minmax(0, 1fr);
+            gap: 10px 16px;
+            margin: var(--space-4) 0 0;
+            padding: var(--space-4) var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg);
+        }
+        .kyc-why dt {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            line-height: 1.55;
+        }
+        .kyc-why dt.is-key { color: var(--accent); }
+        .kyc-why dd {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .kyc-why dd.is-key { color: var(--text-primary); font-weight: 500; }
+        .kyc-shot--decision { margin-top: 0; }
+        .kyc-more { margin: var(--space-3) 0 var(--space-5); font-size: 14px; color: var(--text-secondary); }
+        .kyc-more summary {
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .kyc-more[open] summary { margin-bottom: var(--space-3); }
         @media (max-width: 720px) {
             .kyc-cards, .kyc-cards--2, .kyc-cards--4, .kyc-compare {
                 grid-template-columns: 1fr;
             }
+            .kyc-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+            .kyc-bench-card__frame { height: 104px; }
+            .kyc-why { grid-template-columns: 1fr; gap: 2px; padding: var(--space-4); }
+            .kyc-why dd + dt { margin-top: 10px; }
         }
 
         /* ---- Presentation / lightbox mode -------------------------------
@@ -427,321 +610,561 @@
             .lightbox__btn, .present-fab { display: none; }
             .lightbox__img { max-height: 74vh; }
         }
+
+        /* ---- Visual system: one frame for every figure, wide figures, section rhythm ---- */
+        /* Text keeps the 712px reading measure; figures use the full article column. */
+        .case-layout > .one-col > .kyc-shot,
+        .case-layout > .one-col > .kyc-flow,
+        .case-layout > .one-col > .kyc-decision,
+        .case-layout > .one-col > .kyc-gallery,
+        .case-layout > .one-col > .kyc-more,
+        .case-layout > .one-col > .kyc-results,
+        .case-layout > .one-col > .kyc-learn,
+        .case-layout > .one-col > .kyc-kicker,
+        .case-layout > .one-col > .kyc-compare,
+        .case-layout > .one-col > .kyc-callout,
+        .case-layout > .one-col > .kyc-cards { max-width: none; }
+
+        /* Section rhythm: a hairline and generous space before every section after the first */
+        .anchor + .kyc-kicker {
+            margin-top: var(--space-8);
+            padding-top: var(--space-7);
+            border-top: 1px solid var(--border);
+        }
+        #section2 + .kyc-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
+        .one-col h3.section {
+            font-size: clamp(22px, 2.4vw, 28px);
+            line-height: 1.25;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-4);
+        }
+        .one-col h5 { margin-top: var(--space-7); }
+        .one-col .kyc-kicker + h3.section + p,
+        .one-col h3.section + p { font-size: 16px; line-height: 1.65; color: var(--text-secondary); }
+
+        /* Every screenshot sits on the same soft matte */
+        .kyc-shot {
+            position: relative;
+            margin: var(--space-5) 0 0;
+            padding: 0;
+            background: #f5f6f8;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .kyc-shot img {
+            border: 0;
+            border-radius: 0;
+        }
+        .kyc-shot + .kyc-figcap,
+        .kyc-flow + .kyc-figcap { margin: var(--space-3) 0 0; font-size: 13px; line-height: 1.5; color: var(--text-tertiary); max-width: 712px; }
+        .kyc-figcap { margin-bottom: 0; }
+        .kyc-flow { margin-top: var(--space-5); border-radius: var(--radius-lg); background: #f5f6f8; }
+
+        /* Enlarge affordance: every screenshot opens in the viewer */
+        .kyc-shot::after {
+            content: "";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(17, 17, 17, 0.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9'/%3E%3C/svg%3E") center / 14px no-repeat;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 140ms var(--ease), transform 140ms var(--ease);
+            pointer-events: none;
+        }
+        .kyc-shot:hover::after { opacity: 1; transform: none; }
+        @media (hover: none) { .kyc-shot::after { opacity: 0.85; transform: none; width: 28px; height: 28px; } }
+        .kyc-shot img:hover { filter: none; }
+
+        /* Key decisions: image and its Problem / Decision / Trade-off sheet read as one card */
+        .kyc-decision .kyc-shot {
+            margin-top: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .kyc-decision .kyc-why {
+            margin-top: 0;
+            border-top: 0;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            padding: var(--space-5) var(--space-6);
+        }
+        .kyc-decision__h { margin-bottom: var(--space-4); align-items: center; }
+        .kyc-decision + .kyc-decision { margin-top: var(--space-8); }
+        .kyc-decision__n {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            height: 30px;
+            padding: 0 6px;
+            border-radius: 8px;
+            background: var(--accent-subtle);
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 600;
+            align-self: center;
+        }
+
+        /* Benchmark: all five in one row on desktop */
+        .kyc-gallery { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-5); }
+        .kyc-bench-card { background: #fff; }
+        .kyc-bench-card__frame { height: 112px; background: #f5f6f8; }
+        .kyc-bench-card__note { font-size: 12.5px; }
+
+        /* Outcome: result cards and numbered learnings */
+        .kyc-results {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--space-3);
+            margin: var(--space-5) 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .kyc-result {
+            display: flex;
+            gap: var(--space-3);
+            margin: 0;
+            padding: var(--space-5);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+        }
+        .kyc-result__ic {
+            flex: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-subtle) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%230034F0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E") center / 14px no-repeat;
+        }
+        .kyc-result h4 { margin: 3px 0 4px; font-family: var(--font-title); font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+        .kyc-result p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .kyc-result--lead { background: var(--accent-subtle); border-color: transparent; }
+        .kyc-result--lead .kyc-result__ic { background-color: var(--accent); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.5 3 3 6-7'/%3E%3C/svg%3E"); }
+        .kyc-note {
+            margin: var(--space-4) 0 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-tertiary);
+        }
+        .kyc-note b { color: var(--text-secondary); font-weight: 600; }
+        .kyc-learn {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--space-3);
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        .kyc-learn li {
+            margin: 0;
+            padding: var(--space-5);
+            border-radius: var(--radius-md);
+            background: #f5f6f8;
+        }
+        .kyc-learn__n { display: block; margin-bottom: var(--space-3); font-family: var(--font-title); font-size: 14px; font-weight: 600; color: #a3a3a3; font-variant-numeric: tabular-nums; }
+        .kyc-learn h4 { margin: 0 0 6px; font-family: var(--font-title); font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.3; }
+        .kyc-learn p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
+        @media (max-width: 1100px) {
+            .kyc-gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+            .kyc-bench-card { grid-column: span 2; }
+            .kyc-bench-card:nth-child(n+4) { grid-column: span 3; }
+        }
+        @media (max-width: 720px) {
+            .anchor + .kyc-kicker { margin-top: var(--space-7); padding-top: var(--space-6); }
+            .kyc-shot { border-radius: var(--radius-md); }
+            .kyc-decision .kyc-why { padding: var(--space-4); border-radius: 0 0 var(--radius-md) var(--radius-md); }
+            .kyc-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .kyc-bench-card, .kyc-bench-card:nth-child(n+4) { grid-column: auto; }
+            .kyc-bench-card:last-child { grid-column: 1 / -1; }
+            .kyc-results, .kyc-learn { grid-template-columns: 1fr; }
+            .kyc-result, .kyc-learn li { padding: var(--space-4); }
+        }
+        .case-hero .title-img img.kyc-hero-phones {
+            width: auto;
+            filter:
+                drop-shadow(0 0 1px rgba(15, 23, 42, 0.10))
+                drop-shadow(0 4px 10px rgba(15, 23, 42, 0.06))
+                drop-shadow(0 18px 40px rgba(15, 23, 42, 0.12));
+        }
     </style>
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
     <script src="site-chrome.js?v=8"></script>
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch></site-header>
 
     <div class="anchor" id="top"></div>
-    <div class="page-title-box">
+    <div class="anchor" id="section1"></div>
+    <div class="page-title-box case-hero">
         <div class="grid">
             <div class="page-title-content">
-                <nav class="case-back" aria-label="Case study navigation">
-                    <a class="case-back__link" href="work.html">
-                        <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span data-zh="返回">Back</span>
-                    </a>
-                </nav>
-                <h2>Designing for Compliance Without Losing User Trust</h2>
-                <p class="as-lede">Retail KYC onboarding for two regulated crypto launches — Australia (AUSTRAC&nbsp;+&nbsp;ASIC) and Europe (MiCA), designed in parallel.</p>
+                <h2 data-zh="零售 KYC：澳洲 + 欧盟">Retail KYC, AU + EU</h2>
+                <p class="as-role" data-zh="&lt;strong&gt;唯一产品设计师&lt;/strong&gt; · &lt;span class=&quot;as-role__rest&quot;&gt;交互 · 视觉 · 合规流程&lt;/span&gt;"><strong>Sole product designer</strong> &middot; <span class="as-role__rest">UX + UI + regulatory flows</span></p>
+
+                <ol class="as-stats" aria-label="From new regulation to approval">
+                    <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="受监管市场">Regulated markets</span></li>
+                    <li><span class="as-stats__num" data-zh="约 3 周">~3 weeks</span><span class="as-stats__label" data-zh="每个 MVP">Per MVP</span></li>
+                    <li class="is-turn"><span class="as-stats__num" data-zh="4 轮">4 rounds</span><span class="as-stats__label" data-zh="测验改版">Quiz redesign</span></li>
+                    <li><span class="as-stats__num" data-zh="已获批">Approved</span><span class="as-stats__label">MiCA + AUSTRAC</span></li>
+                </ol>
+
                 <dl class="as-meta">
-                    <dt>Timeline</dt><dd>2025 · UX + UI + Regulatory design · Mobile &amp; web</dd>
-                    <dt>Role</dt><dd>Senior Product Designer — sole designer on the AU &amp; EU flows, with 1 PM, a Compliance Officer and 5 engineers</dd>
-                    <dt>Scope</dt><dd>0→1 KYC MVPs · ASIC investor assessment · existing-user migration</dd>
+                    <div><dt data-zh="产品">Product</dt><dd data-zh="KuCoin 身份认证（App 与 Web）">KuCoin identity verification (app &amp; web)</dd></div>
+                    <div><dt data-zh="目标用户">Target users</dt><dd data-zh="澳洲和欧盟的加密零售用户，包括新用户和老用户">Retail crypto users in Australia and the EU, new and existing</dd></div>
+                    <div><dt data-zh="范围">Scope</dt><dd data-zh="澳洲与欧盟 KYC MVP、ASIC 适合性评估、老用户迁移">AU and EU KYC MVPs, ASIC suitability test, existing-user migration</dd></div>
+                    <div><dt data-zh="团队">Team</dt><dd data-zh="1 名产品经理、1 名合规官、5 名工程师">1 PM, 1 compliance officer, 5 engineers</dd></div>
                 </dl>
-                
-                
-                
-                
+                <details class="as-hero-more">
+                    <summary data-zh="为什么重要">Why it mattered</summary>
+                    <p data-zh="2024 年，澳洲和欧盟都收紧了加密 KYC 规定。没有合规的开户流程，交易所可能失去两个最大的市场。合规团队与监管机构沟通期间，要求也一直在变。">In 2024 Australia and the EU both introduced stricter crypto KYC rules. Without compliant onboarding, the exchange risked losing access to two of its biggest markets, and the requirements kept changing while compliance negotiated with the regulators.</p>
+                </details>
             </div>
             <div class="title-img">
-                <img src="resources/images-kyc-aus/header_img.png?v=2" alt="AU and EU KYC onboarding flow overview">
+                <img class="kyc-hero-phones" src="resources/images-kyc-aus/kyc-cover-app-cut.webp?v=1" alt="Retail KYC on mobile: the same country-selection step for Australia and Germany, with different requirements" width="1672" height="1391">
             </div>
         </div>
     </div>
 
-        <div class="case-layout">
+    <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Designing for Compliance Without Losing User Trust</span>
+        <span class="scrollspy__title" data-zh="零售 KYC">Retail KYC, AU + EU</span>
         <div class="scrollspy__list">
-        <a href="#section1" class="list">Context &amp; Stakes</a>
-        <a href="#section2" class="list">The Problem</a>
-        <a href="#section3" class="list">Approach</a>
-        <a href="#section4" class="list">Key Decisions</a>
-        <a href="#section5" class="list">ASIC Assessment</a>
-        <a href="#section6" class="list">Migration Flow</a>
-        <a href="#section7" class="list">Final Designs</a>
-        <a href="#section8" class="list">Impact</a>
-        <a href="#section9" class="list">Reflection</a>
-        <a href="#top" class="list">Back to top</a>
+        <a href="#section1" class="list" data-zh="01 简介">01 Intro</a>
+        <a href="#section2" class="list" data-zh="02 问题">02 Problem</a>
+        <a href="#section3" class="list" data-zh="03 方案">03 Solution</a>
+        <a href="#section4" class="list" data-zh="04 关键决策">04 Key decisions</a>
+        <a href="#section5" class="list" data-zh="05 规则变化">05 Changing rules</a>
+        <a href="#section6" class="list" data-zh="06 用户迁移">06 Migration</a>
+        <a href="#section7" class="list" data-zh="07 结果">07 Outcome</a>
         </div>
     </div>
 <div class="one-col">
 
-        <!-- ── SECTION 1: CONTEXT & STAKES ────────────────────── -->
-        <div class="anchor" id="section1"></div>
-        <span class="kyc-kicker">01 · Context &amp; stakes</span>
-        <h3 class="section">Designs that went into a regulatory filing</h3>
-        <p>Our exchange already had a large client base across <strong>Australia and Europe</strong>. In 2024 both regions introduced crypto KYC regimes requiring stricter Level&nbsp;2 verification before derivatives trading — and without compliant onboarding, we risked losing access to two of our biggest markets. I owned the AU and EU onboarding end to end: turning shifting legal requirements into flows users could actually finish, fast enough to hit two regulated launch dates.</p>
-
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_challenges.png" alt="Before vs after the new regulations — a short shared flow becomes two divergent AU and EU journeys with knowledge tests, suitability assessments and risk disclosures"></div>
-        <p class="kyc-figcap">Before vs after the new regimes: a short shared flow had to expand into two divergent journeys — AU adds wholesale/retail gating and the ASIC suitability test; EU adds the MiCA knowledge quiz and risk disclosures.</p>
-
-        <div class="kyc-callout">
-            <div class="lbl">The brief</div>
-            <span class="quote">"Build compliant onboarding for the EU and Australia — fast — without losing the users we already have."</span>
-            <span class="sub">Not a pure UX project: the compliance team presented these flows as part of the regulatory submission itself.</span>
-        </div>
-
-        <ul class="kyc-list">
-            <li><b>Outcome:</b> both entities received their licences — the AU exchange under <b>AUSTRAC registration</b>, the EU entity as a <b>MiCA-compliant CASP</b>.</li>
-            <li><b>Timeline:</b> ~3 weeks per MVP, against live regulatory deadlines.</li>
-            <li><b>Constraint:</b> requirements shifted repeatedly as compliance negotiated with regulators — the design had to flex without losing structural coherence.</li>
-        </ul>
-
-
-        <!-- ── SECTION 2: REGULATORY LANDSCAPE ───────────────── -->
+        <!-- ── 02 · PROBLEM ───────────────────────────────────── -->
         <div class="anchor" id="section2"></div>
-        <span class="kyc-kicker">02 · The problem</span>
-        <h3 class="section">Two frameworks, two different design problems</h3>
-        <p>AUSTRAC (Australia) and MiCA (EU) share the same intent — know your customer — but they pull the design in different directions. Treating them as one flow would have broken under either regulator; treating them as two unrelated products would have doubled the work and split the experience.</p>
+        <span class="kyc-kicker" data-zh="02 · 问题">02 · Problem</span>
+        <h3 class="section" data-zh="一条简短流程，要拆成两条受监管的路径">One short flow had to become two regulated journeys</h3>
+        <p data-zh="过去，澳洲和欧洲用户共用一条五步 KYC 流程。新规要求用户在使用衍生品前完成更严格的 Level&amp;nbsp;2 认证，而两地监管的要求各不相同。">Australian and European users used to share one five-step KYC flow. New rules in both regions required stricter Level&nbsp;2 checks before anyone could reach derivatives, and each regulator asked for different things.</p>
+
+        <figure class="kyc-flow" aria-label="Before and after the new rules: one five-step KYC flow became an Australian flow of up to 11 steps and a European flow of 14 steps">
+            <div class="kyc-flow__hd">
+                <span class="kyc-flow__k" data-zh="新规之前 · 澳洲 + 欧盟">Before the new rules · AU + EU</span>
+                <span class="kyc-flow__n" data-zh="&lt;b&gt;5&lt;/b&gt; 步，解锁现货与衍生品"><b>5</b> steps to spot + derivatives</span>
+            </div>
+            <ol class="kyc-flow__row">
+                <li><span data-zh="选择国家">Select country</span></li>
+                <li><span data-zh="填写个人信息">Personal info</span></li>
+                <li><span data-zh="扫描证件">Scan ID</span></li>
+                <li><span data-zh="人脸识别">Scan face</span></li>
+                <li><span data-zh="提交">Submit</span></li>
+            </ol>
+
+            <div class="kyc-flow__shift" data-zh="2024 年新规之后">After the 2024 rules</div>
+
+            <div class="kyc-flow__after">
+                <section class="kyc-flow__lane">
+                    <div class="kyc-flow__hd">
+                        <span class="kyc-flow__lane-t" data-zh="🇦🇺 澳洲">🇦🇺 Australia</span>
+                        <span class="kyc-flow__n" data-zh="最多 &lt;b&gt;11&lt;/b&gt; 步">Up to <b>11</b> steps</span>
+                    </div>
+                    <div class="kyc-flow__lvl">
+                        <span class="kyc-flow__lvl-k" data-zh="Level 1 · 解锁现货">Level 1 · unlocks spot</span>
+                        <ol class="kyc-flow__list">
+                            <li data-zh="选择澳洲">Select Australia</li>
+                            <li data-zh="扫描证件">Scan ID</li>
+                            <li data-zh="人脸识别">Scan face</li>
+                            <li data-zh="填写地址">Address</li>
+                            <li data-zh="同意条款">Terms &amp; conditions</li>
+                            <li data-zh="提交 Level 1">Submit Level 1</li>
+                        </ol>
+                    </div>
+                    <div class="kyc-flow__lvl kyc-flow__lvl--l2">
+                        <span class="kyc-flow__lvl-k" data-zh="Level 2 · 解锁衍生品">Level 2 · unlocks derivatives</span>
+                        <ol class="kyc-flow__list" start="7">
+                            <li data-zh="选择用户类型">Choose user type</li>
+                        </ol>
+                        <div class="kyc-flow__branch">
+                            <span class="kyc-flow__br" data-zh="零售用户">Retail</span>
+                            <ol class="kyc-flow__list" start="8">
+                                <li data-zh="高级认证">Advanced verification</li>
+                                <li class="is-gate" data-zh="知识测验（3 题）">Knowledge test (3 questions)</li>
+                                <li class="is-gate" data-zh="适合性评估（13 题）">Suitability test (13 questions)</li>
+                                <li data-zh="提交 Level 2">Submit Level 2</li>
+                            </ol>
+                        </div>
+                        <div class="kyc-flow__branch">
+                            <span class="kyc-flow__br" data-zh="批发用户">Wholesale</span>
+                            <ol class="kyc-flow__list" start="8">
+                                <li data-zh="资产证明">Proof of assets</li>
+                                <li data-zh="同意条款">Terms &amp; conditions</li>
+                                <li data-zh="提交">Submit</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="kyc-flow__lane">
+                    <div class="kyc-flow__hd">
+                        <span class="kyc-flow__lane-t" data-zh="🇪🇺 欧盟">🇪🇺 Europe</span>
+                        <span class="kyc-flow__n" data-zh="&lt;b&gt;14&lt;/b&gt; 步"><b>14</b> steps</span>
+                    </div>
+                    <div class="kyc-flow__lvl">
+                        <span class="kyc-flow__lvl-k" data-zh="Level 1 · 解锁现货">Level 1 · unlocks spot</span>
+                        <ol class="kyc-flow__list">
+                            <li data-zh="选择欧盟国家">Select EU country</li>
+                            <li data-zh="同意条款">Terms &amp; conditions</li>
+                            <li data-zh="填写个人信息">Personal info</li>
+                            <li data-zh="扫描证件">Scan ID</li>
+                            <li data-zh="人脸识别">Scan face</li>
+                            <li data-zh="签名">Signature</li>
+                            <li data-zh="提交 Level 1">Submit Level 1</li>
+                        </ol>
+                    </div>
+                    <div class="kyc-flow__lvl kyc-flow__lvl--l2">
+                        <span class="kyc-flow__lvl-k" data-zh="Level 2 · 解锁衍生品">Level 2 · unlocks derivatives</span>
+                        <ol class="kyc-flow__list" start="8">
+                            <li data-zh="开始高级认证">Start advanced verification</li>
+                            <li data-zh="风险披露">Risk disclaimer</li>
+                            <li class="is-gate" data-zh="适当性测试">Appropriateness test</li>
+                            <li data-zh="声明">Declaration</li>
+                            <li data-zh="地址证明">Proof of address</li>
+                            <li data-zh="资产证明">Proof of assets</li>
+                            <li data-zh="提交 Level 2">Submit Level 2</li>
+                        </ol>
+                    </div>
+                </section>
+            </div>
+
+            <p class="kyc-flow__legend"><span class="kyc-flow__dot" aria-hidden="true"></span><span data-zh="新规新增的测验：措辞固定，不能给提示">Tests added by the new rules: fixed wording, no hints allowed</span></p>
+        </figure>
+        <p class="kyc-figcap" data-zh="一条五步流程，变成两条受监管的路径：澳洲按零售/批发分流，欧盟加入风险披露和声明。">One five-step flow became two regulated journeys: Australia splits retail from wholesale, and the EU adds disclosures and declarations.</p>
 
         <div class="kyc-compare">
             <div class="kyc-panel">
-                <div class="kyc-panel__flag">🇦🇺 Australia · AUSTRAC + ASIC</div>
-                <h4>A legally fixed suitability test</h4>
+                <div class="kyc-panel__flag" data-zh="🇦🇺 澳洲 · AUSTRAC + ASIC">🇦🇺 Australia · AUSTRAC + ASIC</div>
+                <h4 data-zh="先分用户类型，再过固定测验">Two user types, one fixed test</h4>
                 <ul class="kyc-list">
-                    <li>Standard identity capture, but a <b>retail vs. wholesale</b> classification decides what a user can access.</li>
-                    <li>ASIC's Product Intervention Order requires a <b>mandatory suitability assessment</b> before any retail user reaches leveraged products — covering leverage, margin, CFD mechanics and AU-specific rules.</li>
-                    <li><b>UX tension:</b> the questions are legally defined and can't be simplified or coached. Make them approachable without dumbing them down.</li>
+                    <li data-zh="&lt;b&gt;类型决定权限。&lt;/b&gt;每位用户被归为零售或批发，决定了能使用哪些产品。"><b>Type sets access.</b> Each user is classified as retail or wholesale, and that decides what they can use.</li>
+                    <li data-zh="&lt;b&gt;措辞不能改。&lt;/b&gt;零售用户必须先通过 ASIC 的适合性评估，才能使用衍生品；题目不能改写，也不能给提示。"><b>Wording can't change.</b> Retail users must pass ASIC's suitability test before using derivatives, and its questions can't be reworded or coached.</li>
                 </ul>
             </div>
             <div class="kyc-panel">
-                <div class="kyc-panel__flag">🇪🇺 Europe · MiCA</div>
-                <h4>Risk disclosure as a real touchpoint</h4>
+                <div class="kyc-panel__flag" data-zh="🇪🇺 欧洲 · MiCA">🇪🇺 Europe · MiCA</div>
+                <h4 data-zh="更多筛查，风险提示要被读到">More screening, warnings users must read</h4>
                 <ul class="kyc-list">
-                    <li>Similar base identity, plus mandatory <b>PEP &amp; sanctions screening</b> and a structured <b>investor risk classification</b>.</li>
-                    <li><b>Source of funds</b> triggered at lower thresholds for certain transaction types.</li>
-                    <li><b>UX tension:</b> MiCA mandates risk warnings before key actions — they had to be genuine touchpoints, not dark patterns or legal footnotes.</li>
+                    <li data-zh="&lt;b&gt;筛查与分类。&lt;/b&gt;PEP 与制裁筛查、投资者风险分类；超过一定金额，还需提供资金来源。"><b>Screening and classification.</b> PEP and sanctions screening, investor risk classification, and source of funds above set thresholds.</li>
+                    <li data-zh="&lt;b&gt;不能藏成脚注。&lt;/b&gt;关键操作前的风险提示，必须出现在流程里，而不是放进法律条款。"><b>No buried warnings.</b> Risk warnings before key actions belong in the flow, not in the legal small print.</li>
                 </ul>
             </div>
         </div>
 
+        <div class="kyc-callout">
+            <div class="lbl" data-zh="设计问题">The design question</div>
+            <span class="quote" data-zh="怎样让一个严格、只有通过与不通过的合规流程显得公平，同时又不引导用户选出正确答案？">How do you make a strict, pass/fail compliance flow feel fair, without coaching users toward the right answers?</span>
+            <span class="sub" data-zh="开发期间要求还在不断变化，设计必须能吸收变化，同时保持结构稳定。">Requirements also kept shifting during the build, so the design had to absorb change without losing its structure.</span>
+        </div>
 
-        <!-- ── SECTION 3: APPROACH ────────────────────────────── -->
+
+        <!-- ── 03 · SOLUTION ──────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
-        <span class="kyc-kicker">03 · Approach</span>
-        <h3 class="section">Benchmark, modularise, then iterate</h3>
+        <span class="kyc-kicker" data-zh="03 · 方案">03 · Solution</span>
+        <h3 class="section" data-zh="两条流程，一个共用核心">Two flows on one shared core</h3>
+        <p data-zh="两个市场共用同一套身份认证核心（证件照、人脸识别、个人信息），再分别进入各自的 Level&amp;nbsp;2 规则。每个页面只问一件事，并说明完成后能解锁什么。">Both markets share the same identity core (photo ID, face scan, personal details), then branch into their own Level&nbsp;2 rules. Each screen asks for one thing and says what it unlocks.</p>
 
-        <h5>a) Benchmarking &amp; strategy</h5>
-        <p>Before designing anything, I studied how five leading exchanges handle the same high-friction moments — tiered verification, benefit framing and knowledge testing. Two patterns held across all of them, and I carried both into the AU and EU flows.</p>
+        <h5 data-zh="澳洲 · AUSTRAC + ASIC">Australia · AUSTRAC + ASIC</h5>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_au_final.webp?v=trim" width="3287" height="2207" loading="lazy" alt="AU KYC MVP: basic identity verification, then the retail branch (suitability test) and wholesale branch (evidence upload) of the ASIC assessment"></div>
+        <p class="kyc-figcap" data-zh="一次选择，两条分支：完成基础认证后，零售用户进入适合性评估（分支&amp;nbsp;1），批发用户上传证明材料（分支&amp;nbsp;2）。">One choice, two branches: after basic verification, retail users take the suitability test (branch&nbsp;1) and wholesale users upload evidence (branch&nbsp;2).</p>
+
+        <h5 data-zh="欧洲 · MiCA">Europe · MiCA</h5>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_eu_final.webp?v=trim" width="3506" height="1531" loading="lazy" alt="EU KYC MVP: identity and document verification, declarations, the appropriateness test, and source-of-funds upload"></div>
+        <p class="kyc-figcap" data-zh="先披露，再开放：身份与证件认证之后，是适当性测试、风险披露和声明；达到一定金额时，需上传资产证明。">Disclosure before access: after identity and documents come the appropriateness test, disclosures and declarations, plus proof of assets above a threshold.</p>
+
+
+        <!-- ── 04 · KEY DECISIONS ─────────────────────────────── -->
+        <div class="anchor" id="section4"></div>
+        <span class="kyc-kicker" data-zh="04 · 关键决策">04 · Key decisions</span>
+        <h3 class="section" data-zh="让严格规则变得好用的三个决策">Three decisions that made strict rules usable</h3>
+        <p data-zh="测验经过四轮迭代，才同时满足合规要求和用户需要。动手之前，我研究了五家交易所如何处理分级认证和知识测验。五家都有两个共同做法：一页一题，以及先教育再测验。前两个决策正是由此而来。">The quiz went through four rounds before it worked for both compliance and users. First, I benchmarked how five exchanges handle tiered verification and knowledge tests. Two patterns held across all five: one question per page, and education before the test. Both shaped the first two decisions.</p>
 
         <div class="kyc-gallery">
             <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_coinbase.png" alt="Coinbase — a knowledge-quiz gate with a 'read our crypto guide' pre-step before users can start trading"></div>
+                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_coinbase.png" loading="lazy" alt="Coinbase: a knowledge-quiz gate with a 'read our crypto guide' pre-step"></div>
                 <div class="kyc-bench-card__body">
                     <div class="kyc-bench-card__name">Coinbase</div>
-                    <div class="kyc-bench-card__note">A crypto guide and knowledge-quiz gate before trading — educate, then assess.</div>
+                    <div class="kyc-bench-card__note" data-zh="测验前给指南：先教育，再评估。">Guide before the quiz: educate, then assess.</div>
                 </div>
             </div>
             <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_binance.png" alt="Binance — Basic, Intermediate and Advanced verification levels compared side by side with the limits each unlocks"></div>
+                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_binance.png" loading="lazy" alt="Binance: verification levels compared side by side with the limits each unlocks"></div>
                 <div class="kyc-bench-card__body">
                     <div class="kyc-bench-card__name">Binance</div>
-                    <div class="kyc-bench-card__note">Levels compared side by side, so the benefit of verifying further is explicit.</div>
+                    <div class="kyc-bench-card__note" data-zh="等级并排对比：每级的好处一目了然。">Levels side by side: each benefit is explicit.</div>
                 </div>
             </div>
             <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_kraken.png" alt="Kraken — verification tiers (Express, Intermediate, Pro) framed by the access and limits each one unlocks"></div>
+                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_kraken.png" loading="lazy" alt="Kraken: verification tiers framed by the access and limits each unlocks"></div>
                 <div class="kyc-bench-card__body">
                     <div class="kyc-bench-card__name">Kraken</div>
-                    <div class="kyc-bench-card__note">Access framed by tier in one matrix — time-to-complete vs. limits unlocked.</div>
+                    <div class="kyc-bench-card__note" data-zh="一张表看清代价：完成时长与解锁额度。">One matrix: time to complete vs. limits unlocked.</div>
                 </div>
             </div>
             <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_okx.png" alt="OKX — a clean verification screen listing requirements and limits before a single Verify action"></div>
+                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_okx.png" loading="lazy" alt="OKX: requirements and limits listed before a single Verify action"></div>
                 <div class="kyc-bench-card__body">
                     <div class="kyc-bench-card__name">OKX</div>
-                    <div class="kyc-bench-card__note">Strong hierarchy — requirements and limits laid out before a single Verify CTA.</div>
+                    <div class="kyc-bench-card__note" data-zh="要求先行：额度在前，只有一个认证按钮。">Requirements first: limits listed before one Verify button.</div>
                 </div>
             </div>
             <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_bitget.png" alt="Bitget — tiered verification making the deposit and withdrawal payoff of each level explicit"></div>
+                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_bitget.png" loading="lazy" alt="Bitget: tiered verification with the deposit and withdrawal limits of each level"></div>
                 <div class="kyc-bench-card__body">
                     <div class="kyc-bench-card__name">Bitget</div>
-                    <div class="kyc-bench-card__note">Tiered limits stated upfront — low-pressure framing of what each level earns.</div>
+                    <div class="kyc-bench-card__note" data-zh="好处先行：每级能获得什么，开头就讲清楚。">Benefits up front: what each level earns.</div>
                 </div>
             </div>
         </div>
 
-        <div class="kyc-bench-takeaways">
-            <div class="kyc-bench-takeaway"><span class="kyc-bench-takeaway__num">01</span><div><b>One question per page.</b> Every exchange split dense, legally-worded questions into single focused steps instead of one long form — protecting comprehension where it legally mattered.</div></div>
-            <div class="kyc-bench-takeaway"><span class="kyc-bench-takeaway__num">02</span><div><b>Educate before you gate.</b> A short guide or a clear benefit comparison softened the hard quiz, rather than dropping users into a pass/fail test cold.</div></div>
+        <div class="kyc-decision">
+            <h4 class="kyc-decision__h"><span class="kyc-decision__n">01</span><span data-zh="一页一题">One question per page</span></h4>
+            <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_speed_clarity.webp?v=trim" width="4000" height="2577" loading="lazy" alt="Before: a dense one-page scrolling quiz. After: one focused question per page"></div>
+            <dl class="kyc-why">
+                <dt data-zh="问题">Problem</dt><dd data-zh="一长页滚动的测验，全是固定的法律措辞：开发快，但很难读。">A long scrolling quiz of fixed legal wording was quick to build but hard to read.</dd>
+                <dt class="is-key" data-zh="决策">Decision</dt><dd class="is-key" data-zh="每屏只放一道题，并按主题显示进度，让用户一开始就知道总量。">One question per screen, with progress by topic so users see the full scope up front.</dd>
+                <dt data-zh="取舍">Trade-off</dt><dd data-zh="点击次数变多，换来的是在法律上最关键的地方读得懂。">More taps, in exchange for comprehension where it legally matters.</dd>
+            </dl>
         </div>
 
-        <h5>b) Modular flow design — systematising for future markets</h5>
-        <p>I didn't start with a system. The AU and EU flows were built in parallel under launch pressure, and every shift in requirements meant reworking screens by hand. The repeated structure only became obvious once both had shipped — so <b>after launch I partnered with the product and design team</b> to turn those hard-won patterns into a reusable <b>modular KYC framework</b> for the markets we'd expand into next.</p>
-        <div class="kyc-chain-wrap">
-            <ul class="kyc-list">
-                <li><b>Global core:</b> identity, document capture, liveness and result states — defined once, reused in every market.</li>
-                <li><b>Regional branches:</b> jurisdiction logic dropped into the core — EU adds the knowledge guide, MiCA quiz and risk disclosures; AU adds the retail/wholesale dropdown gating the ASIC assessment.</li>
-                <li><b>Expansion model:</b> entering a new market becomes defining its rules and composing a branch — not rebuilding the flow from scratch.</li>
-            </ul>
+        <div class="kyc-decision">
+            <h4 class="kyc-decision__h"><span class="kyc-decision__n">02</span><span data-zh="先教育，再把关">Educate before the gate</span></h4>
+            <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_regulation_trust.webp?v=trim" width="4000" height="2057" loading="lazy" alt="Before: a hard quiz that ends in a fail state. After: the same quiz with an optional crypto guide before it"></div>
+            <dl class="kyc-why">
+                <dt data-zh="问题">Problem</dt><dd data-zh="新手用户直接面对一场很难的测验，要么靠猜，要么放弃。">Novice users met a hard pass/fail quiz cold, so they either guessed or gave up.</dd>
+                <dt class="is-key" data-zh="决策">Decision</dt><dd class="is-key" data-zh="测验前提供可选的加密指南。没通过时，用户能看到答错的主题，并一键回到指南。">An optional crypto guide before the quiz. After a missed attempt, users see which topics to review and a way back to the guide.</dd>
+                <dt data-zh="取舍">Trade-off</dt><dd data-zh="测验内部不提供任何提示；指南放在测验之外，只做教育。">No hints inside the quiz itself. The guide sits outside it, as education only.</dd>
+            </dl>
         </div>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_modular.png" alt="Modular KYC framework — one shared global core with EU and AU regional branches, designed with the product and design team after launch as a template for expanding into future markets"></div>
-        <p class="kyc-figcap">Built after launch with the product and design team: a shared global core (in colour) with a regional branch per jurisdiction. Distilled from the AU and EU work, it became the team's starting point for future market expansion — a new market is a new branch, not a new flow.</p>
 
-        <h5>c) Iterations &amp; trade-offs</h5>
-        <p>The assessment experience went through four iterations before it satisfied both compliance and completion:</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_iterations.png" alt="Four iterations of the assessment screen — one-page scroll, one-question-per-screen, added pre-quiz guide, and AU dropdown branching"></div>
-        <p class="kyc-figcap">The four iterations side by side — each step traded a little speed for the comprehension and structural flexibility compliance and users both needed.</p>
-
-        <p>Two iterations were worth a closer look — one solved a structural problem with no precedent, the other was forced on us mid-build.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_iter3_usertypes.png" alt="Iteration 3 — an AU Level 2 dropdown selector that branches verified users into separate retail and wholesale flows with different evidence and benefits"></div>
-        <p class="kyc-figcap"><b>Iteration 3 — AU Level&nbsp;2 user types.</b> Wholesale and advanced-retail users had different requirements and benefits, with no existing pattern to follow. I added a user-type selector at the start of Level&nbsp;2 that branches into the right flow — retail into the suitability test, wholesale into evidence upload.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_iter4_regchanges.png" alt="Iteration 4 — a Month 1 to Month 3 timeline showing the identity flow redesigned repeatedly as AU and EU requirements changed on short notice"></div>
-        <p class="kyc-figcap"><b>Iteration 4 — adapting to regulatory change.</b> Requirements kept shifting during build, so the design was updated several times on short notice. Working directly with compliance and legal, I reshaped the flow each month — from a wireframe aligning understanding, to revised benefits, to the branched flow — without ever blocking delivery.</p>
+        <div class="kyc-decision">
+            <h4 class="kyc-decision__h"><span class="kyc-decision__n">03</span><span data-zh="让用户自己选择路径">Let users choose their path</span></h4>
+            <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_iter3_usertypes.webp?v=trim" width="3447" height="2521" loading="lazy" alt="An AU Level 2 user-type selector that branches verified users into separate retail and wholesale flows"></div>
+            <dl class="kyc-why">
+                <dt data-zh="问题">Problem</dt><dd data-zh="在澳洲，零售和批发用户的要求和权益都不同，而且没有现成的模式可以参考。">In Australia, retail and wholesale users had different requirements and benefits, and there was no existing pattern to follow.</dd>
+                <dt class="is-key" data-zh="决策">Decision</dt><dd class="is-key" data-zh="Level&amp;nbsp;2 开始时，用下拉框选择用户类型，并说明每条路径需要什么、能解锁什么。之后分流：零售用户进入适合性评估，批发用户上传证明材料。">A user-type choice at the start of Level&nbsp;2 that shows what each path asks for and unlocks. Then it branches: retail to the suitability test, wholesale to evidence upload.</dd>
+                <dt data-zh="取舍">Trade-off</dt><dd data-zh="开头多一次选择，换来每个人都不会看到与自己无关的步骤。">One extra choice up front, so no one sees steps that don't apply to them.</dd>
+            </dl>
+        </div>
 
 
-        <!-- ── SECTION 4: KEY DECISIONS ───────────────────────── -->
-        <div class="anchor" id="section4"></div>
-        <span class="kyc-kicker">04 · Key decisions</span>
-        <h3 class="section">Three tensions, resolved</h3>
-        <p>Every meaningful decision on this project was a trade-off between what the regulator demanded and what the user could tolerate. Three mattered most.</p>
-
-        <h5>Speed vs. clarity</h5>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_speed_clarity.png" alt="Before and after the quiz redesign — a dense one-page scrolling quiz versus a focused one-question-per-page flow"></div>
-
-        <h5>Regulation vs. trust</h5>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_regulation_trust.png" alt="Before and after — a hard quiz that ended in a fail state versus the same quiz preceded by an optional crypto guide that prepares novice users"></div>
-        <p class="kyc-figcap">Compliance signed off that a pre-quiz guide educates without steering users toward "correct" answers — so it shipped as a real UX feature.</p>
-
-        <h5>Consistency vs. local rules</h5>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_page_module.png" alt="Reusable page modules — Forms, Questionnaire, Declarations and Upload Doc patterns shared across markets"></div>
-        <p class="kyc-figcap">Page modules: Forms, Questionnaire, Declarations and Upload Doc — composed differently per jurisdiction but built once.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_component_module.png" alt="Reusable component modules — landing pages, required-information blocks, and verification step states (not started, ongoing, verified, failed)"></div>
-        <p class="kyc-figcap">Component modules: landing pages, required-information blocks and every verification step state — reused so AU and EU stayed consistent without extra work.</p>
-
-
-        <!-- ── SECTION 5: ASIC ASSESSMENT DEEP-DIVE ───────────── -->
+        <!-- ── 05 · CHANGING RULES ────────────────────────────── -->
         <div class="anchor" id="section5"></div>
-        <span class="kyc-kicker">05 · Deep-dive</span>
-        <h3 class="section">The ASIC investor assessment</h3>
-        <p>The hardest single screen-set in the project: a legally mandated suitability quiz retail users must pass before accessing derivatives. ASIC specifies the topics; the questions themselves are fixed and can't be paraphrased or omitted.</p>
+        <span class="kyc-kicker" data-zh="05 · 规则变化">05 · Changing rules</span>
+        <h3 class="section" data-zh="三个月，规则一直在变">Three months of changing rules</h3>
+        <p data-zh="开发的三个月里，要求经常临时调整。我直接和合规、法务团队合作，每个月调整一次流程：先用线框图对齐理解，再修改权益说明，最后做成分支流程。">Over three months of build, requirements changed on short notice. I worked directly with compliance and legal and reshaped the flow each month: a wireframe to align understanding, then revised benefits, then the branched flow.</p>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_iter4_regchanges.webp?v=trim" width="4000" height="1966" loading="lazy" alt="A Month 1 to Month 3 timeline showing the identity flow redesigned as AU and EU requirements changed"></div>
+        <p class="kyc-figcap" data-zh="第 1 到第 3 个月：随着澳洲和欧盟要求变化，身份认证流程如何调整。">Month 1 to Month 3: how the identity flow changed as AU and EU requirements moved.</p>
 
-        <div class="kyc-cards">
-            <div class="kyc-card">
-                <span class="tag">Tension 1</span>
-                <h4>Legal fidelity vs. readability</h4>
-                <p>The wording is locked — only visual presentation and pacing could change. So I changed everything around the words.</p>
-            </div>
-            <div class="kyc-card">
-                <span class="tag">Tension 2</span>
-                <h4>Education vs. testing</h4>
-                <p>Regulators want genuine understanding, not guidance. No tooltips or inline hints on quiz questions — hence the separate pre-quiz guide.</p>
-            </div>
-            <div class="kyc-card">
-                <span class="tag">Tension 3</span>
-                <h4>Completion vs. integrity</h4>
-                <p>Reduce friction, but never at the cost of the assessment's legal validity. Failure had to stay a real outcome.</p>
-            </div>
-        </div>
-        <ul class="kyc-list">
-            <li><b>Progress clarity:</b> a topic-by-topic indicator so users saw the full scope upfront instead of discovering more questions mid-flow.</li>
-            <li><b>Attempt management:</b> users who fail get a clear breakdown of the topics they fell short on and a nudge back to the guide before retrying — satisfying ASIC's "genuine assessment" requirement while reducing frustration.</li>
-        </ul>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/1_flow demo.png" alt="AU verification flow — Level 1 standard verification through Level 2/3 with the crypto guide, ASIC knowledge quiz, and verified states"></div>
-        <p class="kyc-figcap">The assessment in context — Level&nbsp;1 standard verification flows into the user-type branch, the crypto guide, the legally fixed quiz, and the verified state.</p>
+        <h5 data-zh="一次设计，按市场组合">Built once, composed per market</h5>
+        <p data-zh="为了让两个市场保持一致，每种页面类型（表单、问卷、声明、文件上传）只设计一次，再按司法辖区组合。">To keep two markets consistent, each screen type was designed once (forms, questionnaires, declarations, document upload) and composed differently per jurisdiction.</p>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_page_module.webp?v=trim" width="3031" height="1037" loading="lazy" alt="Reusable page modules: Forms, Questionnaire, Declarations and Upload Doc patterns shared across markets"></div>
+        <p class="kyc-figcap" data-zh="澳洲和欧盟共用的页面模块。">Page modules shared by AU and EU.</p>
+        <details class="kyc-more">
+            <summary data-zh="查看组件模块和认证状态">See the component modules and verification states</summary>
+            <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_component_module.webp?v=trim" width="3828" height="1496" loading="lazy" alt="Reusable component modules: landing pages, required-information blocks, and verification step states (not started, ongoing, verified, failed)"></div>
+            <p class="kyc-figcap" data-zh="落地页、所需信息区块，以及每个认证步骤的状态。">Landing pages, required-information blocks and every verification step state.</p>
+        </details>
+
+        <h5 data-zh="上线后：模块化 KYC 框架">After launch: a modular KYC framework</h5>
+        <p data-zh="两个市场上线后，我和产品、设计团队一起，把这些模式整理成面向未来市场的框架：一个全球身份认证核心，加上每个司法辖区的区域分支。">Once both markets shipped, I worked with the product and design team to turn these patterns into a framework for future markets: a global identity core, plus a regional branch per jurisdiction.</p>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_modular.webp?v=trim" width="2013" height="588" loading="lazy" alt="Modular KYC framework: one shared global core with EU and AU regional branches"></div>
+        <p class="kyc-figcap" data-zh="进入新市场，只需新增一个分支，不必重做一条流程。">A new market becomes a new branch, not a new flow.</p>
 
 
-        <!-- ── SECTION 6: MIGRATION FLOW ──────────────────────── -->
+        <!-- ── 06 · MIGRATION ─────────────────────────────────── -->
         <div class="anchor" id="section6"></div>
-        <span class="kyc-kicker">06 · Migration</span>
-        <h3 class="section">Moving existing users into the EU entity</h3>
-        <p>Standing up a new regulated entity meant existing users who wanted EU access had to be re-verified under MiCA — not handed a blank new account, but routed to the <em>minimum</em> additional verification needed while preserving what they'd already completed.</p>
+        <span class="kyc-kicker" data-zh="06 · 用户迁移">06 · Migration</span>
+        <h3 class="section" data-zh="重新认证，但不从头开始">Re-verify without starting over</h3>
+        <p data-zh="老用户要转到欧盟实体，必须按 MiCA 重新认证。流程不会让用户从空白账户开始，而是先识别当前的认证状态，只补充 MiCA 仍然要求的内容。">Existing users moving to the EU entity had to re-verify under MiCA. Instead of starting over with a blank account, the flow reads where each user already is and asks only for what MiCA still requires.</p>
         <div class="kyc-cards">
             <div class="kyc-card">
-                <span class="tag">State mapping</span>
-                <h4>Many starting points, one path each</h4>
-                <p>Users sat at different verification levels. The flow had to read each starting state and ask only for what MiCA still required — never restart from zero.</p>
+                <span class="tag" data-zh="状态映射">State mapping</span>
+                <h4 data-zh="只补缺的步骤">Only the missing steps</h4>
+                <p data-zh="每个起始认证等级，都对应最少的补充步骤。">Each starting verification level maps to the minimum extra steps.</p>
             </div>
             <div class="kyc-card">
-                <span class="tag">Communication</span>
-                <h4>Why you're being asked again</h4>
-                <p>Careful writing: too alarming and users abandon; too casual and they ignore it. The message had to explain the why and the consequence of not acting.</p>
+                <span class="tag" data-zh="沟通">Communication</span>
+                <h4 data-zh="为什么要再认证一次">Why you're asked again</h4>
+                <p data-zh="说明原因和不处理的后果，但不制造恐慌。">Explains the reason and what happens if you don't act, without alarming users.</p>
             </div>
             <div class="kyc-card">
-                <span class="tag">Recovery</span>
-                <h4>Partial completion is a real state</h4>
-                <p>A user mid-migration sits across two entities. The design made that state transparent and recoverable rather than a dead end.</p>
+                <span class="tag" data-zh="恢复">Recovery</span>
+                <h4 data-zh="完成一半也是一种状态">Partial completion is a state</h4>
+                <p data-zh="中途离开的用户能看到自己进行到哪一步，之后再继续。">A user halfway through can see where they are and pick it up later.</p>
             </div>
         </div>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/7_migration_flow.png" alt="User migration flow from main exchange to EU entity"></div>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/7_migration_flow.webp?v=trim" width="3846" height="1805" loading="lazy" alt="User migration flow from the main exchange to the EU entity"></div>
+        <p class="kyc-figcap" data-zh="从主站迁移到欧盟实体的流程。">Migration from the main exchange to the EU entity.</p>
 
 
-        <!-- ── SECTION 7: FINAL DESIGNS ───────────────────────── -->
+        <!-- ── 07 · OUTCOME ───────────────────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <span class="kyc-kicker">07 · Final solution</span>
-        <h3 class="section">Final designs</h3>
-
-        <h5>Australia — AUSTRAC + ASIC</h5>
-        <p>Step-by-step identity verification, a retail/wholesale dropdown that gates the assessment, then derivatives access or a spot-only path.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_au_final.png" alt="AU KYC MVP — basic identity verification, then the retail branch (suitability test) and wholesale branch (evidence upload) of the ASIC assessment"></div>
-        <p class="kyc-figcap">AU MVP: basic verification feeds a user-type dropdown that splits into the retail suitability test (Branch&nbsp;1) and the wholesale evidence path (Branch&nbsp;2).</p>
-
-        <h5>Europe — MiCA CASP</h5>
-        <p>Identity and document verification, PEP/sanctions screening, risk-disclosure acknowledgements, the educational guide and one-question-per-page quiz, with source-of-funds triggered by threshold.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_eu_final.png" alt="EU KYC MVP — identity and document verification, declarations, the educational crypto guide, the one-question-per-page MiCA quiz, and source-of-funds upload"></div>
-        <p class="kyc-figcap">EU MVP: identity and document capture, declarations and risk disclosures, the educational guide, the one-question-per-page quiz, and threshold-triggered source-of-funds.</p>
-
-
-        <!-- ── SECTION 8: IMPACT ──────────────────────────────── -->
-        <div class="anchor" id="section8"></div>
-        <span class="kyc-kicker">08 · Impact</span>
-        <h3 class="section">Impact &amp; outcome</h3>
-        <div class="kyc-cards kyc-cards--4">
-            <div class="kyc-card win">
-                <h4>Compliance secured</h4>
-                <p>AU and EU flows cleared their regulators; the annotated designs went into the submissions.</p>
-            </div>
-            <div class="kyc-card">
-                <h4>Launched on time</h4>
-                <p>Both markets went live on the planned schedule, despite requirements shifting mid-design.</p>
-            </div>
-            <div class="kyc-card">
-                <h4>Designed for trust</h4>
-                <p>Educational framing was built to lower cold-start friction without weakening the assessment's legal validity.</p>
-            </div>
-            <div class="kyc-card">
-                <h4>Reusable model</h4>
-                <p>The jurisdiction-template structure became the starting point for later regional rollouts.</p>
-            </div>
-        </div>
-        <ul class="kyc-list">
-            <li><b>AUSTRAC registration confirmed</b> for the AU entity; <b>MiCA CASP licence obtained</b> for the EU entity — the compliance team used the annotated flows in their submissions.</li>
-            <li>The <b>crypto-guide pattern</b> was validated by compliance as education, not coaching — and kept as a UX feature.</li>
-            <li>The week-3 ASIC clarification changed <b>two screens</b> instead of forcing a redesign — the payoff of the modular structure.</li>
-            <li><b>An honest read on metrics:</b> these shipped as compliance-gated MVPs, so success was defined as clearing the regulator and launching on time. I don't have post-launch funnel data to claim — optimising conversion would have been the next phase.</li>
+        <span class="kyc-kicker" data-zh="07 · 结果">07 · Outcome</span>
+        <h3 class="section" data-zh="两个市场获批，留下可复用的框架">Both markets approved, one framework to reuse</h3>
+        <ul class="kyc-results">
+            <li class="kyc-result kyc-result--lead">
+                <span class="kyc-result__ic" aria-hidden="true"></span>
+                <div>
+                    <h4 data-zh="获得 MiCA 牌照">MiCA licence granted</h4>
+                    <p data-zh="KuCoin 申请 MiCA 牌照时，向监管机构演示了欧盟流程。">The EU flow was demoed to the regulator as part of KuCoin's MiCA licence application.</p>
+                </div>
+            </li>
+            <li class="kyc-result">
+                <span class="kyc-result__ic" aria-hidden="true"></span>
+                <div>
+                    <h4 data-zh="AUSTRAC 注册已获确认">AUSTRAC registration confirmed</h4>
+                    <p data-zh="澳洲实体已完成 AUSTRAC 注册。">The Australian entity is registered with AUSTRAC.</p>
+                </div>
+            </li>
+            <li class="kyc-result">
+                <span class="kyc-result__ic" aria-hidden="true"></span>
+                <div>
+                    <h4 data-zh="加密指南上线">The crypto guide shipped</h4>
+                    <p data-zh="合规团队认可它是教育，而不是引导答题，因此作为正式功能上线。">Compliance accepted it as education, not coaching, so it shipped as a product feature.</p>
+                </div>
+            </li>
+            <li class="kyc-result">
+                <span class="kyc-result__ic" aria-hidden="true"></span>
+                <div>
+                    <h4 data-zh="新市场的模板">A template for new markets</h4>
+                    <p data-zh="模块化框架成为团队拓展新司法辖区的起点。">The modular framework became the team's starting point for future jurisdictions.</p>
+                </div>
+            </li>
         </ul>
+        <p class="kyc-note" data-zh="&lt;b&gt;关于数据：&lt;/b&gt;这些是以合规为门槛的 MVP，成功的标准是通过监管审核。我没有上线后的转化漏斗数据；优化转化本应是下一阶段的工作。"><b>On metrics:</b> these were compliance-gated MVPs, so success meant clearing the regulator. I don't have post-launch funnel data; conversion would have been the next phase.</p>
 
-
-        <!-- ── SECTION 9: REFLECTION ──────────────────────────── -->
-        <div class="anchor" id="section9"></div>
-        <span class="kyc-kicker">09 · Reflection</span>
-        <h3 class="section">What I learned — and what I'd do differently</h3>
-        <div class="kyc-callout">
-            <div class="lbl">Reflection</div>
-            <span class="quote">"The hardest part wasn't the regulation — it was making a legally fixed quiz feel humane without quietly coaching users toward the 'right' answer. I found that design space by sitting <em>with</em> the compliance officer, not working around them."</span>
-        </div>
-        <ul class="kyc-list">
-            <li><b>Treat compliance as a design material</b>, not a constraint bolted on at the end — the best decisions came from designing <em>with</em> the compliance officer in the room.</li>
-            <li><b>Build modular from day one.</b> I only distilled the jurisdiction-template framework after launch; establishing it at the start would have cut duplication across the AU and EU tracks — which is exactly why I pushed to systematise it for future markets.</li>
-            <li><b>Scope the migration flow alongside the main flows.</b> It was picked up late and would have benefited from being designed in parallel rather than as a follow-on.</li>
-        </ul>
+        <h5 data-zh="我的收获">What I learned</h5>
+        <ol class="kyc-learn">
+            <li>
+                <span class="kyc-learn__n">01</span>
+                <h4 data-zh="合规也是设计素材">Compliance is a design material</h4>
+                <p data-zh="最好的决策（比如测验前的指南）来自和合规官一起设计，而不是绕开他们。">The best decisions, like the pre-quiz guide, came from designing with the compliance officer in the room, not around them.</p>
+            </li>
+            <li>
+                <span class="kyc-learn__n">02</span>
+                <h4 data-zh="从第一天就模块化">Go modular from day one</h4>
+                <p data-zh="框架是上线后才整理出来的；如果一开始就这样做，两个市场能少很多返工。">I distilled the framework after launch; starting with it would have saved rework across the two markets.</p>
+            </li>
+            <li>
+                <span class="kyc-learn__n">03</span>
+                <h4 data-zh="尽早规划迁移">Scope migration early</h4>
+                <p data-zh="迁移流程接手较晚；如果和主流程同步设计，会顺畅得多。">Migration came in late; designing it alongside the main flows would have been smoother.</p>
+            </li>
+        </ol>
 
     </div>
     </div><!-- /case-layout -->
@@ -751,7 +1174,7 @@
 
     <button type="button" class="present-fab" id="present-fab" aria-haspopup="dialog" aria-controls="lightbox">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-        Present
+        <span data-zh="演示">Present</span>
     </button>
 
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Figure viewer" aria-hidden="true">
@@ -763,7 +1186,7 @@
         <button type="button" class="lightbox__btn lightbox__btn--next" aria-label="Next figure">&#8250;</button>
         <p class="lightbox__cap" id="lightbox-cap"></p>
         <p class="lightbox__count" id="lightbox-count"></p>
-        <p class="lightbox__hint">Click the image or press &larr; &rarr; to move through the walkthrough &middot; Esc to close</p>
+        <p class="lightbox__hint" data-zh="点按图片或按 &amp;larr; &amp;rarr; 切换 &amp;middot; 按 Esc 关闭">Tap the image or press &larr; &rarr; to move through the walkthrough &middot; Esc to close</p>
     </div>
 
     <script>
@@ -776,14 +1199,13 @@
             figureImgs.forEach(function (img) { img.setAttribute('data-no-zoom', ''); });
 
             var slides = figureImgs.map(function (img) {
-                var cap = '';
+                var capEl = null;
                 var shot = img.closest('.kyc-shot');
                 var next = shot ? shot.nextElementSibling : null;
-                if (next && next.classList.contains('kyc-figcap')) {
-                    cap = next.textContent.trim();
-                }
-                if (!cap) cap = img.getAttribute('alt') || '';
-                return { src: img.getAttribute('src'), alt: img.getAttribute('alt') || '', cap: cap };
+                if (next && next.classList.contains('kyc-figcap')) capEl = next;
+                var card = img.closest('.kyc-bench-card');
+                if (!capEl && card) capEl = card.querySelector('.kyc-bench-card__note');
+                return { src: img.getAttribute('src'), alt: img.getAttribute('alt') || '', capEl: capEl };
             });
 
             var box = document.getElementById('lightbox');
@@ -800,7 +1222,7 @@
                 var s = slides[index];
                 boxImg.src = s.src;
                 boxImg.alt = s.alt;
-                boxCap.textContent = s.cap;
+                boxCap.textContent = (s.capEl && s.capEl.textContent.trim()) || s.alt;
                 boxCount.textContent = (index + 1) + ' / ' + slides.length;
             }
             function open(i) {
@@ -866,6 +1288,40 @@
             window.addEventListener('resize', onScroll);
             onScroll();
         })();
+    </script>
+    <script>
+    /* Language switch: every translatable node carries data-zh; the English original is
+       cached on first switch so the two directions stay lossless. */
+    (function () {
+        var KEY = 'case-lang';
+        function apply(lang, save) {
+            var root = document.documentElement;
+            root.setAttribute('data-lang', lang);
+            root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            var nodes = document.querySelectorAll('[data-zh]');
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                if (el.innerHTML !== want) el.innerHTML = want;
+            }
+            var btns = document.querySelectorAll('.langsw button');
+            for (var j = 0; j < btns.length; j++) {
+                var on = btns[j].getAttribute('data-lang') === lang;
+                btns[j].classList.toggle('on', on);
+                btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+            }
+            if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+            document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+        }
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('.langsw button');
+            if (b) apply(b.getAttribute('data-lang'), true);
+        });
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        document.addEventListener('DOMContentLoaded', function () { if (saved === 'zh') apply('zh', false); });
+    })();
     </script>
 </body>
 </html>

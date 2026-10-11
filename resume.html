@@ -74,6 +74,26 @@
         .toolbar button:hover,
         .toolbar a:hover { background: #f0f0f0; text-decoration: none; }
         .toolbar .spacer { flex: 1; }
+        .toolbar .cv-tabs {
+            display: inline-flex;
+            gap: 2px;
+            padding: 3px;
+            border-radius: 8px;
+            background: #ececec;
+        }
+        .toolbar .cv-tabs a {
+            padding: 5px 12px;
+            border: 0;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-tertiary);
+        }
+        .toolbar .cv-tabs a:hover { background: rgba(0, 0, 0, 0.04); }
+        .toolbar .cv-tabs a[aria-current="page"] {
+            background: white;
+            color: var(--text);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
         .toolbar .label { color: var(--text-tertiary); }
 
         body { padding-top: 88px; }
@@ -581,9 +601,9 @@
                 margin-right: auto;
                 padding-top: 0;
             }
-            .portfolio-head { margin-bottom: 8px; }
+            .portfolio-head { margin-bottom: 10px; }
             .portfolio-grid {
-                gap: 10px 14px;
+                gap: 16px 16px;
                 align-items: start;
                 justify-content: stretch;
             }
@@ -601,7 +621,7 @@
                 height: auto;
                 aspect-ratio: 16 / 10;
                 display: block;
-                margin: 0 0 4px;
+                margin: 0 0 8px;
                 border-radius: 8px;
                 overflow: hidden;
                 background: #f3f2ee;
@@ -613,7 +633,7 @@
                 height: auto;
                 aspect-ratio: 16 / 10;
                 display: block;
-                margin: 0 0 4px;
+                margin: 0 0 8px;
                 border-radius: 8px;
                 overflow: hidden;
                 background: #f4f5f6;
@@ -638,9 +658,9 @@
             }
             .work-shot--kyc img { object-position: 17% center; }
             .work-shot--dash img { object-position: center 30%; }
-            .work-meta { font-size: 9.5px; margin-bottom: 1px; }
-            .work-title { font-size: 11.5px; margin-bottom: 1px; line-height: 1.25; }
-            .work-outcome { font-size: 10px; line-height: 1.3; margin: 0; }
+            .work-meta { font-size: 9.5px; margin-bottom: 3px; }
+            .work-title { font-size: 11.5px; margin-bottom: 3px; line-height: 1.3; }
+            .work-outcome { font-size: 10px; line-height: 1.45; margin: 0; }
         }
 
         @media (max-width: 700px) {
@@ -740,6 +760,10 @@
 <div id="a4-ruler" aria-hidden="true"></div>
 <div class="toolbar">
     <a href="index.html" id="back-to-portfolio">&larr; Back to portfolio</a>
+    <nav class="cv-tabs" aria-label="Resume focus">
+        <a href="resume.html" data-zh="资深设计师" aria-current="page">Senior designer</a>
+        <a href="resume-app.html" data-zh="设计管理">Leadership</a>
+    </nav>
     <span class="spacer"></span>
     <button type="button" id="language-toggle" aria-label="Switch resume language">中文</button>
     <span class="label">Export:</span>
@@ -753,7 +777,7 @@
         <div class="identity">
             <h1>Qin Wang</h1>
             <p class="subtitle">
-Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <span class="kw">5+</span> in financial services, designing <span class="kw">mobile and web</span> products for wealth, regulated onboarding, and compliance. I turn complex business and technology requirements — <span class="kw">KYC/KYB</span>, portfolio and risk data, and <span class="kw">AI-assisted workflows</span> — into clear customer and operator experiences. Wealth products I designed are used by <span class="kw">HSBC, DBS,</span> and <span class="kw">MUFG</span>.
+<span class="kw">6+ years</span> in product design, <span class="kw">5+</span> in financial services, designing <span class="kw">mobile and web</span> products for wealth, regulated onboarding, and compliance. I turn complex business and technology requirements — <span class="kw">KYC/KYB</span>, portfolio and risk data, and <span class="kw">AI-assisted workflows</span> — into clear customer and operator experiences. Wealth products I designed are used by <span class="kw">HSBC, DBS,</span> and <span class="kw">MUFG</span>.
             </p>
         </div>
         <div class="contact">
@@ -933,7 +957,7 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
 
 <section class="portfolio-page" aria-labelledby="portfolio-heading">
     <div class="portfolio-head">
-        <h2 class="portfolio-title" id="portfolio-heading">Selected work</h2>
+        <h2 class="portfolio-title" id="portfolio-heading">Case studies</h2>
         <p class="portfolio-access"><a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a></p>
     </div>
     <div class="portfolio-grid">
@@ -978,13 +1002,13 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
         const languageToggle = document.getElementById('language-toggle');
         const resumeTranslations = {
             zh: {
-                title: '简历 — 王芹 · 高级 UI/UX 设计师',
-                eyebrow: '高级 UI/UX 设计师',
-                subtitle: '高级 UI/UX 设计师，拥有 <span class="kw">7 年以上</span>产品设计经验，其中 <span class="kw">5 年以上</span>在金融服务领域，为财富管理、受监管开户与合规设计<span class="kw">移动端与 Web</span> 产品。我把复杂的业务与技术要求——<span class="kw">KYC/KYB</span>、投资组合与风险数据，以及 <span class="kw">AI 辅助工作流</span>——转化为清晰的客户体验与内部操作体验。我设计的财富管理产品已被 <span class="kw">HSBC、DBS</span> 和 <span class="kw">MUFG</span> 使用。',
+                title: '简历 — Qin Wang · 资深 UI/UX 设计师',
+                eyebrow: '资深 UI/UX 设计师',
+                subtitle: '拥有 <span class="kw">6+ 年</span>产品设计经验，其中 <span class="kw">5+ 年</span>在金融科技 & 加密领域，为财富管理、受监管开户与合规设计<span class="kw">移动端与 Web</span> 产品。我把复杂的业务与技术要求——<span class="kw">KYC/KYB</span>、投资组合与风险数据，以及 <span class="kw">AI 辅助工作流</span>——转化为清晰的客户体验与内部操作体验。我设计的财富管理产品已被 <span class="kw">HSBC、DBS</span> 和 <span class="kw">MUFG</span> 使用。',
                 sections: ['工作经历', '技能', '教育背景', '研究经历'],
                 orgs: [
                     'Staff 产品设计师 · 香港',
-                    '高级／负责人 UI/UX 设计师 · 香港',
+                    '资深／负责人 UI/UX 设计师 · 香港',
                     '产品设计师 · 香港',
                     'UX 设计师 · 香港',
                     'UX/UI 设计师 · 香港',
@@ -999,7 +1023,7 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
                     '广告', 'ToB', 'Web'
                 ],
                 bullets: [
-                    '主导 UMX <span class="kw">资产</span>体验的<span class="kw">移动端优先</span>重设计，为机构及高净值客户将<span class="kw">加密资产</span>与<span class="kw">美股／港股</span>整合为 App 与 Web 上的统一投资组合。',
+                    '主导 UMX <span class="kw">资产</span>体验的<span class="kw">移动端优先</span>改版，为机构及高净值客户将<span class="kw">加密资产</span>与<span class="kw">美股／港股</span>整合为 App 与 Web 上的统一投资组合。',
                     '与创始人、管理层及产品团队每日协作，确定方向与优先级；通过快速原型在<span class="kw">一周</span>内对齐，应用在 <span class="kw">4 个月</span>后公开发布。',
                     '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，将<span class="kw">KYC/KYB</span>要求转化为清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
                     '带领 <span class="kw">3 名设计师</span>，在 <span class="kw">6 个月</span>内交付 <span class="kw">5 个内部平台</span>及一套<span class="kw">共享设计系统</span>，其中包括服务 <span class="kw">200+</span> 客服坐席的工作台，含<span class="kw">AI 回复建议</span>与<span class="kw">对话摘要</span>，由坐席审核后再发送。',
@@ -1021,7 +1045,7 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
                     '<strong>语言</strong>中文（母语） · 英文（流利）'
                 ],
                 degrees: ['人机交互理学硕士', '产品设计理学学士', '研究助理'],
-                portfolioTitle: '精选作品',
+                portfolioTitle: '项目案例',
                 portfolioAccess: '<a href="https://www.qin-wang.net" target="_blank" rel="noopener">qin-wang.net</a>',
                 workMeta: [
                     '2026 · Avenir Group',
@@ -1076,6 +1100,10 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
             setCollection('.work-meta', copy ? copy.workMeta : null);
             setCollection('.work-title', copy ? copy.workTitle : null);
             setCollection('.work-outcome', copy ? copy.workOutcome : null);
+            document.querySelectorAll('.cv-tabs a').forEach(function (tab) {
+                if (!tab.dataset.en) tab.dataset.en = tab.textContent;
+                tab.textContent = copy ? tab.dataset.zh : tab.dataset.en;
+            });
             languageToggle.textContent = language === 'zh' ? 'EN' : '中文';
             languageToggle.setAttribute('aria-label', language === 'zh' ? '切换至英文简历' : '切换至中文简历');
             localStorage.setItem('resume-language', language);
@@ -1123,7 +1151,8 @@ Senior UI/UX designer with <span class="kw">7+ years</span> in product design, <
         if (back) {
             let sameOrigin = false;
             try {
-                sameOrigin = Boolean(document.referrer) && new URL(document.referrer).origin === location.origin;
+                const ref = new URL(document.referrer);
+                sameOrigin = ref.origin === location.origin && !/\/resume(-app)?\.html$/.test(ref.pathname);
             } catch (e) {
                 sameOrigin = false;
             }

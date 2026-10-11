@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio management system — Qin Wang</title>
-    <meta name="description" content="An institutional portfolio management system: the design system under three products, plus deep dives on the shared account dashboard, model portfolio creation and a metrics comparison test.">
+    <meta name="description" content="An institutional portfolio management system designed with almost no user access: a shared account dashboard, model portfolio creation, a comparative usability test, table patterns and the design system underneath.">
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
     <style>
         /* Page-scoped readability polish. Tokens come from detailpage.css. */
@@ -383,6 +383,61 @@
             padding: 4px 8px;
         }
         .sys-module--current .sys-module__name { color: var(--accent); }
+
+        .sys-peek {
+            position: absolute;
+            z-index: 30;
+            width: 460px;
+            padding: 8px 8px 10px;
+            border-radius: 14px;
+            background: #fff;
+            border: 1px solid rgba(0, 52, 240, 0.14);
+            box-shadow: 0 18px 40px -12px rgba(16, 20, 28, 0.32), 0 4px 12px rgba(16, 20, 28, 0.10);
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(6px) scale(0.97);
+            transform-origin: var(--ax, 50%) 100%;
+            transition: opacity .16s var(--ease), transform .2s cubic-bezier(.2, .8, .3, 1);
+        }
+        .sys-peek.is-below { transform: translateY(-6px) scale(0.97); transform-origin: var(--ax, 50%) 0; }
+        .sys-peek.is-open { opacity: 1; transform: none; }
+        .sys-peek img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 340px;
+            object-fit: cover;
+            object-position: top left;
+            border-radius: 8px;
+            background: var(--bg-subtle);
+        }
+        .sys-peek__cap {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin: 8px 4px 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .sys-peek__cap b { font-weight: 600; color: var(--text-primary); }
+        .sys-peek__cap span { color: var(--text-tertiary); }
+        .sys-peek__arrow {
+            position: absolute;
+            bottom: -6px;
+            left: var(--ax, 50%);
+            width: 11px;
+            height: 11px;
+            margin-left: -5.5px;
+            background: #fff;
+            border-right: 1px solid rgba(0, 52, 240, 0.14);
+            border-bottom: 1px solid rgba(0, 52, 240, 0.14);
+            border-radius: 0 0 2px 0;
+            transform: rotate(45deg);
+        }
+        .sys-peek.is-below .sys-peek__arrow { bottom: auto; top: -6px; transform: rotate(225deg); }
+        @media (prefers-reduced-motion: reduce) {
+            .sys-peek, .sys-peek.is-below { transform: none; transition: opacity .12s linear; }
+        }
         .sys-overview__note {
             margin: var(--space-4) 0 0;
             font-size: 13px;
@@ -421,81 +476,664 @@
     </style>
     <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
     <style>
-        /* Portrait screenshot: show the top as a screen resting on the hero edge */
-        .case-hero .title-img img {
-            aspect-ratio: 4 / 3;
-            max-height: 380px;
-            object-fit: cover;
-            object-position: center top;
+        /* Hero: transparent composite standing on the hero edge */
+        .case-hero .grid { column-gap: 64px; }
+
+        /* Constraints up front */
+        .db-limits {
+            list-style: none;
+            margin: var(--space-3) 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .db-limits li {
+            margin: 0;
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+        }
+        .db-limits b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-limits span { display: block; margin-top: 4px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+
+        /* Decision drivers on the annotated dashboard */
+        .db-drv {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 1px 7px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 18px;
+            vertical-align: 1px;
+        }
+        .db-drv--biz { background: #fdecec; color: #b42318; }
+        .db-drv--tech { background: #f1ecfd; color: #6941c6; }
+        .db-drv--users { background: #e6f6f1; color: #067a57; }
+
+        /* One dashboard, three products */
+        .db-3p { margin: var(--space-4) 0 0; text-align: center; }
+        .db-3p__hub {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 10px 20px;
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            background: var(--accent-subtle);
+        }
+        .db-3p__hub::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            height: 20px;
+            border-left: 1.5px solid var(--accent);
+        }
+        .db-3p__k { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+        .db-3p__hub b { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .db-3p__row {
+            position: relative;
+            list-style: none;
+            margin: 20px 0 0;
+            padding: 20px 0 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            text-align: left;
+        }
+        .db-3p__row::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: calc((100% - 32px) / 6);
+            right: calc((100% - 32px) / 6);
+            border-top: 1.5px solid var(--accent);
+        }
+        .db-3p__row li {
+            position: relative;
+            margin: 0;
+            padding: 12px 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+        }
+        .db-3p__row li::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            height: 20px;
+            border-left: 1.5px solid var(--accent);
+        }
+        .db-3p__row li.is-mine { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-subtle); }
+        .db-3p__img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 140px;
+            margin: 0 0 12px;
+            background: #fff;
+        }
+        .db-3p__img img { display: block; max-width: 100%; max-height: 136px; width: auto; height: auto; margin: 0; border: 0; border-radius: 0; }
+        .db-3p__row li { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; padding: 16px 16px 14px; }
+        @media (max-width: 720px) {
+            .db-3p__row li { display: flex; flex-direction: column; }
+        }
+        .db-3p__who { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-3p__who svg { flex: none; width: 16px; height: 16px; }
+        .db-3p__row li.is-mine .db-3p__who { color: var(--accent); }
+        .one-col p.db-3p__need { margin: 0 0 14px; max-width: none; font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+        .one-col p.db-3p__goal { margin: 6px 0 6px; max-width: none; font-family: var(--font-title); font-size: 16px; font-weight: 600; line-height: 1.35; letter-spacing: -0.005em; color: var(--text-primary); }
+        .db-3p__row .db-3p__img { margin: 0 0 12px; height: 120px; align-self: end; }
+        .db-3p__row .db-3p__img img { max-height: 116px; }
+        .db-3p__prod { display: block; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; line-height: 1.45; color: var(--text-tertiary); }
+        .db-3p__prod b { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+        .db-3p__row li.is-mine .db-3p__prod b { color: var(--accent); }
+
+        /* Research steps for the model portfolio */
+        .db-idea {
+            list-style: none;
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .db-idea li { margin: 0; display: flex; flex-direction: column; }
+        .db-idea__img {
+            display: block;
+            aspect-ratio: 1 / 1;
+            margin: 0 0 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+        }
+        .db-idea__img img { display: block; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0; object-fit: cover; object-position: top center; }
+        .db-idea__img--grid {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            padding: 14px;
+            background: var(--bg-subtle);
+        }
+        .db-idea__grp {
+            padding: 6px 10px;
+            border-radius: 8px;
             background: #fff;
             border: 1px solid var(--border);
-            border-bottom: 0;
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.08);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
+        .db-idea__grp--nav { background: none; border-style: dashed; color: var(--accent); font-weight: 500; }
+        .db-idea__n { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-idea b { margin: 2px 0 4px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-idea li > span:last-child { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        @media (max-width: 720px) {
+            .db-limits, .db-idea { grid-template-columns: 1fr; }
+            .db-3p__row { grid-template-columns: 1fr; padding-top: 0; }
+            .db-3p__row::before, .db-3p__row li::before { display: none; }
+            .db-3p__hub::after { display: none; }
+            .db-idea__img { aspect-ratio: 4 / 3; }
+        }
+        .case-hero .title-img img { max-height: 480px; object-fit: contain; object-position: center bottom; }
         @media (max-width: 1100px) {
-            .case-hero .title-img img { max-height: 280px; width: auto; }
+            .case-hero .title-img img { max-height: 340px; }
         }
+
+        .case-hero .as-stats {
+            gap: 20px;
+            background: none;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+        }
+        .case-hero .as-stats li,
+        .case-hero .as-stats li:nth-child(odd) {
+            gap: 4px;
+            padding: 10px 0 0;
+            border: 0;
+            border-top: 2px solid var(--border);
+            background: none;
+        }
+        .case-hero .as-stats li.is-turn { background: none; border-top-color: var(--accent); }
+        .case-hero .as-stats__num { font-size: 18px; letter-spacing: -0.02em; }
+        .case-hero .as-stats__label { color: var(--text-tertiary); }
+        .case-hero .as-stats + .as-meta { margin-top: 36px; }
+        .case-hero .db-hero-sum { margin: 16px 0 0; max-width: 34em; font-size: 16px; line-height: 1.6; color: var(--text-secondary); }
+        .case-hero .db-hero-sum + .as-stats { margin-top: 28px; }
+        @media (max-width: 560px) {
+            .case-hero .as-stats { gap: 16px 20px; }
+        }
+
+        .db-glance > div.is-trade { background: var(--bg); }
+        .db-glance > div.is-trade dt { color: var(--accent); }
+
+        /* Evidence ladder: one step per chapter, the last is what they earned */
+        .db-ladder {
+            counter-reset: step;
+            list-style: none;
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0 16px;
+        }
+        .db-ladder li { position: relative; margin: 0; counter-increment: step; }
+        .db-ladder li:not(:last-child)::after { content: ""; position: absolute; top: 13px; left: 36px; right: -8px; height: 2px; border-radius: 1px; background: rgba(0, 52, 240, .18); }
+        .db-ladder li:nth-last-child(2)::after { background: var(--accent); }
+        .db-ladder a { display: flex; flex-direction: column; gap: 4px; color: inherit; text-decoration: none; }
+        .db-ladder a::before {
+            content: counter(step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 10px;
+            border: 1.5px solid var(--accent);
+            border-radius: 50%;
+            background: #fff;
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            transition: background 0.2s var(--ease);
+        }
+        .db-ladder a:hover::before, .db-ladder a:focus-visible::before { background: var(--accent-subtle); }
+        .db-ladder li.is-turn a::before { background: var(--accent); color: #fff; box-shadow: 0 0 0 4px var(--accent-subtle); }
+        .db-ladder__y { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-ladder__t { font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--text-primary); }
+        .db-ladder a:hover .db-ladder__t, .db-ladder li.is-turn .db-ladder__t { color: var(--accent); }
+        .db-ladder__m { font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+        .db-ladder + .db-figcap { margin-top: var(--space-3); }
+
+        /* Workshop matrix and test table */
+        .db-matrix-wrap { margin: var(--space-4) 0 0; overflow-x: auto; }
+
+        .db-fold { margin: var(--space-5) 0 0; padding: 24px; border-radius: 16px; background: var(--bg-subtle); }
+        .db-fold__top { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; }
+        .db-fold__wire { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06); }
+        .db-fold__strip { padding: 6px 8px; border-radius: 6px; background: #f1f1f1; font-size: 9.5px; color: var(--text-tertiary); }
+        .db-fold__tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .db-fold__tabs span { padding: 5px 0; border-radius: 6px; background: #f1f1f1; font-size: 9.5px; text-align: center; color: var(--text-tertiary); }
+        .db-fold__tabs .is-on { background: var(--accent-subtle); color: var(--accent); font-weight: 600; }
+        .db-fold__mod { padding: 10px; border: 1px solid var(--border); border-radius: 8px; }
+        .one-col p.db-fold__mh { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; max-width: none; font-size: 10.5px; font-weight: 600; line-height: 1.2; color: var(--text-primary); }
+        .db-fold i, .db-fold__notes i { display: inline-flex; flex: none; align-items: center; justify-content: center; border-radius: 50%; background: var(--accent); color: #fff; font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; }
+        .db-fold__mh i { width: 16px; height: 16px; font-size: 9px; }
+        .db-fold__sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .db-fold__sum span::before, .db-fold__sum span::after { content: ""; display: block; height: 5px; border-radius: 3px; background: #6b6b6b; width: 70%; }
+        .db-fold__sum span::after { margin-top: 4px; height: 3px; background: #e5e5e5; width: 55%; }
+        .db-fold__chart { display: flex; align-items: center; gap: 10px; }
+        .db-fold__dot { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); }
+        .db-fold__lines, .db-fold__rows { display: grid; gap: 5px; flex: 1; }
+        .db-fold__lines b, .db-fold__rows b { display: block; height: 4px; border-radius: 2px; background: #e8e8e8; }
+        .db-fold__lines b:nth-child(1) { width: 80%; } .db-fold__lines b:nth-child(2) { width: 58%; } .db-fold__lines b:nth-child(3) { width: 68%; }
+        .db-fold__rows b:nth-child(2) { width: 88%; } .db-fold__rows b:nth-child(3) { width: 94%; } .db-fold__rows b:nth-child(4) { width: 80%; }
+        .db-fold__notes { list-style: none; margin: 0; padding: 0; }
+        .db-fold__notes li { display: flex; gap: 14px; margin: 0; padding: 14px 0; border-top: 1px solid var(--border); }
+        .db-fold__notes li:first-child { padding-top: 4px; border-top: 0; }
+        .db-fold__notes li > i { width: 24px; height: 24px; font-size: 12px; margin-top: 1px; }
+        .db-fold__notes h5 { margin: 0 0 4px; font-family: var(--font-title); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .one-col .db-fold__notes p, .one-col .db-fold__moved p { margin: 0; max-width: none; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-fold__moved { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .db-fold__moved > div { padding: 14px 16px; border-radius: 12px; background: #fff; }
+        .db-fold__moved span { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        @media (max-width: 720px) {
+            .db-fold { padding: 16px; }
+            .db-fold__top, .db-fold__moved { grid-template-columns: 1fr; }
+            .db-fold__wire { max-width: 280px; }
+        }
+        .db-matrix, .db-opts {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        .db-matrix th, .db-matrix td, .db-opts th, .db-opts td {
+            padding: 10px 12px;
+            text-align: left;
+            border-top: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .db-matrix thead th, .db-opts thead th {
+            border-top: 0;
+            background: var(--bg-subtle);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .db-matrix tbody th, .db-opts tbody th { font-weight: 600; color: var(--text-primary); }
+        .db-matrix td { text-align: center; font-size: 13px; }
+        .db-matrix thead th:not(:first-child) { text-align: center; }
+        .db-matrix td.y { color: var(--text-primary); font-weight: 600; }
+        .db-matrix td.n, .db-matrix td.na { color: var(--text-tertiary); }
+        .db-matrix tr.is-fold th, .db-matrix tr.is-fold td { background: var(--accent-subtle); }
+        .db-matrix tr.is-fold th { box-shadow: inset 3px 0 0 var(--accent); }
+        .db-opts td { color: var(--text-secondary); }
+        .db-opts__score { width: 34%; }
+        .db-score { display: flex; align-items: center; gap: 10px; }
+        .db-bar {
+            flex: none;
+            display: block;
+            height: 8px;
+            width: calc(var(--v) / 5 * 140px);
+            border-radius: 999px;
+            background: var(--border-strong);
+        }
+        .db-opts tr.is-win th, .db-opts tr.is-win td { background: var(--accent-subtle); color: var(--text-primary); }
+        .db-opts tr.is-win th { box-shadow: inset 3px 0 0 var(--accent); color: var(--accent); }
+        .db-opts tr.is-win .db-bar { background: var(--accent); }
+        .db-opts td b { font-weight: 600; color: var(--text-primary); }
+
+        /* Annotated screen: numbered pins paired with notes */
+        .db-anno__stage {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #fff;
+        }
+        .db-anno__stage img { display: block; width: 100%; height: auto; }
+        .db-pin {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9);
+        }
+        .db-anno__stage .db-pin { position: absolute; transform: translate(-50%, -50%); }
+        .db-anno__notes {
+            list-style: none;
+            margin: var(--space-4) 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 24px;
+        }
+        .db-anno__notes li { display: flex; gap: 10px; align-items: flex-start; margin: 0; }
+        .db-anno__notes .db-pin { flex: none; width: 20px; height: 20px; font-size: 11px; box-shadow: none; margin-top: 1px; }
+        .db-anno__notes b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-anno__notes span:not(.db-pin) { display: block; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-anno__notes li { padding: 8px 10px; margin: -8px -10px; border-radius: 10px; transition: background .16s ease; }
+        .db-anno__notes li.on { background: var(--accent-subtle); }
+        .db-anno__stage .db-pin { width: 10px; height: 10px; font-size: 0; box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 52, 240, .15); cursor: pointer; transition: transform .16s ease, opacity .16s ease; }
+        .db-anno__stage .db-pin::after { content: ""; position: absolute; inset: -8px; }
+        .db-anno__stage .db-pin.on { transform: translate(-50%, -50%) scale(1.3); }
+        .db-anno__notes .db-pin { width: 18px; height: 18px; font-size: 10px; }
+        .db-anno__notes b { font-size: 13px; }
+        .db-anno__notes span:not(.db-pin) { font-size: 12px; line-height: 1.45; }
+        .db-anno__notes .db-drv { font-size: 10px; }
+        .db-anno.has-on .db-anno__stage .db-pin:not(.on) { opacity: .4; }
+        .db-anno__links { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2; }
+        .db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: .55; transition: opacity .2s ease, stroke-width .16s ease; }
+        .db-anno.has-on .db-anno__links path { opacity: 0; }
+        .db-anno.has-on .db-anno__links path.on { opacity: 1; stroke-width: 1.75; stroke-dasharray: none; }
+        @media (min-width: 721px) {
+            .db-anno { position: relative; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); column-gap: 36px; align-items: start; }
+            .db-anno__notes { display: flex; flex-direction: column; justify-content: space-around; gap: 16px; margin: 0; }
+            .db-anno > figcaption { grid-column: 1 / -1; }
+            .db-anno__notes.is-placed { position: relative; display: block; }
+            .db-anno__notes.is-placed li { position: absolute; left: -10px; right: -10px; margin: 0; }
+        }
+        @media (max-width: 720px) {
+            .db-anno__links { display: none; }
+        }
+
+        /* Before / after with keyword captions */
+        .db-ba { display: grid; gap: var(--space-4); }
+        .db-ba--pair { grid-template-columns: 1fr 1fr; align-items: start; margin: var(--space-3) 0 0; }
+        .one-col .db-ba figure { margin: 0; }
+        .db-ba img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: #fff;
+        }
+        .db-cap { margin: var(--space-3) 0 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-cap__h { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-cap__h svg { flex: none; width: 16px; height: 16px; }
+
+        .db-findlist { list-style: none; margin: var(--space-3) 0 var(--space-5); padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .db-findlist li { margin: 0; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .db-findlist b { display: block; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .db-findlist span { display: block; margin-top: 4px; font-size: 12px; color: var(--text-tertiary); }
+
+        .db-quotes { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+        .db-quotes li { margin: 0; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+        .db-quotes p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-primary); max-width: none; }
+        .db-quotes span { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
+
+        .db-step { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--space-3); font-size: 13px; color: var(--text-secondary); }
+        .db-step a { padding: 3px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+        .db-part + .db-step { margin-top: 10px; }
+        .one-col p.db-next { box-sizing: border-box; max-width: calc(var(--container-narrow) - 2 * var(--space-5)); }
+        .db-next { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin: var(--space-6) 0 var(--space-7); padding: 14px 18px; border-left: 2px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-subtle); font-size: 14px; line-height: 1.55; color: var(--text-secondary); max-width: none; }
+        .db-next b { font-size: 14px; font-weight: 600; color: var(--accent); }
+
+        /* Screens sit in a padded well so content never touches the frame */
+        .one-col figure:not(.db-anno) > img {
+            box-sizing: border-box;
+            padding: clamp(12px, 3.5%, 28px);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+        .one-col .db-ba img { box-sizing: border-box; padding: 12px; background: var(--bg-subtle); border-radius: var(--radius-md); }
+
+        /* Redrawn diagrams: shared image reset inside custom blocks */
+        .one-col .db-req img, .one-col .db-flow figure > img, .one-col .db-bp figure > img, .one-col .db-tabs img, .one-col .db-lay img, .one-col .db-dlg img {
+            display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; padding: 0; background: none;
+        }
+
+        .db-req { margin: var(--space-3) 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .db-req__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+        .db-req__row li { margin: 0; padding: 14px; border-radius: var(--radius-md); background: #fff; border: 1px solid var(--border); }
+        .db-req__row p { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
+        .db-req__hub { position: relative; margin: 22px 0 0; padding: 12px 16px; border-radius: var(--radius-md); background: var(--accent-subtle); color: var(--accent); font-size: 14px; font-weight: 600; text-align: center; max-width: none; }
+        .db-req__hub::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: -12px; height: 12px; border: 1px solid var(--border); border-top: 0; border-radius: 0 0 6px 6px; }
+        .db-req__and { display: flex; gap: 10px; margin: 10px 0 0; padding: 12px 14px; border-radius: var(--radius-md); background: #fff; border: 1px solid var(--border); font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
+        .db-req__and b { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); padding-top: 2px; }
+
+        .db-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 0.8fr) auto minmax(0, 1fr); align-items: center; gap: 10px; margin: var(--space-3) 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .one-col .db-flow figure { margin: 0; }
+        .db-flow__step img { border: 1px solid var(--border) !important; border-radius: 6px !important; background: #fff !important; }
+        .db-flow__step:nth-of-type(2) img { aspect-ratio: 1213 / 900; object-fit: cover; object-position: top; }
+        .db-flow figcaption, .db-bp figcaption { margin-top: 8px; font-size: 12px; line-height: 1.4; color: var(--text-tertiary); }
+        .db-flow figcaption b, .db-bp figcaption b { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .db-flow__arrow { font-size: 11px; color: var(--text-tertiary); text-align: center; max-width: 64px; line-height: 1.3; }
+        .db-flow__arrow::after { content: "\2192"; display: block; font-size: 18px; color: var(--accent); }
+        .db-flow__branches { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+        .db-flow__branches li { margin: 0; padding: 8px 10px; border-radius: 6px; background: #fff; border: 1px solid var(--border); font-size: 12px; line-height: 1.4; color: var(--text-tertiary); }
+        .db-flow__branches b { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+
+        .db-bp { display: grid; grid-template-columns: 1440fr 600fr; gap: 24px; align-items: end; margin: var(--space-3) 0 0; padding: 20px 24px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .one-col .db-bp figure { margin: 0; }
+        .db-bp img { border: 1px solid var(--border) !important; border-radius: 6px !important; background: #fff !important; }
+
+        .db-ia { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: var(--space-3) 0 var(--space-5); }
+        .db-ia__opt { margin: 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); }
+        .db-ia__opt.is-pick { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+        .db-ia__k { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-ia__opt.is-pick .db-ia__k { color: var(--accent); }
+        .db-ia h5 { margin: 4px 0 12px; font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .db-ia__tree, .db-ia__tree ul { list-style: none; margin: 0; padding: 0; }
+        .db-ia__tree > li { position: relative; margin: 0 0 6px; padding-left: 14px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .db-ia__tree > li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 2px; background: var(--text-tertiary); }
+        .db-ia__tree ul { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 2px; }
+        .db-ia__tree ul li { margin: 0; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); font-size: 12px; font-weight: 400; color: var(--text-secondary); }
+        .db-ia__pc { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--border); display: grid; gap: 4px; }
+        .db-ia__pc li { margin: 0; padding-left: 20px; position: relative; font-size: 13px; color: var(--text-secondary); }
+        .db-ia__pc li::before { position: absolute; left: 0; top: 0; font-weight: 700; }
+        .db-ia__pc .pro::before { content: "\2713"; color: var(--accent); }
+        .db-ia__pc .con::before { content: "\00d7"; color: #d14343; font-size: 15px; line-height: 1.1; }
+
+        .db-tabs { margin: var(--space-5) 0 0; }
+        .db-tabs__bar { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+        .db-tabs__bar button { appearance: none; border: 1px solid var(--border); background: var(--bg); color: var(--text-secondary); font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+        .db-tabs__bar button:first-child { border-style: dashed; }
+        .db-tabs__bar button[aria-selected="true"] { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+        .db-tabs__panel { padding: clamp(12px, 3%, 24px); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .db-tabs__panel img { aspect-ratio: 2880 / 1900; object-fit: contain; object-position: top center; }
+        .db-tabs__scroll { aspect-ratio: 2880 / 1900; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+        .db-tabs__scroll::-webkit-scrollbar { width: 6px; }
+        .db-tabs__scroll::-webkit-scrollbar-thumb { border-radius: 3px; background: var(--border); }
+        .db-tabs__panel .db-tabs__scroll img { display: block; width: 100%; height: auto; aspect-ratio: auto; }
+
+        .db-lay { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .db-lay > li { margin: 0; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); display: flex; flex-direction: column; gap: 10px; }
+        .db-lay > li.is-win { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-subtle); }
+        .db-lay__h { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .db-lay__h b { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-lay > li.is-win .db-lay__h b { color: var(--accent); }
+        .db-lay__score { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+        .db-lay__bar { width: 72px; height: 6px; border-radius: 3px; background: var(--border); position: relative; overflow: hidden; }
+        .db-lay__bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) / 5 * 100%); background: var(--text-tertiary); border-radius: 3px; }
+        .db-lay > li.is-win .db-lay__bar::after { background: var(--accent); }
+        .db-lay__chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+        .db-lay__chips li { margin: 0; padding: 2px 8px; border-radius: 999px; background: var(--bg-subtle); border: 1px solid var(--border); font-size: 11px; color: var(--text-secondary); }
+        .db-lay__img { display: flex; align-items: flex-start; padding: 8px; border-radius: 6px; background: #fff; border: 1px solid var(--border); flex: 1; overflow: hidden; }
+
+        .db-dlg { list-style: none; margin: var(--space-3) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+        .db-dlg li { margin: 0; }
+        .db-dlg__img { display: flex; align-items: center; justify-content: center; height: 170px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .one-col .db-dlg__img img { width: auto; max-width: 100%; max-height: 100%; border-radius: 4px; box-shadow: 0 4px 14px rgba(16, 24, 40, 0.12); }
+        .db-dlg b { display: block; margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-dlg li > span:last-child { font-size: 12px; color: var(--text-tertiary); }
+
+        @media (max-width: 720px) {
+            .db-req__row, .db-ia, .db-lay { grid-template-columns: 1fr; }
+            .db-req__hub::before { display: none; }
+            .db-flow { grid-template-columns: 1fr; }
+            .db-flow__arrow { max-width: none; }
+            .db-flow__arrow::after { content: "\2193"; }
+            .db-dlg { grid-template-columns: 1fr 1fr; }
+        }
+
+        .db-pattern-k { margin: var(--space-7) 0 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-sub.db-sub--pattern { margin-top: 4px; }
+
+        /* Outcomes: three results on one rail */
+        .db-res { list-style: none; margin: var(--space-5) 0 var(--space-6); padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+        .db-res li { position: relative; margin: 0; padding-top: 20px; border-top: 1px solid var(--accent); }
+        .db-res li::before { content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1.5px var(--accent); }
+        .db-res__t { display: block; font-size: 13px; color: var(--accent); }
+        .db-res h4 { margin: 4px 0 8px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+        .db-res p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); max-width: none; }
+
+        @media (max-width: 720px) {
+            .db-ladder { grid-template-columns: 1fr; gap: 18px; }
+            .db-ladder a { position: relative; padding-left: 42px; }
+            .db-ladder a::before { position: absolute; left: 0; top: 0; margin: 0; }
+            .db-ladder li:not(:last-child)::after { top: 34px; bottom: -14px; left: 13px; right: auto; width: 2px; height: auto; }
+            .db-anno__notes, .db-findlist, .db-ba--pair, .db-quotes, .db-res { grid-template-columns: 1fr; }
+            .db-anno__stage .db-pin { width: 18px; height: 18px; font-size: 10px; }
+            .db-bar { width: calc(var(--v) / 5 * 80px); }
+            .db-next { grid-template-columns: 1fr; }
+        }
+
+        .db-glance { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+        .db-glance > div { display: block; padding: 12px 16px; border-top: 0; background: var(--bg-subtle); }
+        .db-glance > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+        .db-glance dt { margin-bottom: 4px; }
+        .db-glance dd { font-size: 14px; line-height: 1.5; }
+        .db-glance dd { color: var(--text-secondary); }
+        .db-glance__h { display: block; margin-bottom: 2px; font-family: var(--font-title, inherit); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+
+        .db-tabs--patterns .db-tabs__bar button:first-child { border-style: solid; }
+        .db-tabs__t { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
+        .db-tabs__t b { color: var(--text-primary); font-weight: 600; }
+        .db-tabs--patterns .db-tabs__panel img { aspect-ratio: 16 / 10; }
+        .db-tabs--patterns [data-hash="module-models"] img { object-fit: cover; object-position: top center; }
+
+        .db-wt { display: grid; gap: var(--space-5); margin: var(--space-5) 0 0; }
+        .db-wt__card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+        .db-wt__head { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+        .db-wt__n { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
+        .db-wt__k { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .db-wt__pill { margin-left: auto; flex: none; padding: 3px 10px; border-radius: 999px; background: #fdecec; color: #b42318; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .one-col .db-wt__pair { position: relative; display: grid; gap: 10px; margin: 0; }
+        .db-wt__shot { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
+        .db-wt__shot img { display: block; width: 100%; height: auto; }
+        .db-wt__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 8px; background: rgba(0, 52, 240, .06); transition: box-shadow .15s, background .15s; }
+        .db-wt__box--before { border-color: #d14343; background: rgba(209, 67, 67, .06); }
+        .db-wt__cap { position: relative; display: flex; align-items: baseline; gap: 8px; width: fit-content; max-width: 100%; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); transition: color .15s; }
+        .db-wt__cap b { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .db-wt__cap--before b { background: #fdecec; color: #b42318; }
+        .db-wt__line { position: absolute; width: 0; border-left: 1.5px dashed var(--accent); opacity: .55; pointer-events: none; transition: opacity .15s; }
+        .db-wt__line--before { border-left-color: #d14343; }
+        .db-wt__pair.has-on .db-wt__line { opacity: .2; }
+        .db-wt__pair .db-wt__line.on { opacity: 1; border-left-style: solid; }
+        .db-wt__box.on { box-shadow: 0 0 0 4px rgba(0, 52, 240, .14); background: rgba(0, 52, 240, .1); }
+        .db-wt__box--before.on { box-shadow: 0 0 0 4px rgba(209, 67, 67, .14); background: rgba(209, 67, 67, .1); }
+        .db-wt__cap.on { color: var(--text-primary); }
+        html[data-lang="zh"] .db-wt__cap b { text-transform: none; letter-spacing: 0; }
+        @media (max-width: 720px) {
+            .db-wt__card { padding: 14px; }
+            .db-wt__head { flex-wrap: wrap; }
+            .db-wt__pill { margin-left: 32px; }
+        }
+        @media (max-width: 720px) {
+            .db-glance { grid-template-columns: 1fr; }
+        }
+
+        html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
+        html[data-lang="zh"] main p, html[data-lang="zh"] main li, html[data-lang="zh"] figcaption { line-height: 1.8; letter-spacing: 0; }
+        html[data-lang="zh"] main h2, html[data-lang="zh"] main h3 { letter-spacing: -0.01em; line-height: 1.35; }
+        html[data-lang="zh"] .db-3p__k, html[data-lang="zh"] .db-3p__who, html[data-lang="zh"] .db-idea__n,
+        html[data-lang="zh"] .db-ladder__y, html[data-lang="zh"] .db-fold__moved span, html[data-lang="zh"] .db-quotes span,
+        html[data-lang="zh"] .db-step a, html[data-lang="zh"] .db-req__and b,
+        html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
     </style>
     <script src="site-chrome.js?v=8"></script>
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch></site-header>
 
     <div class="anchor" id="top"></div>
+    <div class="anchor" id="section1"></div>
     <div class="page-title-box case-hero">
         <div class="grid">
             <div class="page-title-content">
-                <h2>Portfolio management system</h2>
-                <p class="as-role"><strong>Product designer</strong> &middot; <span class="as-role__rest">Owned the B2B tool</span></p>
+                <h2 data-zh="投资组合管理系统">Portfolio management system</h2>
+                <p data-zh="&lt;strong&gt;产品设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;0→1 仪表盘 + 5 个模块改版 + 设计系统&lt;/span&gt;" class="as-role"><strong>Product designer</strong> &middot; <span class="as-role__rest">0&rarr;1 dashboard + 5 redesigns + design system</span></p>
 
-                <ol class="as-stats" aria-label="Project at a glance">
-                    <li class="is-turn"><span class="as-stats__num">6</span><span class="as-stats__label">Modules</span></li>
-                    <li><span class="as-stats__num">3</span><span class="as-stats__label">Products</span></li>
-                    <li><span class="as-stats__num">1</span><span class="as-stats__label">Design system</span></li>
-                    <li><span class="as-stats__num">2020&ndash;22</span><span class="as-stats__label">At Quantifeed</span></li>
+                <p class="db-hero-sum" data-zh="我在几乎接触不到用户的情况下，改版了 Wealthsight：支撑 HSBC、DBS、MUFG 产品的 B2B 财富管理平台。每个决策都用小测试支撑；新仪表盘是销售演示的一部分，那次演示签下了 HSBC Hong Kong；之后 CEO 动用自己的人脉，让我开展真实用户研究。">I redesigned Wealthsight, the B2B wealth platform behind products used by HSBC, DBS and MUFG, with almost no access to its users. Small tests backed each decision; the new dashboard was part of the sales demo that brought HSBC Hong Kong on board, and the CEO then opened his network for real user research.</p>
+
+                <ol class="as-stats" aria-label="From no user access to a research mandate">
+                    <li><span class="as-stats__num">0</span><span data-zh="测试用户" class="as-stats__label">Test users</span></li>
+                    <li><span class="as-stats__num">3</span><span data-zh="小测试" class="as-stats__label">Small tests</span></li>
+                    <li class="is-turn"><span data-zh="HSBC HK" class="as-stats__num">HSBC HK</span><span data-zh="新客户" class="as-stats__label">New client</span></li>
+                    <li><span class="as-stats__num">5</span><span data-zh="用户访谈" class="as-stats__label">User interviews</span></li>
                 </ol>
 
                 <dl class="as-meta">
-                    <div><dt>Product</dt><dd>Wealthsight &ndash; institutional wealth management platform</dd></div>
-                    <div><dt>Clients</dt><dd>Wealth products used by HSBC, DBS and MUFG</dd></div>
-                    <div><dt>Target users</dt><dd>Portfolio managers, financial advisors, individual investors</dd></div>
-                    <div><dt>Scope</dt><dd>All six modules of the B2B tool; the dashboard pattern shared by three products; the design system</dd></div>
+                    <div><dt data-zh="产品">Product</dt><dd data-zh="Wealthsight，机构财富管理平台">Wealthsight, an institutional wealth platform</dd></div>
+                    <div><dt data-zh="目标用户">Target users</dt><dd data-zh="投资组合经理、理财顾问、个人投资者">Portfolio managers, financial advisors and individual investors</dd></div>
+                    <div><dt data-zh="范围">Scope</dt><dd data-zh="B2B 工具的六个模块；三款产品共用的账户仪表盘；设计系统">Six modules of the B2B tool; the account dashboard shared by three products; the design system</dd></div>
+                    <div><dt data-zh="团队">Team</dt><dd data-zh="3 名产品设计师，1 名 PM，3–5 名前端工程师">3 product designers, 1 PM, 3&ndash;5 front-end engineers</dd></div>
+                    <div><dt data-zh="时间">Timeline</dt><dd data-zh="2020–22 年，Quantifeed">2020&ndash;22 at Quantifeed</dd></div>
                 </dl>
+
             </div>
             <div class="title-img">
-                <img src="resources/images/dashboard-headerimg.png" alt="Wealthsight portfolio dashboard showing allocation, performance, and holdings" width="2161" height="2701">
+                <img src="resources/images-dashboard/pm-hero.png?v=4" alt="Wealthsight portfolio management tool: the model portfolio list behind a client&rsquo;s account dashboard" width="1400" height="1100">
             </div>
         </div>
     </div>
 
     <section class="sys-overview" id="system" aria-labelledby="sys-title">
         <div class="sys-overview__inner">
-            <span class="db-kicker">System overview</span>
-            <h3 id="sys-title">Six modules, one Wealthsight tool</h3>
-            <p class="sys-overview__lede">Wealthsight is the tool banks use to run model-portfolio investing. Portfolio managers create model portfolios from an instrument universe, rebalance client accounts to them, and track the orders and trades that follow. Day to day I designed across the whole tool &mdash; wireframes, high-fidelity screens and client demos.</p>
+            <span data-zh="系统概览" class="db-kicker">System overview</span>
+            <h3 data-zh="六个模块，一个 Wealthsight 工具" id="sys-title">Six modules, one Wealthsight tool</h3>
+            <p data-zh="银行用 Wealthsight 开展模型组合投资。投资组合经理从标的池中搭建模型组合，按模型为客户账户再平衡，并跟踪随之产生的订单和成交。" class="sys-overview__lede">Banks use Wealthsight to run model-portfolio investing. Portfolio managers build model portfolios from an instrument universe, rebalance client accounts to them, and track the orders and trades that follow.</p>
             <ul class="sys-modules">
                 <li class="sys-module sys-module--current">
                     <a href="#dive-dashboard">
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-user-accounts.png" width="4320" height="5253" alt="User account dashboard with account summary, allocation and holdings" loading="lazy" decoding="async">
-                            <span class="sys-module__badge">Deep dive</span>
+                            <span data-zh="深度拆解" class="sys-module__badge">Deep dive</span>
                         </span>
-                        <span class="sys-module__step">Monitor</span>
-                        <p class="sys-module__name">User Accounts</p>
-                        <p class="sys-module__desc">Account summary, allocation, performance and holdings.</p>
+                        <span data-zh="监控" class="sys-module__step">Monitor</span>
+                        <p data-zh="用户账户" class="sys-module__name">User Accounts</p>
+                        <p data-zh="账户概要、资产配置、业绩和持仓。" class="sys-module__desc">Account summary, allocation, performance and holdings.</p>
                     </a>
                 </li>
                 <li class="sys-module sys-module--current">
                     <a href="#dive-model">
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-model-portfolio.png?v=2" width="4176" height="4131" alt="Model portfolio list with risk level, currency and publish status" loading="lazy" decoding="async">
-                            <span class="sys-module__badge">Deep dive</span>
+                            <span data-zh="深度拆解" class="sys-module__badge">Deep dive</span>
                         </span>
-                        <span class="sys-module__step">Create</span>
-                        <p class="sys-module__name">Model Portfolio</p>
-                        <p class="sys-module__desc">Model library with risk level, benchmark and publish state.</p>
+                        <span data-zh="创建" class="sys-module__step">Create</span>
+                        <p data-zh="模型组合" class="sys-module__name">Model Portfolio</p>
+                        <p data-zh="模型库，含风险等级、基准和发布状态。" class="sys-module__desc">Model library with risk level, benchmark and publish state.</p>
                     </a>
                 </li>
                 <li class="sys-module">
@@ -503,9 +1141,9 @@
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-instruments.png?v=2" width="4320" height="2700" alt="Instruments table with asset class, category, benchmark and watchlist" loading="lazy" decoding="async">
                         </span>
-                        <span class="sys-module__step">Manage</span>
-                        <p class="sys-module__name">Instruments</p>
-                        <p class="sys-module__desc">Instrument universe with asset class, benchmark and watchlist.</p>
+                        <span data-zh="管理" class="sys-module__step">Manage</span>
+                        <p data-zh="投资标的" class="sys-module__name">Instruments</p>
+                        <p data-zh="标的池，含资产类别、基准和自选列表。" class="sys-module__desc">Instrument universe with asset class, benchmark and watchlist.</p>
                     </a>
                 </li>
                 <li class="sys-module">
@@ -513,9 +1151,9 @@
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-rebalance.png" width="4320" height="2400" alt="Rebalance buy/sell list comparing before and after weights per instrument" loading="lazy" decoding="async">
                         </span>
-                        <span class="sys-module__step">Manage</span>
-                        <p class="sys-module__name">Rebalance</p>
-                        <p class="sys-module__desc">Bulk buy/sell list reviewed before orders go out.</p>
+                        <span data-zh="管理" class="sys-module__step">Manage</span>
+                        <p data-zh="再平衡" class="sys-module__name">Rebalance</p>
+                        <p data-zh="批量买卖清单，下单前先复核。" class="sys-module__desc">Bulk buy/sell list reviewed before orders go out.</p>
                     </a>
                 </li>
                 <li class="sys-module">
@@ -523,9 +1161,9 @@
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-orders.png?v=2" width="4320" height="2700" alt="Orders table with action, order status, account and model portfolio" loading="lazy" decoding="async">
                         </span>
-                        <span class="sys-module__step">Monitor</span>
-                        <p class="sys-module__name">Orders</p>
-                        <p class="sys-module__desc">Buy, sell and rebalance orders with status tracking.</p>
+                        <span data-zh="监控" class="sys-module__step">Monitor</span>
+                        <p data-zh="订单" class="sys-module__name">Orders</p>
+                        <p data-zh="买入、卖出和再平衡订单，带状态跟踪。" class="sys-module__desc">Buy, sell and rebalance orders with status tracking.</p>
                     </a>
                 </li>
                 <li class="sys-module">
@@ -533,388 +1171,568 @@
                         <span class="sys-module__thumb">
                             <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
                         </span>
-                        <span class="sys-module__step">Settle</span>
-                        <p class="sys-module__name">Trades</p>
-                        <p class="sys-module__desc">Trade records, notional and reconciliation status.</p>
+                        <span data-zh="结算" class="sys-module__step">Settle</span>
+                        <p data-zh="成交" class="sys-module__name">Trades</p>
+                        <p data-zh="成交记录、名义金额和对账状态。" class="sys-module__desc">Trade records, notional and reconciliation status.</p>
                     </a>
                 </li>
             </ul>
-            <p class="sys-overview__note">Select a module to jump to its screens. Below: two deep dives &mdash; the account dashboard shared by three products, and the model portfolio module &mdash; then the design system underneath, and what the work led to.</p>
+            <p data-zh="选择一个模块，跳转到对应界面。" class="sys-overview__note">Select a module to jump to its screens.</p>
         </div>
     </section>
 
         <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Portfolio management system</span>
+        <span data-zh="投资组合管理系统" class="scrollspy__title">Portfolio management system</span>
         <div class="scrollspy__list">
-        <a href="#role" class="list">01 My role</a>
-        <a href="#dive-dashboard" class="list">02 Dashboard</a>
-        <a href="#dive-model" class="list">03 Model portfolio</a>
-        <a href="#section9" class="list">04 Other modules</a>
-        <a href="#foundation" class="list">05 Design system</a>
-        <a href="#section10" class="list">06 What it led to</a>
-        <a href="#top" class="list">Back to top</a>
+        <a data-zh="01 角色与方法" href="#role" class="list">01 Role and approach</a>
+        <a data-zh="02 仪表盘" href="#dive-dashboard" class="list">02 Dashboard</a>
+        <a data-zh="03 模型组合" href="#dive-model" class="list">03 Model portfolio</a>
+        <a data-zh="04 表格模式" href="#section9" class="list">04 Table patterns</a>
+        <a data-zh="05 设计系统" href="#foundation" class="list">05 Design system</a>
+        <a data-zh="06 成果与反思" href="#section10" class="list">06 Impact and reflection</a>
+        <a data-zh="返回顶部" href="#top" class="list">Back to top</a>
         </div>
     </div>
 <div class="one-col">
         <div class="anchor" id="role"></div>
-        <span class="db-kicker">01 · My role</span>
-        <h3 class="section">I owned the B2B tool; we shared one dashboard</h3>
-        <p>We were three product designers, one per product. I owned the B2B portfolio management tool. The other two designers worked on a consumer app for banks&rsquo; clients and a concept prototype for a project still at the pitching stage. The account dashboard was the one pattern all three products had to share.</p>
+        <span data-zh="01 · 角色与方法" class="db-kicker">01 · Role and approach</span>
+        <h3 data-zh="一个信息密集的机构工具，几乎没有用户可访谈" class="section">A dense institutional tool, designed with almost no user access</h3>
+        <p data-zh="真实用户接触不到，我就用成本最低的证据支撑每个决策，再用结果争取正式的用户研究。">Real users were out of reach, so I backed each decision with the cheapest evidence I could get, and let the results make the case for proper research.</p>
         <ul class="db-module-list">
-            <li><b>The B2B tool, end to end:</b> all six modules, from wireframes to high-fidelity screens and client demos.</li>
-            <li><b>The shared dashboard:</b> I planned and facilitated the work with the other two designers, gathered desktop research with them, then did the analysis, summary and final solution, consulting them along the way.</li>
-            <li><b>The model portfolio module:</b> redesigned the create flow and the metrics table on the detail page.</li>
-            <li><b>The design system:</b> led the rebuild the three products share.</li>
-            <li><b>A new product:</b> wrote the research plan the founder asked for after the dashboard work.</li>
+            <li data-zh="&lt;b&gt;负责 Wealthsight 的 B2B 投资组合管理工具：&lt;/b&gt; 从零设计账户仪表盘，改版其余五个模块，从线框图做到客户演示。"><b>Owned Wealthsight&rsquo;s B2B portfolio management tool:</b> the account dashboard from scratch, and the other five modules redesigned, from wireframes to client demos.</li>
+            <li data-zh="&lt;b&gt;共用仪表盘：&lt;/b&gt; 与另外两位设计师协作并主持推进；分析和最终方案由我完成。"><b>Shared dashboard:</b> facilitated the work with the other two designers; I did the analysis and the final solution.</li>
+            <li data-zh="&lt;b&gt;设计系统：&lt;/b&gt; 主导三款产品共用的设计系统重建。"><b>Design system:</b> led the rebuild the three products share.</li>
+            <li data-zh="&lt;b&gt;新产品：&lt;/b&gt; 按 CEO 的要求规划用户研究，并主持访谈。"><b>New product:</b> planned the research the CEO asked for, and ran the interviews.</li>
         </ul>
+
+        <h4 data-zh="没有用户、没有研究习惯、演示日期固定" class="db-sub">No users, no research habit, fixed demo dates</h4>
+        <ul class="db-limits">
+            <li><b data-zh="接触不到银行用户">No access to bank users</b><span data-zh="投资组合经理都在客户银行内部，无法招募。">Portfolio managers sat inside client banks, and recruiting them was not possible.</span></li>
+            <li><b data-zh="用户研究是新事物">Research was new here</b><span data-zh="很少有干系人见过用户研究，既没有预算，也没有流程。">Few stakeholders had seen user research, so there was no budget or process for it.</span></li>
+            <li><b data-zh="客户截止日期">Client deadlines</b><span data-zh="设计必须赶上销售演示和客户发布。">Designs had to be ready for sales demos and client releases.</span></li>
+        </ul>
+        
+        <h4 data-zh="五步：从同事测试到真实用户" class="db-sub">Five steps, from colleague tests to real users</h4>
+        <ol class="db-ladder" aria-label="Evidence used at each step">
+            <li><a href="#dive-dashboard"><span data-zh="仪表盘" class="db-ladder__y">Dashboard</span><span data-zh="工作坊与走查" class="db-ladder__t">Workshop and walkthrough</span><span data-zh="先做案头研究，再请 5 位同事测试" class="db-ladder__m">Desktop research, then 5 colleagues as testers</span></a></li>
+            <li><a href="#dive-create"><span data-zh="创建组合" class="db-ladder__y">Create portfolio</span><span data-zh="启发式评估" class="db-ladder__t">Heuristic review</span><span data-zh="Nielsen 十大可用性原则，加上产品和研发访谈" class="db-ladder__m">Nielsen&rsquo;s 10 heuristics, plus product and engineering interviews</span></a></li>
+            <li><a href="#dive-compare"><span data-zh="指标表格" class="db-ladder__y">Metrics table</span><span data-zh="对比测试" class="db-ladder__t">Comparative test</span><span data-zh="4 种布局，7 位测试者，含 CEO" class="db-ladder__m">4 layouts, 7 testers including the CEO</span></a></li>
+            <li><a href="#foundation"><span data-zh="设计系统" class="db-ladder__y">Design system</span><span data-zh="盘点与开发工作坊" class="db-ladder__t">Audit and dev workshops</span><span data-zh="与前端团队对齐优先级" class="db-ladder__m">Priorities agreed with the web team</span></a></li>
+            <li class="is-turn"><a href="#section10"><span data-zh="新产品" class="db-ladder__y">New product</span><span data-zh="真实用户访谈" class="db-ladder__t">Real user interviews</span><span data-zh="顾问总监，通过 CEO 的人脉招募" class="db-ladder__m">Advisory directors, through the CEO&rsquo;s network</span></a></li>
+        </ol>
+        <p data-zh="下面每章对应一步。最后一步，是前面几步换来的用户触达。" class="db-figcap">Each chapter below is one step. The last one is the access the earlier steps earned.</p>
 
         <div class="anchor" id="dive-dashboard"></div>
-        <span class="db-kicker">02 · Deep dive · Account dashboard</span>
-        <h3 class="section">One account dashboard for three products</h3>
-        <dl class="db-glance">
-            <div><dt>Problem</dt><dd>The same client-account page had to serve portfolio managers, advisors and individual investors &mdash; three products, three designers &mdash; with little prior research and a client deadline.</dd></div>
-            <div><dt>Method</dt><dd>I planned and ran a workshop with the other two designers and we gathered desktop research together. I did the analysis and summary, then checked the concept in a guerrilla walkthrough with 5 colleagues.</dd></div>
-            <div><dt>Decision</dt><dd>A shared first fold &mdash; account summary, allocation and performance, then holdings &mdash; on a grid that works on desktop and tablet.</dd></div>
-            <div><dt>Result</dt><dd>One dashboard pattern for all three products to share. The walkthrough backed the design, and the founder asked me to plan research for a new product.</dd></div>
-        </dl>
-        <p class="db-chapter-meta">Led across 3 designers &middot; 1 PM, 3 front-end engineers &middot; 1 month</p>
+        <span data-zh="02 · 深度拆解 · 账户仪表盘" class="db-kicker">02 · Deep dive · Account dashboard</span>
+        <h3 data-zh="一个账户仪表盘，三款产品共用" class="section">One account dashboard, shared by three products</h3>
+        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 1 步 / 共 5 步&lt;/a&gt; 工作坊与走查" class="db-step"><a href="#role">Evidence step 1 of 5</a> Workshop and walkthrough</p>
+        <p data-zh="三款产品需要同一个新页面：展示客户的概要、资产配置、业绩和持仓。前期研究很少，客户截止日期已定。">Three products needed the same new page: a client&rsquo;s summary, allocation, performance and holdings. Research was thin and a client deadline was fixed.</p>
+        <p data-zh="牵头 3 位设计师 · 1 名 PM，3 名前端工程师 · 1 个月" class="db-chapter-meta">Led across 3 designers &middot; 1 PM, 3 front-end engineers &middot; 1 month</p>
 
-        <ul class="db-audience">
-            <li>
-                <span class="who">Portfolio managers</span>
-                <p>Assess their <b>investment performance</b> on the page in the <a href="https://www.quantifeed.com/solutions/discretionary-portfolio-management/">portfolio management system</a>.</p>
-            </li>
-            <li>
-                <span class="who">Financial advisors</span>
-                <p>Engage clients with their clients&rsquo; portfolio allocations on the page in the <a href="https://www.quantifeed.com/solutions/advisor-platform/">financial advisor system</a>.</p>
-            </li>
-            <li>
-                <span class="who">Individual investors</span>
-                <p>Add or modify their personal investment portfolios on the page via white-labeled <a href="https://www.quantifeed.com/solutions/direct-to-customer/">customer-facing applications (e.g. bank app)</a>.</p>
-            </li>
-        </ul>
+        <div class="db-3p" role="group" aria-label="One client account dashboard shared by three products">
+            <div class="db-3p__hub"><span data-zh="共用模式" class="db-3p__k">Shared pattern</span><b data-zh="客户账户仪表盘">Client account dashboard</b></div>
+            <ul class="db-3p__row">
+                <li class="is-mine">
+                    <span data-zh="&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M2 13.5h12M3.5 11l3-3.5 2.5 2 4-5&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;投资组合经理" class="db-3p__who"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 13.5h12M3.5 11l3-3.5 2.5 2 4-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Portfolio manager</span>
+                    <p data-zh="“这个组合表现如何？”" class="db-3p__goal">&ldquo;How is this portfolio performing?&rdquo;</p>
+                    <p data-zh="需要深度：多维度分析。" class="db-3p__need">Needs depth: several dimensions of analysis.</p>
+                    <span class="db-3p__img"><img src="resources/images-dashboard/3p-pm-system.webp" width="960" height="596" alt="Portfolio manager system on a laptop showing the model portfolio list" loading="lazy" decoding="async"></span>
+                    <span data-zh="&lt;b&gt;投资组合管理系统&lt;/b&gt;由我设计，从线框图到客户演示" class="db-3p__prod"><b>Portfolio manager system</b>I designed it, from wireframes to client demos</span>
+                </li>
+                <li>
+                    <span data-zh="&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;5.5&quot; cy=&quot;5.5&quot; r=&quot;2.25&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot;/&gt;&lt;circle cx=&quot;11&quot; cy=&quot;6&quot; r=&quot;1.9&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot;/&gt;&lt;path d=&quot;M1.5 13.5c.5-2.2 2-3.4 4-3.4s3.5 1.2 4 3.4M10 10.2c1.9-.1 3.6.9 4.1 3.3&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;理财顾问" class="db-3p__who"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="5.5" cy="5.5" r="2.25" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="6" r="1.9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 13.5c.5-2.2 2-3.4 4-3.4s3.5 1.2 4 3.4M10 10.2c1.9-.1 3.6.9 4.1 3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Financial advisor</span>
+                    <p data-zh="“我该给客户看什么？”" class="db-3p__goal">&ldquo;What do I show my client?&rdquo;</p>
+                    <p data-zh="需要用资产配置辅助和客户沟通。" class="db-3p__need">Needs the allocation as a conversation aid.</p>
+                    <span class="db-3p__img"><img src="resources/images-dashboard/3p-advisor-tool.webp" width="960" height="691" alt="Financial advisor tool on a tablet showing a client account dashboard" loading="lazy" decoding="async"></span>
+                    <span data-zh="&lt;b&gt;顾问工具&lt;/b&gt;我主导了用户访谈和研究" class="db-3p__prod"><b>Advisor tool</b>I led user interviews and research</span>
+                </li>
+                <li>
+                    <span data-zh="&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;8&quot; cy=&quot;5.5&quot; r=&quot;2.75&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot;/&gt;&lt;path d=&quot;M2.75 13.5c.6-2.6 2.7-4 5.25-4s4.65 1.4 5.25 4&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;个人投资者" class="db-3p__who"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.75" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.75 13.5c.6-2.6 2.7-4 5.25-4s4.65 1.4 5.25 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Individual investor</span>
+                    <p data-zh="“我投得怎么样？可以调整什么？”" class="db-3p__goal">&ldquo;Am I doing OK, and what can I change?&rdquo;</p>
+                    <p data-zh="直观简单，比面面俱到更重要。" class="db-3p__need">Intuitive and simple beats complete.</p>
+                    <span class="db-3p__img"><img src="resources/images-dashboard/3p-investor-app.webp" width="960" height="767" alt="Wealthsight Invest app on three phones: account summary, portfolio allocation and performance" loading="lazy" decoding="async"></span>
+                    <span data-zh="&lt;b&gt;投资者 App&lt;/b&gt;我主持了设计评审" class="db-3p__prod"><b>Investor app</b>I facilitated design reviews</span>
+                </li>
+            </ul>
+        </div>
+        <p data-zh="三类用户，三个问题，一套仪表盘模式。" class="db-figcap">Three users, three questions, one dashboard pattern.</p>
 
-        <h4 class="db-sub">Audit products: workshop &amp; desktop research</h4>
-        <p>I planned and facilitated a workshop with the other two designers to pull out the modules the customer, advisor and management tools all share, and we collected desktop research together. I then analysed and summarised the results into what belongs in the first fold, and documented where customer and investment-professional tools need to differ.</p>
-        <figure>
-            <img src="resources/images/dashboard-workshop.png" alt="Workshop matrix comparing advisor, portfolio-management, and customer tools, then mapping shared modules">
-            <figcaption class="db-figcap">Workshop output: what each tool already showed, then a shared structure for advisor, portfolio-management, and customer surfaces.</figcaption>
+        <p data-zh="产品盘点与案头研究" class="db-pattern-k">Product audit &amp; desktop research</p>
+        <h4 data-zh="十个模块，首屏只留四个" class="db-sub db-sub--pattern">Ten modules in, four in the first fold</h4>
+        <p data-zh="我和另外两位设计师开了一场工作坊，把竞品展示的模块，与各产品已有的模块、客户提出的需求逐一对照。">In a workshop with the other two designers, we listed the modules competitors showed against what each product already had and what clients were asking for.</p>
+        <div class="db-matrix-wrap">
+            <table class="db-matrix">
+                <thead>
+                    <tr><th data-zh="模块" scope="col">Module</th><th data-zh="顾问" scope="col">Advisor</th><th data-zh="组合管理" scope="col">Portfolio mgmt</th><th data-zh="客户" scope="col">Customer</th><th data-zh="新需求" scope="col">New requests</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="is-fold"><th data-zh="账户概要" scope="row">Account summary</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td class="na">&ndash;</td></tr>
+                    <tr class="is-fold"><th data-zh="持仓" scope="row">Holdings</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                    <tr class="is-fold"><th data-zh="资产配置" scope="row">Allocation</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                    <tr class="is-fold"><th data-zh="历史业绩" scope="row">Performance over time</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
+                    <tr><th data-zh="筛选" scope="row">Filters</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td class="na">&ndash;</td></tr>
+                    <tr><th data-zh="表现最佳持仓" scope="row">Top-performing holdings</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
+                    <tr><th data-zh="交易记录" scope="row">Transactions</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td></tr>
+                    <tr><th data-zh="投资建议书" scope="row">Proposals</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
+                    <tr><th data-zh="CIO 通告" scope="row">CIO notices</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                    <tr><th data-zh="多账户" scope="row">Multiple accounts</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p data-zh="高亮的行成为共用首屏，其余移到 Tab 中，或保留为各产品专属。" class="db-figcap">Highlighted rows became the shared first fold. The rest moved to tabs or stayed product-specific.</p>
+
+        <figure class="db-fold" role="group" aria-label="The shared first fold: account summary, allocation and performance, holdings list">
+            <div class="db-fold__top">
+                <div class="db-fold__wire" aria-hidden="true">
+                    <div data-zh="CIO 通告 · 一行，可关闭" class="db-fold__strip">CIO notices &middot; one dismissible line</div>
+                    <div class="db-fold__tabs"><span data-zh="仪表盘" class="is-on">Dashboard</span><span data-zh="投资建议书">Proposals</span><span data-zh="交易记录">Transactions</span></div>
+                    <div class="db-fold__mod">
+                        <p data-zh="&lt;i&gt;1&lt;/i&gt;账户概要" class="db-fold__mh"><i>1</i>Account summary</p>
+                        <div class="db-fold__sum"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="db-fold__mod">
+                        <p data-zh="&lt;i&gt;2&lt;/i&gt;资产配置与业绩" class="db-fold__mh"><i>2</i>Allocation &amp; performance</p>
+                        <div class="db-fold__chart"><span class="db-fold__dot"></span><span class="db-fold__lines"><b></b><b></b><b></b></span></div>
+                    </div>
+                    <div class="db-fold__mod">
+                        <p data-zh="&lt;i&gt;3&lt;/i&gt;持仓列表" class="db-fold__mh"><i>3</i>Holdings list</p>
+                        <div class="db-fold__rows"><b></b><b></b><b></b><b></b></div>
+                    </div>
+                </div>
+                <ol class="db-fold__notes">
+                    <li><i>1</i><div><h5 data-zh="账户概要">Account summary</h5><p data-zh="总额、风险等级、账户切换：每类用户打开页面，先问的都是“多少钱，是谁的？”">Totals, risk level, account selector &mdash; every audience opens asking &ldquo;how much, and whose?&rdquo;</p></div></li>
+                    <li><i>2</i><div><h5 data-zh="资产配置与业绩">Allocation &amp; performance</h5><p data-zh="默认收起。加载时为每个账户渲染图表有已知的性能风险；收起后，零售视图也顺带更清爽。">Collapsed by default. Rendering charts for every account on load was a known performance risk; a calmer retail view came free.</p></div></li>
+                    <li><i>3</i><div><h5 data-zh="持仓列表">Holdings list</h5><p data-zh="组合、证券、ETF、基金和结构性票据放在同一列表。专业用户可加列；零售默认保持精简。">Portfolios, stocks, ETFs, funds and structured notes in one list. Professionals add columns; the retail default stays short.</p></div></li>
+                </ol>
+            </div>
+            <div class="db-fold__moved">
+                <div><span data-zh="移到 Tab">Moved to tabs</span><p data-zh="投资建议书和交易记录放在仪表盘旁边：专业用户一步可达，零售用户默认看不到。">Proposals and transactions sit beside the dashboard &mdash; one step away for professionals, out of sight for retail by default.</p></div>
+                <div><span data-zh="收为一条横栏">Moved to a strip</span><p data-zh="CIO 通告变成一行可关闭的提示，不再占用首屏模块位。">CIO notices became one dismissible line instead of a module competing for the fold.</p></div>
+            </div>
         </figure>
-        <h4 class="db-sub">Common pattern: account summary, allocation, performance, investment list</h4>
-        <figure>
-            <img src="resources/images/dashboard-design.png" alt="Dashboard anatomy annotated with account summary, allocation and performance, and holdings">
-            <figcaption class="db-figcap">The shared first-fold pattern: account summary, allocation &amp; performance, then the holdings list.</figcaption>
+
+        <h4 data-zh="共用首屏的五个设计决策" class="db-sub">Five decisions in the shared first fold</h4>
+        <figure class="db-anno">
+            <div class="db-anno__stage">
+                <img src="resources/images/images-dashboard/system-user-accounts.png" width="4320" height="5253" alt="Account dashboard for a client: account switcher and totals in the header, tabs, an allocation and performance card, and a sortable holdings list" loading="lazy" decoding="async">
+                <span class="db-pin" style="left:29%;top:14.6%" aria-hidden="true">1</span>
+                <span class="db-pin" style="left:62.5%;top:24.4%" aria-hidden="true">2</span>
+                <span class="db-pin" style="left:83.6%;top:29.4%" aria-hidden="true">3</span>
+                <span class="db-pin" style="left:16.8%;top:57.5%" aria-hidden="true">4</span>
+                <span class="db-pin" style="left:71.4%;top:61.3%" aria-hidden="true">5</span>
+            </div>
+            <ol class="db-anno__notes">
+                <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="账户放进页头 &lt;i class=&quot;db-drv db-drv--biz&quot;&gt;业务&lt;/i&gt;">Accounts in the header <i class="db-drv db-drv--biz">Business</i></b><span data-zh="一位客户可以有多个账户。一个切换器放在客户总额旁边。">One client can hold several accounts. A single switcher sits beside the client&rsquo;s totals.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">2</span><div><b data-zh="一个页头，三个 Tab &lt;i class=&quot;db-drv db-drv--tech&quot;&gt;技术&lt;/i&gt;">One header, three tabs <i class="db-drv db-drv--tech">Technology</i></b><span data-zh="仪表盘、投资建议书和交易记录共用页头，仪表盘还可自定义。">Dashboard, proposals and transactions share the header, and the dashboard can be customised.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">3</span><div><b data-zh="可收起的图表 &lt;i class=&quot;db-drv db-drv--tech&quot;&gt;技术&lt;/i&gt;">Collapsible charts <i class="db-drv db-drv--tech">Technology</i></b><span data-zh="资产配置和业绩合并为一张可收起的卡片，重型图表不再拖慢页面。">Allocation and performance share one card that can collapse, so heavy charts don&rsquo;t slow the page.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">4</span><div><b data-zh="先看构成，再看明细 &lt;i class=&quot;db-drv db-drv--biz&quot;&gt;业务&lt;/i&gt;">Mix before rows <i class="db-drv db-drv--biz">Business</i></b><span data-zh="一条色带显示每项持仓的占比，颜色与该行左侧的色条对应。">A colour bar shows each holding&rsquo;s share of the account, matched to the stripe on its row.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">5</span><div><b data-zh="在列头排序 &lt;i class=&quot;db-drv db-drv--users&quot;&gt;用户&lt;/i&gt;">Sort from the column <i class="db-drv db-drv--users">Users</i></b><span data-zh="每个列头都能排序，箭头标出当前排序列。">Every column header sorts, and an arrow marks the active one.</span></div></li>
+            </ol>
+            <figcaption data-zh="每个标签标明该决策回应的约束：业务需求、技术限制，或用户的使用方式。" class="db-figcap">Each tag names the pressure the decision answered: business needs, technical limits, or how people use the page.</figcaption>
         </figure>
-        <h4 class="db-sub">The version we took forward</h4>
-        <figure>
-            <img src="resources/images/dashboard-refineddesign.png" alt="Refined dashboard design after the usability walkthrough">
-            <figcaption class="db-figcap">The refined pattern after the walkthrough.</figcaption>
-        </figure>
+
+        <h4 data-zh="走查后的两处改进" class="db-sub">Two fixes from the walkthrough</h4>
+        <p data-zh="我请 5 位同事做了一次游击式走查。他们不是投资组合经理，但能发现基本的可用性问题，足够支撑决策。">I ran a guerrilla walkthrough with 5 colleagues. They aren&rsquo;t portfolio managers, but they catch basic usability issues, and that was enough to decide.</p>
+        <div class="db-wt">
+            <article class="db-wt__card">
+                <header class="db-wt__head">
+                    <span class="db-wt__n">1</span>
+                    <h5 data-zh="账户切换器难找" class="db-wt__k">Hard-to-find account switcher</h5>
+                    <span data-zh="5 人中 4 人没找到" class="db-wt__pill">4 of 5 missed it</span>
+                </header>
+                <figure class="db-wt__pair">
+                    <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="账户平铺为一排标签，切换器淹没在页面里">Accounts as a row of chips, lost in the page</span></p>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-dashboard/wt-acct-before.png" width="2195" height="549" alt="Before: the client&rsquo;s accounts as a row of chips across the page" loading="lazy" decoding="async">
+                        <span class="db-wt__box db-wt__box--before" style="--x:15%;--y:19%;--w:82%;--h:18%" aria-hidden="true"></span>
+                    </div>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-dashboard/wt-acct-after.png?v=2" width="2201" height="548" alt="After: one accounts dropdown in the header beside the client&rsquo;s totals" loading="lazy" decoding="async">
+                        <span class="db-wt__box" style="--x:20.5%;--y:74%;--w:14.5%;--h:18.5%" aria-hidden="true"></span>
+                    </div>
+                    <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="一个账户下拉框，紧挨客户总额">One accounts dropdown beside the totals</span></p>
+                </figure>
+            </article>
+            <article class="db-wt__card">
+                <header class="db-wt__head">
+                    <span class="db-wt__n">2</span>
+                    <h5 data-zh="排序入口隐蔽" class="db-wt__k">Hidden sorting</h5>
+                    <span data-zh="5 人中 4 人没找到" class="db-wt__pill">4 of 5 missed it</span>
+                </header>
+                <figure class="db-wt__pair">
+                    <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="只能在工具栏的“Sort by”里排序">Sort only from the toolbar&rsquo;s &ldquo;Sort by&rdquo;</span></p>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-dashboard/wt-sort-before.png" width="2181" height="552" alt="Before: sorting only in the toolbar&rsquo;s Sort by control" loading="lazy" decoding="async">
+                        <span class="db-wt__box db-wt__box--before" style="--x:84.8%;--y:7.5%;--w:12.5%;--h:12.5%" aria-hidden="true"></span>
+                    </div>
+                    <div class="db-wt__shot">
+                        <img src="resources/images-dashboard/wt-sort-after.png?v=2" width="2188" height="546" alt="After: sortable column headers with an arrow on the active column" loading="lazy" decoding="async">
+                        <span class="db-wt__box" style="--x:76%;--y:84.5%;--w:17.5%;--h:12%" aria-hidden="true"></span>
+                    </div>
+                    <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="每个列头都能排序，箭头标出当前列">Every column header sorts; an arrow marks the active one</span></p>
+                </figure>
+            </article>
+        </div>
 
         <details class="db-more">
-            <summary>Full process: challenges, concept, grid, walkthrough, constraints and prototype</summary>
-            <h4 class="db-sub">One page, three products</h4>
-            <figure>
-                <img src="resources/images/images-dashboard/relations_3system.png" alt="The same client account dashboard reused by the advisor platform, individual investor app, and portfolio manager system">
-                <figcaption class="db-figcap">One client-account dashboard, reused across the advisor platform, the individual-investor app, and the portfolio-manager system.</figcaption>
-            </figure>
-            <h4 class="db-sub">What made a single pattern hard</h4>
-            <figure>
-                <img src="resources/images/dashboard-3requriement.png" alt="Three requirement streams — scalability, client needs, and user types — meeting at business, technology, and users">
-                <figcaption class="db-figcap">Business, technology, and users pulled the same screen in different directions — scalability, client requirements, and two very different user types.</figcaption>
-            </figure>
-            <div class="db-challenges">
-                <article class="db-challenge">
-                    <h4>Multi-faceted requirements — business, clients &amp; maintenance</h4>
-                    <p>Incorporate multi-faceted requirements from clients, business value, user experience and technical strategy perspectives. Define a shared design pattern that fit into three different journeys: portfolio management tool, financial advisor and customers.</p>
-                </article>
-                <article class="db-challenge">
-                    <h4>One pattern for customers &amp; professionals</h4>
-                    <p>It is challenging for three designers to agree on one design pattern. Because enterprise users and customers can have totally different goals and focus, this could lead to opposite designs. E.g. to show or hide certain features depends on the frequency of use.</p>
-                </article>
-                <article class="db-challenge">
-                    <h4>Limited prior research</h4>
-                    <p>Because of the timeline to ship the feature to clients — and because some were concepts for a marketing pitch with no existing users asking for them — we had limited knowledge and resources to understand users&rsquo; needs and mental models.</p>
-                </article>
+            <summary data-zh="完整过程：相互冲突的需求、概念流程、布局和原型">Full process: competing requirements, concept flow, layouts and prototype</summary>
+            
+            <h4 data-zh="为什么一套模式很难" class="db-sub">What made a single pattern hard</h4>
+            <div class="db-req" role="group" aria-label="Three pressures behind one shared pattern">
+                <ul class="db-req__row">
+                    <li><i data-zh="技术" class="db-drv db-drv--tech">Technology</i><p data-zh="各产品共用一套前端组件库，不可能为每类用户各做一版仪表盘。">One front-end library across products. A dashboard forked per audience was off the table.</p></li>
+                    <li><i data-zh="业务" class="db-drv db-drv--biz">Business</i><p data-zh="有客户要在同一视图里看到模型组合之外的投资，销售也需要新能力来演示。">A client needed investments beyond model portfolios in the same view, and sales wanted new capability to demo.</p></li>
+                    <li><i data-zh="用户" class="db-drv db-drv--users">Users</i><p data-zh="投资者要简单；经理和顾问要信息密集、可筛选。">Investors need it simple; managers and advisors need it dense and filterable.</p></li>
+                </ul>
+                <p data-zh="三款产品共用一套模式，不按用户分叉" class="db-req__hub">One shared pattern for three products, with no per-audience fork</p>
+                <p data-zh="&lt;b&gt;以及&lt;/b&gt;研究时间很少：日期由客户承诺决定，部分范围还没有用户。" class="db-req__and"><b>And</b>Little research runway: dates came from client commitments, and part of the scope had no users yet.</p>
             </div>
-            <h4 class="db-sub">Concept &amp; prototype</h4>
-            <figure>
-                <img src="resources/images/dashboard-flowchart.png" alt="Flowchart of the dashboard concept and prototype">
-                <figcaption class="db-figcap">The concept flow we prototyped before locking the visual system.</figcaption>
-            </figure>
-            <h4 class="db-sub">Responsive grid — desktop &amp; tablet</h4>
-            <figure>
-                <img src="resources/images/dashboard-responsivegrid.png" alt="Responsive grid for the dashboard on desktop and tablet">
-                <figcaption class="db-figcap">A grid that holds the same modules on desktop and tablet without rewriting the hierarchy.</figcaption>
-            </figure>
-            <h4 class="db-sub">A guerrilla walkthrough</h4>
-            <p>To catch basic usability problems quickly, I ran a guerrilla cognitive walkthrough with 5 colleagues, asking them to complete pre-defined tasks with the concept design.</p>
-            <figure>
-                <img src="resources/images/dashboard-usabilitytest.png" alt="Usability-test notes from a cognitive walkthrough with five colleagues">
-                <figcaption class="db-figcap">Findings from the walkthrough — enough to catch basic usability issues before we refined the design.</figcaption>
-            </figure>
-            <h4 class="db-sub">What we could not do, and what we did instead</h4>
-            <div class="db-pairs">
-                <div class="db-pair">
-                    <p class="q">Unable to define use scenarios without thorough analysis of first-hand data at an early stage — what information to include?</p>
-                    <p class="a">Desktop research</p>
-                </div>
-                <div class="db-pair">
-                    <p class="q">Introduced new design patterns, which might be hard to anticipate most technical issues that may need a design update.</p>
-                    <p class="a">Stay open to iteration</p>
-                </div>
-                <div class="db-pair">
-                    <p class="q">Not able to solidly validate the design with real target users.</p>
-                    <p class="a">Cognitive walkthrough</p>
-                </div>
+            <h4 data-zh="概念流程" class="db-sub">Concept flow</h4>
+            <div class="db-flow" role="group" aria-label="Dashboard concept flow">
+                <figure class="db-flow__step">
+                    <img src="resources/images-dashboard/flow-accounts.png?v=1" width="1440" height="900" alt="Accounts list with search, filters and pagination" loading="lazy" decoding="async">
+                    <figcaption data-zh="&lt;b&gt;账户列表&lt;/b&gt;搜索、筛选 780 个账户"><b>Accounts list</b>Search and filter 780 accounts</figcaption>
+                </figure>
+                <span data-zh="选择一个账户" class="db-flow__arrow" aria-hidden="true">Select an account</span>
+                <figure class="db-flow__step">
+                    <img src="resources/images-dashboard/bp-desktop.png?v=1" width="1213" height="1515" alt="Account dashboard: summary, allocation and performance, and holdings" loading="lazy" decoding="async">
+                    <figcaption data-zh="&lt;b&gt;账户仪表盘&lt;/b&gt;概要、图表、持仓"><b>Account dashboard</b>Summary, charts, holdings</figcaption>
+                </figure>
+                <span data-zh="从这里可以" class="db-flow__arrow" aria-hidden="true">From here</span>
+                <ul class="db-flow__branches">
+                    <li data-zh="&lt;b&gt;切换账户&lt;/b&gt;全部账户、单个账户，或联名账户及其关联持有人"><b>Switch account</b>All accounts, one account, or a joint account and its linked holder</li>
+                    <li data-zh="&lt;b&gt;订单与成交&lt;/b&gt;共用账户页头的 Tab"><b>Orders and trades</b>Tabs that share the account header</li>
+                    <li data-zh="&lt;b&gt;自定义&lt;/b&gt;在仪表盘上增删模块，如订单和成交"><b>Customise</b>Add or remove modules, such as orders and trades, on the dashboard</li>
+                </ul>
             </div>
-            <h4 class="db-sub">Click through the dashboard</h4>
+            <h4 data-zh="一套布局，两种宽度" class="db-sub">One layout, two widths</h4>
+            <div class="db-bp">
+                <figure>
+                    <img src="resources/images-dashboard/bp-desktop.png?v=1" width="1213" height="1515" alt="Desktop dashboard at 1440 pixels: charts side by side and a full holdings table" loading="lazy" decoding="async">
+                    <figcaption data-zh="&lt;b&gt;桌面端&lt;/b&gt;1440 px"><b>Desktop</b>1440 px</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/images-dashboard/bp-small.png?v=1" width="600" height="1573" alt="Small-screen dashboard at 600 pixels: the summary stacks, charts shrink, and the table keeps its key columns" loading="lazy" decoding="async">
+                    <figcaption data-zh="&lt;b&gt;小屏&lt;/b&gt;600–904 px"><b>Small screen</b>600&ndash;904 px</figcaption>
+                </figure>
+            </div>
+            <p data-zh="模块和顺序都不变；只有概要区改为堆叠，表格隐藏次要列。" class="db-figcap">The same modules in the same order; only the summary stacks and the table drops secondary columns.</p>
+            <h4 data-zh="试用仪表盘原型" class="db-sub">Try the dashboard prototype</h4>
             <div class="db-embed">
                 <iframe title="Interactive dashboard prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421" allowfullscreen></iframe>
             </div>
         </details>
 
+        <p data-zh="&lt;b&gt;助力签下 HSBC HK&lt;/b&gt;这个仪表盘是销售演示的一部分，那次演示帮助签下了 HSBC Hong Kong。接下来，我把同样的小证据方法用到最难演示的模块：创建模型组合。" class="db-next"><b>Helped win HSBC HK</b>The dashboard was part of the sales demo that brought HSBC Hong Kong on board. Next, the same small-evidence approach went to the module hardest to demo: creating a model portfolio.</p>
+
         <div class="anchor" id="dive-model"></div>
-        <span class="db-kicker">03 · Deep dive · Model portfolio module</span>
-        <h3 class="section">Creating a model portfolio, then reading it</h3>
-        <p>Portfolio managers enter model portfolios here; bank staff then recommend each model to clients whose risk score matches it. I redesigned both ends of the module: the flow that creates a portfolio, and the table that shows how it performs.</p>
+        <span data-zh="03 · 深度拆解 · 模型组合模块" class="db-kicker">03 · Deep dive · Model portfolio module</span>
+        <h3 data-zh="创建模型组合，再读懂它" class="section">Creating a model portfolio, then reading it</h3>
+        <p data-zh="投资组合经理在这里搭建模型组合；银行再把每个组合推荐给风险评分匹配的客户。我改版了两端：创建组合，以及查看它的表现。">Portfolio managers build model portfolios here; banks recommend each one to clients with a matching risk score. I redesigned both ends: creating a portfolio, and reading how it performs.</p>
         <ol class="db-journey" aria-label="Model portfolio journey">
-            <li><span class="db-journey__n">1</span>Model portfolio list</li>
-            <li class="is-mine"><span class="db-journey__n">2</span>Create a portfolio <em>Part 1</em></li>
-            <li><span class="db-journey__n">3</span>Open its detail page</li>
-            <li class="is-mine"><span class="db-journey__n">4</span>Compare its metrics <em>Part 2</em></li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;1&lt;/span&gt;模型组合列表"><span class="db-journey__n">1</span>Model portfolio list</li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;2&lt;/span&gt;创建组合 &lt;em&gt;第一部分&lt;/em&gt;" class="is-mine"><span class="db-journey__n">2</span>Create a portfolio <em>Part 1</em></li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;3&lt;/span&gt;打开详情页"><span class="db-journey__n">3</span>Open its detail page</li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;4&lt;/span&gt;对比指标 &lt;em&gt;第二部分&lt;/em&gt;" class="is-mine"><span class="db-journey__n">4</span>Compare its metrics <em>Part 2</em></li>
         </ol>
 
         <div class="anchor" id="dive-create"></div>
-        <h4 class="db-part">Part 1 &middot; Making creation hard to get wrong</h4>
-        <dl class="db-glance">
-            <div><dt>Problem</dt><dd>Creating a model portfolio meant many linked compliance fields, with errors shown only at the end. Even internal staff got confused, and the flow was hard to demo to prospective clients.</dd></div>
-            <div><dt>Method</dt><dd>With no access to users, a heuristic evaluation against Nielsen&rsquo;s 10 heuristics, a platform audit, and interviews with the product owner and engineers.</dd></div>
-            <div><dt>Decision</dt><dd>Split creation into 4 steps with a stepper, mark required fields, and validate linked fields step by step. Regroup the view page so managers find what they came for.</dd></div>
-            <div><dt>Result</dt><dd>After launch, clients raised no complaints about the flow, and the company onboarded a new client &mdash; not credited to this redesign alone.</dd></div>
-        </dl>
-        <p class="db-chapter-meta">Sole designer &middot; 1 PM, 1 front-end engineer &middot; 2 months</p>
+        <h4 data-zh="第一部分 · 让创建流程不容易出错" class="db-part">Part 1 &middot; Making creation hard to get wrong</h4>
+        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 2 步 / 共 5 步&lt;/a&gt; 启发式评估" class="db-step"><a href="#role">Evidence step 2 of 5</a> Heuristic review</p>
+        <p data-zh="合规字段多且相互关联，错误要到最后才提示：内部员工常常迷路，销售也没法演示。">Many linked compliance fields, with errors only at the end: internal staff got lost, and sales couldn&rsquo;t demo it.</p>
+        <p data-zh="唯一设计师 · 1 名 PM，1 名前端工程师 · 2 个月" class="db-chapter-meta">Sole designer &middot; 1 PM, 1 front-end engineer &middot; 2 months</p>
 
-        <h4 class="db-sub">What the heuristic evaluation found</h4>
-        <figure>
-            <img src="resources/images/portfolio-oldscreen.png" width="1863" height="2439" alt="Original create, edit and detail pages annotated with heuristic problems: no required-field cues, hidden dependencies, uneditable fields with no cue, and long scrolling">
-            <figcaption class="db-figcap">Before: required fields only revealed on submit, linked fields with no cue, locked fields that looked editable, and a detail page that needed a long scroll.</figcaption>
-        </figure>
-        <div class="db-challenges">
-            <article class="db-challenge">
-                <h4>Prevent errors up front</h4>
-                <p>Many fields are interlinked, and learning that from an error popup at the end is frustrating. Make the prerequisites visible before people need them.</p>
+        <h4 data-zh="启发式评估发现的四个问题" class="db-sub">Four problems the heuristic review found</h4>
+        <p data-zh="我依据 Nielsen 十大可用性原则评估流程、盘点平台，再访谈产品负责人和工程师，核对启发式评估查不出的字段逻辑。">I reviewed the flow against Nielsen&rsquo;s 10 heuristics and audited the platform, then interviewed the product owner and engineers to check the field logic heuristics can&rsquo;t.</p>
+        <ul class="db-findlist">
+            <li><b data-zh="提交前没有必填提示">No required-field cue until submit</b><span data-zh="系统状态可见 · 防错 · 识别优于回忆">Visibility of system status · error prevention · recognition over recall</span></li>
+            <li><b data-zh="关联字段没有提示，只在事后报错">Linked fields with no cue, only an error afterwards</b><span data-zh="防错">Error prevention</span></li>
+            <li><b data-zh="创建后锁定的字段看起来仍可编辑">Locked fields that looked editable after creation</b><span data-zh="识别优于回忆">Recognition over recall</span></li>
+            <li><b data-zh="详情页需要长距离滚动">A detail page that needed a long scroll</b><span data-zh="美观简约的设计">Aesthetic and minimalist design</span></li>
+        </ul>
+
+        <h4 data-zh="从一张长表单到四个步骤" class="db-sub">One long form, then four steps</h4>
+        <div class="db-ba db-ba--pair">
+            <figure>
+                <img src="resources/images-dashboard/create-before.png?v=2" width="812" height="555" alt="Before: one long creation form with portfolio information, characteristics and fees together" loading="lazy" decoding="async">
+                <figcaption data-zh="&lt;span class=&quot;db-cap__h&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;8&quot; cy=&quot;8&quot; r=&quot;8&quot; fill=&quot;#fdecec&quot;/&gt;&lt;path d=&quot;M5.5 5.5l5 5m0-5l-5 5&quot; stroke=&quot;#d14343&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;一张长表单&lt;/span&gt;所有字段挤在一页；必填和关联字段只在提交时以报错形式出现。" class="db-cap"><span class="db-cap__h"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#fdecec"/><path d="M5.5 5.5l5 5m0-5l-5 5" stroke="#d14343" stroke-width="1.5" stroke-linecap="round"/></svg>One long form</span>Every field on one page; required and linked fields only surfaced as errors on submit.</figcaption>
+            </figure>
+            <figure>
+                <img src="resources/images-dashboard/create-after.png?v=2" width="1056" height="985" alt="After: step 2 of 4, Settings, with a stepper, required-field markers and a note on fields locked after creation" loading="lazy" decoding="async">
+                <figcaption data-zh="&lt;span class=&quot;db-cap__h&quot;&gt;&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;8&quot; cy=&quot;8&quot; r=&quot;8&quot; fill=&quot;rgba(0,52,240,.1)&quot;/&gt;&lt;path d=&quot;M4.8 8.2l2.1 2.1 4.3-4.6&quot; stroke=&quot;#0034F0&quot; stroke-width=&quot;1.5&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;带步骤条的四个步骤&lt;/span&gt;标出必填字段，提前提示创建后会锁定的字段，费用单独一步。" class="db-cap"><span class="db-cap__h"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="rgba(0,52,240,.1)"/><path d="M4.8 8.2l2.1 2.1 4.3-4.6" stroke="#0034F0" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Four steps with a stepper</span>Required fields marked, fields locked after creation flagged up front, and fees on their own step.</figcaption>
+            </figure>
+        </div>
+
+        <h4 data-zh="详情页的两种分组方式" class="db-sub">Two ways to group the view page</h4>
+        <div class="db-ia">
+            <article class="db-ia__opt is-pick">
+                <p data-zh="方案 1 · 已上线" class="db-ia__k">Proposal 1 &middot; Shipped</p>
+                <h5 data-zh="当前 vs 草稿">Current vs draft</h5>
+                <ul class="db-ia__tree">
+                    <li data-zh="基本信息">Basic information</li>
+                    <li data-zh="当前组合&lt;ul&gt;&lt;li&gt;构成&lt;/li&gt;&lt;li&gt;业绩&lt;/li&gt;&lt;/ul&gt;">Current portfolio<ul><li>Composition</li><li>Performance</li></ul></li>
+                    <li data-zh="草稿&lt;ul&gt;&lt;li&gt;草稿 vs 当前构成&lt;/li&gt;&lt;li&gt;草稿 vs 当前业绩&lt;/li&gt;&lt;/ul&gt;">Draft<ul><li>Draft vs current composition</li><li>Draft vs current performance</li></ul></li>
+                </ul>
+                <ul class="db-ia__pc">
+                    <li data-zh="接近现有界面" class="pro">Close to the current interface</li>
+                    <li data-zh="老用户学习成本低" class="pro">Less to relearn for existing users</li>
+                    <li data-zh="更拥挤" class="con">More cluttered</li>
+                </ul>
             </article>
-            <article class="db-challenge">
-                <h4>Efficient navigation, less distraction</h4>
-                <p>Portfolio managers arrive with a clear target. Let them get to the information they want quickly.</p>
-            </article>
-            <article class="db-challenge">
-                <h4>A flexible journey, not a fixed line</h4>
-                <p>People come to this page for different reasons, so they need more than one way to move through it.</p>
+            <article class="db-ia__opt">
+                <p data-zh="方案 2" class="db-ia__k">Proposal 2</p>
+                <h5 data-zh="业绩 vs 构成">Performance vs composition</h5>
+                <ul class="db-ia__tree">
+                    <li data-zh="基本信息">Basic information</li>
+                    <li data-zh="费用">Fees</li>
+                    <li data-zh="业绩&lt;ul&gt;&lt;li&gt;当前&lt;/li&gt;&lt;li&gt;草稿&lt;/li&gt;&lt;/ul&gt;">Performance<ul><li>Current</li><li>Draft</li></ul></li>
+                    <li data-zh="构成&lt;ul&gt;&lt;li&gt;当前&lt;/li&gt;&lt;li&gt;草稿&lt;/li&gt;&lt;/ul&gt;">Composition<ul><li>Current</li><li>Draft</li></ul></li>
+                </ul>
+                <ul class="db-ia__pc">
+                    <li data-zh="分组清晰，没有重叠" class="pro">Clear groups, no overlap</li>
+                    <li data-zh="基金页面常见做法" class="pro">Common on fund pages</li>
+                    <li data-zh="老用户学习成本高" class="con">More to relearn for existing users</li>
+                </ul>
             </article>
         </div>
-        <h4 class="db-sub">Refined design: creation</h4>
-        <figure>
-            <img src="resources/images/portfolio-createview.png" width="1932" height="1959" alt="Redesigned create flow with a four-step stepper, required-field markers, and fees on its own step">
-            <figcaption class="db-figcap">Four steps with a stepper; required fields marked; linked fields grouped into their own step so each is validated before moving on.</figcaption>
-        </figure>
-        <h4 class="db-sub">Refined design: view page</h4>
-        <figure>
-            <img src="resources/images/portfolio-3viewpages.png" width="9400" height="6692" alt="Redesigned portfolio view page in three tabs: info with key facts and fees, current composition, and draft composition with performance" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">The view page split into info, current composition and draft composition, each with its own performance view.</figcaption>
+
+        <figure class="db-tabs" data-tabs>
+            <div class="db-tabs__bar" role="tablist" aria-label="Model portfolio view page">
+                <button data-zh="改版前" type="button" role="tab" aria-selected="false">Before</button>
+                <button data-zh="信息" type="button" role="tab" aria-selected="true">Info</button>
+                <button data-zh="当前构成" type="button" role="tab" aria-selected="false">Current composition</button>
+                <button data-zh="草稿构成" type="button" role="tab" aria-selected="false">Draft composition</button>
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" hidden><img src="resources/images-dashboard/idea-audit.webp" width="1200" height="1072" alt="Before: one long view page mixing basic information, constraints, fees, performance and composition" loading="lazy" decoding="async"></div>
+            <div class="db-tabs__panel" role="tabpanel"><div class="db-tabs__scroll" tabindex="0" aria-label="Info tab, scroll to see the full page"><img src="resources/images-dashboard/view-info-full.png?v=3x" width="4320" height="4800" alt="Info tab: key facts, dates, basics, custom fields, descriptions and fees, with a side menu" loading="lazy" decoding="async"></div></div>
+            <div class="db-tabs__panel" role="tabpanel" hidden><div class="db-tabs__scroll" tabindex="0" aria-label="Current composition tab, scroll to see the full page"><img src="resources/images-dashboard/view-current-full.png?v=3x" width="4320" height="9339" alt="Current composition tab: allocation chart, instruments grouped by asset class, and performance" loading="lazy" decoding="async"></div></div>
+            <div class="db-tabs__panel" role="tabpanel" hidden><div class="db-tabs__scroll" tabindex="0" aria-label="Draft composition tab, scroll to see the full page"><img src="resources/images-dashboard/view-draft-full.png?v=3x" width="4320" height="9798" alt="Draft composition tab: draft allocation with current, draft and difference per instrument, and draft vs current performance" loading="lazy" decoding="async"></div></div>
+            <figcaption data-zh="一整页长滚动拆成三个 Tab，每个构成 Tab 各带业绩视图。" class="db-figcap">One long scroll became three tabs. Each composition tab carries its own performance view.</figcaption>
         </figure>
 
         <details class="db-more">
-            <summary>Full process: audit, wireframes, information architecture and prototype</summary>
-            <h4 class="db-sub">Audit, mapping and desktop research</h4>
-            <p>I audited the existing platforms, interviewed the product owner and technical team to understand the logic and constraints, and reviewed the solution with product and front-end to weigh business value and feasibility.</p>
+            <summary data-zh="完整过程：评估标注、盘点、字段梳理、竞品对标和原型">Full process: annotated evaluation, audit, field map, benchmark and prototype</summary>
+            <h4 data-zh="启发式评估标注" class="db-sub">The heuristic evaluation, annotated</h4>
             <figure>
-                <img src="resources/images/portfolio-flow.png" width="9124" height="2752" alt="Model portfolio flow from creation to recommendation" loading="lazy" decoding="async">
+                <img src="resources/images/portfolio-oldscreen.png" width="1863" height="2439" alt="Original create, edit and detail pages annotated with heuristic problems: no required-field cues, hidden dependencies, uneditable fields with no cue, and long scrolling" loading="lazy" decoding="async">
             </figure>
-            <figure>
-                <img src="resources/images/portfolio-ideation.png" width="15324" height="5408" alt="Ideation board: audit, field mapping and desktop research" loading="lazy" decoding="async">
-            </figure>
-            <h4 class="db-sub">Wireframes: creation</h4>
-            <figure>
-                <img src="resources/images/portfolio-wireframe.png" width="9898" height="3938" alt="Wireframes of the step-by-step creation flow" loading="lazy" decoding="async">
-            </figure>
-            <h4 class="db-sub">Information architecture: view page</h4>
-            <figure>
-                <img src="resources/images/portfolio-IA.png" width="4912" height="3154" alt="Two information architectures compared: current versus draft portfolio, and performance versus composition">
-                <figcaption class="db-figcap">Two ways to organise the view page, with the trade-offs of each for new and existing users.</figcaption>
-            </figure>
-            <h4 class="db-sub">Interactive prototype</h4>
+            <h4 data-zh="盘点、字段梳理和竞品对标" class="db-sub">Audit, field map and benchmark</h4>
+            <ol class="db-idea">
+                <li>
+                    <span class="db-idea__img"><img src="resources/images-dashboard/idea-audit.webp" width="1200" height="1072" alt="The existing portfolio view page with its blocks labelled: basic information, investment constraint, fees, performance, return and volatility, and composition" loading="lazy" decoding="async"></span>
+                    <span data-zh="1 · 盘点" class="db-idea__n">1 &middot; Audit</span>
+                    <b data-zh="拆解现有页面">Break down the current page</b>
+                    <span data-zh="把旧详情页拆成经理实际阅读的几块：基本信息、约束条件、费用、业绩和构成。">The old view page split into the blocks managers read: basic information, constraints, fees, performance and composition.</span>
+                </li>
+                <li>
+                    <span class="db-idea__img"><img src="resources/images-dashboard/idea-mapping.webp" width="1200" height="999" alt="Field map of the model portfolio: every field on the create and view pages sorted into groups" loading="lazy" decoding="async"></span>
+                    <span data-zh="2 · 梳理" class="db-idea__n">2 &middot; Map</span>
+                    <b data-zh="列出所有字段">List every field</b>
+                    <span data-zh="先把创建页和详情页的所有字段分好组，再开始布局。">Every field on the create and view pages, sorted into groups before any layout work.</span>
+                </li>
+                <li>
+                    <span class="db-idea__img db-idea__img--grid" aria-hidden="true">
+                        <span data-zh="基本信息" class="db-idea__grp">Basic info</span>
+                        <span data-zh="费用" class="db-idea__grp">Fees</span>
+                        <span data-zh="业绩" class="db-idea__grp">Performance</span>
+                        <span data-zh="构成" class="db-idea__grp">Composition</span>
+                        <span data-zh="+ 二级导航" class="db-idea__grp db-idea__grp--nav">+ secondary navigation</span>
+                    </span>
+                    <span data-zh="3 · 对标" class="db-idea__n">3 &middot; Benchmark</span>
+                    <b data-zh="对比 14 个基金和组合页面">Compare 14 fund and portfolio pages</b>
+                    <span data-zh="从 BlackRock、Morningstar、Bloomberg 到 Goldman Sachs、HSBC、DBS。多数采用同样的四个分组，并用二级导航切换。">From BlackRock, Morningstar and Bloomberg to Goldman Sachs, HSBC and DBS. Most used the same four groups, with secondary navigation between them.</span>
+                </li>
+            </ol>
+            <p data-zh="重新分组后的详情页沿用这些分组：关键信息与费用、构成、业绩。" class="db-figcap">The regrouped view page follows the same groups: key facts and fees, composition, and performance.</p>
+            <h4 data-zh="试用创建流程原型" class="db-sub">Try the creation prototype</h4>
             <div class="db-embed">
                 <iframe title="Model portfolio creation prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FTj33o5BjyN7dlhwGEsKFo6%2FMAP-Portfolios-24062021Q2%3Fpage-id%3D75%253A102%26node-id%3D2657%253A76336%26viewport%3D704%252C329%252C0.12%26scaling%3Dscale-down%26starting-point-node-id%3D2657%253A76336" allowfullscreen></iframe>
             </div>
         </details>
 
-        <div class="anchor" id="dive-compare"></div>
-        <h4 class="db-part">Part 2 &middot; Testing 4 layouts for the metrics table</h4>
-        <dl class="db-glance">
-            <div><dt>Problem</dt><dd>On the detail page, managers were getting the option to add instruments and benchmarks to the performance view, so one table had to compare several portfolios across returns, volatility, Sharpe and Sortino over seven time periods.</dd></div>
-            <div><dt>Method</dt><dd>Research access was limited, so I ran a comparative usability test with 5 colleagues. Three variables &mdash; colour coding, which axis holds the portfolios, tabs or a dropdown &mdash; became 4 layouts. Testers rated each for ease of comparison (1&ndash;5), some in reversed order, then explained their scores in follow-up interviews.</dd></div>
-            <div><dt>Decision</dt><dd>Option 2: colour-coded rows, portfolios down the side and time periods across the top, with tabs to switch metric.</dd></div>
-            <div><dt>Result</dt><dd>Option 2 scored highest (32, against 25, 23 and 18). 3 of 5 interviewees said it worked like the spreadsheets they already use.</dd></div>
-        </dl>
-        <p class="db-chapter-meta">Sole designer &middot; comparative usability test with colleagues</p>
+        <p data-zh="&lt;b&gt;评审通过，已上线&lt;/b&gt;CEO 和产品负责人在评审中通过了这个流程，反馈积极，随后上线。详情页还缺一张能对比组合的表格；这一次，CEO 亲自参与了测试。" class="db-next"><b>Passed review, launched</b>The CEO and product owner passed the flow in review with positive feedback, and it launched. The detail page still needed a table that could compare portfolios, and this time the CEO took the test himself.</p>
 
-        <figure>
-            <img src="resources/images/ab_test/metrics_demo_page.png" width="6418" height="6532" alt="Model portfolio detail page with the performance section highlighted, where instruments and benchmarks can be added for comparison" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Where the table lives: the performance section of a model portfolio&rsquo;s detail page.</figcaption>
-        </figure>
-        <figure>
-            <img src="resources/images/ab-testdesign.png" width="2992" height="2414" alt="Test design: colour coding, axis orientation and tabs versus dropdown combined into four layout options">
-            <figcaption class="db-figcap">2 &times; 2 &times; 2 variables, tested as four layouts.</figcaption>
-        </figure>
-        <figure>
-            <img src="resources/images/ab-result.png" width="3544" height="2148" alt="Results: ease-of-comparison scores per option per tester, and follow-up interview notes for options 2 and 4">
-            <figcaption class="db-figcap">Scores per tester, and why: names down the side matched the line-chart tooltip and spreadsheets; the dropdown meant too much scrolling.</figcaption>
-        </figure>
+        <div class="anchor" id="dive-compare"></div>
+        <h4 data-zh="第二部分 · 指标表格的 4 种布局测试" class="db-part">Part 2 &middot; Testing 4 layouts for the metrics table</h4>
+        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 3 步 / 共 5 步&lt;/a&gt; 对比测试" class="db-step"><a href="#role">Evidence step 3 of 5</a> Comparative test</p>
+        <p data-zh="一张表要在 4 项指标、7 个时间段上对比组合和基准。">One table had to compare portfolios and benchmarks across 4 metrics and 7 time periods.</p>
+        <p data-zh="唯一设计师" class="db-chapter-meta">Sole designer</p>
+
+
+        <h4 data-zh="三个选择，四种布局，一个明确胜出" class="db-sub">Three choices, four layouts, one clear winner</h4>
+        <p data-zh="三个二选一的变量能组合出八种表格。我挑出能回答待定问题的四种来测试：7 位同事（含 CEO）为每种打 1–5 分。他们能判断表格是否易读，但判断不了经理需要哪些指标。">Three yes/no choices give eight tables. I tested the four that answered the open questions: 7 colleagues, including the CEO, rated each from 1 to 5. They can judge how easy a table is to read, not which metrics managers need.</p>
+        <ol class="db-lay" aria-label="Four tested layouts with average ease scores">
+            <li>
+                <div class="db-lay__h"><b data-zh="选项 1">Option 1</b><span class="db-lay__score"><span class="db-lay__bar" style="--v:3.3"></span>3.3</span></div>
+                <ul class="db-lay__chips"><li data-zh="无颜色">No colour</li><li data-zh="组合纵向排列">Portfolios down the side</li><li data-zh="Tab">Tabs</li></ul>
+                <span class="db-lay__img"><img src="resources/images-dashboard/layout-opt1.png?v=1" width="1920" height="933" alt="Option 1 metrics table: no colour, portfolios down the side, tabs" loading="lazy" decoding="async"></span>
+            </li>
+            <li class="is-win">
+                <div class="db-lay__h"><b data-zh="选项 2">Option 2</b><span class="db-lay__score"><span class="db-lay__bar" style="--v:4.6"></span>4.6</span></div>
+                <ul class="db-lay__chips"><li data-zh="颜色区分">Colour-coded</li><li data-zh="组合纵向排列">Portfolios down the side</li><li data-zh="Tab">Tabs</li></ul>
+                <span class="db-lay__img"><img src="resources/images-dashboard/layout-opt2.png?v=1" width="1920" height="933" alt="Option 2 metrics table: colour-coded, portfolios down the side, tabs" loading="lazy" decoding="async"></span>
+            </li>
+            <li>
+                <div class="db-lay__h"><b data-zh="选项 3">Option 3</b><span class="db-lay__score"><span class="db-lay__bar" style="--v:3.6"></span>3.6</span></div>
+                <ul class="db-lay__chips"><li data-zh="颜色区分">Colour-coded</li><li data-zh="组合横向排列">Portfolios across the top</li><li data-zh="Tab">Tabs</li></ul>
+                <span class="db-lay__img"><img src="resources/images-dashboard/layout-opt3.png?v=1" width="1920" height="978" alt="Option 3 metrics table: colour-coded, portfolios across the top, tabs" loading="lazy" decoding="async"></span>
+            </li>
+            <li>
+                <div class="db-lay__h"><b data-zh="选项 4">Option 4</b><span class="db-lay__score"><span class="db-lay__bar" style="--v:2.6"></span>2.6</span></div>
+                <ul class="db-lay__chips"><li data-zh="颜色区分">Colour-coded</li><li data-zh="组合横向排列">Portfolios across the top</li><li data-zh="下拉框">Dropdown</li></ul>
+                <span class="db-lay__img"><img src="resources/images-dashboard/layout-opt4.png?v=1" width="1920" height="1307" alt="Option 4 metrics table: colour-coded, portfolios across the top, dropdown" loading="lazy" decoding="async"></span>
+            </li>
+        </ol>
+        <p data-zh="7 位测试者对“对比难易度”的平均分，1–5 分。" class="db-figcap">Average ease of comparison from 7 testers, rated 1 to 5.</p>
+
+        <ul class="db-quotes" aria-label="Notes from follow-up interviews">
+            <li><p data-zh="组合纵向排列像电子表格，看着很熟悉。">Portfolios down the side feel like a spreadsheet, so it feels familiar.</p><span data-zh="选项 2">Option 2</span></li>
+            <li><p data-zh="名称放在同一列，和悬停折线图时的提示对得上。">Names in one column match hovering over the line chart.</p><span data-zh="选项 2">Option 2</span></li>
+            <li><p data-zh="用下拉框要滚很久才能找到我想看的数字。">The dropdown takes a lot of scrolling to reach the number I want.</p><span data-zh="选项 4">Option 4</span></li>
+        </ul>
+        <p data-zh="来自后续访谈的记录，略有编辑。" class="db-figcap">Notes from follow-up interviews, lightly edited.</p>
+
+        <p data-zh="&lt;b&gt;CEO 支持选项 2&lt;/b&gt;CEO 亲自测试后支持选项 2；5 位受访者中有 3 位把它比作自己常用的电子表格。同样的表格思路随后延伸到其他模块。" class="db-next"><b>CEO backed Option 2</b>After taking the test himself, the CEO backed Option 2, and 3 of 5 interviewees compared it to their spreadsheets. The same table thinking then carried into the other modules.</p>
+
 
         <div class="anchor" id="section9"></div>
-        <span class="db-kicker">04 · Other modules</span>
-        <h3 class="section">Model portfolios, instruments, rebalance, orders and trades</h3>
-        <p>The rest of the tool covers what happens after a portfolio manager decides to act. These screens are built from the same design system, so dense tables, filters and status patterns behave the same everywhere.</p>
+        <span data-zh="04 · 表格模式" class="db-kicker">04 · Table patterns</span>
+        <h3 data-zh="五个模块，一套表格模式" class="section">Five modules, one set of table patterns</h3>
+        <p data-zh="其余模块覆盖经理决定操作之后的环节。我围绕几种高密度数据模式改版它们，让表格、筛选和状态在各处表现一致。">The other modules cover what happens after a manager decides to act. I redesigned them around a few dense-data patterns, so tables, filters and statuses behave the same everywhere.</p>
 
         <div class="anchor" id="module-models"></div>
-        <h4 class="db-sub">Model portfolios</h4>
-        <p>Portfolio managers maintain a library of model portfolios that client accounts follow.</p>
-        <ul class="db-module-list">
-            <li>Each card surfaces the facts needed to pick a model: risk level (PRR), currency, instrument type, benchmark and publish status.</li>
-            <li>Latest publish and rebalance dates sit side by side, so stale models are easy to spot.</li>
-        </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/system-model-portfolio.png?v=2" width="4176" height="4131" alt="Model portfolio list with risk level, currency, instrument type and publish status" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Model portfolio library, filterable by publish time, instrument type, currency, risk level and segment.</figcaption>
-        </figure>
-
         <div class="anchor" id="module-instruments"></div>
-        <h4 class="db-sub">Instruments</h4>
-        <p>The instrument universe that model portfolios are built from.</p>
-        <ul class="db-module-list">
-            <li>Each row pairs the instrument name with its ISIN, asset class, category and benchmark.</li>
-            <li>Asset class can be edited in place, with the original classification kept underneath for reference.</li>
-            <li>Ten filters &mdash; watchlist, category, benchmark, type, currency, asset class, complexity, risk, segment and channel &mdash; narrow a long list quickly.</li>
-        </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/system-instruments.png?v=2" width="4320" height="2700" alt="Instruments table with asset class, category, benchmark and watchlist" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Instruments: searchable by ISIN or name, with watchlist and export.</figcaption>
-        </figure>
-
         <div class="anchor" id="module-rebalance"></div>
-        <h4 class="db-sub">Rebalance: review the buy/sell list before submitting</h4>
-        <p>A rebalance can touch many model portfolios at once. The buy/sell list turns that batch into something a portfolio manager can check before any order is created.</p>
-        <ul class="db-module-list">
-            <li>Left column lists every model portfolio affected by the current filter (here 12 of 20), so the scope of the batch is visible up front.</li>
-            <li>For each instrument the table shows weight before, after and the difference, with the resulting Buy, Sell or N/A action.</li>
-            <li>Sells and buys are colour-coded and cash is shown as its own line, so the net effect is readable at a glance.</li>
-        </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/system-rebalance.png" width="4320" height="2400" alt="Rebalance buy/sell list comparing before and after weights per instrument" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Focus rebalance: the buy/sell list for each model portfolio, reviewed before moving on.</figcaption>
-        </figure>
-
         <div class="anchor" id="module-orders"></div>
-        <h4 class="db-sub">Orders: track status and catch exceptions</h4>
-        <p>Every buy, sell and rebalance instruction lands in the orders table, where operations and portfolio managers follow it to completion.</p>
-        <ul class="db-module-list">
-            <li>Order status (Pending, Complete, Error, Disable) sits next to the action, so failed orders stand out in a long list.</li>
-            <li>Each row links the order to its account, trading account, model portfolio, order ID and creation time.</li>
-            <li>Filters for action, status, model portfolio, date, creator and account, plus expandable rows and full export for reconciliation.</li>
-        </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/system-orders.png?v=2" width="4320" height="2700" alt="Orders table with action, order status, account, trading account and model portfolio" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Orders: status-first table with filters and export.</figcaption>
+        <div class="anchor" id="module-trades"></div>
+        <figure class="db-tabs db-tabs--patterns" data-tabs>
+            <div class="db-tabs__bar" role="tablist" aria-label="Table patterns by module">
+                <button data-zh="模型组合" type="button" role="tab" aria-selected="true">Model portfolios</button>
+                <button data-zh="投资标的" type="button" role="tab" aria-selected="false">Instruments</button>
+                <button data-zh="再平衡" type="button" role="tab" aria-selected="false">Rebalance</button>
+                <button data-zh="订单" type="button" role="tab" aria-selected="false">Orders</button>
+                <button data-zh="成交" type="button" role="tab" aria-selected="false">Trades</button>
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" data-hash="module-models">
+                <p data-zh="&lt;b&gt;先浏览，再选择。&lt;/b&gt; 每张卡片列出选模型所需的信息：风险等级、币种、基准、发布状态。发布日期和再平衡日期并排显示，久未更新的模型一眼可见。" class="db-tabs__t"><b>Scan before you choose.</b> Each card shows what you need to pick a model &mdash; risk level, currency, benchmark, publish status &mdash; with publish and rebalance dates side by side so stale models stand out.</p>
+                <img src="resources/images/images-dashboard/system-model-portfolio.png?v=2" width="4176" height="4131" alt="Model portfolio list with risk level, currency, instrument type and publish status" loading="lazy" decoding="async">
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" data-hash="module-instruments" hidden>
+                <p data-zh="&lt;b&gt;原位编辑，保留原值。&lt;/b&gt; 资产类别可原位编辑，原值显示在下方；十个筛选项能快速缩小庞大的标的池。" class="db-tabs__t"><b>Edit in place, keep the original.</b> Asset class edits in place with the original kept underneath, and ten filters narrow a long universe quickly.</p>
+                <img src="resources/images/images-dashboard/system-instruments.png?v=2" width="4320" height="2700" alt="Instruments table with asset class, category, benchmark and watchlist" loading="lazy" decoding="async">
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" data-hash="module-rebalance" hidden>
+                <p data-zh="&lt;b&gt;先复核整批，再操作。&lt;/b&gt; 每个标的显示调整前后的权重及差值，买入、卖出和现金用颜色区分，经理在生成订单前就能复核整批调整。" class="db-tabs__t"><b>Review the batch before acting.</b> Weights before, after and the difference per instrument, with buys, sells and cash colour-coded, so a manager checks the whole batch before any order is created.</p>
+                <img src="resources/images/images-dashboard/system-rebalance.png" width="4320" height="2400" alt="Rebalance buy/sell list comparing before and after weights per instrument" loading="lazy" decoding="async">
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" data-hash="module-orders" hidden>
+                <p data-zh="&lt;b&gt;状态优先，异常更醒目。&lt;/b&gt; 状态紧挨着操作按钮，长列表里的异常订单一眼可见。" class="db-tabs__t"><b>Status first, so exceptions stand out.</b> Status sits next to the action, so failed orders stand out in a long list.</p>
+                <img src="resources/images/images-dashboard/system-orders.png?v=2" width="4320" height="2700" alt="Orders table with action, order status, account, trading account and model portfolio" loading="lazy" decoding="async">
+            </div>
+            <div class="db-tabs__panel" role="tabpanel" data-hash="module-trades" hidden>
+                <p data-zh="&lt;b&gt;筛选、导出，方便对账。&lt;/b&gt; 对账状态和分段筛选，把仍需核对的成交筛出来。" class="db-tabs__t"><b>Filter and export for reconciliation.</b> Reconciliation status and segment filters surface the trades that still need checking.</p>
+                <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
+            </div>
         </figure>
 
-        <div class="anchor" id="module-trades"></div>
-        <h4 class="db-sub">Trades: notional and reconciliation</h4>
-        <p>The trades view records the outcome of each order instruction, so teams can reconcile it.</p>
-        <ul class="db-module-list">
-            <li>Rows carry action, account code, trading account, group code, model portfolio, notional and order instruction ID.</li>
-            <li>Reconciliation status and portfolio segment filters help teams find trades that still need checking.</li>
-        </ul>
-        <figure>
-            <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
-            <figcaption class="db-figcap">Trades: trade records with notional and reconciliation filters.</figcaption>
-        </figure>
+        <p data-zh="&lt;b&gt;下一步：共用组件&lt;/b&gt;五个模块要共用一套模式，底层组件也必须共用。" class="db-next"><b>Next: shared parts</b>Five modules can only share one set of patterns if the components underneath are shared too.</p>
 
         <div class="anchor" id="foundation"></div>
-        <span class="db-kicker">05 · Foundation</span>
-        <h3 class="section">One design system under three products</h3>
-        <dl class="db-glance">
-            <div><dt>Problem</dt><dd>Colours missed WCAG contrast, type sizes had drifted, and design and front-end used different names for the same things.</dd></div>
-            <div><dt>Method</dt><dd>Audited existing patterns across the product, ran feedback sessions with designers and the web team, then structured workshops on how to use the system.</dd></div>
-            <div><dt>Decision</dt><dd>Start from Material Design, use it flexibly, and keep one pattern library across all three products. A simple rule for every new screen: reuse a component, adjust it, or create and document a new one.</dd></div>
-            <div><dt>Result</dt><dd>New modules were assembled from existing components. Updated components were shared through a monthly design &times; web meeting and a shared channel.</dd></div>
-        </dl>
-        <p class="db-chapter-meta">Led the rebuild &middot; 3 designers, 5 front-end engineers</p>
+        <span data-zh="05 · 底层基础" class="db-kicker">05 · Foundation</span>
+        <h3 data-zh="支撑所有模块的设计系统" class="section">The design system behind every module</h3>
+        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 4 步 / 共 5 步&lt;/a&gt; 盘点与开发工作坊" class="db-step"><a href="#role">Evidence step 4 of 5</a> Audit and dev workshops</p>
+        <p data-zh="颜色达不到 WCAG 对比度，字号各自走样，设计和前端对同一事物叫法不同。我以 Material Design 为基础，主导重建三款产品共用的组件库；大部分工作是和开发对齐：先做什么，叫什么。">Colours missed WCAG contrast, type sizes had drifted, and design and front-end used different names for the same things. I led the rebuild of the library all three products shared, on a Material Design base; most of the work was agreeing with developers what to build first and what to call it.</p>
+        <p data-zh="主导重建 · 3 名设计师，5 名前端工程师" class="db-chapter-meta">Led the rebuild &middot; 3 designers, 5 front-end engineers</p>
 
-        <h4 class="db-sub">Style guide: contrast and type</h4>
-        <p>I updated colours to meet WCAG contrast, refined font sizes from designer and web-team feedback, and aligned naming with the front-end so a style in Figma had the same name in code.</p>
-        <figure>
-            <img src="resources/images/designsys-styleguide.png" width="2000" height="1060" alt="Style guide showing type levels on list and detail pages, colours, statuses and data-visualisation palette">
-            <figcaption class="db-figcap">Type levels mapped to real list and detail pages, plus colours, statuses and the chart palette.</figcaption>
-        </figure>
+        <h4 data-zh="先做弹窗：重复最多的模式" class="db-sub">Dialogs first: the most repeated pattern</h4>
+        <p data-zh="先做模式盘点。按用途给所有弹窗分组后，开发看到了同一模式被重复开发的频率，于是弹窗排在我们共同确定的 23 个组件之首。">A pattern audit came first. Grouping every dialog by job showed developers how often the same pattern was being rebuilt, so dialogs led the 23 components we prioritised together.</p>
+        <ul class="db-dlg" aria-label="Dialogs grouped by job">
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-selection.png?v=1" width="1107" height="797" alt="Selection dialog example" loading="lazy" decoding="async"></span><b data-zh="选择">Selection</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-edit.png?v=1" width="1395" height="1475" alt="Edit dialog example" loading="lazy" decoding="async"></span><b data-zh="编辑">Edit</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-tooltip.png?v=1" width="717" height="597" alt="Tooltip dialog example" loading="lazy" decoding="async"></span><b data-zh="提示">Tooltip</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-input.png?v=1" width="577" height="558" alt="Input dialog example" loading="lazy" decoding="async"></span><b data-zh="输入">Input</b><span data-zh="盘点中 2 个">2 in the audit</span></li>
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-upload.png?v=1" width="577" height="558" alt="Upload dialog example" loading="lazy" decoding="async"></span><b data-zh="上传">Upload</b><span data-zh="盘点中 1 个">1 in the audit</span></li>
+            <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-confirm.png?v=1" width="577" height="378" alt="Confirmation dialog example" loading="lazy" decoding="async"></span><b data-zh="确认">Confirmation</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
+        </ul>
+        <p data-zh="产品中共 15 个弹窗，按用途分组，每组展示一个示例。" class="db-figcap">15 dialogs across the product, grouped by the job they do. One example per group.</p>
 
-        <h4 class="db-sub">Guidelines: when to confirm, when to undo</h4>
-        <p>Components came with rules for when to use them. A confirmation box is only worth the interruption when an action is irreversible, severe, complex and rare; everything else gets an undo toast.</p>
+        <h4 data-zh="样式指南：对比度、字体和统一命名" class="db-sub">Style guide: contrast, type and shared names</h4>
+        <p data-zh="颜色修正到符合 WCAG 对比度，字号重新调校，每个样式在 Figma 和代码中同名。更新通过每月一次的设计 × 前端会议同步。">Colours fixed for WCAG contrast, type sizes tuned, and every style named the same in Figma and code. Updates went out in a monthly design &times; web meeting.</p>
         <figure>
-            <img src="resources/images/designsys-guideline.png" width="1840" height="1268" alt="Guideline comparing a confirmation box with an undo toast, using off-boarding a client portfolio as the example">
-            <figcaption class="db-figcap">Off-boarding a client portfolio meets all four tests &mdash; it can&rsquo;t be restored, it triggers a fund transaction, and the record stays for 7 years &mdash; so it gets a confirmation box.</figcaption>
+            <img src="resources/images/designsys-styleguide.png" width="2000" height="1060" alt="Style guide showing type levels on list and detail pages, colours, statuses and data-visualisation palette" loading="lazy" decoding="async">
+            <figcaption data-zh="字体层级套用到真实的列表页和详情页，并附颜色、状态和图表色板。" class="db-figcap">Type levels mapped to real list and detail pages, plus colours, statuses and the chart palette.</figcaption>
         </figure>
 
         <details class="db-more">
-            <summary>More from the design system: components, writing guide, grid, and how we ran it</summary>
-            <h4 class="db-sub">New components</h4>
-            <p>Modals, chips, breadcrumbs, scrollspy and snackbar, added where products kept building their own versions.</p>
+            <summary data-zh="设计系统的更多内容：确认与撤销规范、组件、文案指南、栅格和使用指南">More from the design system: confirm vs undo guideline, components, writing guide, grid and usage guide</summary>
+            <h4 data-zh="只确认不可逆的操作，其余用撤销" class="db-sub">Confirm only the irreversible; undo the rest</h4>
+            <p data-zh="只有当操作不可逆、后果严重、复杂且少见时才弹确认框；其余操作一律用可撤销的轻提示。">A confirmation box only when an action is irreversible, severe, complex and rare; everything else gets an undo toast.</p>
             <figure>
-                <img src="resources/images/designsys-components.png" width="1880" height="434" alt="New components: modals, chips, breadcrumbs, scrollspy and snackbar">
+                <img src="resources/images/designsys-guideline.png" width="1840" height="1268" alt="Guideline comparing a confirmation box with an undo toast, using off-boarding a client portfolio as the example" loading="lazy" decoding="async">
+                <figcaption data-zh="注销客户组合同时满足这四条：无法恢复、会触发资金交易、记录保留 7 年，所以使用确认框。" class="db-figcap">Off-boarding a client portfolio meets all four tests &mdash; it can&rsquo;t be restored, it triggers a fund transaction, and the record stays for 7 years &mdash; so it gets a confirmation box.</figcaption>
             </figure>
-            <h4 class="db-sub">UX writing guide</h4>
+            <h4 data-zh="共用组件，不再各做一版" class="db-sub">Shared components, not local copies</h4>
+            <p data-zh="模态框、标签、面包屑、滚动导航和 Snackbar：各产品原本都在自己做，现在统一补进组件库。">Modals, chips, breadcrumbs, scrollspy and snackbar, added where products kept building their own versions.</p>
             <figure>
-                <img src="resources/images/designsys-copy.png" width="1840" height="968" alt="Writing guide for confirmation dialogs: do and don't for title, description and buttons">
-                <figcaption class="db-figcap">Dialog copy: one clear question in the title, consequences in the description, buttons that echo the title.</figcaption>
+                <img src="resources/images/designsys-components.png" width="1880" height="434" alt="New components: modals, chips, breadcrumbs, scrollspy and snackbar" loading="lazy" decoding="async">
             </figure>
-            <h4 class="db-sub">Grid</h4>
-            <p>A grid tailored to the platform&rsquo;s layouts and task priority.</p>
+            <h4 data-zh="每个弹窗只问一个问题" class="db-sub">One question per dialog</h4>
             <figure>
-                <img src="resources/images/designsys-grid.png" width="1840" height="500" alt="Grid system for the platform">
+                <img src="resources/images/designsys-copy.png" width="1840" height="968" alt="Writing guide for confirmation dialogs: do and don't for title, description and buttons" loading="lazy" decoding="async">
+                <figcaption data-zh="弹窗文案：标题提出一个清晰的问题，描述说明后果，按钮呼应标题。" class="db-figcap">Dialog copy: one clear question in the title, consequences in the description, buttons that echo the title.</figcaption>
             </figure>
-            <h4 class="db-sub">Usage guide and decision path</h4>
-            <p>I ran structured workshops with developers and designers to agree goals and process, then wrote them up as a usage guide.</p>
+            <h4 data-zh="按任务优先级设计的栅格" class="db-sub">A grid built around task priority</h4>
+            <p data-zh="根据平台布局和任务优先级定制的栅格。">A grid tailored to the platform&rsquo;s layouts and task priority.</p>
             <figure>
-                <img src="resources/images-design-system/guide.png" width="1920" height="3017" alt="Usage guide: goals, current status, usage principles, a decision path for reusing or creating components, and the web UI library preview">
-                <figcaption class="db-figcap">Goals, principles and the reuse &rarr; adjust &rarr; create decision path, with the live web UI library.</figcaption>
+                <img src="resources/images/designsys-grid.png" width="1840" height="500" alt="Grid system for the platform" loading="lazy" decoding="async">
             </figure>
-            <h4 class="db-sub">Pattern audit</h4>
-            <p>A product audit grouped every dialog by job &mdash; selection, edit, tooltip, input, upload, confirmation &mdash; so we could standardise each pattern and review it regularly.</p>
+            <h4 data-zh="先复用，再调整，最后新建" class="db-sub">Reuse, adjust, then create</h4>
+            <p data-zh="我和开发、设计开了几场结构化工作坊，对齐目标和流程，再整理成使用指南：复用组件、调整组件，或新建并记录组件。">I ran structured workshops with developers and designers to agree goals and process, then wrote them up as a usage guide: reuse a component, adjust it, or create and document a new one.</p>
             <figure>
-                <img src="resources/images-design-system/audit.png" width="8555" height="3364" alt="Audit of dialogs across the product grouped by selection, edit, tooltip, input box, upload and confirmation">
+                <img src="resources/images-design-system/guide.png" width="1920" height="3017" alt="Usage guide: goals, current status, usage principles, a decision path for reusing or creating components, and the web UI library preview" loading="lazy" decoding="async">
+                <figcaption data-zh="目标、原则，以及“复用 → 调整 → 新建”的决策路径，配合线上的 Web UI 组件库。" class="db-figcap">Goals, principles and the reuse &rarr; adjust &rarr; create decision path, with the live web UI library.</figcaption>
             </figure>
         </details>
 
+        <p data-zh="&lt;b&gt;换来研究授权&lt;/b&gt;到 2022 年，CEO 已经看到小测试能解决哪些问题。为了一款新的顾问产品，他请我规划真实用户研究。" class="db-next"><b>Earned a research mandate</b>By 2022 the CEO had seen what small tests could settle. For a new advisor product, he asked me to plan research with real users.</p>
+
         <div class="anchor" id="section10"></div>
-        <span class="db-kicker">06 · What it led to</span>
-        <h3 class="section">From evidence on small decisions to planning a new product</h3>
-        <p>Across these projects I backed design decisions with whatever evidence I could get: a guerrilla walkthrough for the dashboard, a heuristic evaluation for creation, a comparative usability test for the metrics table. When I presented the dashboard and its walkthrough results, the founder asked me to plan the research for a new product &mdash; what advisors need, what to build, and in what order.</p>
+        <span data-zh="06 · 成果与反思" class="db-kicker">06 · Impact and reflection</span>
+        <h3 data-zh="从小测试到正式的研究授权" class="section">From small tests to a research mandate</h3>
+        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 5 步 / 共 5 步&lt;/a&gt; 真实用户访谈" class="db-step"><a href="#role">Evidence step 5 of 5</a> Real user interviews</p>
+        <p data-zh="以上证据都不完美，但每一份都推动了一个决策；合在一起，改变了 CEO 对用户研究的看法。">None of the evidence above was perfect, but each piece moved a decision, and together they changed how the CEO saw research.</p>
+        <ol class="db-res">
+            <li><span data-zh="仪表盘" class="db-res__t">Dashboard</span><h4 data-zh="一次帮助赢得客户的演示">A demo that helped win a client</h4><p data-zh="销售向潜在客户演示了新仪表盘及其新能力，HSBC Hong Kong 随后签约。">Sales showed prospective clients the new dashboard and its new capabilities, and HSBC Hong Kong came on board.</p></li>
+            <li><span data-zh="创建流程与指标表格" class="db-res__t">Creation and metrics table</span><h4 data-zh="CEO 签字认可">Signed off by the CEO</h4><p data-zh="CEO 和产品负责人在评审中通过了创建流程；CEO 亲自测试后，也支持了指标表格的布局。">The CEO and product owner passed the creation flow in review, and the CEO backed the metrics layout after taking the test himself.</p></li>
+            <li><span data-zh="新产品" class="db-res__t">New product</span><h4 data-zh="接触到真实用户">Access to real users</h4><p data-zh="CEO 请我为一款新的顾问产品规划研究，并动用自己的人脉帮忙招募。">The CEO asked me to plan research for a new advisor product, and opened his own network to recruit for it.</p></li>
+        </ol>
+
+        <h4 data-zh="CEO 要求的这项研究" class="db-sub">The research the CEO asked for</h4>
         <dl class="db-glance">
-            <div><dt>Research</dt><dd>With the product manager, I interviewed 5 financial advisory directors, mostly from Swiss investment banks, recruited through the founder&rsquo;s network.</dd></div>
-            <div><dt>Synthesis</dt><dd>I mapped their journey, pain points and the features a new tool would need.</dd></div>
-            <div><dt>Next</dt><dd>I wrote a feature-prioritisation workshop plan and a prototype-testing plan. I left before either was run.</dd></div>
+            <div><dt data-zh="研究">Research</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;5 位顾问总监&lt;/span&gt;与 PM 一起访谈，受访者多来自瑞士投资银行，通过 CEO 的人脉招募。"><span class="db-glance__h">5 advisory directors</span>Interviewed with the PM, mostly from Swiss investment banks, recruited through the CEO&rsquo;s network.</dd></div>
+            <div><dt data-zh="归纳">Synthesis</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;用户旅程与功能清单&lt;/span&gt;他们的工作旅程、痛点，以及新工具需要的功能。"><span class="db-glance__h">Journey and feature list</span>Their journey, pain points and the features a new tool would need.</dd></div>
+            <div><dt data-zh="下一步">Next</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;计划已交接&lt;/span&gt;一场功能优先级工作坊和一份原型测试计划。两者开展前我已离职。"><span class="db-glance__h">Plans handed over</span>A feature-prioritisation workshop and a prototype-testing plan. I left before either ran.</dd></div>
         </dl>
-        <p class="db-chapter-meta">Research lead &middot; with 1 PM</p>
-        <h4 class="db-sub">The research plan</h4>
-        <div class="db-embed">
-            <iframe title="Advisor-tool research plan prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
-        </div>
-        <h4 class="db-sub">Interview findings: journey map, persona and next steps</h4>
-        <div class="db-embed">
-            <iframe title="Advisor journey map and persona prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
-        </div>
+        <p data-zh="研究负责人 · 与 1 名 PM 合作" class="db-chapter-meta">Research lead &middot; with 1 PM</p>
+        <details class="db-more">
+            <summary data-zh="研究计划与访谈发现：用户旅程图、用户画像和下一步">Research plan and interview findings: journey map, persona and next steps</summary>
+            <div class="db-embed">
+                <iframe title="Advisor-tool research plan prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
+            </div>
+            <div class="db-embed">
+                <iframe title="Advisor journey map and persona prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+            </div>
+        </details>
+
+        <h4 data-zh="反思：先找成本最低的证据" class="db-sub">Reflection: the cheapest evidence first</h4>
+        <p data-zh="一开始我很被动：申请做研究，总是没有下文。精益和游击式方法把我的问题从“怎么找到用户？”变成“这个决策，成本最低的证据是什么？”最终让我接触到真实用户的，是拿出结果，而不是申请预算。">At the start I felt stuck: asking for research went nowhere. Lean and guerrilla methods changed my question from &ldquo;how do I get users?&rdquo; to &ldquo;what is the cheapest evidence for this decision?&rdquo; Showing results, not asking for budget, is what got me real users.</p>
+
+        <h4 data-zh="如果能接触真实用户，我会衡量什么" class="db-sub">What I&rsquo;d measure with real access</h4>
+        <ul class="db-module-list">
+            <li data-zh="&lt;b&gt;创建流程：&lt;/b&gt; 创建一个模型组合要多久；在已有组合中找到关键信息要多久。"><b>Creation flow:</b> how long it takes to create a model portfolio, and how long it takes to find key information on one that already exists.</li>
+            <li data-zh="&lt;b&gt;设计系统：&lt;/b&gt; 每个组件在更新后的复用频率；统一模式为每个界面节省的时间；请设计师和开发用 1–5 分简短评价它对工作的支撑程度，再做访谈跟进。"><b>Design system:</b> how often each component is reused after an update, the time a consistent pattern saves per screen, and a short 1&ndash;5 rating from designers and developers on how well it supports their work, followed up with interviews.</li>
+        </ul>
     </div>
     </div><!-- /case-layout -->
 
@@ -923,8 +1741,8 @@
 
     <footer class="site-footer">
         <div class="site-footer__inner">
-            <span>© Qin Wang — Product designer</span>
-            <span class="site-footer__cta"><a href="work.html">See more work</a></span>
+            <span data-zh="© Qin Wang — 产品设计师">© Qin Wang — Product designer</span>
+            <span class="site-footer__cta"><a data-zh="查看更多作品" href="work.html">See more work</a></span>
         </div>
     </footer>
 
@@ -956,6 +1774,262 @@
             window.addEventListener('resize', onScroll);
             onScroll();
         })();
+
+        (function () {
+            if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            var cards = document.querySelectorAll('.sys-module a');
+            if (!cards.length) return;
+
+            var peek = document.createElement('div');
+            peek.className = 'sys-peek';
+            peek.setAttribute('aria-hidden', 'true');
+            peek.innerHTML = '<img alt=""><p class="sys-peek__cap"><b></b><span></span></p><span class="sys-peek__arrow"></span>';
+            document.body.appendChild(peek);
+            var img = peek.querySelector('img');
+            var name = peek.querySelector('b');
+            var step = peek.querySelector('.sys-peek__cap span');
+            var hideTimer;
+
+            function show(a) {
+                clearTimeout(hideTimer);
+                var thumb = a.querySelector('.sys-module__thumb img');
+                img.src = thumb.currentSrc || thumb.src;
+                name.textContent = a.querySelector('.sys-module__name').textContent;
+                step.textContent = a.querySelector('.sys-module__step').textContent;
+
+                var r = a.querySelector('.sys-module__thumb').getBoundingClientRect();
+                var w = Math.min(460, document.documentElement.clientWidth - 32);
+                peek.style.width = w + 'px';
+                var left = r.left + r.width / 2 - w / 2;
+                left = Math.max(16, Math.min(left, document.documentElement.clientWidth - w - 16));
+                peek.style.setProperty('--ax', (r.left + r.width / 2 - left) + 'px');
+
+                var h = peek.offsetHeight || 380;
+                var below = r.top - h - 14 < 72;
+                peek.classList.toggle('is-below', below);
+                peek.style.left = (left + window.scrollX) + 'px';
+                peek.style.top = (below ? r.bottom + 14 : r.top - h - 14) + window.scrollY + 'px';
+                requestAnimationFrame(function () { peek.classList.add('is-open'); });
+            }
+            function hide() {
+                hideTimer = setTimeout(function () { peek.classList.remove('is-open'); }, 60);
+            }
+
+            Array.prototype.forEach.call(cards, function (a) {
+                a.addEventListener('mouseenter', function () { show(a); });
+                a.addEventListener('mouseleave', hide);
+                a.addEventListener('focus', function () { show(a); });
+                a.addEventListener('blur', hide);
+                a.addEventListener('click', function () { peek.classList.remove('is-open'); });
+            });
+            img.addEventListener('load', function () {
+                var a = document.querySelector('.sys-module a:hover, .sys-module a:focus');
+                if (a && peek.classList.contains('is-open')) show(a);
+            });
+        })();
+
+        (function () {
+            document.querySelectorAll('[data-tabs]').forEach(function (fig) {
+                var tabs = fig.querySelectorAll('[role="tab"]');
+                var panels = fig.querySelectorAll('[role="tabpanel"]');
+                tabs.forEach(function (tab, i) {
+                    tab.addEventListener('click', function () {
+                        tabs.forEach(function (t, j) { t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+                        panels.forEach(function (p, j) { p.hidden = j !== i; });
+                    });
+                });
+            });
+            function openTabFor(hash) {
+                var panel = hash && document.querySelector('[data-hash="' + hash.replace('#', '') + '"]');
+                if (!panel) return;
+                var fig = panel.closest('[data-tabs]');
+                var i = Array.prototype.indexOf.call(fig.querySelectorAll('[role="tabpanel"]'), panel);
+                fig.querySelectorAll('[role="tab"]')[i].click();
+            }
+            document.addEventListener('click', function (e) {
+                var a = e.target.closest('a[href^="#module-"]');
+                if (a) openTabFor(a.getAttribute('href'));
+            });
+            openTabFor(location.hash);
+        })();
+
+        (function () {
+            var NS = 'http://www.w3.org/2000/svg';
+            document.querySelectorAll('.db-anno').forEach(function (fig) {
+                var stage = fig.querySelector('.db-anno__stage');
+                var pins = stage.querySelectorAll('.db-pin');
+                var notes = fig.querySelectorAll('.db-anno__notes li');
+                if (!pins.length || pins.length !== notes.length) return;
+                var svg = document.createElementNS(NS, 'svg');
+                svg.setAttribute('class', 'db-anno__links');
+                svg.setAttribute('aria-hidden', 'true');
+                fig.appendChild(svg);
+                var paths = Array.prototype.map.call(pins, function () {
+                    var p = document.createElementNS(NS, 'path');
+                    svg.appendChild(p);
+                    return p;
+                });
+                var wide = window.matchMedia('(min-width: 721px)');
+
+                var list = fig.querySelector('.db-anno__notes');
+
+                function place() {
+                    var gap = 12;
+                    list.classList.add('is-placed');
+                    var L = list.getBoundingClientRect();
+                    var tops = [];
+                    var prev = -Infinity;
+                    notes.forEach(function (li, i) {
+                        var p = pins[i].getBoundingClientRect();
+                        var b = li.querySelector('.db-pin').getBoundingClientRect();
+                        var badgeMid = b.top + b.height / 2 - li.getBoundingClientRect().top;
+                        var t = i === 0 ? -8 : Math.max(p.top + p.height / 2 - L.top - badgeMid, prev);
+                        tops.push(t);
+                        prev = t + li.offsetHeight + gap;
+                    });
+                    notes.forEach(function (li, i) { li.style.top = tops[i] + 'px'; });
+                    list.style.minHeight = Math.ceil(prev - gap) + 'px';
+                }
+
+                function draw() {
+                    if (!wide.matches) {
+                        list.classList.remove('is-placed');
+                        list.style.minHeight = '';
+                        notes.forEach(function (li) { li.style.top = ''; });
+                        return;
+                    }
+                    place();
+                    var f = fig.getBoundingClientRect();
+                    svg.setAttribute('viewBox', '0 0 ' + f.width + ' ' + f.height);
+                    svg.setAttribute('width', f.width);
+                    svg.setAttribute('height', f.height);
+                    pins.forEach(function (pin, i) {
+                        var a = pin.getBoundingClientRect();
+                        var b = notes[i].querySelector('.db-pin').getBoundingClientRect();
+                        var x1 = a.right - f.left;
+                        var y1 = a.top + a.height / 2 - f.top;
+                        var x2 = b.left - f.left - 4;
+                        var y2 = b.top + b.height / 2 - f.top;
+                        var gutter = stage.getBoundingClientRect().right - f.left;
+                        var mid = (gutter + x2) / 2;
+                        paths[i].setAttribute('d', 'M' + x1 + ' ' + y1 + ' L' + gutter + ' ' + y1 + ' C' + mid + ' ' + y1 + ',' + mid + ' ' + y2 + ',' + x2 + ' ' + y2);
+                    });
+                }
+
+                function set(n) {
+                    fig.classList.toggle('has-on', n >= 0);
+                    [pins, notes, paths].forEach(function (list) {
+                        Array.prototype.forEach.call(list, function (el, j) { el.classList.toggle('on', j === n); });
+                    });
+                }
+
+                [pins, notes].forEach(function (list) {
+                    Array.prototype.forEach.call(list, function (el, i) {
+                        el.addEventListener('mouseenter', function () { set(i); });
+                        el.addEventListener('mouseleave', function () { set(-1); });
+                    });
+                });
+
+                var img = stage.querySelector('img');
+                if (img && !img.complete) img.addEventListener('load', draw);
+                if (window.ResizeObserver) {
+                    var ro = new ResizeObserver(draw);
+                    ro.observe(fig);
+                    notes.forEach(function (li) { ro.observe(li); });
+                }
+                if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+                window.addEventListener('resize', draw);
+                document.addEventListener('case:lang', draw);
+                draw();
+            });
+        })();
+    </script>
+    <script>
+    (function () {
+        document.querySelectorAll('.db-wt__pair').forEach(function (fig) {
+            var shots = fig.querySelectorAll('.db-wt__shot');
+            var caps = fig.querySelectorAll('.db-wt__cap');
+            var pairs = Array.prototype.map.call(shots, function (shot, i) {
+                var box = shot.querySelector('.db-wt__box');
+                var line = document.createElement('i');
+                line.className = 'db-wt__line' + (box.classList.contains('db-wt__box--before') ? ' db-wt__line--before' : '');
+                fig.appendChild(line);
+                return { box: box, cap: caps[i], line: line, above: i === 0 };
+            });
+
+            function draw() {
+                var f = fig.getBoundingClientRect();
+                pairs.forEach(function (p) {
+                    p.cap.style.left = '0px';
+                    var b = p.box.getBoundingClientRect();
+                    var w = p.cap.getBoundingClientRect().width;
+                    var cx = b.left + b.width / 2 - f.left;
+                    var left = Math.max(0, Math.min(cx - w / 2, f.width - w));
+                    p.cap.style.left = left + 'px';
+                    var c = p.cap.getBoundingClientRect();
+                    var y1 = p.above ? c.bottom - f.top + 2 : b.bottom - f.top;
+                    var y2 = p.above ? b.top - f.top : c.top - f.top - 2;
+                    p.line.style.left = cx + 'px';
+                    p.line.style.top = y1 + 'px';
+                    p.line.style.height = Math.max(0, y2 - y1) + 'px';
+                });
+            }
+
+            function set(n) {
+                fig.classList.toggle('has-on', n >= 0);
+                pairs.forEach(function (p, j) {
+                    [p.box, p.cap, p.line].forEach(function (el) { el.classList.toggle('on', j === n); });
+                });
+            }
+
+            pairs.forEach(function (p, i) {
+                [p.box.parentNode, p.cap].forEach(function (el) {
+                    el.addEventListener('mouseenter', function () { set(i); });
+                    el.addEventListener('mouseleave', function () { set(-1); });
+                });
+            });
+
+            fig.querySelectorAll('img').forEach(function (img) { if (!img.complete) img.addEventListener('load', draw); });
+            if (window.ResizeObserver) new ResizeObserver(draw).observe(fig);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+            document.addEventListener('case:lang', draw);
+            draw();
+        });
+    })();
+    </script>
+    <script>
+    /* Language switch: every translatable node carries data-zh; the English original is
+       cached on first switch so the two directions stay lossless. */
+    (function () {
+        var KEY = 'case-lang';
+        function apply(lang, save) {
+            var root = document.documentElement;
+            root.setAttribute('data-lang', lang);
+            root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            var nodes = document.querySelectorAll('[data-zh]');
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                if (el.innerHTML !== want) el.innerHTML = want;
+            }
+            var btns = document.querySelectorAll('.langsw button');
+            for (var j = 0; j < btns.length; j++) {
+                var on = btns[j].getAttribute('data-lang') === lang;
+                btns[j].classList.toggle('on', on);
+                btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+            }
+            if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+            document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+        }
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('.langsw button');
+            if (b) apply(b.getAttribute('data-lang'), true);
+        });
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        document.addEventListener('DOMContentLoaded', function () { if (saved === 'zh') apply('zh', false); });
+    })();
     </script>
 </body>
 </html>

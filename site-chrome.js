@@ -51,9 +51,9 @@
     return 'work';
   };
 
-  const navLink = (href, id, label, current) => {
+  const navLink = (href, id, label, zh, current) => {
     const active = current === id ? ' aria-current="page"' : '';
-    return `<a href="${href}" class="site-nav__link"${active}>${label}</a>`;
+    return `<a href="${href}" class="site-nav__link"${active} data-zh="${zh}">${label}</a>`;
   };
 
   class SiteHeader extends HTMLElement {
@@ -82,12 +82,12 @@
             <a href="index.html" class="brand" aria-label="Qin Wang — home">
                 <span class="brand__mark" aria-hidden="true">${MARK}</span>
                 <span>Qin Wang</span>
-                <span class="brand__role">Senior product designer / Lead designer</span>
+                <span class="brand__role" data-zh="资深产品设计师 / 主设计师">Senior product designer / Lead designer</span>
             </a>
             <div class="site-header__end">
                 <nav class="site-nav" aria-label="Primary">
-                    ${navLink('index.html', 'work', 'Portfolio', current)}
-                    ${navLink('about.html', 'about', 'About me', current)}
+                    ${navLink('index.html', 'work', 'Portfolio', '作品集', current)}
+                    ${navLink('about.html', 'about', 'About me', '关于我', current)}
                 </nav>
                 <a class="icon-link" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${LINKEDIN}</a>
                 <a class="icon-link" href="https://medium.com/@qinwangux" target="_blank" rel="noopener noreferrer" aria-label="Medium">${MEDIUM}</a>
@@ -98,8 +98,8 @@
             </div>
         </div>
         <div id="menu" role="menu">
-            <a href="index.html" role="menuitem">Portfolio</a>
-            <a href="about.html" role="menuitem">About me</a>
+            <a href="index.html" role="menuitem" data-zh="作品集">Portfolio</a>
+            <a href="about.html" role="menuitem" data-zh="关于我">About me</a>
         </div>
         ${progressMarkup}
       `;

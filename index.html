@@ -25,59 +25,59 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230034F0'/%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='2.8' stroke-linecap='round'%3E%3Ccircle cx='14' cy='15' r='7.4'/%3E%3Cpath d='M17.6 20.7H25'/%3E%3C/g%3E%3C/svg%3E">
 
-    <link href="./resources/css/index.css?v=44" type="text/css" rel="stylesheet">
-    <script src="site-chrome.js?v=10"></script>
+    <link href="./resources/css/index.css?v=48" type="text/css" rel="stylesheet">
+    <script src="site-chrome.js?v=11"></script>
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch></site-header>
 
     <main>
         <section class="section--tight">
             <div class="container">
-                <span class="eyebrow">Senior product designer / Lead designer</span>
-                <h1 class="display work-page__title">Bringing clarity to <em>complex</em> financial products.</h1>
-                <p class="work-page__lede">
+                <span class="eyebrow" data-zh="资深产品设计师 / 主设计师">Senior product designer / Lead designer</span>
+                <h1 class="display work-page__title" data-zh="让&lt;em&gt;复杂&lt;/em&gt;的金融产品变得清晰。">Bringing clarity to <em>complex</em> financial products.</h1>
+                <p class="work-page__lede" data-zh="6 年以上加密与金融科技产品设计经验，覆盖财富管理、开户和合规。先做研究，上线后用数据验证。&lt;a class=&quot;work-page__resume&quot; href=&quot;resume.html&quot;&gt;简历&amp;nbsp;→&lt;/a&gt;">
                     6+ years designing wealth, onboarding, and compliance products across crypto and fintech —
                     research first, measured after launch. <a class="work-page__resume" href="resume.html">Resume&nbsp;→</a>
                 </p>
 
                 <div class="filters" role="toolbar" aria-label="Filter projects" data-filter-container>
-                    <button class="filter-chip" data-filter="featured" aria-pressed="true" type="button">Featured work</button>
+                    <button class="filter-chip" data-filter="featured" aria-pressed="true" type="button" data-zh="精选作品">Featured work</button>
                     <span class="filter-divider" aria-hidden="true"></span>
-                    <button class="filter-chip" data-filter="crypto" aria-pressed="false" type="button">Crypto &amp; Web3</button>
-                    <button class="filter-chip" data-filter="fintech" aria-pressed="false" type="button">Fintech</button>
-                    <button class="filter-chip" data-filter="leadership" aria-pressed="false" type="button">Leadership</button>
-                    <button class="filter-chip" data-filter="research" aria-pressed="false" type="button">Research</button>
-                    <button class="filter-chip" data-filter="academia" aria-pressed="false" type="button">Academia</button>
-                    <button class="filter-chip" data-filter="all" aria-pressed="false" type="button">All</button>
+                    <button class="filter-chip" data-filter="crypto" aria-pressed="false" type="button" data-zh="加密与 Web3">Crypto &amp; Web3</button>
+                    <button class="filter-chip" data-filter="fintech" aria-pressed="false" type="button" data-zh="金融科技">Fintech</button>
+                    <button class="filter-chip" data-filter="leadership" aria-pressed="false" type="button" data-zh="设计管理">Leadership</button>
+                    <button class="filter-chip" data-filter="research" aria-pressed="false" type="button" data-zh="研究">Research</button>
+                    <button class="filter-chip" data-filter="academia" aria-pressed="false" type="button" data-zh="学术">Academia</button>
+                    <button class="filter-chip" data-filter="all" aria-pressed="false" type="button" data-zh="全部">All</button>
                 </div>
 
                 <!-- One card per case; the filter chips show or hide cards by data-tags -->
                 <div class="grid" data-filter-layout="timeline">
-                    <h2 id="crypto" class="section-title" data-filter-section>Crypto &amp; compliance</h2>
+                    <h2 id="crypto" class="section-title" data-filter-section data-zh="加密与合规">Crypto &amp; compliance</h2>
 
                     <a href="asset.html" class="card" data-tags="featured,crypto,fintech" data-featured-order="1">
                         <img class="coverimg" src="resources/images-asset/asset-cover.png?v=2" alt="Unified Assets portfolio across crypto and US/HK securities">
                         <div class="card-description">
                             <div class="caption">2026 <span class="dot" aria-hidden="true"></span> Avenir Group</div>
-                            <div class="card-title">Untangling Assets — unified crypto and securities portfolio</div>
-                            <p class="description">One portfolio view across crypto and US/HK securities for institutional and HNW clients, on App and Web.</p>
+                            <div class="card-title" data-zh="资产页重构：统一加密与证券持仓">Untangling Assets — unified crypto and securities portfolio</div>
+                            <p class="description" data-zh="为机构和高净值客户打造统一的资产视图，覆盖加密资产与美股、港股，支持 App 和 Web。">One portfolio view across crypto and US/HK securities for institutional and HNW clients, on App and Web.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:50"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 50%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--ai" style="flex-grow:50"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">AI prototyping 50%</span>Prototypes made with Claude and Figma Make.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:50"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 50%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 50%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--ai" style="flex-grow:50"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;AI 原型 50%&lt;/span&gt;用 Claude 和 Figma Make 制作原型。"><span class="mix__tip-title">AI prototyping 50%</span>Prototypes made with Claude and Figma Make.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">50%</span></li>
-                                    <li><span class="mix__dot mix__seg--ai" aria-hidden="true"></span><span class="mix__term">AI prototyping</span> <span class="mix__pct">50%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">50%</span></li>
+                                    <li><span class="mix__dot mix__seg--ai" aria-hidden="true"></span><span class="mix__term" data-zh="AI 原型">AI prototyping</span> <span class="mix__pct">50%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">Aligned the solution in a week; the product launched publicly in four months.</div>
+                            <div class="outcome" data-zh="一周内对齐方案；四个月后产品正式上线。">Aligned the solution in a week; the product launched publicly in four months.</div>
                             <div class="tags">
                                 <span class="tag">App + Web</span>
-                                <span class="tag">Wealth</span>
-                                <span class="tag">Information architecture</span>
+                                <span class="tag" data-zh="财富管理">Wealth</span>
+                                <span class="tag" data-zh="信息架构">Information architecture</span>
                             </div>
                         </div>
                     </a>
@@ -86,24 +86,24 @@
                         <img class="coverimg" src="resources/images-kyb/cover-card.png?v=1" alt="Institutional onboarding flow with document checklist and guided uploads">
                         <div class="card-description">
                             <div class="caption">2025 <span class="dot" aria-hidden="true"></span> KuCoin</div>
-                            <div class="card-title">Institutional KYB onboarding redesign</div>
-                            <p class="description">Guided selection and a document checklist replaced a text-heavy flow, after research showed 82% of users submitted more than once.</p>
+                            <div class="card-title" data-zh="机构 KYB 开户流程重设计">Institutional KYB onboarding redesign</div>
+                            <p class="description" data-zh="调研发现 82% 的用户需要多次提交，于是用引导式选择和材料清单取代了大段文字说明。">Guided selection and a document checklist replaced a text-heavy flow, after research showed 82% of users submitted more than once.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--research" style="flex-grow:20"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Research 20%</span>Interviews, watching people use the product, and reading research reports.</span></span>
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--measure" style="flex-grow:20"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Measurement 20%</span>Choosing what to track, and seeing where people drop off.</span></span>
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:20"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;研究 20%&lt;/span&gt;用户访谈、观察用户使用产品，以及研读调研报告。"><span class="mix__tip-title">Research 20%</span>Interviews, watching people use the product, and reading research reports.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 60%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--measure" style="flex-grow:20"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;数据度量 20%&lt;/span&gt;确定要追踪的指标，找出用户流失的环节。"><span class="mix__tip-title">Measurement 20%</span>Choosing what to track, and seeing where people drop off.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research</span> <span class="mix__pct">20%</span></li>
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">60%</span></li>
-                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term">Measurement</span> <span class="mix__pct">20%</span></li>
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term" data-zh="研究">Research</span> <span class="mix__pct">20%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term" data-zh="数据度量">Measurement</span> <span class="mix__pct">20%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">Established a 41% document-upload baseline.</div>
+                            <div class="outcome" data-zh="建立了 41% 的材料上传基线数据。">Established a 41% document-upload baseline.</div>
                             <div class="tags">
-                                <span class="tag">Client onboarding</span>
-                                <span class="tag">Compliance UX</span>
+                                <span class="tag" data-zh="客户开户">Client onboarding</span>
+                                <span class="tag" data-zh="合规体验">Compliance UX</span>
                                 <span class="tag">0 → 1</span>
                             </div>
                         </div>
@@ -112,26 +112,26 @@
                     <a href="crypto-aml.html" class="card" data-tags="featured,crypto,research" data-featured-order="6">
                         <img class="coverimg" src="resources/images-crypto-graph/graph_cover.png" alt="On-chain fund flow investigation interface with transaction graph">
                         <div class="card-description">
-                            <div class="caption">2023–24 <span class="dot" aria-hidden="true"></span> Crypto · Compliance</div>
-                            <div class="card-title">On-chain fund-flow investigation experience</div>
-                            <p class="description">Analyst interviews turned into a clearer graph view, evidence panel and case notes for fund-flow investigations.</p>
+                            <div class="caption" data-zh="2023–24 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 加密 · 合规">2023–24 <span class="dot" aria-hidden="true"></span> Crypto · Compliance</div>
+                            <div class="card-title" data-zh="链上资金流调查体验">On-chain fund-flow investigation experience</div>
+                            <p class="description" data-zh="基于分析师访谈，为资金流调查重新设计了图谱视图、证据面板和案件笔记。">Analyst interviews turned into a clearer graph view, evidence panel and case notes for fund-flow investigations.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Research 30%</span>Interviews, watching people use the product, and reading research reports.</span></span>
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--measure" style="flex-grow:10"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Measurement 10%</span>Choosing what to track, and seeing where people drop off.</span></span>
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;研究 30%&lt;/span&gt;用户访谈、观察用户使用产品，以及研读调研报告。"><span class="mix__tip-title">Research 30%</span>Interviews, watching people use the product, and reading research reports.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 60%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--measure" style="flex-grow:10"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;数据度量 10%&lt;/span&gt;确定要追踪的指标，找出用户流失的环节。"><span class="mix__tip-title">Measurement 10%</span>Choosing what to track, and seeing where people drop off.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research</span> <span class="mix__pct">30%</span></li>
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">60%</span></li>
-                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term">Measurement</span> <span class="mix__pct">10%</span></li>
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term" data-zh="研究">Research</span> <span class="mix__pct">30%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--measure" aria-hidden="true"></span><span class="mix__term" data-zh="数据度量">Measurement</span> <span class="mix__pct">10%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">Closed the gap between analyst mental model and tool.</div>
+                            <div class="outcome" data-zh="让工具贴合分析师的思考方式。">Closed the gap between analyst mental model and tool.</div>
                             <div class="tags">
-                                <span class="tag">Data visualization</span>
+                                <span class="tag" data-zh="数据可视化">Data visualization</span>
                                 <span class="tag">AML</span>
-                                <span class="tag">Research</span>
+                                <span class="tag" data-zh="研究">Research</span>
                             </div>
                         </div>
                     </a>
@@ -140,21 +140,21 @@
                         <img class="coverimg coverimg--top" src="resources/images-kyc-aus/kyc-cover-v2.webp?v=6" width="2016" height="1120" alt="Retail KYC on mobile: the same country-selection step for Australia and Germany, with different requirements">
                         <div class="card-description">
                             <div class="caption">2025 <span class="dot" aria-hidden="true"></span> KuCoin</div>
-                            <div class="card-title">Retail KYC — Australia and Europe</div>
-                            <p class="description">0→1 client onboarding for two regulated launches: AUSTRAC in Australia and MiCA in Europe.</p>
+                            <div class="card-title" data-zh="KYC：澳大利亚与欧洲">KYC — Australia and Europe</div>
+                            <p class="description" data-zh="为两个受监管市场从 0 到 1 设计开户流程：澳大利亚 AUSTRAC 与欧洲 MiCA。">0→1 client onboarding for two regulated launches: AUSTRAC in Australia and MiCA in Europe.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:100"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 100%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:100"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 100%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 100%</span>Early concepts, then screens revised and ready for engineering.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">100%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">100%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">Demoed to the EU regulator in KuCoin’s MiCA licence application, and the licence was granted; AUSTRAC registration was confirmed for Australia.</div>
+                            <div class="outcome" data-zh="在 KuCoin 申请 MiCA 牌照时向欧盟监管机构演示，牌照已获批；澳大利亚 AUSTRAC 注册也已确认。">Demoed to the EU regulator in KuCoin’s MiCA licence application, and the licence was granted; AUSTRAC registration was confirmed for Australia.</div>
                             <div class="tags">
-                                <span class="tag">Client onboarding</span>
+                                <span class="tag" data-zh="客户开户">Client onboarding</span>
                                 <span class="tag">0 → 1</span>
-                                <span class="tag">Multi-region</span>
+                                <span class="tag" data-zh="多地区">Multi-region</span>
                             </div>
                         </div>
                     </a>
@@ -163,23 +163,23 @@
                         <img class="coverimg" src="resources/images-internal-system/cover-featured.png?v=5" alt="The redesigned agent workspace beside the four other internal platforms: customer-service console, chatbot configuration, data platform and compliance system" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2024–25 <span class="dot" aria-hidden="true"></span> KuCoin</div>
-                            <div class="card-title">Internal platforms — 5 tools, one design system</div>
-                            <p class="description">Led 3 designers across 5 internal platforms and a shared design system, then redesigned the agent workspace for 200+ support agents.</p>
+                            <div class="card-title" data-zh="内部平台：5 个工具，一套设计系统">Internal platforms — 5 tools, one design system</div>
+                            <p class="description" data-zh="带领 3 名设计师负责 5 个内部平台和一套共享设计系统，并为 200 多名客服重新设计了坐席工作台。">Led 3 designers across 5 internal platforms and a shared design system, then redesigned the agent workspace for 200+ support agents.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:50"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 50%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--validate" style="flex-grow:50"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Usability test 50%</span>Testing the MVP with support agents and watching them work at their desks.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:50"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 50%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 50%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--validate" style="flex-grow:50"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;可用性测试 50%&lt;/span&gt;与客服一起测试 MVP，并在工位旁观察他们的实际工作。"><span class="mix__tip-title">Usability test 50%</span>Testing the MVP with support agents and watching them work at their desks.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">50%</span></li>
-                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term">Usability test</span> <span class="mix__pct">50%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">50%</span></li>
+                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term" data-zh="可用性测试">Usability test</span> <span class="mix__pct">50%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">Five platforms and a design system in six months; the agent workspace redesign was ready for a 20-agent pilot.</div>
+                            <div class="outcome" data-zh="六个月内完成五个平台和一套设计系统；新版坐席工作台已可供 20 名客服试点。">Five platforms and a design system in six months; the agent workspace redesign was ready for a 20-agent pilot.</div>
                             <div class="tags">
-                                <span class="tag">Team lead</span>
-                                <span class="tag">Design system</span>
-                                <span class="tag">AI assistance</span>
+                                <span class="tag" data-zh="团队负责人">Team lead</span>
+                                <span class="tag" data-zh="设计系统">Design system</span>
+                                <span class="tag" data-zh="AI 辅助">AI assistance</span>
                             </div>
                         </div>
                     </a>
@@ -187,14 +187,14 @@
                     <a href="kyekya.html" class="card" data-tags="crypto,research">
                         <img class="coverimg" src="resources/images-kya-kye/cover.png" alt="On-chain transaction risk analysis with graph visualisation" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2024 <span class="dot" aria-hidden="true"></span> Crypto · AML</div>
-                            <div class="card-title">On-chain AML risk analysis</div>
-                            <p class="description">Designed the on-chain transaction risk module from analyst interviews — surfacing the signals that drive a flag, not just the data behind them.</p>
-                            <div class="outcome">Reduced cognitive load for compliance analysts; pattern reused across the AML suite.</div>
+                            <div class="caption" data-zh="2024 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 加密 · 反洗钱">2024 <span class="dot" aria-hidden="true"></span> Crypto · AML</div>
+                            <div class="card-title" data-zh="链上反洗钱风险分析">On-chain AML risk analysis</div>
+                            <p class="description" data-zh="基于分析师访谈设计链上交易风险模块：直接呈现触发预警的信号，而不只是背后的数据。">Designed the on-chain transaction risk module from analyst interviews — surfacing the signals that drive a flag, not just the data behind them.</p>
+                            <div class="outcome" data-zh="降低了合规分析师的认知负担；该模式在整套反洗钱产品中复用。">Reduced cognitive load for compliance analysts; pattern reused across the AML suite.</div>
                             <div class="tags">
-                                <span class="tag">Data visualization</span>
-                                <span class="tag">On-chain data</span>
-                                <span class="tag">User research</span>
+                                <span class="tag" data-zh="数据可视化">Data visualization</span>
+                                <span class="tag" data-zh="链上数据">On-chain data</span>
+                                <span class="tag" data-zh="用户研究">User research</span>
                             </div>
                         </div>
                     </a>
@@ -203,44 +203,44 @@
                         <img class="coverimg" src="resources/images-web 3/cover_img.png" alt="Web 3 meme coin risk indicators" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2025 <span class="dot" aria-hidden="true"></span> Web 3</div>
-                            <div class="card-title">Meme-coin risk analysis for a Web 3 wallet</div>
-                            <p class="description">Outlined the risks behind a token in plain language and at-a-glance signals, helping retail users avoid losses on volatile assets.</p>
-                            <div class="outcome">Concept design; surfaced risk signals at the decision moment instead of post-purchase.</div>
+                            <div class="card-title" data-zh="Web 3 钱包的 Meme 币风险分析">Meme-coin risk analysis for a Web 3 wallet</div>
+                            <p class="description" data-zh="用通俗的语言和一目了然的信号说明代币背后的风险，帮助零售用户在高波动资产上减少损失。">Outlined the risks behind a token in plain language and at-a-glance signals, helping retail users avoid losses on volatile assets.</p>
+                            <div class="outcome" data-zh="概念设计；在用户做决定的时刻呈现风险信号，而不是买入之后。">Concept design; surfaced risk signals at the decision moment instead of post-purchase.</div>
                             <div class="tags">
                                 <span class="tag">Web 3</span>
-                                <span class="tag">Decision UX</span>
+                                <span class="tag" data-zh="决策体验">Decision UX</span>
                             </div>
                         </div>
                     </a>
 
-                    <h2 id="fintech" class="section-title" data-filter-section>Fintech &amp; wealth management</h2>
+                    <h2 id="fintech" class="section-title" data-filter-section data-zh="金融科技与财富管理">Fintech &amp; wealth management</h2>
 
                     <a href="dashboard.html" class="card" data-tags="featured,fintech,research,leadership" data-featured-order="5">
                         <img class="coverimg" src="resources/images-dashboard/pm-cover.png?v=1" alt="Portfolio management system: account dashboard with summary, allocation and performance">
                         <div class="card-description">
                             <div class="caption">2020–22 <span class="dot" aria-hidden="true"></span> Quantifeed</div>
-                            <div class="card-title">Portfolio management system, with shared dashboard pattern</div>
-                            <p class="description">The model-portfolio tool used by HSBC, DBS and MUFG. Designed the account dashboard 0→1, redesigned five modules and rebuilt the design system.</p>
+                            <div class="card-title" data-zh="投资组合管理系统与通用仪表盘模式">Portfolio management system, with shared dashboard pattern</div>
+                            <p class="description" data-zh="汇丰、星展和三菱日联使用的模型组合工具。从 0 到 1 设计账户仪表盘，重新设计五个模块，并重建设计系统。">The model-portfolio tool used by HSBC, DBS and MUFG. Designed the account dashboard 0→1, redesigned five modules and rebuilt the design system.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--research" style="flex-grow:40"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Research 40%</span>Interviews, watching people use the product, and reading research reports.</span></span>
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:40"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 40%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--validate" style="flex-grow:20"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Usability test 20%</span>Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span>
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:40"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;研究 40%&lt;/span&gt;用户访谈、观察用户使用产品，以及研读调研报告。"><span class="mix__tip-title">Research 40%</span>Interviews, watching people use the product, and reading research reports.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:40"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 40%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 40%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--validate" style="flex-grow:20"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;可用性测试 20%&lt;/span&gt;包括游击测试：在实验室之外，找几个人快速、非正式地验证。"><span class="mix__tip-title">Usability test 20%</span>Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research</span> <span class="mix__pct">40%</span></li>
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">40%</span></li>
-                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term">Usability test</span> <span class="mix__pct">20%</span></li>
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term" data-zh="研究">Research</span> <span class="mix__pct">40%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">40%</span></li>
+                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term" data-zh="可用性测试">Usability test</span> <span class="mix__pct">20%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">The new dashboard helped bring HSBC Hong Kong on board, and the CEO opened his network so I could interview real advisors.</div>
+                            <div class="outcome" data-zh="新仪表盘帮助公司签下汇丰香港；CEO 还引荐了他的人脉，让我能访谈真实的理财顾问。">The new dashboard helped bring HSBC Hong Kong on board, and the CEO opened his network so I could interview real advisors.</div>
                             <div class="tags">
-                                <span class="tag">Wealth</span>
+                                <span class="tag" data-zh="财富管理">Wealth</span>
                                 <span class="tag">B2B</span>
-                                <span class="tag">Design system</span>
-                                <span class="tag">Workshops</span>
-                                <span class="tag">Comparative testing</span>
-                                <span class="tag">User interviews</span>
+                                <span class="tag" data-zh="设计系统">Design system</span>
+                                <span class="tag" data-zh="工作坊">Workshops</span>
+                                <span class="tag" data-zh="对比测试">Comparative testing</span>
+                                <span class="tag" data-zh="用户访谈">User interviews</span>
                             </div>
                         </div>
                     </a>
@@ -248,19 +248,19 @@
 
 
 
-                    <h2 id="leadership" class="section-title" data-filter-section>Leadership &amp; strategy</h2>
+                    <h2 id="leadership" class="section-title" data-filter-section data-zh="设计管理与策略">Leadership &amp; strategy</h2>
 
 
                     <a href="ex-measure.html" class="card" data-tags="leadership,research">
                         <img class="coverimg" src="resources/images-measure/ex meseaure_cover.png" alt="Experience measurement framework" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2023 <span class="dot" aria-hidden="true"></span> Strategy</div>
-                            <div class="card-title">Tailored experience-measurement framework</div>
-                            <p class="description">Defined the metrics, events, and dashboards we needed to track user experience as a first-class product signal — partnering with data and PM.</p>
-                            <div class="outcome">Shared measurement framework across squads; tied design decisions to measurable outcomes.</div>
+                            <div class="caption" data-zh="2023 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 策略">2023 <span class="dot" aria-hidden="true"></span> Strategy</div>
+                            <div class="card-title" data-zh="定制化体验度量框架">Tailored experience-measurement framework</div>
+                            <p class="description" data-zh="与数据团队和产品经理合作，定义追踪用户体验所需的指标、埋点和看板，让体验成为核心产品信号。">Defined the metrics, events, and dashboards we needed to track user experience as a first-class product signal — partnering with data and PM.</p>
+                            <div class="outcome" data-zh="度量框架在各小组间共用；设计决策与可衡量的结果挂钩。">Shared measurement framework across squads; tied design decisions to measurable outcomes.</div>
                             <div class="tags">
-                                <span class="tag">Data-driven</span>
-                                <span class="tag">Product thinking</span>
+                                <span class="tag" data-zh="数据驱动">Data-driven</span>
+                                <span class="tag" data-zh="产品思维">Product thinking</span>
                             </div>
                         </div>
                     </a>
@@ -268,13 +268,13 @@
                     <a href="candidate-assess.html" class="card" data-tags="leadership">
                         <img class="coverimg" src="resources/images-candidate-assessment/candidate assessment cover.png" alt="Candidate assessment framework" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2022 <span class="dot" aria-hidden="true"></span> Team building</div>
-                            <div class="card-title">Candidate assessment metrics for design hiring</div>
-                            <p class="description">Built a structured rubric and interview format to bring fairness and consistency to design hiring at the company.</p>
-                            <div class="outcome">Hiring decisions became reproducible; rubric reused for subsequent design hires.</div>
+                            <div class="caption" data-zh="2022 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 团队建设">2022 <span class="dot" aria-hidden="true"></span> Team building</div>
+                            <div class="card-title" data-zh="设计招聘的候选人评估标准">Candidate assessment metrics for design hiring</div>
+                            <p class="description" data-zh="建立结构化的评分标准和面试流程，让公司的设计招聘更公平、更一致。">Built a structured rubric and interview format to bring fairness and consistency to design hiring at the company.</p>
+                            <div class="outcome" data-zh="招聘决策有据可循；评分标准沿用到后续的设计招聘。">Hiring decisions became reproducible; rubric reused for subsequent design hires.</div>
                             <div class="tags">
-                                <span class="tag">Hiring</span>
-                                <span class="tag">Team building</span>
+                                <span class="tag" data-zh="招聘">Hiring</span>
+                                <span class="tag" data-zh="团队建设">Team building</span>
                             </div>
                         </div>
                     </a>
@@ -282,26 +282,26 @@
                     <a href="workflow.html" class="card" data-tags="leadership">
                         <img class="coverimg" src="resources/images-workflow/workflow_cover.png" alt="Cross-department workflow design" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2022 <span class="dot" aria-hidden="true"></span> Process</div>
-                            <div class="card-title">Cross-department workflow, established from scratch</div>
-                            <p class="description">Mapped the handoff between design, product, and engineering, then established a workflow and review rituals that stuck.</p>
-                            <div class="outcome">Workflow adopted by the squad; reduced rework between design and engineering.</div>
+                            <div class="caption" data-zh="2022 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 流程">2022 <span class="dot" aria-hidden="true"></span> Process</div>
+                            <div class="card-title" data-zh="从零建立跨部门协作流程">Cross-department workflow, established from scratch</div>
+                            <p class="description" data-zh="梳理设计、产品和研发之间的交接，建立起一套真正落地的工作流程和评审机制。">Mapped the handoff between design, product, and engineering, then established a workflow and review rituals that stuck.</p>
+                            <div class="outcome" data-zh="小组采用了这套流程；设计与研发之间的返工减少。">Workflow adopted by the squad; reduced rework between design and engineering.</div>
                             <div class="tags">
-                                <span class="tag">Process</span>
-                                <span class="tag">Cross-team</span>
+                                <span class="tag" data-zh="流程">Process</span>
+                                <span class="tag" data-zh="跨团队">Cross-team</span>
                             </div>
                         </div>
                     </a>
 
-                    <h2 class="section-title" data-filter-section>Other product work</h2>
+                    <h2 class="section-title" data-filter-section data-zh="其他产品项目">Other product work</h2>
 
                     <a href="indoormap.html" class="card" data-tags="">
                         <img class="coverimg" src="resources/images/indoormap-coverimg.png" alt="Indoor map CMS interface" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2023 <span class="dot" aria-hidden="true"></span> 0 → 1</div>
-                            <div class="card-title">Indoor map CMS, designed ground-up</div>
-                            <p class="description">From blank page to shippable MVP — defined the editor canvas, layer model, and review workflow with two engineers.</p>
-                            <div class="outcome">First production CMS for venue editors; editor pattern reused by later tools.</div>
+                            <div class="card-title" data-zh="室内地图 CMS，从零设计">Indoor map CMS, designed ground-up</div>
+                            <p class="description" data-zh="与两名工程师从零做到可上线的 MVP：定义编辑画布、图层模型和审核流程。">From blank page to shippable MVP — defined the editor canvas, layer model, and review workflow with two engineers.</p>
+                            <div class="outcome" data-zh="场馆编辑人员的首个正式 CMS；编辑器模式被后续工具复用。">First production CMS for venue editors; editor pattern reused by later tools.</div>
                             <div class="tags">
                                 <span class="tag">0 → 1</span>
                                 <span class="tag">CMS</span>
@@ -313,40 +313,40 @@
                         <img class="coverimg" src="resources/images/recruit cover.png" alt="Manulife agent recruitment application flow">
                         <div class="card-description">
                             <div class="caption">2022 <span class="dot" aria-hidden="true"></span> Manulife</div>
-                            <div class="card-title">Agent recruitment system, 0→1</div>
-                            <p class="description">Led UX for a scalable agent-application flow — working with research, BAs, engineering and the design-system owner from invite through submission.</p>
+                            <div class="card-title" data-zh="保险代理人招募系统，0→1">Agent recruitment system, 0→1</div>
+                            <p class="description" data-zh="主导可扩展的代理人申请流程体验，从邀请到提交，与研究、业务分析、研发和设计系统负责人协作。">Led UX for a scalable agent-application flow — working with research, BAs, engineering and the design-system owner from invite through submission.</p>
                             <div class="mix">
                                 <div class="mix__bar">
-                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Research 30%</span>Interviews, watching people use the product, and reading research reports.</span></span>
-                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
-                                    <span class="mix__seg mix__seg--validate" style="flex-grow:10"><span class="mix__tip" role="tooltip"><span class="mix__tip-title">Usability test 10%</span>Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span>
+                                    <span class="mix__seg mix__seg--research" style="flex-grow:30"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;研究 30%&lt;/span&gt;用户访谈、观察用户使用产品，以及研读调研报告。"><span class="mix__tip-title">Research 30%</span>Interviews, watching people use the product, and reading research reports.</span></span>
+                                    <span class="mix__seg mix__seg--design" style="flex-grow:60"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;设计 60%&lt;/span&gt;从早期概念到修改完善、可交付开发的界面。"><span class="mix__tip-title">Design 60%</span>Early concepts, then screens revised and ready for engineering.</span></span>
+                                    <span class="mix__seg mix__seg--validate" style="flex-grow:10"><span class="mix__tip" role="tooltip" data-zh="&lt;span class=&quot;mix__tip-title&quot;&gt;可用性测试 10%&lt;/span&gt;包括游击测试：在实验室之外，找几个人快速、非正式地验证。"><span class="mix__tip-title">Usability test 10%</span>Includes guerrilla tests — a quick, informal check with a few people, outside a lab.</span></span>
                                 </div>
                                 <ul class="mix__legend">
-                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term">Research</span> <span class="mix__pct">30%</span></li>
-                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term">Design</span> <span class="mix__pct">60%</span></li>
-                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term">Usability test</span> <span class="mix__pct">10%</span></li>
+                                    <li><span class="mix__dot mix__seg--research" aria-hidden="true"></span><span class="mix__term" data-zh="研究">Research</span> <span class="mix__pct">30%</span></li>
+                                    <li><span class="mix__dot mix__seg--design" aria-hidden="true"></span><span class="mix__term" data-zh="设计">Design</span> <span class="mix__pct">60%</span></li>
+                                    <li><span class="mix__dot mix__seg--validate" aria-hidden="true"></span><span class="mix__term" data-zh="可用性测试">Usability test</span> <span class="mix__pct">10%</span></li>
                                 </ul>
                             </div>
-                            <div class="outcome">MVP shipped for recruiting managers and agents.</div>
+                            <div class="outcome" data-zh="面向招募经理和代理人的 MVP 已上线。">MVP shipped for recruiting managers and agents.</div>
                             <div class="tags">
-                                <span class="tag">Internal tools</span>
+                                <span class="tag" data-zh="内部工具">Internal tools</span>
                                 <span class="tag">0 → 1</span>
-                                <span class="tag">Design system</span>
+                                <span class="tag" data-zh="设计系统">Design system</span>
                             </div>
                         </div>
                     </a>
 
-                    <h2 id="research" class="section-title" data-filter-section>Research &amp; academia</h2>
+                    <h2 id="research" class="section-title" data-filter-section data-zh="研究与学术">Research &amp; academia</h2>
 
                     <a href="actuated-lights.html" class="card" data-tags="academia">
                         <img class="coverimg" src="resources/images-academia/cover/lights-coverimg.gif" alt="Actuated autonomous lights prototype" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2018 <span class="dot" aria-hidden="true"></span> Master thesis · UCL</div>
-                            <div class="card-title">Actuated autonomous lights</div>
-                            <p class="description">Three robotic lights that follow or guide people through sequential tasks — exploring which factors shape the perception of "smartness".</p>
-                            <div class="outcome">Working prototype + study; informed thesis on tangible autonomous interfaces.</div>
+                            <div class="caption" data-zh="2018 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; UCL 硕士论文">2018 <span class="dot" aria-hidden="true"></span> Master thesis · UCL</div>
+                            <div class="card-title" data-zh="自主驱动灯">Actuated autonomous lights</div>
+                            <p class="description" data-zh="三盏会跟随或引导人完成连续任务的机器人灯，探索哪些因素影响人们对“智能”的感知。">Three robotic lights that follow or guide people through sequential tasks — exploring which factors shape the perception of "smartness".</p>
+                            <div class="outcome" data-zh="可运行的原型与用户研究，支撑了关于实体自主界面的论文。">Working prototype + study; informed thesis on tangible autonomous interfaces.</div>
                             <div class="tags">
-                                <span class="tag">Prototype</span>
+                                <span class="tag" data-zh="原型">Prototype</span>
                                 <span class="tag">HCI</span>
                             </div>
                         </div>
@@ -356,9 +356,9 @@
                         <img class="coverimg" src="resources/images-academia/cover/bots-coverimg.gif" alt="Touch messenger bots" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2017–18 <span class="dot" aria-hidden="true"></span> HRI 2018</div>
-                            <div class="card-title">Touch messenger — passing warmth remotely</div>
-                            <p class="description">Two bots that exchange touch warmth across distance and turn toward the sender's voice when receiving a message.</p>
-                            <div class="outcome">Working prototype with Arduino, heat pads, nRF24; presented at HRI 2018.</div>
+                            <div class="card-title" data-zh="触感信使：远程传递温度">Touch messenger — passing warmth remotely</div>
+                            <p class="description" data-zh="两台机器人跨越距离传递触摸的温度，收到消息时会转向发送者的声音。">Two bots that exchange touch warmth across distance and turn toward the sender's voice when receiving a message.</p>
+                            <div class="outcome" data-zh="用 Arduino、加热片和 nRF24 做出可运行原型；在 HRI 2018 上展示。">Working prototype with Arduino, heat pads, nRF24; presented at HRI 2018.</div>
                             <div class="tags">
                                 <span class="tag">Arduino</span>
                                 <span class="tag">HRI</span>
@@ -369,25 +369,25 @@
                     <a href="multi-surface.html" class="card" data-tags="academia">
                         <img class="coverimg" src="resources/images-academia/cover/multisurface-coverimg.gif" alt="Multi-surface 3D display research" loading="lazy">
                         <div class="card-description">
-                            <div class="caption">2019–20 <span class="dot" aria-hidden="true"></span> Research assistant · CityU</div>
-                            <div class="card-title">Multi-surface display for 3D imagery</div>
-                            <p class="description">Explored intuitive ways to interact with 3D data on a multi-surface setup — Unity prototype, elicitation study, and literature review.</p>
-                            <div class="outcome">Unity prototype + elicitation study; informed lab's research on multi-surface interaction.</div>
+                            <div class="caption" data-zh="2019–20 &lt;span class=&quot;dot&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; 香港城市大学研究助理">2019–20 <span class="dot" aria-hidden="true"></span> Research assistant · CityU</div>
+                            <div class="card-title" data-zh="多屏 3D 图像显示">Multi-surface display for 3D imagery</div>
+                            <p class="description" data-zh="在多屏环境中探索与 3D 数据直观交互的方式：Unity 原型、诱导研究和文献综述。">Explored intuitive ways to interact with 3D data on a multi-surface setup — Unity prototype, elicitation study, and literature review.</p>
+                            <div class="outcome" data-zh="Unity 原型与诱导研究，为实验室的多屏交互研究提供依据。">Unity prototype + elicitation study; informed lab's research on multi-surface interaction.</div>
                             <div class="tags">
                                 <span class="tag">Unity</span>
-                                <span class="tag">Elicitation study</span>
+                                <span class="tag" data-zh="诱导研究">Elicitation study</span>
                             </div>
                         </div>
                     </a>
 
-                    <h2 class="section-title" data-filter-section data-earlier-work-section>Additional &amp; earlier work</h2>
-                    <p class="work-section-intro" data-earlier-work-intro>Earlier and smaller-scope projects — included for context and range.</p>
+                    <h2 class="section-title" data-filter-section data-earlier-work-section data-zh="更多早期作品">Additional &amp; earlier work</h2>
+                    <p class="work-section-intro" data-earlier-work-intro data-zh="早期和规模较小的项目，供了解经历的广度。">Earlier and smaller-scope projects — included for context and range.</p>
 
                     <a href="ads.html" class="card-small" data-tags="leadership">
                         <img class="coverimg" src="resources/images/MS Ad cover.png" alt="Microsoft Ads conversion funnel" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2018–19 <span class="dot" aria-hidden="true"></span> Microsoft</div>
-                            <div class="card-title">Ads management conversion funnel</div>
+                            <div class="card-title" data-zh="广告管理转化漏斗">Ads management conversion funnel</div>
                         </div>
                     </a>
 
@@ -395,7 +395,7 @@
                         <img class="coverimg" src="resources/images/Documentation Cover.png" alt="Documentation site" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2021 <span class="dot" aria-hidden="true"></span> Quantifeed</div>
-                            <div class="card-title">Documentation site</div>
+                            <div class="card-title" data-zh="文档网站">Documentation site</div>
                         </div>
                     </a>
 
@@ -403,7 +403,7 @@
                         <img class="coverimg" src="resources/Images-earlierwork/cover/peplink-coverimg.png" alt="Logistics system" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2020</div>
-                            <div class="card-title">Logistics system</div>
+                            <div class="card-title" data-zh="物流系统">Logistics system</div>
                         </div>
                     </a>
 
@@ -411,7 +411,7 @@
                         <img class="coverimg" src="resources/Images-earlierwork/cover/mindray-coverimg.png" alt="Mindray blood pump UI" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2019</div>
-                            <div class="card-title">Mindray blood pump</div>
+                            <div class="card-title" data-zh="迈瑞血泵">Mindray blood pump</div>
                         </div>
                     </a>
 
@@ -435,7 +435,7 @@
                         <img class="coverimg" src="resources/Images-earlierwork/cover/carinsur-coverimg.png" alt="Car insurance flow" loading="lazy">
                         <div class="card-description">
                             <div class="caption">2017</div>
-                            <div class="card-title">Car insurance</div>
+                            <div class="card-title" data-zh="车险">Car insurance</div>
                         </div>
                     </a>
 
@@ -453,7 +453,7 @@
 
     <footer class="site-footer">
         <div class="site-footer__inner">
-            <div class="site-footer__cta">
+            <div class="site-footer__cta" data-zh="正在寻找加密与金融科技领域的资深设计师或主设计师职位：&lt;a href=&quot;mailto:54wangqin1995@gmail.com&quot;&gt;54wangqin1995@gmail.com&lt;/a&gt;">
                 Open to senior designer or Lead designer roles in crypto and fintech —
                 <a href="mailto:54wangqin1995@gmail.com">54wangqin1995@gmail.com</a>
             </div>
@@ -470,6 +470,37 @@
 
     <script src="main.js?v=19"></script>
     <script>
+        (function () {
+            var KEY = 'case-lang';
+            function apply(lang, save) {
+                var root = document.documentElement;
+                root.setAttribute('data-lang', lang);
+                root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+                var nodes = document.querySelectorAll('[data-zh]');
+                for (var i = 0; i < nodes.length; i++) {
+                    var el = nodes[i];
+                    if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                    var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                    if (el.innerHTML !== want) el.innerHTML = want;
+                }
+                var btns = document.querySelectorAll('.langsw button');
+                for (var j = 0; j < btns.length; j++) {
+                    var on = btns[j].getAttribute('data-lang') === lang;
+                    btns[j].classList.toggle('on', on);
+                    btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+                }
+                if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+                document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+            }
+            document.addEventListener('click', function (e) {
+                var b = e.target.closest && e.target.closest('.langsw button');
+                if (b) apply(b.getAttribute('data-lang'), true);
+            });
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            if (saved === 'zh') apply('zh', false);
+        })();
+
         (function () {
             function placeTip(tip) {
                 var card = tip.closest('a');

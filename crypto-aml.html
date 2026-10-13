@@ -8,28 +8,29 @@
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
     <link href="resources/css/case-pattern.css?v=15" type="text/css" rel="stylesheet">
     <style>
-        /* ── Section rhythm (shared with internal-system.html) ── */
+        /* ── Type scale and section rhythm (matches asset.html) ──
+           Section head 28 · lead 16 · sub-head 18 · body 15 · card body 14 · labels 13/600 sentence case · captions 13.
+           Uppercase only for micro-labels: section kicker, Before / After tags, table heads, dates. */
+        :root { --text-tertiary: #6f6f6f; }
         .cs-kicker {
             display: block;
             margin-top: var(--space-8);
-            margin-bottom: var(--space-2);
-            padding-top: var(--space-7);
-            border-top: 1px solid var(--border);
+            margin-bottom: var(--space-3);
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.14em;
             color: var(--accent);
         }
-        #section2 + .cs-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
-        .cs-kicker + h3.section { margin: var(--space-2) 0 var(--space-3); font-size: 26px; line-height: 1.25; }
-        .cs-kicker + h3.section + p, .aml-stage + p { font-size: 17px; line-height: 1.65; color: #333; }
-        .one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-size: 17px; letter-spacing: -0.01em; }
-        .one-col p.cs-lead-sm { margin: 0 0 var(--space-4); font-size: 15.5px; line-height: 1.65; color: var(--text-secondary); }
+        #section2 + .cs-kicker { margin-top: 0; }
+        .one-col .cs-kicker + h3.section { margin: 0 0 var(--space-4); max-width: 40rem; font-family: var(--font-title); font-size: clamp(22px, 2.8vw, 28px); font-weight: 600; line-height: 1.2; letter-spacing: -0.035em; }
+        .one-col .cs-kicker + h3.section + p, .one-col .aml-stage + p { font-size: 16px; line-height: 1.65; letter-spacing: 0; color: var(--text-secondary); }
+        .one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-family: var(--font-title); font-size: 18px; line-height: 1.35; letter-spacing: -0.01em; }
+        .one-col p.cs-lead-sm { margin: 0 0 var(--space-4); font-size: 15px; line-height: 1.65; color: var(--text-secondary); }
 
-        .cs-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
-        .cs-list li { position: relative; margin: var(--space-2) 0; padding-left: 18px; font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
-        .cs-list li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+        .cs-list { margin: var(--space-3) 0 var(--space-4); padding: 0; list-style: none; }
+        .cs-list li { position: relative; margin: 10px 0; padding-left: 18px; font-size: 15px; line-height: 1.65; color: var(--text-secondary); }
+        .cs-list li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
         .cs-list li b { color: var(--text-primary); font-weight: 600; }
         .cs-list--check li { padding-left: 28px; }
         .cs-list--check li::before {
@@ -37,13 +38,15 @@
             background: rgba(18, 140, 86, 0.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23127a4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
         }
 
-        .cs-callout { margin: var(--space-5) 0; padding: var(--space-4) var(--space-5); border-left: 3px solid var(--accent); border-radius: var(--radius-md); background: var(--accent-subtle); }
-        .cs-callout .lbl { margin-bottom: var(--space-2); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
-        .cs-callout .quote { margin: 0; font-family: var(--font-title); font-size: 18px; font-weight: 500; line-height: 1.45; letter-spacing: -0.01em; color: var(--text-primary); }
-        .cs-callout .sub { display: block; margin-top: var(--space-2); font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
+        /* Same note block as dashboard.html .db-next: flat grey, square-ended 2px accent rule, rounded right side */
+        .cs-callout { margin: var(--space-5) 0; padding: 14px 18px; border-left: 2px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-subtle); }
+        .cs-callout .lbl { margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--accent); }
+        .one-col .cs-callout .quote { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--text-primary); }
+        .cs-callout .sub { display: block; margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
         .cs-shot { margin: var(--space-4) 0 0; }
-        .one-col .cs-shot img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .one-col .cs-shot img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: var(--radius-md); background: var(--bg-subtle); box-shadow: 0 0 0 1px rgba(17, 17, 17, .08), 0 14px 32px -12px rgba(17, 17, 17, .2); }
+        .one-col .cs-shot.gx-frame img { box-shadow: none; }
         .cs-figcap { margin: var(--space-4) 0 var(--space-6); font-size: 13px; line-height: 1.5; color: var(--text-tertiary); }
 
         .cs-num { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
@@ -51,7 +54,7 @@
         /* Small cards */
         .aml-cards { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 0; }
         .aml-card { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
-        .aml-card__k { display: block; margin: 0 0 var(--space-1); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .aml-card__k { display: block; margin: 0 0 var(--space-1); font-size: 13px; font-weight: 600; color: var(--text-tertiary); }
         .aml-card__h { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 var(--space-1); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
         .aml-card__h .cs-num { margin-top: -1px; }
         .one-col .aml-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
@@ -59,13 +62,13 @@
         .aml-card--num p { padding-left: 32px; }
 
         /* ── Investigation path: the visual table of contents ── */
-        .aml-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+        .aml-path { --path-gap: var(--space-4); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--path-gap); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
         .aml-path > li { position: relative; margin: 0; padding: 0; }
-        .aml-path > li + li::before { content: ""; position: absolute; left: calc(var(--space-4) / -2 - 5px); top: 26%; width: 10px; height: 10px; border-top: 2px solid var(--text-tertiary); border-right: 2px solid var(--text-tertiary); transform: rotate(45deg); opacity: .5; }
+        .aml-path > li + li::before { content: ""; position: absolute; z-index: 1; left: calc(var(--path-gap) / -2 - 12px); top: calc(50% - 12px); width: 24px; height: 24px; border-radius: 50%; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%230034f0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 6h7M6.5 3l3 3-3 3'/%3E%3C/svg%3E") center / 12px no-repeat; box-shadow: 0 0 0 1px rgba(0, 52, 240, .14), 0 2px 6px rgba(15, 23, 42, .08); }
         .aml-step { display: flex; flex-direction: column; gap: 3px; height: 100%; box-sizing: border-box; padding: 10px 10px 12px; border: 1px solid var(--border); border-radius: 14px; background: #fff; color: inherit; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
         .aml-step:hover { border-color: var(--accent); box-shadow: 0 6px 20px -12px rgba(0, 52, 240, .35); }
         .one-col .aml-step img { display: block; width: 100%; height: auto; aspect-ratio: 900 / 543; margin: 0 0 8px; object-fit: cover; border: 1px solid var(--border); border-radius: 8px; }
-        .aml-step__n { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+        .aml-step__n { font-size: 13px; font-weight: 600; color: var(--accent); }
         .aml-step b { font-size: 14.5px; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
         .aml-step__q { flex: 1; font-size: 12.5px; line-height: 1.45; color: var(--text-secondary); }
         .aml-step .aml-st { margin-top: 6px; }
@@ -80,12 +83,14 @@
         .aml-stage__mod { margin-right: 4px; font-size: 13px; color: var(--text-tertiary); }
 
         /* Findings → principles */
-        .aml-prins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 0; }
-        .aml-prin { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; overflow: hidden; }
+        .aml-prins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 0 var(--space-3); margin: var(--space-4) 0 0; }
+        .aml-prin { display: grid; grid-row: span 2; grid-template-rows: subgrid; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; overflow: hidden; }
         .aml-prin__find { flex: 1; padding: var(--space-4) var(--space-4) var(--space-3); }
+        .one-col .aml-prin__t { margin: 0 0 6px; font-family: var(--font-title); font-size: 15px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; color: var(--text-primary); }
+        .one-col .aml-prins { margin-top: var(--space-3); }
         .one-col .aml-prin__find p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
-        .aml-prin__p { display: flex; align-items: flex-start; gap: 10px; padding: var(--space-3) var(--space-4); background: var(--accent-subtle); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--accent); }
-        .aml-prin__p .cs-num { background: var(--accent); color: #fff; }
+        .aml-prin__p { position: relative; display: flex; align-items: center; justify-content: center; text-align: center; text-wrap: balance; padding: var(--space-5) var(--space-4) var(--space-4); background: var(--accent-subtle); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--accent); }
+        .aml-prin__p .cs-num { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: var(--accent); color: #fff; font-size: 12px; box-shadow: 0 0 0 2px #fff; }
 
         /* Collapsible detail for readers who want more */
         .cs-more { margin: var(--space-5) 0 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
@@ -128,28 +133,94 @@
         .one-col .gx-card h6.gx-sub { margin: var(--space-5) 0 var(--space-1) 32px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
         .one-col .gx-card h6.gx-sub + p { margin-bottom: var(--space-3); }
         .gx-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+        /* Alert comparison: legend chips, two equal screens, a note under each */
+        .aml-qkey { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+        .one-col .aml-stage + p + .aml-qkey { margin-top: var(--space-4); }
+        .aml-qkey li { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 4px 12px 4px 4px; border: 1px solid var(--border); border-radius: 999px; background: #fff; font-size: 13.5px; line-height: 20px; color: var(--text-primary); cursor: default; transition: border-color .15s, background .15s; }
+        .aml-qkey b { width: 20px; height: 20px; border-radius: 50%; background: var(--text-primary); color: #fff; font-size: 11px; font-weight: 600; line-height: 20px; text-align: center; flex: none; transition: background .15s; }
+        .aml-qkey li.is-hl { border-color: rgba(0, 52, 240, .35); background: var(--accent-subtle); }
+        .aml-qkey li.is-hl b { background: var(--accent); }
+        .aml-alert-pair { grid-template-rows: auto auto auto; column-gap: var(--space-5); row-gap: 0; margin-top: var(--space-6); }
+        .one-col .aml-alert-pair .gx-shot { display: grid; grid-row: span 3; grid-template-rows: subgrid; gap: 0; }
+        .aml-alert-pair .gx-cap { align-items: center; margin-bottom: 10px; }
+        .aml-alert-pair .gx-frame { overflow: visible; }
+        .one-col .aml-alert-pair .gx-frame img { border-radius: inherit; }
+        .one-col .aml-alert-note { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+        /* Reading path between the numbered boxes; viewBox matches the image, so it scales with it */
+        .aml-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; transition: opacity .15s; }
+        .aml-flow path { fill: none; stroke-width: 1.25; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+        .aml-flow marker path { stroke-width: 2.5; stroke-linejoin: round; vector-effect: none; }
+        .aml-flow--before path { stroke: rgba(255, 138, 138, .85); }
+        .aml-flow--after path { stroke: rgba(125, 152, 255, .9); }
+        .lbx__marks .aml-flow path { stroke-width: 2; }
+        .has-q .aml-flow, .has-r .aml-flow, .has-r .aml-q { opacity: .25; }
+        /* A / B / C: areas the three cards below describe. A small pulsing dot marks each one without covering
+           content; hovering a card (or the dot) outlines the area and names it. --dx/--dy place the dot. */
+        .aml-r { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 1px dashed transparent; border-radius: 4px; pointer-events: none; transition: border-color .15s, background .15s; }
+        .aml-r--key::before, .aml-r--key::after { content: ""; position: absolute; left: var(--dx, 100%); top: var(--dy, 0%); width: 7px; height: 7px; border-radius: 50%; transform: translate(-50%, -50%); }
+        .aml-r--key::before { z-index: 2; box-sizing: content-box; border: 7px solid transparent; background: #fff padding-box; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15); pointer-events: auto; cursor: default; transition: background .15s; }
+        .aml-r--key::after { z-index: 1; background: rgba(255, 255, 255, .55); animation: aml-pulse 2s ease-out infinite; pointer-events: none; }
+        @keyframes aml-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .55); } 70%, 100% { box-shadow: 0 0 0 9px rgba(255, 255, 255, 0); } }
+        @media (prefers-reduced-motion: reduce) { .aml-r--key::after { animation: none; } }
+        .aml-r i { position: absolute; left: 6px; top: 6px; display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px 2px 3px; border-radius: 5px; background: #fff; color: var(--text-primary); font: 600 10.5px/1.4 var(--font-sans, inherit); font-style: normal; white-space: nowrap; box-shadow: 0 4px 12px rgba(0, 0, 0, .35); opacity: 0; transition: opacity .15s; pointer-events: none; }
+        .aml-r i b { display: inline-block; min-width: 14px; height: 14px; border-radius: 4px; background: var(--accent); color: #fff; font-size: 9px; line-height: 14px; text-align: center; }
+        .aml-r--side i { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
+        .aml-r--below i { left: 0; top: calc(100% + 5px); }
+        .aml-r--br i { left: auto; top: auto; right: 6px; bottom: 6px; }
+        .aml-r--wrap i { left: 12px; right: 6px; top: 10px; white-space: normal; }
+        .aml-r:hover, .aml-r.is-hl { border-color: rgba(255, 255, 255, .75); background: rgba(255, 255, 255, .07); z-index: 3; }
+        .aml-r:hover i, .aml-r.is-hl i { opacity: 1; }
+        .aml-r:hover::before, .aml-r.is-hl::before { background-color: var(--accent); box-shadow: inset 0 0 0 1.5px #fff; }
+        .aml-r:hover::after, .aml-r.is-hl::after { animation: none; }
+        .lbx__marks .aml-r--key::before, .lbx__marks .aml-r--key::after { width: 10px; height: 10px; }
+        .lbx__marks .aml-r i { gap: 7px; padding: 4px 10px 4px 4px; font-size: 13px; }
+        .lbx__marks .aml-r i b { min-width: 18px; height: 18px; font-size: 11px; line-height: 18px; }
+        /* Three changes around the answers, lettered to match the screen */
+        .aml-more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: var(--space-6) 0 0; padding: 0; list-style: none; }
+        .one-col .aml-more li { margin: 0; padding: 14px 16px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; font-size: 14px; line-height: 1.55; color: var(--text-secondary); cursor: default; transition: border-color .15s, background .15s; }
+        .aml-more li::before { content: attr(data-r); display: block; width: 20px; height: 20px; margin-bottom: 10px; border-radius: 6px; background: var(--text-primary); color: #fff; font-size: 11px; font-weight: 700; line-height: 20px; text-align: center; transition: background .15s; }
+        .aml-more li b { display: block; margin-bottom: 4px; font-size: 14.5px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .aml-more li.is-hl { border-color: rgba(0, 52, 240, .35); background: var(--accent-subtle); }
+        .aml-more li.is-hl::before { background: var(--accent); }
+        @media (max-width: 720px) {
+            .aml-more { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 720px) {
+            .aml-alert-pair { grid-template-rows: none; row-gap: var(--space-6); }
+            .one-col .aml-alert-pair .gx-shot { grid-row: auto; grid-template-rows: none; }
+        }
+        /* Numbered boxes: thin and quiet until a legend chip or the box itself is hovered; the label then shows above */
+        .aml-q { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 1px solid rgba(120, 150, 255, .75); border-radius: 3px; background: rgba(120, 150, 255, .06); cursor: zoom-in; transition: opacity .15s, background .15s, border-color .15s; }
+        .aml-q::before { content: attr(data-n); position: absolute; right: calc(100% + 5px); top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border-radius: 50%; background: #4d6fff; color: #fff; font: 600 10px/16px var(--font-sans, inherit); text-align: center; }
+        .aml-q::after { content: attr(data-label); position: absolute; left: calc(100% + 6px); top: 50%; padding: 3px 8px; border-radius: 6px; background: #fff; color: var(--text-primary); box-shadow: 0 4px 12px rgba(0, 0, 0, .35); font: 600 11px/1.4 var(--font-sans, inherit); white-space: nowrap; opacity: 0; transform: translate(-3px, -50%); transition: opacity .15s, transform .15s; pointer-events: none; }
+        .is-before .aml-q { border-color: rgba(255, 130, 130, .7); background: rgba(255, 130, 130, .06); }
+        .is-before .aml-q::before { background: #e05555; }
+        .aml-q--r::before { right: auto; left: calc(100% + 5px); }
+        .aml-q:hover, .aml-q.is-hl { border-color: #7d98ff; background: rgba(120, 150, 255, .18); z-index: 2; }
+        .is-before .aml-q:hover, .is-before .aml-q.is-hl { border-color: #ff8a8a; background: rgba(255, 130, 130, .18); }
+        .aml-q:hover::after, .aml-q.is-hl::after { opacity: 1; transform: translate(0, -50%); }
+        .aml-q--r::after { left: calc(100% + 26px); }
+        .has-q .aml-q:not(.is-hl) { opacity: .35; }
+        .lbx__marks .aml-q { pointer-events: auto; cursor: default; border-width: 1.5px; border-radius: 5px; }
+        .lbx__marks .aml-q::before { width: 24px; height: 24px; right: calc(100% + 8px); font-size: 13px; line-height: 24px; }
+        .lbx__marks .aml-q--r::before { right: auto; left: calc(100% + 8px); }
+        .lbx__marks .aml-q::after { left: calc(100% + 10px); padding: 5px 10px; font-size: 13px; }
+        .lbx__marks .aml-q--r::after { left: calc(100% + 40px); }
+        @media (max-width: 560px) {
+            .aml-q::before { width: 12px; height: 12px; font-size: 8px; line-height: 12px; right: calc(100% + 3px); }
+            .aml-q--r::before { right: auto; left: calc(100% + 3px); }
+        }
         .one-col .gx-shot { position: relative; display: flex; flex-direction: column; gap: 12px; margin: 0; }
         .gx-cap { position: relative; display: flex; align-items: baseline; gap: 8px; width: fit-content; max-width: 100%; min-height: 20px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); transition: color .15s; }
-        .gx-cap b { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-        .is-before .gx-cap b { background: #fdecec; color: #b42318; }
-        .gx-frame { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
+        .gx-cap b { flex: none; display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .gx-cap b::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+        .is-before .gx-cap b { color: var(--text-tertiary); }
+        .is-before .gx-cap b::before { content: none; }
+        .gx-frame { position: relative; overflow: hidden; border-radius: 10px; background: var(--bg-subtle); box-shadow: 0 0 0 1px rgba(17, 17, 17, .08), 0 10px 24px -10px rgba(17, 17, 17, .18); }
         .one-col .gx-frame img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
         .cs-shot.gx-frame { border-radius: var(--radius-md); }
         .gx-box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 6px; background: rgba(0, 52, 240, .06); pointer-events: none; transition: box-shadow .15s, background .15s; }
         .is-before .gx-box { border-color: #d14343; background: rgba(209, 67, 67, .06); }
-        .aml-q { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 4px; background: none; pointer-events: none; }
-        .aml-q::before { content: attr(data-n); position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%); width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font: 600 12px/20px var(--font-sans, inherit); text-align: center; box-shadow: 0 0 0 2px rgba(255, 255, 255, .9); }
-        .aml-q--before { border-color: #ff6b6b; }
-        .aml-q--r::before { right: auto; left: calc(100% + 6px); }
-        .aml-q--before::before { background: #d14343; }
-        .aml-qkey { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--text-secondary); }
-        .aml-qkey li { display: flex; align-items: center; gap: 8px; }
-        .aml-qkey b { width: 20px; height: 20px; border-radius: 50%; background: var(--text-primary, #111); color: #fff; font-size: 12px; line-height: 20px; text-align: center; flex: none; }
-        @media (max-width: 720px) {
-            .aml-q { border-width: 1px; }
-            .aml-q::before { width: 14px; height: 14px; font-size: 9px; line-height: 14px; right: calc(100% + 3px); }
-            .aml-q--r::before { right: auto; left: calc(100% + 3px); }
-        }
         .gx-line { position: absolute; width: 0; border-left: 1.5px dashed var(--accent); opacity: .55; pointer-events: none; transition: opacity .15s; }
         .is-before .gx-line { border-left-color: #d14343; }
         .gx-shot.on .gx-line { opacity: 1; border-left-style: solid; }
@@ -161,9 +232,9 @@
 
         /* ── System grid ─────────────────────────────────── */
         .aml-sys { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-5) 0 0; }
-        .aml-sys__item { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
-        .aml-sys__media { display: grid; place-items: center; aspect-ratio: 16 / 9; padding: var(--space-3); border-radius: 10px; background: var(--bg-subtle); }
-        .one-col .aml-sys__media img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; margin: 0; border: 0; border-radius: 6px; }
+        .aml-sys__item { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .aml-sys__media { position: relative; aspect-ratio: 16 / 9; border-radius: 10px; background: var(--bg-subtle); }
+        .one-col .aml-sys__media img { position: absolute; inset: var(--space-4); width: calc(100% - 2 * var(--space-4)); height: calc(100% - 2 * var(--space-4)); margin: 0; border: 0; border-radius: 6px; object-fit: contain; }
         .one-col .aml-sys__item h5 { margin: var(--space-1) 0 0; font-size: 15.5px; }
         .one-col .aml-sys__item p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
@@ -180,7 +251,7 @@
         /* ── Result / reflection (info-blocks.mdc) ───────── */
         .cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin: var(--space-4) 0 var(--space-5); }
         .cs-panel { padding: var(--space-5); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: var(--radius-md); background: var(--bg); }
-        .cs-panel__flag { margin-bottom: var(--space-1); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+        .cs-panel__flag { margin-bottom: var(--space-1); font-size: 13px; font-weight: 600; color: var(--accent); }
         .cs-panel .cs-list li { font-size: 14.5px; }
         .cs-note { font-size: 14px; line-height: 1.6; color: var(--text-tertiary); }
         .cs-learns { display: grid; gap: var(--space-3); margin: var(--space-4) 0; }
@@ -198,7 +269,8 @@
         @media (max-width: 900px) {
             .aml-path { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
             .aml-path > li + li::before { display: none; }
-            .aml-prins { grid-template-columns: 1fr; }
+            .aml-prins { grid-template-columns: 1fr; grid-template-rows: none; row-gap: var(--space-3); }
+            .aml-prin { grid-row: auto; grid-template-rows: 1fr auto; }
         }
         @media (max-width: 720px) {
             .aml-cards, .cs-compare, .aml-qa, .aml-sys { grid-template-columns: 1fr; }
@@ -224,19 +296,19 @@
             .cs-more__body { padding: var(--space-1) 14px 14px; }
         }
         @media (max-width: 560px) {
-            .cs-kicker { margin-top: var(--space-7); padding-top: var(--space-6); }
-            .cs-kicker + h3.section { font-size: 22px; }
+            .cs-kicker { margin-top: var(--space-7); }
+            .one-col .cs-kicker + h3.section { font-size: 20px; margin-bottom: 10px; }
+            .one-col .cs-kicker + h3.section + p, .one-col .aml-stage + p { font-size: 15px; }
             .cs-learn { padding: var(--space-4); }
             .aml-step__q { display: none; }
         }
         html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
         html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .cs-figcap { line-height: 1.8; letter-spacing: 0; }
         html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .one-col h4, html[data-lang="zh"] .one-col h5 { letter-spacing: -0.01em; line-height: 1.4; }
-        html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .cs-panel__flag, html[data-lang="zh"] .cs-callout .lbl,
-        html[data-lang="zh"] .aml-card__k, html[data-lang="zh"] .aml-step__n,
-        html[data-lang="zh"] .aml-journey__labels span, html[data-lang="zh"] .aml-journey__phase, html[data-lang="zh"] .aml-rel time,
-        html[data-lang="zh"] .gx-cap b, html[data-lang="zh"] .gx-pill { letter-spacing: 0.04em; text-transform: none; }
-        html[data-lang="zh"] .aml-step__n, html[data-lang="zh"] .aml-card__k, html[data-lang="zh"] .cs-kicker { font-size: 12px; }
+        html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .gx-cap b, html[data-lang="zh"] .gx-pill,
+        html[data-lang="zh"] .aml-journey__labels span, html[data-lang="zh"] .aml-rel time { letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .gx-cap b, html[data-lang="zh"] .aml-journey__labels span { font-size: 12px; }
+        html[data-lang="zh"] .one-col .cs-kicker + h3.section { letter-spacing: -0.01em; line-height: 1.35; }
         html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
     </style>
     <script src="site-chrome.js?v=10"></script>
@@ -334,27 +406,28 @@
         <!-- ── RESEARCH ───────────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
         <span class="cs-kicker" data-zh="03 · 用户研究">03 · Research</span>
-        <h3 class="section" data-zh="观察 5 名合规官处理真实案件，得出三条设计原则">Watching 5 compliance officers work real cases set three design principles</h3>
+        <h3 class="section" data-zh="观察 5 名合规官处理真实案件，得出三条设计原则">Observing 5 compliance officers work real cases set three design principles</h3>
         <p data-zh="团队还在争论做什么时，我提议先观察。我访谈了亚太和美国的 5 名合规官，旁听他们处理真实案件，梳理出每一步做什么、用什么工具、在哪里卡住。下面每个发现都变成了一条原则，四个阶段都按它来设计。">While the team debated what to build, I proposed watching first. I interviewed 5 compliance officers across APAC and the US, sat in while they worked real cases, and mapped each step, the tool they used and where it broke. Each finding below became a principle that all four stages follow.</p>
 
+        <h5 class="cs-sub" data-zh="发现与原则">Findings &amp; Principles</h5>
         <div class="aml-prins">
             <div class="aml-prin">
                 <div class="aml-prin__find">
-                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <h6 class="aml-prin__t" data-zh="每条预警只有约 15 分钟">About 15 minutes per alert</h6>
                     <p data-zh="低、中风险预警大约只有 15 分钟。分析师每找一次东西，都在消耗这段时间。">Low and medium alerts get about 15 minutes. Anything an analyst has to hunt for comes out of that.</p>
                 </div>
                 <div class="aml-prin__p"><span class="cs-num">1</span><span data-zh="按分析师的阅读顺序排布">Follow the analyst's reading order</span></div>
             </div>
             <div class="aml-prin">
                 <div class="aml-prin__find">
-                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <h6 class="aml-prin__t" data-zh="每个判断都要经得起复核">Every decision gets reviewed</h6>
                     <p data-zh="判断会上报给其他地区的复核人员，最终交给监管机构。解释不了的评分过不了这一关。">Decisions go to reviewers in other regions and, in the end, to regulators. A score nobody can explain doesn't survive that.</p>
                 </div>
                 <div class="aml-prin__p"><span class="cs-num">2</span><span data-zh="每个评分都能追溯来源">Every score shows its source</span></div>
             </div>
             <div class="aml-prin">
                 <div class="aml-prin__find">
-                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <h6 class="aml-prin__t" data-zh="真正的分析在 XMind 里完成">The real analysis happens in XMind</h6>
                     <p data-zh="真正的归纳在产品之外完成：在 XMind 里用颜色分组、写备注，在表格里做比较。">The real synthesis happened outside the product: colour groups and notes in XMind, comparisons in spreadsheets.</p>
                 </div>
                 <div class="aml-prin__p"><span class="cs-num">3</span><span data-zh="把产品外的工作搬进产品">Bring the outside work inside</span></div>
@@ -481,21 +554,31 @@
             <span class="aml-st aml-st--hand" data-zh="已交接">Handed over</span>
             <span class="aml-pc"><i>1</i><span data-zh="阅读顺序">Reading order</span></span>
         </div>
-        <p data-zh="每个分析师都按同样的顺序问同样四个问题：风险占比多少、转了多少钱、钱从哪来、流向哪里。旧页面把答案散在四个地方，15 分钟的审核有一部分花在来回翻找上。我按这个顺序从上到下排列答案，案件日志放在证据旁边。">Every analyst asked the same four questions in the same order: what share is risky, how much moved, where it came from, which way it went. The old page answered them in four places, so part of a 15-minute review went on jumping between them. I put the answers top to bottom in that order, with the case log beside the evidence.</p>
-
-        <div class="cs-shot gx-frame"><img src="resources/images-aml/alert-before-after.png?v=1" width="2400" height="1253" alt="Alert detail before and after. Before: the four answers sit in two sections, out of order. After: they read top to bottom in order, with the case log on the right" loading="lazy"><span class="aml-q aml-q--before aml-q--r" data-n="1" style="--x:10.6%;--y:48.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="2" style="--x:10.6%;--y:46%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="3" style="--x:10.6%;--y:80.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="4" style="--x:10.6%;--y:69.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q" data-n="1" style="--x:67.75%;--y:31.9%;--w:15.5%;--h:2.6%"></span><span class="aml-q" data-n="2" style="--x:67.75%;--y:44.6%;--w:15.5%;--h:2.6%"></span><span class="aml-q" data-n="3" style="--x:67.75%;--y:49.9%;--w:15.5%;--h:5.4%"></span><span class="aml-q" data-n="4" style="--x:67.75%;--y:57.9%;--w:15.5%;--h:2.6%"></span></div>
+        <p data-zh="每个分析师都按同样的顺序问同样四个问题：">Every analyst asked the same four questions, in the same order:</p>
         <ol class="aml-qkey">
-            <li><b>1</b><span data-zh="风险占比多少">What share is risky</span></li>
-            <li><b>2</b><span data-zh="转了多少钱">How much moved</span></li>
-            <li><b>3</b><span data-zh="钱从哪来">Where it came from</span></li>
-            <li><b>4</b><span data-zh="流向哪里">Which way it went</span></li>
+            <li data-q="1"><b>1</b><span data-zh="风险占比多少">What share is risky</span></li>
+            <li data-q="2"><b>2</b><span data-zh="转了多少钱">How much moved</span></li>
+            <li data-q="3"><b>3</b><span data-zh="钱从哪来">Where it came from</span></li>
+            <li data-q="4"><b>4</b><span data-zh="流向哪里">Which way it went</span></li>
         </ol>
-        <p class="cs-figcap" data-zh="改版前，四个答案分散在两个区块里，顺序也是乱的；改版后，按提问顺序从上到下排列，案件日志就在旁边。">Before, the four answers sat in two sections and out of order. Now they read top to bottom in the order analysts ask, with the case log beside them.</p>
 
-        <ul class="cs-list">
-            <li data-zh="&lt;b&gt;分成三个区块：&lt;/b&gt;预警原因、支撑证据、可执行的操作。"><b>Three bands:</b> why the alert fired, the evidence behind it, and the actions available.</li>
-            <li data-zh="&lt;b&gt;一步进入其他阶段：&lt;/b&gt;用户档案和资金流图谱都能从预警页直接打开。"><b>One step to the next stage:</b> the user record and the fund-flow graph open from the alert itself.</li>
-            <li data-zh="&lt;b&gt;结论原地写完：&lt;/b&gt;分配、状态、发现和结论都放在对应内容旁边。"><b>Write-up in place:</b> assignment, status, findings and conclusion sit next to what they refer to.</li>
+        <div class="gx-pair aml-alert-pair">
+            <figure class="gx-shot is-before">
+                <figcaption class="gx-cap"><b data-zh="改版前">Before</b></figcaption>
+                <div class="gx-frame"><img src="resources/images-aml/alert-before.png?v=3" width="1200" height="1135" alt="Before: the old alert page, with the four answers marked in two sections and a path jumping up and down between them" loading="lazy"><span data-lbx-mark class="aml-q aml-q--r" data-n="1" style="--x:18.5%;--y:44.1%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="2" style="--x:18.5%;--y:40.8%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="3" style="--x:18.5%;--y:83%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="4" style="--x:18.5%;--y:69.5%;--w:20.5%;--h:2.7%"></span><svg data-lbx-mark class="aml-flow aml-flow--before" viewBox="0 0 1200 1135" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="amlAr-aml-flow--before" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="22" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M1.5 1.5L8.5 5L1.5 8.5"/></marker></defs><g marker-end="url(#amlAr-aml-flow--before)"><path d="M548 516C610 516 610 478 478 478"/><path d="M478 486C700 486 700 951 478 951"/><path d="M478 963C610 963 610 804 478 804"/></g></svg><span data-lbx-mark class="aml-r aml-r--key aml-r--below" data-r="A" style="--dx:-7px;--dy:50%;--x:19.5%;--y:20.3%;--w:37.5%;--h:3.4%"><i data-zh="&lt;b&gt;A&lt;/b&gt;头部只有预警 ID"><b>A</b>Header: the alert ID only</i></span><span data-lbx-mark class="aml-r aml-r--key aml-r--side" data-r="B" style="--dx:50%;--dy:-7px;--x:58.4%;--y:20.6%;--w:2.2%;--h:3%"><i data-zh="&lt;b&gt;B&lt;/b&gt;图谱入口只是一个小图标"><b>B</b>The graph behind a small icon</i></span></div>
+                <p class="aml-alert-note" data-zh="答案散在两个区块的四个地方，顺序也是乱的，15 分钟的审核有一部分花在来回翻找上。">The answers sat in four places across two sections, out of order, so part of a 15-minute review went on jumping between them.</p>
+            </figure>
+            <figure class="gx-shot">
+                <figcaption class="gx-cap"><b data-zh="改版后">After</b></figcaption>
+                <div class="gx-frame"><img src="resources/images-aml/alert-after.png?v=4" width="1200" height="1135" alt="After: the new alert page, with the four answers marked top to bottom and the case log on the right" loading="lazy"><span data-lbx-mark class="aml-q" data-n="1" style="--x:33.6%;--y:23.6%;--w:25.3%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="2" style="--x:33.6%;--y:39.3%;--w:25.3%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="3" style="--x:33.6%;--y:45.7%;--w:25.3%;--h:6.1%"></span><span data-lbx-mark class="aml-q" data-n="4" style="--x:33.6%;--y:55.6%;--w:25.3%;--h:2.7%"></span><svg data-lbx-mark class="aml-flow aml-flow--after" viewBox="0 0 1200 1135" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="amlAr-aml-flow--after" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="22" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M1.5 1.5L8.5 5L1.5 8.5"/></marker></defs><g marker-end="url(#amlAr-aml-flow--after)"><path d="M711 289C765 289 765 455 713 455"/><path d="M711 467C755 467 755 547 713 547"/><path d="M711 559C755 559 755 640 713 640"/></g></svg><span data-lbx-mark class="aml-r aml-r--side" data-r="A" style="--x:33.5%;--y:.6%;--w:26%;--h:3.6%"><i data-zh="&lt;b&gt;A&lt;/b&gt;操作"><b>A</b>Actions</i></span><span data-lbx-mark class="aml-r aml-r--key aml-r--side" data-r="A" style="--x:33.5%;--y:6.3%;--w:37%;--h:5.6%"><i data-zh="&lt;b&gt;A&lt;/b&gt;预警原因"><b>A</b>Why it fired</i></span><span data-lbx-mark class="aml-r aml-r--br" data-r="A" style="--x:33.5%;--y:19%;--w:36.5%;--h:55.5%"><i data-zh="&lt;b&gt;A&lt;/b&gt;证据"><b>A</b>Evidence</i></span><span data-lbx-mark class="aml-r aml-r--key aml-r--side" data-r="B" style="--x:33.8%;--y:12.3%;--w:29%;--h:4.6%"><i data-zh="&lt;b&gt;B&lt;/b&gt;用户档案 · 资金流图谱"><b>B</b>User record · fund-flow graph</i></span><span data-lbx-mark class="aml-r aml-r--key aml-r--wrap" data-r="C" style="--dx:0%;--x:73.5%;--y:19.3%;--w:25.5%;--h:79%"><i data-zh="&lt;b&gt;C&lt;/b&gt;分配、状态、发现、结论"><b>C</b>Assignment, status, findings, conclusion</i></span></div>
+                <p class="aml-alert-note" data-zh="答案按提问顺序从上到下排列，案件日志就在证据旁边。">The answers read top to bottom in the order analysts ask, with the case log beside the evidence.</p>
+            </figure>
+        </div>
+
+        <ul class="aml-more">
+            <li data-r="A" data-zh="&lt;b&gt;分成三个区块&lt;/b&gt;预警原因、支撑证据、可执行的操作。"><b>Three bands</b>Why the alert fired, the evidence behind it, and the actions available.</li>
+            <li data-r="B" data-zh="&lt;b&gt;一步进入下一阶段&lt;/b&gt;用户档案和资金流图谱都能从预警页直接打开。"><b>One step to the next stage</b>The user record and the fund-flow graph open from the alert itself.</li>
+            <li data-r="C" data-zh="&lt;b&gt;结论原地写完&lt;/b&gt;分配、状态、发现和结论都放在对应内容旁边。"><b>Write-up in place</b>Assignment, status, findings and conclusion sit next to what they refer to.</li>
         </ul>
 
 
@@ -852,6 +935,54 @@
             if (more) more.addEventListener('toggle', draw);
             draw();
         });
+    })();
+    </script>
+    <script>
+    /* Alert comparison: each numbered box takes its label from the legend, so the
+       tooltip follows the language; the lightbox clones the boxes with that label. */
+    (function () {
+        var key = document.querySelector('.aml-qkey');
+        var pair = document.querySelector('.aml-alert-pair');
+        if (!key || !pair) return;
+        var boxes = pair.querySelectorAll('.aml-q');
+        function label() {
+            boxes.forEach(function (q) {
+                var li = key.querySelector('li[data-q="' + q.getAttribute('data-n') + '"] span');
+                if (li) q.setAttribute('data-label', li.textContent.trim());
+            });
+        }
+        function hl(n) {
+            pair.classList.toggle('has-q', !!n);
+            boxes.forEach(function (q) { q.classList.toggle('is-hl', q.getAttribute('data-n') === n); });
+            key.querySelectorAll('li').forEach(function (li) { li.classList.toggle('is-hl', li.getAttribute('data-q') === n); });
+        }
+        key.querySelectorAll('li').forEach(function (li) {
+            li.addEventListener('mouseenter', function () { hl(li.getAttribute('data-q')); });
+            li.addEventListener('mouseleave', function () { hl(null); });
+        });
+        boxes.forEach(function (q) {
+            q.addEventListener('mouseenter', function () { hl(q.getAttribute('data-n')); });
+            q.addEventListener('mouseleave', function () { hl(null); });
+            q.addEventListener('click', function () { var img = q.parentElement.querySelector('img'); if (img) img.click(); });
+        });
+        var more = document.querySelector('.aml-more');
+        var regions = pair.querySelectorAll('.aml-r');
+        function hr(r) {
+            pair.classList.toggle('has-r', !!r);
+            regions.forEach(function (el) { el.classList.toggle('is-hl', el.getAttribute('data-r') === r); });
+            if (more) more.querySelectorAll('li').forEach(function (li) { li.classList.toggle('is-hl', li.getAttribute('data-r') === r); });
+        }
+        if (more) more.querySelectorAll('li').forEach(function (li) {
+            li.addEventListener('mouseenter', function () { hr(li.getAttribute('data-r')); });
+            li.addEventListener('mouseleave', function () { hr(null); });
+        });
+        regions.forEach(function (el) {
+            el.addEventListener('mouseenter', function () { hr(el.getAttribute('data-r')); });
+            el.addEventListener('mouseleave', function () { hr(null); });
+            el.addEventListener('click', function () { var img = el.parentElement.querySelector('img'); if (img) img.click(); });
+        });
+        label();
+        document.addEventListener('case:lang', function () { setTimeout(label, 0); });
     })();
     </script>
     <script>

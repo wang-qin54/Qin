@@ -243,7 +243,7 @@
         .one-col .aml-rel li { margin: 0; padding: 14px 16px; border-right: 1px solid var(--border); background: #fff; }
         .one-col .aml-rel li:last-child { border-right: 0; }
         .one-col .aml-rel li:first-child { background: rgba(0, 52, 240, 0.05); }
-        .aml-rel b { display: block; font-family: var(--font-title); font-size: 17px; font-weight: 600; color: var(--text-primary); }
+        .aml-rel b { display: block; margin-bottom: 6px; font-family: var(--font-title); font-size: 17px; font-weight: 600; color: var(--text-primary); }
         .aml-rel li:first-child b { color: var(--accent); }
         .aml-rel time { display: block; margin: 2px 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-tertiary); }
         .aml-rel span { display: block; font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
@@ -406,15 +406,15 @@
         <!-- ── RESEARCH ───────────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
         <span class="cs-kicker" data-zh="03 · 用户研究">03 · Research</span>
-        <h3 class="section" data-zh="观察 5 名合规官处理真实案件，得出三条设计原则">Observing 5 compliance officers work real cases set three design principles</h3>
-        <p data-zh="团队还在争论做什么时，我提议先观察。我访谈了亚太和美国的 5 名合规官，旁听他们处理真实案件，梳理出每一步做什么、用什么工具、在哪里卡住。下面每个发现都变成了一条原则，四个阶段都按它来设计。">While the team debated what to build, I proposed watching first. I interviewed 5 compliance officers across APAC and the US, sat in while they worked real cases, and mapped each step, the tool they used and where it broke. Each finding below became a principle that all four stages follow.</p>
+        <h3 class="section" data-zh="观察 3 名合规官处理真实案件，得出三条设计原则">Observing 3 compliance officers work real cases set three design principles</h3>
+        <p data-zh="团队还在争论做什么时，我提议先观察。我访谈了亚太和美国的 3 名合规官，旁听他们处理真实案件，梳理出每一步做什么、用什么工具、在哪里卡住。下面每个发现都变成了一条原则，四个阶段都按它来设计。">While the team debated what to build, I proposed watching first. I interviewed 3 compliance officers across APAC and the US, sat in while they worked real cases, and mapped each step, the tool they used and where it broke. Each finding below became a principle that all four stages follow.</p>
 
         <h5 class="cs-sub" data-zh="发现与原则">Findings &amp; Principles</h5>
         <div class="aml-prins">
             <div class="aml-prin">
                 <div class="aml-prin__find">
-                    <h6 class="aml-prin__t" data-zh="每条预警只有约 15 分钟">About 15 minutes per alert</h6>
-                    <p data-zh="低、中风险预警大约只有 15 分钟。分析师每找一次东西，都在消耗这段时间。">Low and medium alerts get about 15 minutes. Anything an analyst has to hunt for comes out of that.</p>
+                    <h6 class="aml-prin__t" data-zh="每条预警只有 15–45 分钟">15–45 minutes per alert</h6>
+                    <p data-zh="低、中风险预警只有 15–45 分钟。分析师每找一次东西，都在消耗这段时间。">Low and medium alerts get 15 to 45 minutes. Anything an analyst has to hunt for comes out of that.</p>
                 </div>
                 <div class="aml-prin__p"><span class="cs-num">1</span><span data-zh="按分析师的阅读顺序排布">Follow the analyst's reading order</span></div>
             </div>
@@ -566,7 +566,7 @@
             <figure class="gx-shot is-before">
                 <figcaption class="gx-cap"><b data-zh="改版前">Before</b></figcaption>
                 <div class="gx-frame"><img src="resources/images-aml/alert-before.png?v=3" width="1200" height="1135" alt="Before: the old alert page, with the four answers marked in two sections and a path jumping up and down between them" loading="lazy"><span data-lbx-mark class="aml-q aml-q--r" data-n="1" style="--x:18.5%;--y:44.1%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="2" style="--x:18.5%;--y:40.8%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="3" style="--x:18.5%;--y:83%;--w:20.5%;--h:2.7%"></span><span data-lbx-mark class="aml-q" data-n="4" style="--x:18.5%;--y:69.5%;--w:20.5%;--h:2.7%"></span><svg data-lbx-mark class="aml-flow aml-flow--before" viewBox="0 0 1200 1135" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="amlAr-aml-flow--before" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="22" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M1.5 1.5L8.5 5L1.5 8.5"/></marker></defs><g marker-end="url(#amlAr-aml-flow--before)"><path d="M548 516C610 516 610 478 478 478"/><path d="M478 486C700 486 700 951 478 951"/><path d="M478 963C610 963 610 804 478 804"/></g></svg><span data-lbx-mark class="aml-r aml-r--key aml-r--below" data-r="A" style="--dx:-7px;--dy:50%;--x:19.5%;--y:20.3%;--w:37.5%;--h:3.4%"><i data-zh="&lt;b&gt;A&lt;/b&gt;头部只有预警 ID"><b>A</b>Header: the alert ID only</i></span><span data-lbx-mark class="aml-r aml-r--key aml-r--side" data-r="B" style="--dx:50%;--dy:-7px;--x:58.4%;--y:20.6%;--w:2.2%;--h:3%"><i data-zh="&lt;b&gt;B&lt;/b&gt;图谱入口只是一个小图标"><b>B</b>The graph behind a small icon</i></span></div>
-                <p class="aml-alert-note" data-zh="答案散在两个区块的四个地方，顺序也是乱的，15 分钟的审核有一部分花在来回翻找上。">The answers sat in four places across two sections, out of order, so part of a 15-minute review went on jumping between them.</p>
+                <p class="aml-alert-note" data-zh="答案散在两个区块的四个地方，顺序也是乱的，15–45 分钟的审核有一部分花在来回翻找上。">The answers sat in four places across two sections, out of order, so part of a 15–45 minute review went on jumping between them.</p>
             </figure>
             <figure class="gx-shot">
                 <figcaption class="gx-cap"><b data-zh="改版后">After</b></figcaption>
@@ -630,10 +630,10 @@
         <p class="cs-figcap" data-zh="实体页：监管信息、交易、风险活动和地址列表，下方是交易量、类别敞口和主要交易对手。">The entity page: regulatory detail, transactions, risk activity and address list, over volume, category exposure and top counterparties.</p>
 
         <ol class="aml-rel">
-            <li><b>MVP</b><time datetime="2023-09-18" data-zh="2023.09.18">18 Sep 2023</time><span data-zh="搜索、列表和实体详情">Search, list and entity detail</span></li>
-            <li><b>V1.1.0</b><time datetime="2023-11-20" data-zh="2023.11.20">20 Nov 2023</time><span data-zh="详情、列表和关注列表">Detail, list and watchlist</span></li>
-            <li><b>V1.1.1</b><time datetime="2023-11-30" data-zh="2023.11.30">30 Nov 2023</time><span data-zh="设计走查和回归测试">Design QA and a regression pass</span></li>
-            <li><b>V1.1.2</b><time datetime="2023-12-26" data-zh="2023.12.26">26 Dec 2023</time><span data-zh="响应式布局及权限变体">Responsive layouts with permission variants</span></li>
+            <li><b>MVP</b><span data-zh="搜索、列表和实体详情">Search, list and entity detail</span></li>
+            <li><b>V1.1.0</b><span data-zh="详情、列表和关注列表">Detail, list and watchlist</span></li>
+            <li><b>V1.1.1</b><span data-zh="设计走查和回归测试">Design QA and a regression pass</span></li>
+            <li><b>V1.1.2</b><span data-zh="响应式布局及权限变体">Responsive layouts with permission variants</span></li>
         </ol>
         <p class="cs-figcap" data-zh="每个版本都有独立的 UI 规范，并对开发成果做了设计走查。">Each release had its own UI spec and a design QA walkthrough of the build.</p>
 
@@ -851,9 +851,8 @@
                 <div class="cs-panel__flag" data-zh="已上线">Shipped</div>
                 <ul class="cs-list cs-list--check">
                     <li data-zh="资金流图谱改版：按案件建图、流向布局、随选中内容变化的操作、产品内归纳">Fund-flow graph: case-based entry, flow layout, contextual actions, in-tool synthesis</li>
-                    <li data-zh="图谱埋点上线，此前没有任何使用漏斗">Event tracking on the graph, which had no usage funnel before</li>
                     <li data-zh="地址风险分析，评分可追溯">Address risk analysis with traceable scores</li>
-                    <li data-zh="实体模块：2023 年上线 MVP 及三个后续版本">Entity module: MVP and three releases in 2023</li>
+                    <li data-zh="实体模块：MVP 及三个后续版本">Entity module: MVP and three follow-up releases</li>
                 </ul>
             </div>
             <div class="cs-panel">
@@ -864,7 +863,7 @@
                 </ul>
             </div>
         </div>
-        <p class="cs-note" data-zh="我随图谱改版制定了数据度量方案，但上线后的使用数据在我离开后才产生，所以这里没有使用数据。">I set up the measurement plan with the graph redesign, but adoption figures came in after I left, so there are no usage numbers here.</p>
+        <p class="cs-note" data-zh="我为图谱改版写了埋点方案，但在我离开前没有上线，所以这里没有使用数据。">I specified event tracking for the graph redesign, but it didn't ship before I left, so there are no usage numbers here.</p>
 
         <h5 class="cs-sub" data-zh="带到下一个受监管产品的经验">What I'd take to the next regulated product</h5>
         <div class="cs-learns">
@@ -872,7 +871,7 @@
                 <span class="cs-learn__n">1</span>
                 <div>
                     <h5 data-zh="观察实际工作：最大的问题从没以需求的形式出现">Watch the work: the biggest problems never arrived as requests</h5>
-                    <p data-zh="15 分钟的时间预算、绕道 XMind、把 ID 复制到另一个 Tab：这些从来没有以需求的形式出现。">The 15-minute budget, the detour into XMind and the copy-paste into a second tab never arrived as feature requests.</p>
+                    <p data-zh="15–45 分钟的时间预算、绕道 XMind、把 ID 复制到另一个 Tab：这些从来没有以需求的形式出现。">The 15–45 minute budget, the detour into XMind and the copy-paste into a second tab never arrived as feature requests.</p>
                 </div>
             </div>
             <div class="cs-learn">

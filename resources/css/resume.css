@@ -88,6 +88,25 @@ a { color: var(--accent); }
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 .toolbar .label { color: var(--text-tertiary); }
+.toolbar .langsw {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    padding: 0 4px 0 12px;
+    border-left: 1px solid var(--border);
+}
+.toolbar .langsw button {
+    border: 0;
+    background: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text-tertiary);
+    padding: 6px 7px;
+    border-radius: 8px;
+}
+.toolbar .langsw button:hover { background: none; color: var(--text); }
+.toolbar .langsw button.on { color: var(--text); font-weight: 600; }
 
 body { padding-top: 88px; }
 
@@ -373,6 +392,7 @@ a.contact-item .hint {
 
 @media print {
     .toolbar { display: none !important; }
+    .ai-summary { display: none !important; }
     #preview-page-gap { display: none !important; }
     .page { padding-bottom: 0 !important; }
 }
@@ -741,6 +761,45 @@ body.force-print-desktop .role-header {
         overflow: hidden;
         visibility: hidden;
         pointer-events: none;
+    }
+    .ai-summary {
+        width: 210mm;
+        margin: 0 auto 16px;
+        padding: 14px 18px 16px;
+        background: var(--accent-soft);
+        border: 1px solid #d9e0ff;
+        border-radius: 12px;
+    }
+    .ai-summary-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+    }
+    .ai-summary-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+    .ai-summary-copy {
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 12px;
+        border: 1px solid #c9d2ff;
+        border-radius: 6px;
+        background: white;
+        color: var(--accent);
+        cursor: pointer;
+    }
+    .ai-summary-copy:hover { background: #f6f8ff; }
+    .ai-summary-text {
+        font-size: 13px;
+        line-height: 1.65;
+        color: var(--text-secondary);
     }
     #preview-page-gap { display: block; }
     .preview-page-cut {

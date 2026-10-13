@@ -2,7 +2,7 @@
     const versions = window.resumeVersions || {};
     const root = document.getElementById('cv-root');
     const titleEn = document.title;
-    const languageToggle = document.getElementById('language-toggle');
+    const languageButtons = document.querySelectorAll('#language-switch button[data-lang]');
     const back = document.getElementById('back-to-portfolio');
     let version = '01';
     let resumeTranslations = {};
@@ -70,12 +70,41 @@
             if (!tab.dataset.en) tab.dataset.en = tab.textContent;
             tab.textContent = copy ? tab.dataset.zh : tab.dataset.en;
         });
-        if (languageToggle) {
-            languageToggle.textContent = language === 'zh' ? 'EN' : '中文';
-            languageToggle.setAttribute('aria-label', language === 'zh' ? '切换至英文简历' : '切换至中文简历');
-        }
+        renderGreeting(language);
+        languageButtons.forEach(function (button) {
+            const on = button.dataset.lang === language;
+            button.classList.toggle('on', on);
+            button.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
         localStorage.setItem('resume-language', language);
         syncPreviewPages();
+    }
+
+    const greetings = window.resumeGreetings || {};
+    const greetingText = document.getElementById('ai-summary-text');
+    const greetingLabel = document.getElementById('ai-summary-label');
+    const greetingCopy = document.getElementById('ai-summary-copy');
+
+    function renderGreeting(language) {
+        const greeting = greetings[version];
+        const panel = document.getElementById('ai-summary');
+        if (!panel || !greetingText) return;
+        panel.hidden = !greeting;
+        if (!greeting) return;
+        const zh = language === 'zh';
+        greetingText.textContent = zh ? greeting.zh : greeting.en;
+        if (greetingLabel) greetingLabel.textContent = zh ? 'AI 摘要' : 'AI summary';
+        if (greetingCopy) greetingCopy.textContent = zh ? '复制' : 'Copy';
+    }
+
+    if (greetingCopy) {
+        greetingCopy.addEventListener('click', function () {
+            const zh = document.documentElement.lang === 'zh-CN';
+            navigator.clipboard.writeText(greetingText.textContent).then(function () {
+                greetingCopy.textContent = zh ? '已复制' : 'Copied';
+                setTimeout(function () { greetingCopy.textContent = zh ? '复制' : 'Copy'; }, 1500);
+            });
+        });
     }
 
     function syncPreviewPages() {
@@ -107,13 +136,16 @@
         page.style.paddingBottom = Math.max(0, pageH - page2Used) + 'px';
     }
 
-    if (languageToggle) {
-        const savedLanguage = localStorage.getItem('resume-language');
-        if (new URLSearchParams(location.search).get('lang') === 'zh' || savedLanguage === 'zh') setLanguage('zh');
-        languageToggle.addEventListener('click', function () {
-            setLanguage(document.documentElement.lang === 'zh-CN' ? 'en' : 'zh');
+    renderGreeting('en');
+    const savedLanguage = localStorage.getItem('resume-language');
+    const langParam = new URLSearchParams(location.search).get('lang');
+    if (langParam === 'zh' || (langParam !== 'en' && savedLanguage === 'zh')) setLanguage('zh');
+    languageButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const current = document.documentElement.lang === 'zh-CN' ? 'zh' : 'en';
+            if (button.dataset.lang !== current) setLanguage(button.dataset.lang);
         });
-    }
+    });
 
     if (back) {
         let sameOrigin = false;

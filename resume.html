@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="resources/css/resume.css?v=2">
+    <link rel="stylesheet" href="resources/css/resume.css?v=4">
 </head>
 <body>
 
@@ -23,11 +23,21 @@
         <a href="resume.html?v=04" data-version="04" data-zh="04 设计管理">04 Design Lead</a>
     </nav>
     <span class="spacer"></span>
-    <button type="button" id="language-toggle" aria-label="Switch resume language">中文</button>
+    <div class="langsw" id="language-switch" role="group" aria-label="Language / 语言">
+        <button type="button" data-lang="en" class="on" aria-pressed="true">EN</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+    </div>
     <span class="label">Export:</span>
     <button type="button" id="save-pdf">Save as PDF</button>
 </div>
 
+<aside class="ai-summary" id="ai-summary" aria-labelledby="ai-summary-label">
+    <div class="ai-summary-head">
+        <span class="ai-summary-label" id="ai-summary-label">AI summary</span>
+        <button type="button" class="ai-summary-copy" id="ai-summary-copy">Copy</button>
+    </div>
+    <p class="ai-summary-text" id="ai-summary-text"></p>
+</aside>
 <div id="cv-root"></div>
 
 <template id="cv-01">
@@ -107,7 +117,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                 <ul>
                     <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
                     <li>Made complex risk signals actionable through graph visualisation and a multi-step investigation workflow; built a <span class="kw">FATF-compliant risk-scoring</span> UI with <span class="kw">14+ configurable risk factors</span>.</li>
-                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and specified <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
                 </ul>
             </div>
 
@@ -339,7 +349,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                 <ul>
                     <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
                     <li>Made complex risk signals actionable through graph visualisation and a multi-step investigation workflow; built a <span class="kw">FATF-compliant risk-scoring</span> UI with <span class="kw">14+ configurable risk factors</span>.</li>
-                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and specified <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
                 </ul>
             </div>
 
@@ -572,7 +582,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                 <ul>
                     <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
                     <li>Made complex risk signals actionable through graph visualisation and a multi-step investigation workflow; built a <span class="kw">FATF-compliant risk-scoring</span> UI with <span class="kw">14+ configurable risk factors</span>.</li>
-                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and specified <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
                 </ul>
             </div>
 
@@ -804,7 +814,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                 </div>
                 <ul>
                     <li>Designed a Web3 <span class="kw">AML monitoring platform</span> across <span class="kw">10+ chains</span> (ETH, Solana, Polygon, and more), enabling compliance analysts to investigate paths across <span class="kw">exchanges, chains, and addresses</span>.</li>
-                    <li>Partnered with analysts and Engineering on investigation logic, and introduced <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
+                    <li>Partnered with analysts and Engineering on investigation logic, and specified <span class="kw">event-tracking metrics</span> to validate user behaviour.</li>
                 </ul>
             </div>
 
@@ -960,6 +970,24 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
 </template>
 
 <script>
+    window.resumeGreetings = {
+        "01": {
+                "en": "Hi, I’m Qin, a senior product designer with 6+ years across fintech, crypto and enterprise platforms, on both B2B and B2C products. I focus on understanding user and business needs and simplifying complex workflows. At Avenir, rapid prototypes aligned leadership in a week and the app launched four months later; at KuCoin I led 3 designers to deliver 5 internal platforms and a shared design system. I’d be glad to talk. Portfolio: www.qin-wang.net",
+                "zh": "您好，我是 Qin，资深产品设计师，有 6+ 年 B 端与 C 端产品设计经验，覆盖金融科技、加密与企业级平台。擅长理解用户与业务需求、简化复杂流程：在 Avenir 用快速原型一周内对齐方向，App 四个月后公开上线；在 KuCoin 带领 3 名设计师交付 5 个内部平台及共享设计系统。期待进一步沟通，作品集：www.qin-wang.net"
+        },
+        "02": {
+                "en": "Hi, I’m Qin, a senior product designer with 6+ years in product design, 5+ in fintech and crypto. Portfolio-management platforms I designed are used by HSBC, DBS and MUFG. At KuCoin I owned KYC/KYB onboarding for Australia and Europe — the EU flow was demoed to the regulator in the MiCA licence application, which was granted — and at OKX I designed an AML investigation platform covering 10+ chains. I’d be glad to talk. Portfolio: www.qin-wang.net",
+                "zh": "您好，我是 Qin，资深产品设计师，有 6+ 年产品设计经验，其中 5+ 年在金融科技与加密领域。设计的投资组合管理平台被 HSBC、DBS 与 MUFG 使用；在 KuCoin 负责澳大利亚与欧洲的 KYC/KYB 开户，欧洲流程用于 MiCA 牌照申请演示并最终获批；在 OKX 设计覆盖 10+ 条链的反洗钱调查平台。期待进一步沟通，作品集：www.qin-wang.net"
+        },
+        "03": {
+                "en": "Hi, I’m Qin, a senior product designer with 6+ years designing B2B and enterprise products — portfolio-management platforms, customer-service tools, a recruitment system and a CMS — including AI assistance built into everyday workflows. I structure complex information and end-to-end flows into efficient, easy-to-use tools; at KuCoin I led 3 designers to deliver 5 internal platforms and a shared design system. I’d be glad to talk. Portfolio: www.qin-wang.net",
+                "zh": "您好，我是 Qin，资深产品设计师，有 6+ 年 B 端与企业级产品设计经验，做过投资组合管理平台、客服系统、招聘系统与 CMS 等复杂系统，并在业务流程中落地 AI 辅助功能。擅长梳理复杂信息架构与端到端流程，将业务需求转化为高效、易用的操作体验；在 KuCoin 带领 3 名设计师交付 5 个内部平台及共享设计系统。期待进一步沟通，作品集：www.qin-wang.net"
+        },
+        "04": {
+                "en": "Hi, I’m Qin, a senior product designer and design lead with 6+ years in product design. At KuCoin I led 3 designers to deliver 5 internal platforms and a shared design system in 6 months, holding quality through shared components and design reviews, and led a 2-week redesign of the agent workspace for 200+ support agents. At Quantifeed I ran design critiques across 3 platforms and helped hire and mentor designers. I’d be glad to talk. Portfolio: www.qin-wang.net",
+                "zh": "您好，我是 Qin，资深产品设计师 / 设计负责人，有 6+ 年产品设计经验。在 KuCoin 带领 3 名设计师，6 个月内交付 5 个内部平台及共享设计系统，通过共享组件与设计评审保证质量；并用 2 周带队完成服务 200+ 坐席的客服工作台改版。在 Quantifeed 组织跨 3 个平台的设计评审，参与招聘与辅导设计师。期待进一步沟通，作品集：www.qin-wang.net"
+        }
+    };
     window.resumeVersions = {
         '01': {
             zh: {
@@ -990,7 +1018,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                     '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，将各市场的监管要求转化为清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
                     '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
                     '通过图谱可视化与多步骤调查工作流将复杂风险信号转化为可执行洞察；搭建<span class="kw">符合 FATF 的风险评分</span>界面，支持<span class="kw">14+ 项可配置风险因子</span>。',
-                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '与分析师和工程团队协作定义调查逻辑，并制定<span class="kw">事件追踪指标</span>方案以验证用户行为。',
                     '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
                     '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
                     '设计被 <span class="kw">HSBC、DBS、MUFG</span> 与 <span class="kw">Yachin</span> 使用的机构财富及投资组合管理产品，支持专业用户进行投资组合构建、监控与管理。',
@@ -1057,7 +1085,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                     '带领 <span class="kw">3 名设计师</span>，在 <span class="kw">6 个月</span>内交付 <span class="kw">5 个内部平台</span>及一套<span class="kw">共享设计系统</span>，其中包括服务 <span class="kw">200+</span> 客服坐席的工作台，含<span class="kw">AI 回复建议</span>与<span class="kw">对话摘要</span>，由坐席审核后再发送。',
                     '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
                     '通过图谱可视化与多步骤调查工作流将复杂风险信号转化为可执行洞察；搭建<span class="kw">符合 FATF 的风险评分</span>界面，支持<span class="kw">14+ 项可配置风险因子</span>。',
-                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '与分析师和工程团队协作定义调查逻辑，并制定<span class="kw">事件追踪指标</span>方案以验证用户行为。',
                     '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
                     '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
                     '主导投资组合管理核心平台的设计，服务 <span class="kw">DBS</span>（新加坡、印度）、<span class="kw">MUFG</span>（日本）与 <span class="kw">Yachin</span>（台湾），涵盖模型组合、再平衡、客户账户与订单追踪；相关财富管理产品亦被 <span class="kw">HSBC</span> 使用。',
@@ -1125,7 +1153,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                     '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，将各市场的监管要求转化为清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
                     '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
                     '通过图谱可视化与多步骤调查工作流将复杂风险信号转化为可执行洞察；搭建<span class="kw">符合 FATF 的风险评分</span>界面，支持<span class="kw">14+ 项可配置风险因子</span>。',
-                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '与分析师和工程团队协作定义调查逻辑，并制定<span class="kw">事件追踪指标</span>方案以验证用户行为。',
                     '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
                     '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
                     '设计被 <span class="kw">HSBC、DBS、MUFG</span> 与 <span class="kw">Yachin</span> 使用的机构财富及投资组合管理产品，支持专业用户进行投资组合构建、监控与管理。',
@@ -1192,7 +1220,7 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
                     '用 <span class="kw">2 周</span>主导服务 <span class="kw">200+</span> 客服坐席的工作台改版：现场观察坐席操作，解决三处流程阻塞，并设计<span class="kw">AI 回复建议</span>与<span class="kw">对话摘要</span>，由坐席审核后再发送。',
                     '负责<span class="kw">澳大利亚和欧洲</span>市场从 0 到 1 的个人与机构客户开户，按各市场的监管规则设计清晰、低摩擦的<span class="kw">移动端与 Web</span> 旅程。',
                     '设计 Web3 <span class="kw">反洗钱监控平台</span>，覆盖 <span class="kw">10+ 条链</span>（ETH、Solana、Polygon 等），帮助合规分析师追踪跨<span class="kw">交易所、区块链与地址</span>的交易路径。',
-                    '与分析师和工程团队协作定义调查逻辑，并引入<span class="kw">事件追踪指标</span>验证用户行为。',
+                    '与分析师和工程团队协作定义调查逻辑，并制定<span class="kw">事件追踪指标</span>方案以验证用户行为。',
                     '主导<span class="kw">代理人招聘</span>系统从 0 到 1 的 UX 设计。',
                     '与研究、业务分析、工程及<span class="kw">设计系统</span>负责人协作，定义流程与可扩展方案。',
                     '主导投资组合管理核心平台的设计，服务 <span class="kw">DBS</span>（新加坡、印度）、<span class="kw">MUFG</span>（日本）与 <span class="kw">Yachin</span>（台湾）；相关财富管理产品亦被 <span class="kw">HSBC</span> 使用。',
@@ -1232,6 +1260,6 @@ Senior Product Designer with <span class="kw">6+ years</span> of experience acro
         }
     };
 </script>
-<script src="resources/js/resume.js?v=7"></script>
+<script src="resources/js/resume.js?v=10"></script>
 </body>
 </html>

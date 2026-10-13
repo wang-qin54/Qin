@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Case component library — Qin Wang</title>
+    <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=1" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-components.css?v=2" type="text/css" rel="stylesheet">
+    <style>
+        /* Library chrome only; never copy these .lib-* classes into a case page */
+        .lib-spec { margin: var(--space-7) 0 0; }
+        .lib-spec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin: 0 0 var(--space-2); }
+        .one-col .lib-spec__head h5 { margin: 0; font-size: 18px; letter-spacing: -0.01em; }
+        .lib-class { padding: 2px 8px; border-radius: 6px; background: var(--bg-muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--text-secondary); }
+        .lib-use { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin: var(--space-2) 0 var(--space-3); }
+        .lib-use div { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
+        .lib-use b { display: block; margin-bottom: 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+        .lib-use .do b { color: #127a4b; }
+        .lib-use .dont b { color: #b42318; }
+        .lib-demo { padding: var(--space-5); border: 1px dashed var(--border-strong); border-radius: 16px; background: #fff; }
+        .lib-demo > :first-child { margin-top: 0; }
+        .lib-demo > :last-child { margin-bottom: 0; }
+        .lib-code { margin: var(--space-2) 0 0; }
+        .lib-code > summary { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; cursor: pointer; list-style: none; font-size: 13px; font-weight: 600; color: var(--accent); }
+        .lib-code > summary::-webkit-details-marker { display: none; }
+        .lib-code > summary::before { content: "</>"; font-family: ui-monospace, Menlo, monospace; font-size: 11px; }
+        .lib-code__wrap { position: relative; margin-top: var(--space-2); }
+        .lib-code pre { max-height: 420px; margin: 0; padding: var(--space-4); border-radius: var(--radius-md); background: #0f1115; color: #e6e6e6; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.55; overflow: auto; white-space: pre; }
+        .lib-copy { position: absolute; top: 8px; right: 8px; padding: 4px 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; background: rgba(255,255,255,.08); color: #fff; font: inherit; font-size: 12px; cursor: pointer; }
+        .lib-copy:hover { background: rgba(255,255,255,.18); }
+
+        .lib-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); margin: var(--space-4) 0; }
+        .lib-swatch { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #fff; }
+        .lib-swatch i { display: block; height: 56px; border-bottom: 1px solid var(--border); }
+        .lib-swatch span { display: block; padding: 8px 10px; font-size: 12px; line-height: 1.4; color: var(--text-secondary); }
+        .lib-swatch b { display: block; font-size: 13px; color: var(--text-primary); }
+        .lib-type { margin: var(--space-4) 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+        .lib-type > div { display: grid; grid-template-columns: 170px 1fr; align-items: baseline; gap: var(--space-4); padding: 12px 16px; background: #fff; }
+        .lib-type > div + div { border-top: 1px solid var(--border); }
+        .lib-type code { font-size: 12px; color: var(--text-tertiary); }
+        .lib-space { display: grid; gap: 6px; margin: var(--space-4) 0; }
+        .lib-space div { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: var(--space-3); font-size: 12px; color: var(--text-secondary); }
+        .lib-space i { display: block; height: 10px; border-radius: 3px; background: var(--accent-subtle); border: 1px solid rgba(0, 52, 240, .25); }
+
+        .lib-check { counter-reset: chk; margin: var(--space-4) 0; padding: 0; list-style: none; }
+        .lib-check li { counter-increment: chk; position: relative; margin: 0; padding: 12px 0 12px 40px; border-top: 1px solid var(--border); font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+        .lib-check li::before { content: counter(chk); position: absolute; left: 0; top: 13px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
+        .lib-check li b { color: var(--text-primary); font-weight: 600; }
+        @media (max-width: 720px) {
+            .lib-use { grid-template-columns: 1fr; }
+            .lib-demo { padding: var(--space-4) var(--space-3); }
+            .lib-type > div { grid-template-columns: 1fr; gap: 2px; }
+        }
+    </style>
+    <script src="site-chrome.js?v=9"></script>
+</head>
+
+<body>
+    <site-header lang-switch></site-header>
+
+    <div class="anchor" id="top"></div>
+    <div class="anchor" id="section1"></div>
+    <div class="page-title-box case-hero">
+        <div class="grid">
+            <div class="page-title-content">
+                <h2 data-zh="案例组件库">Case component library</h2>
+                <p class="as-role" data-zh="&lt;strong&gt;内部参考&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;不在网站中链接&lt;/span&gt;"><strong>Internal reference</strong> &middot; <span class="as-role__rest">not linked from the site</span></p>
+                <ol class="as-stats" aria-label="What the library contains">
+                    <li><span class="as-stats__num">1</span><span class="as-stats__label" data-zh="主视觉">Hero</span></li>
+                    <li class="is-turn"><span class="as-stats__num">18</span><span class="as-stats__label" data-zh="正文组件">Body blocks</span></li>
+                    <li><span class="as-stats__num">3</span><span class="as-stats__label" data-zh="共享文件">Shared files</span></li>
+                    <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="语言">Languages</span></li>
+                </ol>
+                <dl class="as-meta">
+                    <div><dt data-zh="用途">Purpose</dt><dd data-zh="新案例直接复用的组件、样式与写作规范">Components, styles and writing rules to reuse in every new case</dd></div>
+                    <div><dt data-zh="样式">Styles</dt><dd>case-pattern.css (hero) · case-components.css (body)</dd></div>
+                    <div><dt data-zh="脚本">Script</dt><dd>resources/js/case-components.js</dd></div>
+                    <div><dt data-zh="规则">Rules</dt><dd>.cursor/rules/case-library.mdc</dd></div>
+                </dl>
+            </div>
+            <div class="title-img">
+                <img src="resources/images-internal-system/cover-programme.png?v=4" width="1920" height="1500" alt="Example hero image: product screens standing on the hero's bottom edge">
+            </div>
+        </div>
+    </div>
+
+    <div class="case-layout">
+    <div class="scrollspy">
+        <span class="scrollspy__title" data-zh="案例组件库">Case component library</span>
+        <div class="scrollspy__list">
+        <a href="#section2" class="list" data-zh="02 使用方式">02 How to use</a>
+        <a href="#section3" class="list" data-zh="03 基础">03 Foundations</a>
+        <a href="#section4" class="list" data-zh="04 章节节奏">04 Section rhythm</a>
+        <a href="#section5" class="list" data-zh="05 文本组件">05 Text blocks</a>
+        <a href="#section6" class="list" data-zh="06 卡片与步骤">06 Cards and steps</a>
+        <a href="#section7" class="list" data-zh="07 证据">07 Evidence</a>
+        <a href="#section8" class="list" data-zh="08 截图">08 Screens</a>
+        <a href="#section9" class="list" data-zh="09 结果与复盘">09 Result and reflection</a>
+        <a href="#section10" class="list" data-zh="10 检查清单">10 Checklist</a>
+        <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
+        </div>
+    </div>
+
+    <div class="one-col">
+
+        <!-- ── HOW TO USE ───────────────────────────────────── -->
+        <div class="anchor" id="section2"></div>
+        <span class="cs-kicker" data-zh="02 · 使用方式">02 · How to use</span>
+        <h3 class="section" data-zh="一个新案例只需三个文件和一套写法">A new case needs three shared files and one way of writing</h3>
+        <p data-zh="每个组件都按类名启用，样式写在共享文件里，而不是页面内联。新案例从下面的页面骨架开始，只用这里有的组件；需要新组件时，先加到共享文件和本页，再在案例中使用。">Every block is opt-in by class, and its styles live in shared files, not in the page. Start a new case from the skeleton below and use only blocks from this page. When a case needs something new, add it to the shared files and to this page first, then use it.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Page skeleton</h5><span class="lib-class">new-case.html</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Copy this skeleton, keep the load order, number sections 02 onward (the hero is 01).</div>
+                <div class="dont"><b>Avoid</b>Page-level <code>&lt;style&gt;</code> copies of shared blocks; a page prefix (<code>kyb-</code>, <code>aml-</code>) for a block that exists here.</div>
+            </div>
+            <details class="lib-code" open>
+                <summary>Markup</summary>
+                <div class="lib-code__wrap"><pre data-lib-raw>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Project name — Qin Wang&lt;/title&gt;
+    &lt;link href="resources/css/detailpage.css?v=19" rel="stylesheet"&gt;
+    &lt;link href="resources/css/case-pattern.css?v=1" rel="stylesheet"&gt;
+    &lt;link href="resources/css/case-components.css?v=2" rel="stylesheet"&gt;
+    &lt;!-- Page-only styles: just what this case invents (diagrams, prototypes) --&gt;
+    &lt;script src="site-chrome.js?v=9"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;site-header lang-switch&gt;&lt;/site-header&gt;
+    &lt;div class="anchor" id="top"&gt;&lt;/div&gt;
+    &lt;div class="anchor" id="section1"&gt;&lt;/div&gt;
+    &lt;div class="page-title-box case-hero"&gt; … hero (see case-study.mdc) … &lt;/div&gt;
+
+    &lt;div class="case-layout"&gt;
+        &lt;div class="scrollspy"&gt;
+            &lt;span class="scrollspy__title"&gt;Project name&lt;/span&gt;
+            &lt;div class="scrollspy__list"&gt;
+                &lt;a href="#section2" class="list"&gt;02 In short&lt;/a&gt;
+                …
+                &lt;a href="#top" class="list"&gt;Back to top&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="one-col"&gt;
+            &lt;div class="anchor" id="section2"&gt;&lt;/div&gt;
+            &lt;span class="cs-kicker"&gt;02 · In short&lt;/span&gt;
+            &lt;h3 class="section"&gt;Claim heading&lt;/h3&gt;
+            &lt;p&gt;Lead paragraph.&lt;/p&gt;
+            … blocks …
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script src="main.js"&gt;&lt;/script&gt;
+    &lt;script src="resources/js/case-components.js?v=1"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+            </details>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Story arc</h5><span class="lib-class">section order</span></div>
+            <p data-zh="一个案例讲一个故事。章节按读者的问题排列：发生了什么、我负责什么、问题在哪、我做了什么改变、结果如何、我学到了什么。">One case tells one story. Order sections by the reader's questions: what happened, what I owned, what was wrong, what I changed, what it led to, what I learned.</p>
+            <ol class="cs-flow">
+                <li data-zh="主视觉">Hero</li>
+                <li data-zh="概要">In short</li>
+                <li data-zh="背景与角色">Context and role</li>
+                <li data-zh="研究与问题">Research and problem</li>
+                <li data-zh="改进 1–3">Fixes 1–3</li>
+                <li data-zh="结果">Result</li>
+                <li data-zh="复盘">Reflection</li>
+            </ol>
+            <p class="cs-note" data-zh="6–10 个章节；读者只看标题也能读懂论点。">6–10 sections; a reader who scans only the headings still gets the argument.</p>
+        </div>
+
+
+        <!-- ── FOUNDATIONS ──────────────────────────────────── -->
+        <div class="anchor" id="section3"></div>
+        <span class="cs-kicker" data-zh="03 · 基础">03 · Foundations</span>
+        <h3 class="section" data-zh="一种强调色，灰阶承担其余层级">One accent colour; greys carry the rest of the hierarchy</h3>
+        <p data-zh="蓝色只用于强调：章节标签、改版后、数字标记与当前状态。红色只表示改版前或问题，绿色只表示已达成。">Blue is reserved for emphasis: section kickers, After, numbered tags and the current state. Red only means Before or a problem; green only means done.</p>
+
+        <div class="lib-swatches">
+            <div class="lib-swatch"><i style="background:#111"></i><span><b>Text primary</b>--text-primary</span></div>
+            <div class="lib-swatch"><i style="background:#4d4d4d"></i><span><b>Text secondary</b>--text-secondary</span></div>
+            <div class="lib-swatch"><i style="background:#8a8a8a"></i><span><b>Text tertiary</b>--text-tertiary</span></div>
+            <div class="lib-swatch"><i style="background:var(--accent)"></i><span><b>Accent</b>--accent #0034F0</span></div>
+            <div class="lib-swatch"><i style="background:var(--accent-subtle)"></i><span><b>Accent subtle</b>--accent-subtle 8%</span></div>
+            <div class="lib-swatch"><i style="background:var(--bg-subtle)"></i><span><b>Surface</b>--bg-subtle</span></div>
+            <div class="lib-swatch"><i style="background:var(--border)"></i><span><b>Border</b>--border</span></div>
+            <div class="lib-swatch"><i style="background:#d14343"></i><span><b>Before / problem</b>#D14343 · pill #FDECEC</span></div>
+            <div class="lib-swatch"><i style="background:#127a4b"></i><span><b>Done / outcome</b>#127A4B (checks only)</span></div>
+        </div>
+
+        <h5 class="cs-sub">Type scale</h5>
+        <div class="lib-type">
+            <div><code>Hero h2 · 40px</code><span style="font-family:var(--font-title);font-size:30px;font-weight:600;letter-spacing:-0.04em">Project name</span></div>
+            <div><code>Section h3 · 26px</code><span style="font-family:var(--font-title);font-size:24px;font-weight:600;letter-spacing:-0.03em">Claim heading</span></div>
+            <div><code>Section lead · 17px</code><span style="font-size:17px;color:#333">Lead paragraph that repeats the heading's terms.</span></div>
+            <div><code>Subsection h5 · 17px</code><span style="font-size:17px;font-weight:600">Where agents got stuck</span></div>
+            <div><code>Body · 16px / 1.7</code><span style="font-size:16px;color:var(--text-secondary)">Body copy and list items.</span></div>
+            <div><code>Card body · 14px</code><span style="font-size:14px;color:var(--text-secondary)">One sentence per card.</span></div>
+            <div><code>Caption · 13px</code><span style="font-size:13px;color:var(--text-tertiary)">Figure captions, never below 12px.</span></div>
+            <div><code>Micro-label · 11px</code><span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Kicker · flag</span></div>
+        </div>
+
+        <h5 class="cs-sub">Spacing</h5>
+        <div class="lib-space">
+            <div><span>--space-2 · 8px</span><i style="width:8px"></i></div>
+            <div><span>--space-3 · 12px</span><i style="width:12px"></i></div>
+            <div><span>--space-4 · 16px</span><i style="width:16px"></i></div>
+            <div><span>--space-5 · 24px</span><i style="width:24px"></i></div>
+            <div><span>--space-6 · 32px</span><i style="width:32px"></i></div>
+            <div><span>--space-7 · 48px</span><i style="width:48px"></i></div>
+            <div><span>--space-8 · 64px</span><i style="width:64px"></i></div>
+        </div>
+        <p class="cs-note" data-zh="卡片间距：并排 16px，纵向 12px。标题到内容 12px；引言到第一个组件 16–24px；章节之间由章节标签的上边线分隔。">Cards: 16px apart side by side, 12px stacked. Heading to content 12px; lead to first block 16–24px; sections are separated by the kicker's top rule.</p>
+
+
+        <!-- ── SECTION RHYTHM ───────────────────────────────── -->
+        <div class="anchor" id="section4"></div>
+        <span class="cs-kicker" data-zh="04 · 章节节奏">04 · Section rhythm</span>
+        <h3 class="section" data-zh="每个章节：标签、论点标题、引言，然后一个组件">Every section: kicker, claim heading, lead, then one block</h3>
+        <p data-zh="标签说明章节是什么，标题说明发生了什么。引言重复标题的关键词，并引出下一个组件。">The kicker names the section; the heading says what changed. The lead repeats the heading's key terms and sets up the block that follows.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Section header</h5><span class="lib-class">.cs-kicker + h3.section + p</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Write the heading as a claim a skimmer can follow ("Watch agents first, then redesign").</div>
+                <div class="dont"><b>Avoid</b>Label headings ("Research", "Final delivery"), slogans, number riddles.</div>
+            </div>
+            <div class="lib-demo">
+                <span class="cs-kicker is-first" data-zh="05 · 用户研究">05 · Research</span>
+                <h3 class="section" data-zh="先看客服怎么用，再动手改">Watch agents first, then redesign</h3>
+                <p data-zh="时间只有两周，我没有直接改界面，而是先组织现场观察：5 名客服在可用的 MVP 上操作。">With only two weeks, I started with observation rather than screens: 5 agents worked on the live MVP.</p>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Subsection</h5><span class="lib-class">h5.cs-sub</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Split a long section into 2–3 named parts.</div>
+                <div class="dont"><b>Avoid</b>More than three subsections; that is a new section.</div>
+            </div>
+            <div class="lib-demo">
+                <h5 class="cs-sub" style="margin-top:0" data-zh="客服在哪一步卡住">Where agents got stuck</h5>
+                <p data-zh="一段简短说明，然后接一个组件。">One short paragraph, then a block.</p>
+            </div>
+        </div>
+
+
+        <!-- ── TEXT BLOCKS ──────────────────────────────────── -->
+        <div class="anchor" id="section5"></div>
+        <span class="cs-kicker" data-zh="05 · 文本组件">05 · Text blocks</span>
+        <h3 class="section" data-zh="列表、提示框和可展开的细节">Lists, callouts and optional depth</h3>
+        <p data-zh="正文保持短。需要强调一个洞察时用提示框；有读者想看的细节时折叠起来。">Keep body copy short. Use a callout for the one insight a section turns on; fold detail that only some readers want.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Bullet and check lists</h5><span class="lib-class">.cs-list · .cs-list--check</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Bullets for facts; checks only for real outcomes. Bold the first words sparingly.</div>
+                <div class="dont"><b>Avoid</b>Checks on plans or unmeasured claims; more than 5 items.</div>
+            </div>
+            <div class="lib-demo">
+                <ul class="cs-list">
+                    <li data-zh="&lt;b&gt;5 名客服&lt;/b&gt;，每场 2–3 人，在可用的 MVP 上操作"><b>5 agents</b>, 2–3 per session, on the live MVP</li>
+                    <li data-zh="每个困惑点标在界面上，再归纳为三个障碍">Every point of confusion pinned to the screen, then grouped into three blockers</li>
+                </ul>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="5 个平台在 6 个月内从 0 到 1">Five platforms built from scratch in six months</li>
+                    <li class="is-muted" data-zh="试点前团队调整，未全面上线">Not fully rolled out: the team was restructured before the pilot</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Callout</h5><span class="lib-class">.cs-callout</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>One per section at most: the key insight, a user quote, or the decision. Grey note, 2px accent rule on the left, square left corners, rounded right.</div>
+                <div class="dont"><b>Avoid</b>Two callouts in a row; a callout that repeats the lead; a tinted blue fill or a thick rule inside fully rounded corners.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-callout">
+                    <div class="lbl" data-zh="关键发现">Key finding</div>
+                    <p data-zh="&lt;b&gt;5 人中 4 人&lt;/b&gt;不知道回复前要先领取工单。"><b>4 of 5 agents</b> didn't realise they had to take a ticket before replying.</p>
+                </div>
+                <div class="cs-callout">
+                    <div class="lbl" data-zh="决定">Decision</div>
+                    <div class="quote" data-zh="每个障碍只对应一处聚焦的改动。">One focused change per blocker.</div>
+                    <span class="sub" data-zh="范围控制在开发截止日期内">Scoped to fit the development deadline</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Disclosure</h5><span class="lib-class">details.cs-more</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Fold method detail, extra screens or edge cases; say what's inside in the hint.</div>
+                <div class="dont"><b>Avoid</b>Hiding the main argument or the result.</div>
+            </div>
+            <div class="lib-demo">
+                <details class="cs-more">
+                    <summary><span data-zh="研究方法">How the sessions ran</span><span class="cs-more__hint" data-zh="5 名客服 · 每场 2–3 人">5 agents · 2–3 per session</span></summary>
+                    <div class="cs-more__body">
+                        <p data-zh="客服在可用的 MVP 上操作。我们把每个困惑点标在界面上，再归纳为三个结构性障碍。">Agents worked on the live MVP. We pinned every point of confusion to the screen, then grouped them into three structural blockers.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+
+        <!-- ── CARDS AND STEPS ──────────────────────────────── -->
+        <div class="anchor" id="section6"></div>
+        <span class="cs-kicker" data-zh="06 · 卡片与步骤">06 · Cards and steps</span>
+        <h3 class="section" data-zh="并列内容用卡片，顺序内容用步骤">Cards for parallel points, steps for a sequence</h3>
+        <p data-zh="2–4 个并列要点用卡片；有先后顺序时用编号步骤；一个流程只需快速扫一眼时用药丸流程。">Use cards for 2–4 parallel points, numbered tiles when order matters, and a pill flow when the reader only needs to scan a sequence.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Card grid</h5><span class="lib-class">.cs-cards · .cs-card · --cols</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>2–4 cards, one idea each: label, title, one sentence. <code>style="--cols:3"</code> for three; <code>.cs-card--num</code> for numbered, <code>.cs-card--soft</code> for a borderless grey grid.</div>
+                <div class="dont"><b>Avoid</b>Paragraphs inside cards; mixing numbered and unnumbered cards in one grid.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-cards">
+                    <div class="cs-card"><span class="cs-card__k" data-zh="业务">Business</span><div class="cs-card__h" data-zh="替换第三方工具">Replace third-party tools</div><p data-zh="Zendesk 换成自研客服工作台。">Zendesk replaced by the in-house agent workspace.</p></div>
+                    <div class="cs-card"><span class="cs-card__k" data-zh="用户">Users</span><div class="cs-card__h" data-zh="200+ 名客服">200+ support agents</div><p data-zh="一个界面里完成领取、查看和回复。">Take, read and reply in one screen.</p></div>
+                </div>
+                <div class="cs-cards" style="--cols:3">
+                    <div class="cs-card cs-card--num"><div class="cs-card__h"><span class="cs-num">1</span><span data-zh="领取">Take</span></div><p data-zh="在回复框里直接领取。">Take it in the reply box.</p></div>
+                    <div class="cs-card cs-card--num"><div class="cs-card__h"><span class="cs-num">2</span><span data-zh="查看">Read</span></div><p data-zh="用户、历史、工单在一栏。">User, history, ticket in one column.</p></div>
+                    <div class="cs-card cs-card--num"><div class="cs-card__h"><span class="cs-num">3</span><span data-zh="回复">Reply</span></div><p data-zh="常用工具放在输入框旁。">Everyday tools beside the input.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Two facts</h5><span class="lib-class">.cs-why</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Two short "why it mattered" facts under a lead.</div>
+                <div class="dont"><b>Avoid</b>More than two; use cards instead.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-why">
+                    <div><b data-zh="替换的工具">Tools replaced</b><span data-zh="Zendesk 换成客服工作台，Ada 换成机器人配置。">Zendesk by the agent workspace, Ada by chatbot configuration.</span></div>
+                    <div><b data-zh="用户">Users</b><span data-zh="200+ 名客服专员和客服主管。">200+ support agents and their team leads.</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Practice tiles</h5><span class="lib-class">.cs-how</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Exactly three steps or practices in a row (stacks on phones).</div>
+                <div class="dont"><b>Avoid</b>Two or four tiles; use cards.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-how">
+                    <div><span class="cs-num">1</span><b data-zh="共享组件">Shared components</b><span data-zh="五个平台用同一套设计系统。">One design system across five platforms.</span></div>
+                    <div><span class="cs-num">2</span><b data-zh="设计评审">Design reviews</b><span data-zh="评审让五个平台保持同一标准。">Reviews hold one standard across platforms.</span></div>
+                    <div><span class="cs-num">3</span><b data-zh="排定优先级">Prioritise</b><span data-zh="先做最常用的流程。">Most-used flows first.</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Pill flow</h5><span class="lib-class">ol.cs-flow</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>A short sequence of 3–7 named steps, auto-numbered.</div>
+                <div class="dont"><b>Avoid</b>Steps that need explanation; use the journey grid.</div>
+            </div>
+            <div class="lib-demo">
+                <ol class="cs-flow">
+                    <li data-zh="上线接入">Go online</li>
+                    <li data-zh="领取工单">Take the ticket</li>
+                    <li data-zh="查看上下文">Read context</li>
+                    <li data-zh="撰写回复">Reply</li>
+                    <li data-zh="关闭">Close</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Journey grid</h5><span class="lib-class">figure.cs-journey · --steps</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Show where in a flow each blocker sits. Set <code>style="--steps:N"</code> for N phases (4–6).</div>
+                <div class="dont"><b>Avoid</b>More than 6 phases; long text in a cell.</div>
+            </div>
+            <div class="lib-demo">
+                <figure class="cs-journey" style="--steps:4;margin:0">
+                    <div class="cs-journey__grid">
+                        <div class="cs-journey__labels" aria-hidden="true">
+                            <span data-zh="阶段">Phase</span>
+                            <span data-zh="客服在做什么">What the agent does</span>
+                            <span data-zh="卡点">Friction point</span>
+                        </div>
+                        <ol class="cs-journey__steps">
+                            <li>
+                                <b class="cs-journey__phase" data-zh="上线接入">Go online</b>
+                                <p class="cs-journey__does" data-zh="切换为在线并进入队列">Set status to online and join the queue</p>
+                                <div class="cs-journey__broke"><p class="cs-journey__ok" data-zh="未观察到障碍">No friction observed</p></div>
+                            </li>
+                            <li>
+                                <b class="cs-journey__phase" data-zh="领取工单">Take the ticket</b>
+                                <p class="cs-journey__does" data-zh="接入新对话或领取未分配工单">Take an incoming chat or an unassigned ticket</p>
+                                <div class="cs-journey__broke"><div class="cs-journey__block"><span data-zh="障碍 1">Blocker 1</span><p data-zh="不知道要先领取工单">Didn't know to take the ticket first</p></div></div>
+                            </li>
+                            <li>
+                                <b class="cs-journey__phase" data-zh="查看上下文">Read context</b>
+                                <p class="cs-journey__does" data-zh="查看用户、KYC 等级和历史工单">Check the user, KYC level and past tickets</p>
+                                <div class="cs-journey__broke"><div class="cs-journey__block"><span data-zh="障碍 2">Blocker 2</span><p data-zh="信息分散在不同 Tab">Split across tabs</p></div></div>
+                            </li>
+                            <li>
+                                <b class="cs-journey__phase" data-zh="关闭">Close</b>
+                                <p class="cs-journey__does" data-zh="提交、升级或关闭">Submit, escalate or close</p>
+                                <div class="cs-journey__broke"><p class="cs-journey__ok" data-zh="未观察到障碍">No friction observed</p></div>
+                            </li>
+                        </ol>
+                    </div>
+                    <figcaption data-zh="每个障碍标在客服遇到它的那一步。">Each blocker sits at the step where agents hit it.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+
+        <!-- ── EVIDENCE ─────────────────────────────────────── -->
+        <div class="anchor" id="section7"></div>
+        <span class="cs-kicker" data-zh="07 · 证据">07 · Evidence</span>
+        <h3 class="section" data-zh="只展示真实测得的数字">Show only numbers that were actually measured</h3>
+        <p data-zh="数字卡片和条形图用于研究数据或基线。没有数据时用文字说明原因，不要估算。">Metric tiles and bars are for research data or baselines. When there's no data, say why in a note; never estimate.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Metric tiles</h5><span class="lib-class">.cs-metrics · .cs-metric · --bad</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>2–3 measured numbers with what they measure. <code>--bad</code> marks a problem baseline.</div>
+                <div class="dont"><b>Avoid</b>Repeating hero numbers; projections presented as results.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-metrics">
+                    <div class="cs-metric cs-metric--bad"><span class="cs-metric__num">82%</span><span class="cs-metric__desc" data-zh="用户提交过多次申请">of users submitted multiple applications</span></div>
+                    <div class="cs-metric"><span class="cs-metric__num">41%</span><span class="cs-metric__desc" data-zh="文件上传通过率（基线）">document-upload pass rate (baseline)</span></div>
+                    <div class="cs-metric"><span class="cs-metric__num">~40%</span><span class="cs-metric__desc" data-zh="超过 5 天才完成">took more than 5 days to complete</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Bars</h5><span class="lib-class">.cs-bars · .cs-bar · --v</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Share of a whole, largest first; <code>.is-lead</code> marks the one the case acts on.</div>
+                <div class="dont"><b>Avoid</b>More than 5 rows; bars without a source in the lead.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-bars">
+                    <div class="cs-bar is-lead"><span class="cs-bar__label" data-zh="CBR / PoA：文件错误">CBR / PoA — wrong document</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:67%"></div></div><span class="cs-bar__val">67%</span></div>
+                    <div class="cs-bar"><span class="cs-bar__label" data-zh="股东名册（&gt;25%）">Shareholder register (&gt;25%)</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:24%"></div></div><span class="cs-bar__val">24%</span></div>
+                    <div class="cs-bar"><span class="cs-bar__label" data-zh="其他模块">Other modules</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:9%"></div></div><span class="cs-bar__val">9%</span></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ── SCREENS ──────────────────────────────────────── -->
+        <div class="anchor" id="section8"></div>
+        <span class="cs-kicker" data-zh="08 · 截图">08 · Screens</span>
+        <h3 class="section" data-zh="每段对截图的描述都指向截图上的位置">Every description of a screen points at the place it describes</h3>
+        <p data-zh="截图从 Figma 以 3 倍导出。单张截图配说明；有多个要点时用标注截图；一项改进用前后对比卡片。">Screens are exported from Figma at 3×. Use a plain shot with a caption, an annotated screen for several notes, and a before/after card for one fix.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Screenshot</h5><span class="lib-class">figure.cs-shot + p.cs-figcap</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Width/height = exported pixels; caption names what to look at.</div>
+                <div class="dont"><b>Avoid</b>Describing a detail without marking it; export sizes in captions.</div>
+            </div>
+            <div class="lib-demo">
+                <figure class="cs-shot"><img src="resources/images-internal-system/cs_workspace_overview.png" alt="The redesigned agent workspace" loading="lazy"></figure>
+                <p class="cs-figcap" style="margin-bottom:0" data-zh="改版后的客服工作台：工单、对话、上下文在同一屏。">The redesigned workspace: ticket, chat and context on one screen.</p>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Annotated screen</h5><span class="lib-class">figure.db-anno</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>3–5 pins at % positions; notes are a 2–4 word keyword + one line. Hover links pin and note.</div>
+                <div class="dont"><b>Avoid</b>More than 5 pins; split into two screens or crop.</div>
+            </div>
+            <div class="lib-demo">
+                <figure class="db-anno" style="margin:0">
+                    <div class="db-anno__stage">
+                        <img src="resources/images-internal-system/observation-mvp.png?v=1" width="1024" height="617" alt="The live MVP during an observation session" loading="lazy">
+                        <span class="db-pin" style="left:25.4%;top:11.5%" aria-hidden="true">1</span>
+                        <span class="db-pin" style="left:24.6%;top:25.6%" aria-hidden="true">2</span>
+                        <span class="db-pin" style="left:58.2%;top:42.6%" aria-hidden="true">3</span>
+                    </div>
+                    <ol class="db-anno__notes">
+                        <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="标题来源不明">Unclear title</b><span data-zh="标题取的是哪个字段？">Which field does it come from?</span></div></li>
+                        <li><span class="db-pin" aria-hidden="true">2</span><div><b data-zh="新对话没有提示">No new-chat alert</b><span data-zh="在线对话进来时没有明显提示。">A live chat arrived without a clear signal.</span></div></li>
+                        <li><span class="db-pin" aria-hidden="true">3</span><div><b data-zh="Bot 和人工难区分">Bot and agent look alike</b><span data-zh="两种消息一眼分不清。">The two kinds of message look the same.</span></div></li>
+                    </ol>
+                    <figcaption class="cs-figcap" data-zh="一次观察中的记录，标在可用的 MVP 上。">Notes from one observation session, pinned to the live MVP.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Before / after card</h5><span class="lib-class">.db-wt &gt; article.db-wt__card</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>One fix per card. Before caption above its image, After caption below. Boxes in % hug the control. Optional evidence pill (<code>.db-wt__pill</code>, e.g. "4 of 5 agents") only for observed counts.</div>
+                <div class="dont"><b>Avoid</b>Icons instead of the words Before/After; captions that cross the screenshot.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="db-wt" style="margin:0">
+                    <article class="db-wt__card">
+                        <header class="db-wt__head">
+                            <span class="db-wt__n">2</span>
+                            <h5 class="db-wt__k" data-zh="上下文分散在不同 Tab">Context split across tabs</h5>
+                        </header>
+                        <figure class="db-wt__pair">
+                            <p class="db-wt__cap db-wt__cap--before"><b data-zh="改版前">Before</b><span data-zh="两个 Tab：用户信息、工单信息">Two tabs: user info, ticket info</span></p>
+                            <div class="db-wt__shot">
+                                <img src="resources/images-internal-system/fix2-before.png?v=2" width="5760" height="3240" alt="Before: user info and ticket info as two tabs in the right panel" loading="lazy">
+                                <span class="db-wt__box db-wt__box--before" style="--x:69%;--y:7%;--w:12.2%;--h:5%" aria-hidden="true"></span>
+                            </div>
+                            <div class="db-wt__shot">
+                                <img src="resources/images-internal-system/fix2-after.png?v=2" width="5760" height="3219" alt="After: user info, ticket history and ticket info stacked in one right-hand column" loading="lazy">
+                                <span class="db-wt__box" style="--x:71.6%;--y:4.9%;--w:28.2%;--h:91.2%" aria-hidden="true"></span>
+                            </div>
+                            <p class="db-wt__cap"><b data-zh="改版后">After</b><span data-zh="一栏：用户、历史、工单">One column: user, history, ticket</span></p>
+                        </figure>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ── RESULT AND REFLECTION ────────────────────────── -->
+        <div class="anchor" id="section9"></div>
+        <span class="cs-kicker" data-zh="09 · 结果与复盘">09 · Result and reflection</span>
+        <h3 class="section" data-zh="结果只写真实成果，复盘写成可执行的做法">Results state real outcomes; reflections state practices</h3>
+        <p data-zh="概要放在开头，结果面板和复盘卡片放在结尾。没有数据时，用一句说明代替数字。">The summary opens the case; result panels and reflection cards close it. With no usage data, a one-line note replaces the numbers.</p>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Story summary</h5><span class="lib-class">.cs-sum · .is-turn</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>First section ("In short"): 3–4 rows; <code>.is-turn</code> on the row the case is about.</div>
+                <div class="dont"><b>Avoid</b>Putting it in the hero; more than one sentence per row.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-sum" style="margin:0">
+                    <div class="cs-sum__row"><span class="cs-sum__k" data-zh="问题">Problem</span><p data-zh="5 人中 4 人不知道要先领取工单。">4 of 5 agents didn't know they had to take a ticket first.</p></div>
+                    <div class="cs-sum__row is-turn"><span class="cs-sum__k" data-zh="我做了什么">What I did</span><p data-zh="带领 2 名设计师，两周内完成三项改进。">Led 2 designers through three focused fixes in two weeks.</p></div>
+                    <div class="cs-sum__row"><span class="cs-sum__k" data-zh="结果">Result</span><p data-zh="准备好 20 人试点，随后团队调整。">Ready for a 20-agent pilot, then the team was restructured.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Result panels</h5><span class="lib-class">.cs-compare &gt; .cs-panel</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>Two scopes side by side, 2–4 checks each, then <code>p.cs-note</code> if metrics are missing.</div>
+                <div class="dont"><b>Avoid</b>Two rows of panels; unmeasured claims as checks.</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-compare" style="margin-top:0">
+                    <div class="cs-panel">
+                        <div class="cs-panel__flag" data-zh="整体项目">Programme</div>
+                        <ul class="cs-list cs-list--check">
+                            <li data-zh="5 个平台在 6 个月内从 0 到 1">Five platforms built from scratch in six months</li>
+                            <li data-zh="一套共享设计系统">One shared design system</li>
+                        </ul>
+                    </div>
+                    <div class="cs-panel">
+                        <div class="cs-panel__flag" data-zh="客服工作台">Agent workspace</div>
+                        <ul class="cs-list cs-list--check">
+                            <li data-zh="三个障碍各有一项改进">Each of the three blockers got one fix</li>
+                            <li data-zh="准备好 20 人试点">Ready for a 20-agent pilot</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="cs-note" style="margin:0" data-zh="试点前团队调整，因此没有使用数据。">The team was restructured before the pilot, so there is no usage data.</p>
+            </div>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Reflection cards</h5><span class="lib-class">.cs-learns &gt; .cs-learn</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b>3–4 lessons, title as an action, one sentence each; strongest point first.</div>
+                <div class="dont"><b>Avoid</b>"Failed", "pivot", "broke"; generic lessons ("communication matters").</div>
+            </div>
+            <div class="lib-demo">
+                <div class="cs-learns" style="margin:0">
+                    <div class="cs-learn"><span class="cs-learn__n">1</span><div><h5 data-zh="按问题匹配设计师">Match designers to the problem</h5><p data-zh="按设计师的长处分配工作，比如交互逻辑或视觉设计，可以避免后期代价高昂的返工。">Assigning work by each designer's strength, such as interaction logic or visual design, avoids costly redesigns later.</p></div></div>
+                    <div class="cs-learn"><span class="cs-learn__n">2</span><div><h5 data-zh="在 MVP 之前观察用户，而不是之后">Watch users before the MVP, not after</h5><p data-zh="观察真实用户，是理清使用路径最快的方法。">Watching real users is the fastest path to clarity.</p></div></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ── CHECKLIST ────────────────────────────────────── -->
+        <div class="anchor" id="section10"></div>
+        <span class="cs-kicker" data-zh="10 · 检查清单">10 · Checklist</span>
+        <h3 class="section" data-zh="发布前逐项检查">Check before shipping a case</h3>
+        <p data-zh="完整规则见 case-library.mdc。">Full rules are in case-library.mdc.</p>
+        <ol class="lib-check">
+            <li><b>Facts.</b> Every number, title and claim matches <code>career-facts.mdc</code>; no unmeasured results.</li>
+            <li><b>Skim test.</b> Reading only the hero and the section headings tells the whole story.</li>
+            <li><b>One block per idea.</b> Each section has a lead and at most one callout; no stat tiles repeat the hero.</li>
+            <li><b>Shared blocks only.</b> Blocks come from this library; the page's own <code>&lt;style&gt;</code> holds only what the case invents.</li>
+            <li><b>Screens.</b> 3× exports, width/height set to exported pixels, every described detail marked.</li>
+            <li><b>Both languages.</b> Every text node has <code>data-zh</code>; checked in EN and 中文 at desktop and phone width.</li>
+            <li><b>Cache.</b> <code>?v=</code> bumped on every changed CSS, JS and image.</li>
+        </ol>
+
+    </div>
+    </div>
+
+    <script>
+    /* Library only: fill each specimen's markup panel from the live demo before scripts add runtime nodes */
+    (function () {
+        function clean(html) {
+            var lines = html.replace(/^\n+|\s+$/g, '').split('\n');
+            var indent = Math.min.apply(null, lines.filter(function (l) { return l.trim(); }).map(function (l) { return l.match(/^ */)[0].length; }));
+            return lines.map(function (l) { return l.slice(indent); }).join('\n')
+                .replace(/ style="margin[^"]*"/g, '').replace(/ is-first/g, '');
+        }
+        document.querySelectorAll('.lib-spec').forEach(function (spec) {
+            var demo = spec.querySelector('.lib-demo');
+            if (!demo) return;
+            var details = document.createElement('details');
+            details.className = 'lib-code';
+            details.innerHTML = '<summary>Markup</summary><div class="lib-code__wrap"><pre></pre></div>';
+            details.querySelector('pre').textContent = clean(demo.innerHTML);
+            demo.after(details);
+        });
+        document.querySelectorAll('.lib-code__wrap').forEach(function (wrap) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'lib-copy';
+            btn.textContent = 'Copy';
+            btn.addEventListener('click', function () {
+                navigator.clipboard.writeText(wrap.querySelector('pre').textContent).then(function () {
+                    btn.textContent = 'Copied';
+                    setTimeout(function () { btn.textContent = 'Copy'; }, 1400);
+                });
+            });
+            wrap.appendChild(btn);
+        });
+    })();
+    </script>
+    <script src="main.js"></script>
+    <script src="resources/js/case-components.js?v=1"></script>
+</body>
+</html>

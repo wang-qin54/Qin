@@ -1,0 +1,302 @@
+/* ==================================================================
+   Case-study component library (body blocks)
+   Load order: detailpage.css → case-pattern.css (hero) → this file.
+   Living reference with markup: case-library.html
+   Usage rules: .cursor/rules/case-library.mdc
+   Behaviour (connector lines, language switch): resources/js/case-components.js
+   Tokens come from detailpage.css: --space-1..10 = 4/8/12/16/24/32/48/64/96/128,
+   --radius-md 12px, --accent #0034f0, --accent-subtle 8% accent, --border #ececec.
+   ================================================================== */
+
+/* ------------------------------------------------------------------
+   1. Section rhythm: kicker → h3.section → lead → block
+   ------------------------------------------------------------------ */
+.cs-kicker {
+  display: block;
+  margin: var(--space-8) 0 var(--space-2);
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+#section2 + .cs-kicker,
+.cs-kicker.is-first { margin-top: 0; padding-top: 0; border-top: 0; }
+.cs-kicker + h3.section { margin: var(--space-2) 0 var(--space-3); font-size: 26px; line-height: 1.25; }
+.cs-kicker + h3.section + p { font-size: 17px; line-height: 1.65; color: #333; }
+.one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-size: 17px; letter-spacing: -0.01em; }
+.one-col .cs-kicker + h3.section + p + h5.cs-sub { margin-top: var(--space-5); }
+
+.cs-figcap { margin: -6px 0 var(--space-6); font-size: 13px; line-height: 1.5; color: var(--text-tertiary); }
+.cs-figcap a { color: var(--accent); }
+.cs-note { font-size: 14px; line-height: 1.6; color: var(--text-tertiary); }
+
+/* Numbered tag: 22px in card headers and tiles */
+.cs-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   2. Lists
+   ------------------------------------------------------------------ */
+.cs-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
+.cs-list li { position: relative; margin: var(--space-2) 0; padding-left: 18px; font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
+.cs-list li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.cs-list li b { font-weight: 600; color: var(--text-primary); }
+.cs-list--check li { padding-left: 28px; }
+.cs-list--check li::before {
+  left: 0; top: 6px; width: 18px; height: 18px;
+  background: rgba(18, 140, 86, 0.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23127a4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+.cs-list--check li.is-muted { font-size: 14px; color: var(--text-tertiary); }
+.cs-list--check li.is-muted::before {
+  background: var(--bg-muted) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8h7' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+
+/* ------------------------------------------------------------------
+   3. Callout: one insight, quote or decision per section, at most
+   Flat grey note with a square-ended 2px accent rule; left corners
+   stay square so the rule never curves away at the ends.
+   ------------------------------------------------------------------ */
+.cs-callout { margin: var(--space-5) 0; padding: 14px 18px; border-left: 2px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-subtle); }
+.cs-callout .lbl { margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--accent); }
+.cs-callout .quote { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--text-primary); }
+.cs-callout .sub { display: block; margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+.cs-callout p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+.cs-callout p b { font-weight: 600; color: var(--text-primary); }
+
+/* ------------------------------------------------------------------
+   4. Media: screenshot, embedded prototype
+   ------------------------------------------------------------------ */
+.cs-shot { margin: var(--space-4) 0 var(--space-2); border-radius: 16px; overflow: hidden; }
+.one-col .cs-shot img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: 16px; }
+.cs-shot + .cs-figcap { margin-top: var(--space-3); }
+
+.cs-embed { margin: var(--space-4) 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); overflow: hidden; }
+.cs-embed iframe { display: block; width: 100%; height: 560px; margin: 0; border: 0; border-radius: 0; background: #fff; }
+
+/* ------------------------------------------------------------------
+   5. Cards: 2–4 parallel facts, findings or options
+   ------------------------------------------------------------------ */
+.cs-cards { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
+.cs-card { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+.cs-card__k { display: block; margin: 0 0 var(--space-1); font-size: 13px; font-weight: 600; color: var(--text-tertiary); }
+.cs-card__h { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 var(--space-1); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+.cs-card__h .cs-num { margin-top: -1px; }
+.one-col .cs-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+.cs-card--soft { border: 0; background: var(--bg-subtle); }
+.cs-card--num p { padding-left: 32px; }
+
+/* Two tinted facts side by side ("why it mattered") */
+.cs-why { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin: var(--space-3) 0 var(--space-4); }
+.cs-why > div { padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--bg-subtle); }
+.cs-why b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.cs-why span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+
+/* ------------------------------------------------------------------
+   6. Steps: three practice tiles, or a numbered pill flow
+   ------------------------------------------------------------------ */
+.cs-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
+.cs-how > div { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+.cs-how .cs-num { margin-bottom: var(--space-3); }
+.cs-how b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.cs-how span:not(.cs-num) { display: block; margin-top: var(--space-1); font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
+.cs-flow { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 var(--space-4); padding: 0; list-style: none; counter-reset: flow; }
+.cs-flow li { counter-increment: flow; display: flex; align-items: center; gap: 6px; margin: 0; padding: 6px 12px 6px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-subtle); font-size: 13.5px; color: var(--text-primary); }
+.cs-flow li::before { content: counter(flow); display: grid; place-items: center; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 50%; background: #fff; font-size: 11px; font-weight: 700; color: var(--text-tertiary); }
+
+/* ------------------------------------------------------------------
+   7. Evidence: metric tiles and horizontal bars (research numbers only)
+   ------------------------------------------------------------------ */
+.cs-metrics { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
+.cs-metric { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+.cs-metric__num { display: block; font-family: var(--font-title); font-size: 32px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); }
+.cs-metric--bad .cs-metric__num { color: #c0392b; }
+.cs-metric__desc { display: block; margin-top: var(--space-2); font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+
+.cs-bars { display: flex; flex-direction: column; gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
+.cs-bar { display: grid; grid-template-columns: 210px 1fr 42px; align-items: center; gap: var(--space-3); }
+.cs-bar__label { font-size: 13px; color: var(--text-secondary); }
+.cs-bar__track { height: 8px; border-radius: 999px; background: var(--bg-muted); overflow: hidden; }
+.cs-bar__fill { width: var(--v, 0%); min-width: 4px; height: 100%; border-radius: 999px; background: rgba(0, 52, 240, 0.32); }
+.cs-bar.is-lead .cs-bar__fill { background: rgba(192, 57, 43, 0.38); }
+.cs-bar__val { font-family: var(--font-title); font-size: 13px; font-weight: 600; text-align: right; color: var(--text-secondary); }
+
+/* ------------------------------------------------------------------
+   8. Story summary rows ("In short": problem, what I did, result)
+   ------------------------------------------------------------------ */
+.cs-sum { margin: var(--space-6) 0 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.cs-sum__row { display: grid; grid-template-columns: 132px 1fr; align-items: baseline; gap: var(--space-4); padding: var(--space-4) var(--space-5); background: #fff; }
+.cs-sum__row + .cs-sum__row { border-top: 1px solid var(--border); }
+.cs-sum__row.is-turn { background: var(--accent-subtle); }
+.cs-sum__k { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.cs-sum__row.is-turn .cs-sum__k { color: var(--accent); }
+.one-col .cs-sum__row p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+
+/* ------------------------------------------------------------------
+   9. Result panels (two groups of outcomes)
+   ------------------------------------------------------------------ */
+.cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin: var(--space-4) 0 var(--space-5); }
+.cs-panel { padding: var(--space-5); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: var(--radius-md); background: var(--bg); }
+.cs-panel__flag { margin-bottom: var(--space-1); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.cs-panel h4 { margin: 0 0 var(--space-3); font-family: var(--font-title); font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+.cs-panel .cs-list li { font-size: 14.5px; }
+
+/* ------------------------------------------------------------------
+   10. Reflection cards (3–4 lessons)
+   ------------------------------------------------------------------ */
+.cs-learns { display: grid; gap: var(--space-3); margin: var(--space-4) 0; }
+.cs-learn { display: flex; gap: var(--space-4); padding: var(--space-4) var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); }
+.cs-learn__n { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-family: var(--font-title); font-size: 15px; font-weight: 700; line-height: 32px; text-align: center; }
+.one-col .cs-learn h5 { margin: 4px 0 var(--space-1); font-size: 16px; }
+.one-col .cs-learn p { margin: 0; font-size: 15px; line-height: 1.6; }
+
+/* ------------------------------------------------------------------
+   11. Disclosure: optional depth for readers who want more
+   ------------------------------------------------------------------ */
+.cs-more { margin: var(--space-5) 0 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+.cs-more > summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; list-style: none; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.cs-more > summary::-webkit-details-marker { display: none; }
+.cs-more > summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: -4px 4px 0 auto; border-right: 2px solid var(--text-tertiary); border-bottom: 2px solid var(--text-tertiary); transform: rotate(45deg); transition: transform .2s; }
+.cs-more[open] > summary::after { margin-top: 4px; transform: rotate(-135deg); }
+.cs-more > summary:hover { color: var(--accent); }
+.cs-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-md); }
+.cs-more__hint { font-size: 13px; font-weight: 400; color: var(--text-tertiary); }
+.cs-more__body { padding: var(--space-2) 18px 18px; border-top: 1px solid var(--border); }
+.cs-more__body > :first-child { margin-top: var(--space-3); }
+.cs-more__body .cs-figcap:last-child { margin-bottom: 0; }
+
+/* ------------------------------------------------------------------
+   12. Journey grid: phases × what the user does × where it broke
+   ------------------------------------------------------------------ */
+.cs-journey { margin: 0 0 var(--space-6); padding: var(--space-5); border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.cs-journey__grid { display: grid; grid-template-columns: 92px repeat(var(--steps, 5), minmax(0, 1fr)); grid-template-rows: auto auto auto; grid-auto-flow: column; }
+.cs-journey__labels, .one-col .cs-journey__steps, .one-col .cs-journey__steps li { display: contents; }
+.cs-journey__labels span { padding: 10px 12px 12px 0; font-size: 11px; font-weight: 700; line-height: 1.35; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+.cs-journey__labels span + span, .cs-journey__does, .cs-journey__broke { border-top: 1px solid var(--border); }
+.cs-journey__labels span + span { padding-top: 14px; }
+.cs-journey__phase { margin: 0 8px 14px 0; padding: 8px 10px; border-radius: 8px; background: var(--accent-subtle); color: var(--accent); font-size: 13px; font-weight: 600; line-height: 1.35; }
+.one-col p.cs-journey__does { margin: 0; padding: 14px 10px 14px 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+.cs-journey__broke { padding: 14px 8px 0 0; }
+.one-col p.cs-journey__ok { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--bg-subtle); font-size: 12.5px; line-height: 1.4; color: var(--text-tertiary); }
+.cs-journey__block { padding: 10px; border-radius: 8px; background: var(--bg-muted); }
+.cs-journey__block span { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--text-primary); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.one-col .cs-journey__block p { margin: 8px 0 0; font-size: 13px; font-weight: 500; line-height: 1.45; color: var(--text-primary); }
+.cs-journey figcaption { margin-top: var(--space-4); font-size: 12px; line-height: 1.5; color: var(--text-tertiary); }
+
+/* ------------------------------------------------------------------
+   13. Annotated screen: one screen, 3–5 numbered notes (screenshot-annotation.mdc)
+   ------------------------------------------------------------------ */
+.db-anno { margin: var(--space-5) 0 var(--space-6); }
+.db-anno__stage { position: relative; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; overflow: hidden; }
+.one-col .db-anno__stage img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+.db-pin { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9); }
+.db-anno__stage .db-pin { position: absolute; width: 10px; height: 10px; font-size: 0; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 52, 240, .15); cursor: pointer; transition: transform .16s ease, opacity .16s ease; }
+.db-anno__stage .db-pin::after { content: ""; position: absolute; inset: -8px; }
+.db-anno__stage .db-pin.on { transform: translate(-50%, -50%) scale(1.3); }
+.db-anno.has-on .db-anno__stage .db-pin:not(.on) { opacity: .4; }
+.db-anno__notes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.db-anno__notes li { display: flex; align-items: flex-start; gap: 10px; margin: -8px -10px; padding: 8px 10px; border-radius: 10px; transition: background .16s ease; }
+.db-anno__notes li.on { background: var(--accent-subtle); }
+.db-anno__notes .db-pin { flex: none; width: 18px; height: 18px; margin-top: 1px; font-size: 10px; box-shadow: none; }
+.db-anno__notes b { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.db-anno__notes span:not(.db-pin) { display: block; font-size: 12px; line-height: 1.45; color: var(--text-secondary); }
+.db-anno__links { position: absolute; inset: 0; z-index: 2; overflow: visible; pointer-events: none; }
+.db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: .55; transition: opacity .2s ease, stroke-width .16s ease; }
+.db-anno.has-on .db-anno__links path { opacity: 0; }
+.db-anno.has-on .db-anno__links path.on { opacity: 1; stroke-width: 1.75; stroke-dasharray: none; }
+.db-anno > figcaption { margin: var(--space-4) 0 0; }
+@media (min-width: 721px) {
+  .db-anno { position: relative; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); column-gap: 36px; align-items: start; }
+  .db-anno__notes { display: flex; flex-direction: column; justify-content: space-around; gap: 16px; margin: 0; }
+  .db-anno > figcaption { grid-column: 1 / -1; }
+  .db-anno__notes.is-placed { position: relative; display: block; }
+  .db-anno__notes.is-placed li { position: absolute; left: -10px; right: -10px; margin: 0; }
+}
+
+/* ------------------------------------------------------------------
+   14. Before / after card: one fix per card (screenshot-annotation.mdc)
+   ------------------------------------------------------------------ */
+.db-wt { display: grid; gap: var(--space-5); margin: var(--space-5) 0 0; }
+.db-wt__card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+.db-wt__head { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; }
+.db-wt__n { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
+.one-col h5.db-wt__k { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+.db-wt__pill { flex: none; margin-left: auto; padding: 3px 10px; border-radius: 999px; background: #fdecec; color: #b42318; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.one-col .db-wt__pair { position: relative; display: grid; gap: 10px; margin: 0; }
+.db-wt__shot { position: relative; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); overflow: hidden; }
+.one-col .db-wt__shot img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+.db-wt__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 8px; background: rgba(0, 52, 240, .06); transition: box-shadow .15s, background .15s; }
+.db-wt__box--before { border-color: #d14343; background: rgba(209, 67, 67, .06); }
+.db-wt__box.on { box-shadow: 0 0 0 4px rgba(0, 52, 240, .14); background: rgba(0, 52, 240, .1); }
+.db-wt__box--before.on { box-shadow: 0 0 0 4px rgba(209, 67, 67, .14); background: rgba(209, 67, 67, .1); }
+.one-col .db-wt__cap { position: relative; display: flex; align-items: baseline; gap: 8px; width: fit-content; max-width: 100%; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); transition: color .15s; }
+.db-wt__cap b { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.db-wt__cap--before b { background: #fdecec; color: #b42318; }
+.db-wt__cap.on { color: var(--text-primary); }
+.db-wt__line { position: absolute; width: 0; border-left: 1.5px dashed var(--accent); opacity: .55; pointer-events: none; transition: opacity .15s; }
+.db-wt__line--before { border-left-color: #d14343; }
+.db-wt__pair.has-on .db-wt__line { opacity: .2; }
+.db-wt__pair .db-wt__line.on { opacity: 1; border-left-style: solid; }
+
+/* ------------------------------------------------------------------
+   Chinese: CJK reads better with more leading, no uppercase labels
+   ------------------------------------------------------------------ */
+html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
+html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .cs-figcap { line-height: 1.8; letter-spacing: 0; }
+html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .one-col h4, html[data-lang="zh"] .one-col h5 { line-height: 1.4; letter-spacing: -0.01em; }
+html[data-lang="zh"] .cs-kicker,
+html[data-lang="zh"] .cs-panel__flag,
+html[data-lang="zh"] .cs-journey__labels span,
+html[data-lang="zh"] .cs-journey__block span { letter-spacing: 0.02em; text-transform: none; }
+html[data-lang="zh"] .db-wt__cap b { letter-spacing: 0; text-transform: none; }
+
+/* ------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------ */
+@media (max-width: 720px) {
+  .cs-cards, .cs-compare, .cs-how, .cs-metrics { grid-template-columns: 1fr; }
+  .cs-embed iframe { height: 420px; }
+  .cs-bar { grid-template-columns: 1fr 42px; row-gap: 4px; }
+  .cs-bar__label { grid-column: 1 / -1; }
+  .cs-sum__row { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-4); }
+  .cs-more > summary { flex-wrap: wrap; row-gap: 2px; padding: 12px 14px; }
+  .cs-more__hint { order: 3; flex-basis: 100%; }
+  .cs-more__body { padding: var(--space-1) 14px 14px; }
+  .cs-journey { padding: 0; border: 0; border-radius: 0; }
+  .cs-journey__grid { display: block; }
+  .cs-journey__labels { display: none; }
+  .one-col .cs-journey__steps { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+  .one-col .cs-journey__steps li { display: block; margin: 0; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .cs-journey__phase { display: block; margin: 0 0 var(--space-2); }
+  .one-col p.cs-journey__does { padding: 0 0 var(--space-3); border-top: 0; }
+  .cs-journey__broke { padding: 0; border-top: 0; }
+  .db-anno__links { display: none; }
+  .db-anno__notes { grid-template-columns: 1fr; }
+  .db-anno__stage .db-pin { width: 18px; height: 18px; font-size: 10px; }
+  .db-wt__card { padding: 14px; }
+  .db-wt__head { flex-wrap: wrap; }
+  .db-wt__pill { margin-left: 32px; }
+}
+@media (max-width: 560px) {
+  .cs-kicker { margin-top: var(--space-7); padding-top: var(--space-6); }
+  .cs-kicker + h3.section { font-size: 22px; }
+  .cs-why { grid-template-columns: 1fr; }
+  .cs-learn { padding: var(--space-4); }
+}
+@media (pointer: coarse) {
+  .cs-more > summary { min-height: 44px; }
+}

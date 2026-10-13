@@ -1574,3 +1574,17 @@ html[data-lang="zh"] .outcome::before { content: "成果"; font-size: 11px; lett
 html[data-lang="zh"] .description,
 html[data-lang="zh"] .outcome,
 html[data-lang="zh"] .work-page__lede { line-height: 1.75; letter-spacing: 0; }
+
+/* PDF decks rendered as page images (iframes fail on phones and in-app browsers) */
+.pdf-deck { max-width: 1200px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-9); }
+.pdf-deck__bar { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); }
+.pdf-deck__bar--end { justify-content: flex-end; }
+.pdf-deck__link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; font-size: 14px; color: var(--text-secondary); text-decoration: none; transition: color .15s, border-color .15s; }
+.pdf-deck__link:hover { color: var(--accent); border-color: var(--accent); }
+.pdf-deck__pages { display: grid; gap: var(--space-4); }
+.pdf-deck__pages img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+@media (max-width: 720px) {
+  .pdf-deck { padding: var(--space-5) var(--space-4) var(--space-8); }
+  .pdf-deck__pages { gap: var(--space-3); }
+  .pdf-deck__pages img { border-radius: 8px; }
+}

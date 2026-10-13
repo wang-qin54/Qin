@@ -4,120 +4,889 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto-AML </title>
+    <title>On-chain AML investigation — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="site-chrome.js?v=8"></script>
+    <link href="resources/css/case-pattern.css?v=15" type="text/css" rel="stylesheet">
+    <style>
+        /* ── Section rhythm (shared with internal-system.html) ── */
+        .cs-kicker {
+            display: block;
+            margin-top: var(--space-8);
+            margin-bottom: var(--space-2);
+            padding-top: var(--space-7);
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+        #section2 + .cs-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
+        .cs-kicker + h3.section { margin: var(--space-2) 0 var(--space-3); font-size: 26px; line-height: 1.25; }
+        .cs-kicker + h3.section + p, .aml-stage + p { font-size: 17px; line-height: 1.65; color: #333; }
+        .one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-size: 17px; letter-spacing: -0.01em; }
+        .one-col p.cs-lead-sm { margin: 0 0 var(--space-4); font-size: 15.5px; line-height: 1.65; color: var(--text-secondary); }
+
+        .cs-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
+        .cs-list li { position: relative; margin: var(--space-2) 0; padding-left: 18px; font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
+        .cs-list li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+        .cs-list li b { color: var(--text-primary); font-weight: 600; }
+        .cs-list--check li { padding-left: 28px; }
+        .cs-list--check li::before {
+            left: 0; top: 6px; width: 18px; height: 18px;
+            background: rgba(18, 140, 86, 0.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23127a4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+        }
+
+        .cs-callout { margin: var(--space-5) 0; padding: var(--space-4) var(--space-5); border-left: 3px solid var(--accent); border-radius: var(--radius-md); background: var(--accent-subtle); }
+        .cs-callout .lbl { margin-bottom: var(--space-2); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+        .cs-callout .quote { margin: 0; font-family: var(--font-title); font-size: 18px; font-weight: 500; line-height: 1.45; letter-spacing: -0.01em; color: var(--text-primary); }
+        .cs-callout .sub { display: block; margin-top: var(--space-2); font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
+
+        .cs-shot { margin: var(--space-4) 0 0; }
+        .one-col .cs-shot img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .cs-figcap { margin: var(--space-4) 0 var(--space-6); font-size: 13px; line-height: 1.5; color: var(--text-tertiary); }
+
+        .cs-num { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 700; }
+
+        /* Small cards */
+        .aml-cards { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 0; }
+        .aml-card { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .aml-card__k { display: block; margin: 0 0 var(--space-1); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .aml-card__h { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 var(--space-1); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .aml-card__h .cs-num { margin-top: -1px; }
+        .one-col .aml-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .aml-card--soft { border: 0; background: var(--bg-subtle); }
+        .aml-card--num p { padding-left: 32px; }
+
+        /* ── Investigation path: the visual table of contents ── */
+        .aml-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+        .aml-path > li { position: relative; margin: 0; padding: 0; }
+        .aml-path > li + li::before { content: ""; position: absolute; left: calc(var(--space-4) / -2 - 5px); top: 26%; width: 10px; height: 10px; border-top: 2px solid var(--text-tertiary); border-right: 2px solid var(--text-tertiary); transform: rotate(45deg); opacity: .5; }
+        .aml-step { display: flex; flex-direction: column; gap: 3px; height: 100%; box-sizing: border-box; padding: 10px 10px 12px; border: 1px solid var(--border); border-radius: 14px; background: #fff; color: inherit; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+        .aml-step:hover { border-color: var(--accent); box-shadow: 0 6px 20px -12px rgba(0, 52, 240, .35); }
+        .one-col .aml-step img { display: block; width: 100%; height: auto; aspect-ratio: 900 / 543; margin: 0 0 8px; object-fit: cover; border: 1px solid var(--border); border-radius: 8px; }
+        .aml-step__n { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+        .aml-step b { font-size: 14.5px; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+        .aml-step__q { flex: 1; font-size: 12.5px; line-height: 1.45; color: var(--text-secondary); }
+        .aml-step .aml-st { margin-top: 6px; }
+
+        /* Status pill and principle chip */
+        .aml-st { display: inline-block; width: fit-content; padding: 2px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; line-height: 1.6; white-space: nowrap; }
+        .aml-st--ship { background: rgba(18, 140, 86, .12); color: #127a4b; }
+        .aml-st--hand { background: var(--bg-subtle); color: var(--text-secondary); box-shadow: inset 0 0 0 1px var(--border); }
+        .aml-pc { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 3px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 12px; font-weight: 600; line-height: 1.6; white-space: nowrap; }
+        .aml-pc i { display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 10.5px; font-style: normal; font-weight: 700; }
+        .aml-stage { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 var(--space-4); }
+        .aml-stage__mod { margin-right: 4px; font-size: 13px; color: var(--text-tertiary); }
+
+        /* Findings → principles */
+        .aml-prins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 0; }
+        .aml-prin { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; overflow: hidden; }
+        .aml-prin__find { flex: 1; padding: var(--space-4) var(--space-4) var(--space-3); }
+        .one-col .aml-prin__find p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .aml-prin__p { display: flex; align-items: flex-start; gap: 10px; padding: var(--space-3) var(--space-4); background: var(--accent-subtle); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--accent); }
+        .aml-prin__p .cs-num { background: var(--accent); color: #fff; }
+
+        /* Collapsible detail for readers who want more */
+        .cs-more { margin: var(--space-5) 0 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .cs-more > summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; list-style: none; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-more > summary::-webkit-details-marker { display: none; }
+        .cs-more > summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: -4px 4px 0 auto; border-right: 2px solid var(--text-tertiary); border-bottom: 2px solid var(--text-tertiary); transform: rotate(45deg); transition: transform .2s; }
+        .cs-more[open] > summary::after { margin-top: 4px; transform: rotate(-135deg); }
+        .cs-more > summary:hover { color: var(--accent); }
+        .cs-more__hint { font-size: 13px; font-weight: 400; color: var(--text-tertiary); }
+        .cs-more__body { padding: var(--space-2) 18px 18px; border-top: 1px solid var(--border); }
+        .cs-more__body > :first-child { margin-top: var(--space-3); }
+        .one-col .cs-more__body h5.cs-sub { margin-top: var(--space-6); }
+        .one-col .cs-more__body > h5.cs-sub:first-child { margin-top: var(--space-3); }
+        .cs-more__body .cs-figcap:last-child { margin-bottom: 0; }
+
+        /* ── Investigation journey ───────────────────────── */
+        .aml-journey { margin: var(--space-5) 0 0; padding: var(--space-5); border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+        .aml-journey__grid { display: grid; grid-template-columns: 96px repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); grid-auto-flow: column; }
+        .aml-journey__labels, .one-col .aml-journey__steps, .one-col .aml-journey__steps > li { display: contents; }
+        .aml-journey__labels span { padding: 12px 12px 12px 0; font-size: 11px; font-weight: 700; line-height: 1.35; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .aml-journey__labels span + span, .aml-journey__cell { border-top: 1px solid var(--border); }
+        .aml-journey__phase { margin: 0 8px 12px 0; padding: 8px 10px; border-radius: 8px; background: var(--accent-subtle); color: var(--accent); font-size: 13px; font-weight: 600; line-height: 1.35; }
+        .aml-journey__cell { padding: 12px 12px 12px 0; }
+        .one-col .aml-journey__cell p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .aml-journey__tool { display: inline-block; padding: 3px 9px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-subtle); font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
+        .one-col .aml-journey__pains { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+        .one-col .aml-journey__pains li { margin: 0; padding: 7px 9px; border-radius: 8px; background: #fdf1f1; font-size: 12.5px; line-height: 1.4; color: #7a1f1f; }
+        .aml-journey figcaption { margin-top: var(--space-4); font-size: 13px; line-height: 1.5; color: var(--text-tertiary); }
+
+        /* ── Before / after pairs (screenshot-annotation.mdc) ── */
+        .gx { display: grid; gap: var(--space-5); margin: var(--space-5) 0 0; }
+        .cs-more__body .gx { margin-top: var(--space-3); }
+        .gx-card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
+        .gx-head { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; }
+        .one-col h5.gx-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .gx-pill { margin-left: auto; flex: none; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .gx-pill--pain { background: #fdecec; color: #b42318; }
+        .gx-pill--insight { background: var(--accent-subtle); color: var(--accent); }
+        .one-col .gx-card > p { margin: 0 0 var(--space-4) 32px; font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); }
+        .one-col .gx-card h6.gx-sub { margin: var(--space-5) 0 var(--space-1) 32px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .one-col .gx-card h6.gx-sub + p { margin-bottom: var(--space-3); }
+        .gx-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); align-items: start; }
+        .one-col .gx-shot { position: relative; display: flex; flex-direction: column; gap: 12px; margin: 0; }
+        .gx-cap { position: relative; display: flex; align-items: baseline; gap: 8px; width: fit-content; max-width: 100%; min-height: 20px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); transition: color .15s; }
+        .gx-cap b { flex: none; padding: 1px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .is-before .gx-cap b { background: #fdecec; color: #b42318; }
+        .gx-frame { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
+        .one-col .gx-frame img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+        .cs-shot.gx-frame { border-radius: var(--radius-md); }
+        .gx-box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 6px; background: rgba(0, 52, 240, .06); pointer-events: none; transition: box-shadow .15s, background .15s; }
+        .is-before .gx-box { border-color: #d14343; background: rgba(209, 67, 67, .06); }
+        .aml-q { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 4px; background: none; pointer-events: none; }
+        .aml-q::before { content: attr(data-n); position: absolute; right: calc(100% + 6px); top: 50%; transform: translateY(-50%); width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font: 600 12px/20px var(--font-sans, inherit); text-align: center; box-shadow: 0 0 0 2px rgba(255, 255, 255, .9); }
+        .aml-q--before { border-color: #ff6b6b; }
+        .aml-q--r::before { right: auto; left: calc(100% + 6px); }
+        .aml-q--before::before { background: #d14343; }
+        .aml-qkey { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--text-secondary); }
+        .aml-qkey li { display: flex; align-items: center; gap: 8px; }
+        .aml-qkey b { width: 20px; height: 20px; border-radius: 50%; background: var(--text-primary, #111); color: #fff; font-size: 12px; line-height: 20px; text-align: center; flex: none; }
+        @media (max-width: 720px) {
+            .aml-q { border-width: 1px; }
+            .aml-q::before { width: 14px; height: 14px; font-size: 9px; line-height: 14px; right: calc(100% + 3px); }
+            .aml-q--r::before { right: auto; left: calc(100% + 3px); }
+        }
+        .gx-line { position: absolute; width: 0; border-left: 1.5px dashed var(--accent); opacity: .55; pointer-events: none; transition: opacity .15s; }
+        .is-before .gx-line { border-left-color: #d14343; }
+        .gx-shot.on .gx-line { opacity: 1; border-left-style: solid; }
+        .gx-shot.on .gx-box { box-shadow: 0 0 0 4px rgba(0, 52, 240, .14); background: rgba(0, 52, 240, .1); }
+        .is-before.on .gx-box { box-shadow: 0 0 0 4px rgba(209, 67, 67, .14); background: rgba(209, 67, 67, .1); }
+        .gx-shot.on .gx-cap { color: var(--text-primary); }
+        .gx-pair.has-on .gx-shot:not(.on) { opacity: .55; }
+        .gx-shot { transition: opacity .15s; }
+
+        /* ── System grid ─────────────────────────────────── */
+        .aml-sys { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin: var(--space-5) 0 0; }
+        .aml-sys__item { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .aml-sys__media { display: grid; place-items: center; aspect-ratio: 16 / 9; padding: var(--space-3); border-radius: 10px; background: var(--bg-subtle); }
+        .one-col .aml-sys__media img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; margin: 0; border: 0; border-radius: 6px; }
+        .one-col .aml-sys__item h5 { margin: var(--space-1) 0 0; font-size: 15.5px; }
+        .one-col .aml-sys__item p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
+        /* ── Release strip ──────────────────────────────── */
+        .one-col .aml-rel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: var(--space-4) 0 0; padding: 0; list-style: none; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+        .one-col .aml-rel li { margin: 0; padding: 14px 16px; border-right: 1px solid var(--border); background: #fff; }
+        .one-col .aml-rel li:last-child { border-right: 0; }
+        .one-col .aml-rel li:first-child { background: rgba(0, 52, 240, 0.05); }
+        .aml-rel b { display: block; font-family: var(--font-title); font-size: 17px; font-weight: 600; color: var(--text-primary); }
+        .aml-rel li:first-child b { color: var(--accent); }
+        .aml-rel time { display: block; margin: 2px 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-tertiary); }
+        .aml-rel span { display: block; font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+
+        /* ── Result / reflection (info-blocks.mdc) ───────── */
+        .cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin: var(--space-4) 0 var(--space-5); }
+        .cs-panel { padding: var(--space-5); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: var(--radius-md); background: var(--bg); }
+        .cs-panel__flag { margin-bottom: var(--space-1); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+        .cs-panel .cs-list li { font-size: 14.5px; }
+        .cs-note { font-size: 14px; line-height: 1.6; color: var(--text-tertiary); }
+        .cs-learns { display: grid; gap: var(--space-3); margin: var(--space-4) 0; }
+        .cs-learn { display: flex; gap: var(--space-4); padding: var(--space-4) var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); }
+        .cs-learn__n { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--accent-subtle); color: var(--accent); font-family: var(--font-title); font-size: 15px; font-weight: 700; line-height: 32px; text-align: center; }
+        .cs-learn h5 { margin: 4px 0 var(--space-1) !important; font-size: 16px; }
+        .cs-learn p { margin: 0; font-size: 15px; line-height: 1.6; }
+
+        /* ── QA note ─────────────────────────────────────── */
+        .aml-qa { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--space-4); align-items: center; margin: var(--space-4) 0 0; }
+        .aml-qa__note { display: flex; gap: 10px; align-items: flex-start; }
+        .aml-qa__note .cs-num { background: #d14343; color: #fff; }
+        .one-col .aml-qa__note p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
+        @media (max-width: 900px) {
+            .aml-path { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+            .aml-path > li + li::before { display: none; }
+            .aml-prins { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 720px) {
+            .aml-cards, .cs-compare, .aml-qa, .aml-sys { grid-template-columns: 1fr; }
+            .aml-journey { padding: 0; border: 0; border-radius: 0; }
+            .aml-journey__grid { display: block; }
+            .aml-journey__labels { display: none; }
+            .one-col .aml-journey__steps { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+            .one-col .aml-journey__steps > li { display: block; margin: 0; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); }
+            .aml-journey__phase { margin: 0 0 var(--space-2); }
+            .aml-journey__cell { padding: 0 0 var(--space-2); border-top: 0; }
+            .aml-journey__cell[data-k]::before { content: attr(data-k); display: block; margin: var(--space-1) 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-tertiary); }
+            html[data-lang="zh"] .aml-journey__cell[data-k-zh]::before { content: attr(data-k-zh); font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+            .gx-card { padding: 14px; }
+            .gx-head { flex-wrap: wrap; }
+            .gx-pill { margin-left: 32px; }
+            .one-col .gx-card > p, .one-col .gx-card h6.gx-sub { margin-left: 0; }
+            .gx-pair { grid-template-columns: 1fr; gap: var(--space-5); }
+            .one-col .aml-rel { grid-template-columns: 1fr 1fr; }
+            .one-col .aml-rel li:nth-child(2) { border-right: 0; }
+            .one-col .aml-rel li:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+            .cs-more > summary { flex-wrap: wrap; row-gap: 2px; padding: 12px 14px; }
+            .cs-more__hint { order: 3; flex-basis: 100%; }
+            .cs-more__body { padding: var(--space-1) 14px 14px; }
+        }
+        @media (max-width: 560px) {
+            .cs-kicker { margin-top: var(--space-7); padding-top: var(--space-6); }
+            .cs-kicker + h3.section { font-size: 22px; }
+            .cs-learn { padding: var(--space-4); }
+            .aml-step__q { display: none; }
+        }
+        html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
+        html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .cs-figcap { line-height: 1.8; letter-spacing: 0; }
+        html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .one-col h4, html[data-lang="zh"] .one-col h5 { letter-spacing: -0.01em; line-height: 1.4; }
+        html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .cs-panel__flag, html[data-lang="zh"] .cs-callout .lbl,
+        html[data-lang="zh"] .aml-card__k, html[data-lang="zh"] .aml-step__n,
+        html[data-lang="zh"] .aml-journey__labels span, html[data-lang="zh"] .aml-journey__phase, html[data-lang="zh"] .aml-rel time,
+        html[data-lang="zh"] .gx-cap b, html[data-lang="zh"] .gx-pill { letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .aml-step__n, html[data-lang="zh"] .aml-card__k, html[data-lang="zh"] .cs-kicker { font-size: 12px; }
+        html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
+    </style>
+    <script src="site-chrome.js?v=10"></script>
 </head>
 
 <body>
-    <site-header></site-header>
-<div class="anchor" id="top"></div>
-    <div class="page-title-box">
+    <site-header lang-switch></site-header>
+
+    <div class="anchor" id="top"></div>
+    <div class="anchor" id="section1"></div>
+    <div class="page-title-box case-hero case-hero--fill">
         <div class="grid">
             <div class="page-title-content">
-                <nav class="case-back" aria-label="Case study navigation">
-                    <a class="case-back__link" href="work.html">
-                        <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span data-zh="返回">Back</span>
-                    </a>
-                </nav>
-                <h2>Redesigning the crypto transaction-investigation experience</h2>
+                <h2 data-zh="链上反洗钱调查">On-chain AML investigation</h2>
+                <p class="as-role" data-zh="&lt;strong&gt;产品设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;用户研究 + 端到端设计&lt;/span&gt;"><strong>Product designer</strong> &middot; <span class="as-role__rest">research + end-to-end design</span></p>
+                <ol class="as-stats" style="--stats-n:3" aria-label="Four stages redesigned, three shipped, one module built from zero">
+                    <li><span class="as-stats__num">4</span><span class="as-stats__label" data-zh="个阶段重新设计">Stages redesigned</span></li>
+                    <li class="is-turn"><span class="as-stats__num">3</span><span class="as-stats__label" data-zh="个已上线">Shipped</span></li>
+                    <li><span class="as-stats__num">0→1</span><span class="as-stats__label" data-zh="实体模块">Entity module</span></li>
+                </ol>
                 <dl class="as-meta">
-                    <dt>Timeline</dt><dd>1 month | End-to-End Design</dd>
-                    <dt>Team</dt><dd>2 Designers + 1 PM + 3 Front-End Engineers + 1 backend engineer</dd>
+                    <div><dt data-zh="产品">Product</dt><dd data-zh="OKLink 链上反洗钱，覆盖 10+ 条链">OKLink on-chain AML, 10+ chains</dd></div>
+                    <div><dt data-zh="目标用户">Target users</dt><dd data-zh="交易所、OTC 机构和金融机构的合规调查人员">Compliance investigators at exchanges, OTC desks and institutions</dd></div>
+                    <div><dt data-zh="团队">Team</dt><dd data-zh="2 名设计师 · 1 名产品经理 · 4 名工程师">2 designers · 1 PM · 4 engineers</dd></div>
+                    <div><dt data-zh="时间">Timeline</dt><dd data-zh="2023–24 · OKX，香港">2023–24 · OKX, Hong Kong</dd></div>
                 </dl>
-                
-                
             </div>
             <div class="title-img">
-                <img src="resources/images-crypto-graph/graph_header.png">
+                <img src="resources/images-aml/hero.webp?v=16" width="1600" height="1759" style="--hero-img-pad: 0.0375" alt="The On-chain AML address risk page with its detected-risks radar, and in front the fund-flow graph with an address's transactions open beside it">
             </div>
         </div>
     </div>
 
-        <div class="case-layout">
+    <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Redesigning the crypto transaction-investigation experience</span>
+        <span class="scrollspy__title" data-zh="链上反洗钱调查">On-chain AML investigation</span>
         <div class="scrollspy__list">
-        <a href="#section1" class="list">Intro</a>
-        <a href="#section2" class="list">1. Use scenarios & User journey</a>
-        <a href="#section3" class="list">2. Design before vs after </a>
-        <a href="#section4" class="list">↳   Step 1 - graph list </a>
-        <a href="#section5" class="list">↳   Step 2 - create graph </a>
-        <a href="#section6" class="list">↳   Step 3 - add source address</a>
-        <a href="#section7" class="list">↳   Step 4 - map layout & edit</a>
-        <a href="#section8" class="list">↳   Step 5 - add more address </a>
-        <a href="#section9" class="list">↳   Step 6 - synthesise  info</a>
-        <a href="#section10" class="list">↳   Other projects</a>
-        <a href="#top" class="list">Back to top</a>
+        <a href="#section2" class="list" data-zh="02 问题">02 Problem</a>
+        <a href="#section3" class="list" data-zh="03 用户研究">03 Research</a>
+        <a href="#section4" class="list" data-zh="04 分诊：预警页">04 Triage: alert</a>
+        <a href="#section5" class="list" data-zh="05 评估：地址风险">05 Assess: address risk</a>
+        <a href="#section6" class="list" data-zh="06 识别：实体档案">06 Identify: entity</a>
+        <a href="#section7" class="list" data-zh="07 追踪：资金流图谱">07 Trace: fund-flow graph</a>
+        <a href="#section8" class="list" data-zh="08 设计系统">08 System</a>
+        <a href="#section9" class="list" data-zh="09 成果与复盘">09 Outcome</a>
+        <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
         </div>
     </div>
 <div class="one-col">
-        <div class="anchor" id="section1"></div>
-        <h3 class="section">Intro</h3>
-        <p>•  Chaintelligence : A transaction visualization tool that helps compliance professionals and OTC owners identify crypto crimes and risks.</p>
-        <p>•  Background: Not many users used it after launch due to its complex design (even for internal users). To catch up with regulatory progress in the Hong Kong market, we planned to revamp it.</p>
-        <p>•  To define the problem, we interviewed 3–5 compliance officers across APAC and the US. Below are the findings.</p>
+
+        <!-- ── PROBLEM ────────────────────────────────────────── -->
         <div class="anchor" id="section2"></div>
-        <h3 class="section">1. Use scenarios & User journey</h3>
-        
-        <h5>Users: compliance officers & regulators</h5>
-        <p>Compliance investigators from crypto exchanges and institutions.</p>
-        
-        <h5>Scenarios: risk investigation & analysis</h5>
-        <p>• When the compliance team gets alerts from the system, like when a <b>big transaction</b> happens between an address and a flagged one, they will dig deeper to find out <b>who else</b> is involved and <b>how much money</b> is moving by looking at the graph.</p>
-        <p>• This process involves handling a significant amount of data, complex interactions, and updates that happen <b>frequently</b>, about every 40 to 60 minutes.</p>
-        <p>• Device: small-screen laptop and tablet</p>
+        <span class="cs-kicker" data-zh="02 · 问题">02 · The problem</span>
+        <h3 class="section" data-zh="一次调查要跨四个工具，工具之间却没有打通">One investigation crossed four tools that were never designed to connect</h3>
+        <p data-zh="OKLink 的合规产品分两部分：On-chain AML 负责预警，以及地址和实体画像；Chaintelligence 是独立网站，用来梳理资金流向。一次调查要依次经过四个界面，但每个界面都围绕自己的数据设计，彼此之间的路径没人设计过。分析师只好导出数据，在 XMind 和表格里完成案件，产品使用率一直不高，内部也很少用。香港出台新的监管规定后，这套产品成为重点。">OKLink's compliance suite is two products. On-chain AML raises alerts and profiles addresses and entities; Chaintelligence, a separate site, maps how funds move. One investigation passes through four of their surfaces, but each was built around its own data, and nobody had designed the path between them. Analysts exported data and finished cases in XMind and spreadsheets, so usage stayed low, even internally. New regulation in Hong Kong made the suite a priority.</p>
 
-        <h5>Goal: Identify suspicious pattern and document</h5>
-        <p>After completing the analysis and synthesizing the information, compliance officers / regulators will export the graph and <b>document</b> it locally.</p>
+        <h5 class="cs-sub" data-zh="一次调查的四个阶段，也是本案例的结构">The four stages of an investigation, and of this case</h5>
+        <ol class="aml-path">
+            <li><a class="aml-step" href="#section4">
+                <img src="resources/images-aml/module-kyt.png?v=1" width="900" height="543" alt="" loading="lazy">
+                <span class="aml-step__n" data-zh="阶段 1 · 分诊">Stage 1 · Triage</span>
+                <b data-zh="预警页 · KYT">Alert page · KYT</b>
+                <span class="aml-step__q" data-zh="“这条预警值得立案吗？”">"Is this alert worth a case?"</span>
+                <span class="aml-st aml-st--hand" data-zh="已交接">Handed over</span>
+            </a></li>
+            <li><a class="aml-step" href="#section5">
+                <img src="resources/images-aml/module-kya.png?v=1" width="900" height="543" alt="" loading="lazy">
+                <span class="aml-step__n" data-zh="阶段 2 · 评估">Stage 2 · Assess</span>
+                <b data-zh="地址风险 · KYA">Address risk · KYA</b>
+                <span class="aml-step__q" data-zh="“这个地址风险多高？依据是什么？”">"How risky is this address, and why?"</span>
+                <span class="aml-st aml-st--ship" data-zh="已上线">Shipped</span>
+            </a></li>
+            <li><a class="aml-step" href="#section6">
+                <img src="resources/images-aml/module-kye.png?v=1" width="900" height="543" alt="" loading="lazy">
+                <span class="aml-step__n" data-zh="阶段 3 · 识别">Stage 3 · Identify</span>
+                <b data-zh="实体档案 · KYE">Entity profiles · KYE</b>
+                <span class="aml-step__q" data-zh="“地址背后是谁？”">"Who is behind the address?"</span>
+                <span class="aml-st aml-st--ship" data-zh="已上线 · 从 0 到 1">Shipped · 0→1</span>
+            </a></li>
+            <li><a class="aml-step" href="#section7">
+                <img src="resources/images-aml/layout-after.png?v=1" width="1440" height="900" alt="" loading="lazy">
+                <span class="aml-step__n" data-zh="阶段 4 · 追踪与报告">Stage 4 · Trace and report</span>
+                <b data-zh="资金流图谱 · Chaintelligence">Fund-flow graph · Chaintelligence</b>
+                <span class="aml-step__q" data-zh="“钱流向了哪里？”">"Where did the money go?"</span>
+                <span class="aml-st aml-st--ship" data-zh="已上线">Shipped</span>
+            </a></li>
+        </ol>
 
-        <h5>Current User journey & painpoints</h5>
-        <img src="resources/images-crypto-graph/0. journey map.png">
+        <div class="cs-callout">
+            <div class="lbl" data-zh="任务">The brief</div>
+            <p class="quote" data-zh="让分析师在产品里完成整个调查：从触发调查的预警，到最后的证据，不必再导出数据另想办法。">Let analysts run an investigation inside the product, from the alert that starts it to the evidence at the end, instead of exporting to work around it.</p>
+        </div>
 
+
+        <!-- ── RESEARCH ───────────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
-        <h3 class="section">2. Solution Before vs After </h3>
+        <span class="cs-kicker" data-zh="03 · 用户研究">03 · Research</span>
+        <h3 class="section" data-zh="观察 5 名合规官处理真实案件，得出三条设计原则">Watching 5 compliance officers work real cases set three design principles</h3>
+        <p data-zh="团队还在争论做什么时，我提议先观察。我访谈了亚太和美国的 5 名合规官，旁听他们处理真实案件，梳理出每一步做什么、用什么工具、在哪里卡住。下面每个发现都变成了一条原则，四个阶段都按它来设计。">While the team debated what to build, I proposed watching first. I interviewed 5 compliance officers across APAC and the US, sat in while they worked real cases, and mapped each step, the tool they used and where it broke. Each finding below became a principle that all four stages follow.</p>
 
+        <div class="aml-prins">
+            <div class="aml-prin">
+                <div class="aml-prin__find">
+                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <p data-zh="低、中风险预警大约只有 15 分钟。分析师每找一次东西，都在消耗这段时间。">Low and medium alerts get about 15 minutes. Anything an analyst has to hunt for comes out of that.</p>
+                </div>
+                <div class="aml-prin__p"><span class="cs-num">1</span><span data-zh="按分析师的阅读顺序排布">Follow the analyst's reading order</span></div>
+            </div>
+            <div class="aml-prin">
+                <div class="aml-prin__find">
+                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <p data-zh="判断会上报给其他地区的复核人员，最终交给监管机构。解释不了的评分过不了这一关。">Decisions go to reviewers in other regions and, in the end, to regulators. A score nobody can explain doesn't survive that.</p>
+                </div>
+                <div class="aml-prin__p"><span class="cs-num">2</span><span data-zh="每个评分都能追溯来源">Every score shows its source</span></div>
+            </div>
+            <div class="aml-prin">
+                <div class="aml-prin__find">
+                    <span class="aml-card__k" data-zh="发现">Finding</span>
+                    <p data-zh="真正的归纳在产品之外完成：在 XMind 里用颜色分组、写备注，在表格里做比较。">The real synthesis happened outside the product: colour groups and notes in XMind, comparisons in spreadsheets.</p>
+                </div>
+                <div class="aml-prin__p"><span class="cs-num">3</span><span data-zh="把产品外的工作搬进产品">Bring the outside work inside</span></div>
+            </div>
+        </div>
+
+        <div class="cs-callout">
+            <div class="lbl" data-zh="还有一个意外">And one surprise</div>
+            <p class="quote" data-zh="“缺少 A、B、C 这些功能。”看到功能在哪之后：“原来这些功能都有，正是我们需要的。”">"It lacks features like A, B and C." Shown where they were: "Oh, I didn't know those features are there. They're what we need."</p>
+            <span class="sub" data-zh="所以每个阶段都先让现有功能被找到，再考虑加新功能。">So each stage made existing features findable before adding new ones.</span>
+        </div>
+
+        <figure class="aml-journey">
+            <div class="aml-journey__grid">
+                <div class="aml-journey__labels" aria-hidden="true">
+                    <span></span>
+                    <span data-zh="目标">Goal</span>
+                    <span data-zh="工具内操作">In the tool</span>
+                    <span data-zh="步骤">Steps</span>
+                    <span data-zh="痛点">Pain points</span>
+                </div>
+                <ol class="aml-journey__steps">
+                    <li>
+                        <b class="aml-journey__phase" data-zh="1 · 分析">1 · Analyse</b>
+                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="筛出值得追踪的地址。">Filter down to the addresses worth following.</p></div>
+                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="创建图谱">Create graph</span></div>
+                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="输入地址或哈希，查看所有关联，按金额筛出可疑地址。">Enter an address or hash, see everything connected to it, filter suspicious addresses by amount.</p></div>
+                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                            <li data-zh="追踪和图谱是两个独立的产品">Tracing and the graph were two separate products</li>
+                            <li data-zh="一次只能查一个地址，无法粘贴十个地址找共同交易对手">One address at a time; no way to paste ten and find common counterparties</li>
+                            <li data-zh="星状布局看不出方向，加节点后画布会重新居中">The star layout hides direction, and adding a node re-centres the canvas</li>
+                        </ul></div>
+                    </li>
+                    <li>
+                        <b class="aml-journey__phase" data-zh="2 · 立案">2 · Open the case</b>
+                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把所有信息汇成一张完整的链路图。">Pull everything into one picture of the chain.</p></div>
+                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="编辑并保存图谱">Edit and save graph</span></div>
+                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="浏览相关地址和交易，分组并标注，保存后持续更新。">Browse related addresses and transactions, group and annotate them, save, then keep updating.</p></div>
+                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                            <li data-zh="加标注会替换节点图标">Annotating replaces the node's icon</li>
+                            <li data-zh="无法给一组地址加标注">No way to annotate a group of addresses</li>
+                            <li data-zh="离开画布就会清空：有自动保存吗？">Leaving the canvas clears it: is there autosave?</li>
+                        </ul></div>
+                    </li>
+                    <li>
+                        <b class="aml-journey__phase" data-zh="3 · 保存证据并结案">3 · Save evidence and close</b>
+                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把证据交出去。">Hand the evidence on.</p></div>
+                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="导出 → XMind → 结案">Export → XMind → close</span></div>
+                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="导出图谱，在 XMind 里重画，分享链接。">Export the graph, rebuild it in XMind, share a link.</p></div>
+                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                            <li data-zh="真正的归纳在 XMind 里完成：颜色分组、备注、其他链">The real synthesis happens in XMind: colour groups, notes, other chains</li>
+                            <li data-zh="深色适合投屏，不适合整个班次的阅读">Dark suits projecting, not a full shift of reading</li>
+                        </ul></div>
+                    </li>
+                </ol>
+            </div>
+            <figcaption data-zh="调查流程来自观察记录，根据工作坊原图重绘。流程并非线性：分析师随时会回来补充地址，一个案件可能持续几周。">The investigation journey from the observation sessions, redrawn from the workshop map. It isn't linear: analysts come back to add addresses at any point, and a case can stay open for weeks.</figcaption>
+        </figure>
+
+        <details class="cs-more">
+            <summary><span data-zh="更多研究细节">More from the sessions</span><span class="cs-more__hint" data-zh="用户、四个缺口、两个约束">Who they are, four gaps, two constraints</span></summary>
+            <div class="cs-more__body">
+                <div class="aml-cards" style="--cols:3">
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="用户">Who</span>
+                        <div class="aml-card__h" data-zh="合规调查人员">Compliance investigators</div>
+                        <p data-zh="处理预警队列的反洗钱分析师，以及交易所、OTC 机构和金融机构的合规官。常用小屏笔记本或平板，一用就是一整个班次。">AML analysts working the alert queue, and compliance officers at exchanges, OTC desks and institutions. Often on a small laptop or tablet, for a full shift.</p>
+                    </div>
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="触发">Trigger</span>
+                        <div class="aml-card__h" data-zh="一笔被标记的交易">A flagged transaction</div>
+                        <p data-zh="某笔转账触发了风险规则。分析师要弄清还有谁参与、转了多少钱、是否反复出现。数据每 40–60 分钟刷新一次。">A transfer crosses a risk rule. The analyst asks who else is involved, how much moved, and whether it repeats. Data refreshes every 40–60 minutes.</p>
+                    </div>
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="目标">Goal</span>
+                        <div class="aml-card__h" data-zh="记录可疑模式">A documented pattern</div>
+                        <p data-zh="结案、上报，或导出资金流图谱，作为提交给管理层或监管机构的证据。">Close the case, escalate it, or export the fund-flow map as evidence for management or the regulator.</p>
+                    </div>
+                </div>
+
+                <h5 class="cs-sub" data-zh="痛点背后的四个缺口">Four gaps behind the pain points</h5>
+                <div class="aml-cards">
+                    <div class="aml-card aml-card--num">
+                        <div class="aml-card__h"><span class="cs-num">1</span><span data-zh="分析师按案件思考，工具却按地址组织">Analysts think in cases; the tool thought in addresses</span></div>
+                        <p data-zh="三个入口（地址图谱、交易地图、交易路径）让分析师在还没有上下文时，就要先做技术选择。">Three entry points (address graph, transaction map, transaction path) forced a technical choice before the analyst had any context.</p>
+                    </div>
+                    <div class="aml-card aml-card--num">
+                        <div class="aml-card__h"><span class="cs-num">2</span><span data-zh="布局看不出方向">The layout hid direction</span></div>
+                        <p data-zh="数百个节点围绕中心散开，能看出谁和谁相连，却看不出钱往哪里流。">Hundreds of nodes around a centre showed what was connected, not which way the money moved.</p>
+                    </div>
+                    <div class="aml-card aml-card--num">
+                        <div class="aml-card__h"><span class="cs-num">3</span><span data-zh="有些账户没有身份信息">Some accounts carry no identity data</span></div>
+                        <p data-zh="经纪商子账户不带 KYC，所以第一个问题是：这是子账户还是主账户？旧页面只能把 ID 复制到另一个 Tab 去查。">Broker sub-accounts have no KYC attached, so the first question is sub-account or master. The old page answered that only by copying an ID into a second tab.</p>
+                    </div>
+                    <div class="aml-card aml-card--num">
+                        <div class="aml-card__h"><span class="cs-num">4</span><span data-zh="风险占比低不代表安全">A small risk share isn't automatically safe</span></div>
+                        <p data-zh="分析师会看转账是否反复出现：多笔小额充值加一笔大额提现，是典型的洗钱模式。">Analysts check how often a transfer repeats: many small deposits and one large withdrawal is a known laundering pattern.</p>
+                    </div>
+                </div>
+
+                <h5 class="cs-sub" data-zh="图谱之外的两个约束">Two constraints beyond the graph</h5>
+                <div class="aml-cards">
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="约束">Constraint</span>
+                        <div class="aml-card__h" data-zh="标签只限内部">Labels stay internal</div>
+                        <p data-zh="标签可能指向具体的人，而接收报告的机构之间不共享情报。标签只对分析师可见，不出现在任何对外分享的内容里。">A label can name a person, and the bodies that receive a report don't share intelligence. Labels show to the analyst and stay off anything shared outward.</p>
+                    </div>
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="需求">Request</span>
+                        <div class="aml-card__h" data-zh="批量追踪">Bulk tracing</div>
+                        <p data-zh="“十个地址，找出它们一层、两层、最多二十层的共同交易对手。现在我只能用表格做。”这后来成了第 05 节的多跳追踪。">"Ten addresses, then their common counterparties one layer out, two layers, up to twenty. Right now I do it in a spreadsheet." This became multi-hop tracing in section 05.</p>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+
+        <!-- ── STAGE 1 · TRIAGE ───────────────────────────────── -->
         <div class="anchor" id="section4"></div>
-        <h5>Step 1 - graph list</h5>
-        <img src="resources/images-crypto-graph/1.graph list.png">
+        <span class="cs-kicker" data-zh="04 · 阶段 1 · 分诊">04 · Stage 1 · Triage</span>
+        <h3 class="section" data-zh="预警页：按分析师提问的顺序给出四个答案">Alert page: four answers in the order analysts ask for them</h3>
+        <div class="aml-stage">
+            <span class="aml-stage__mod" data-zh="预警页 · On-chain AML / KYT">Alert page · On-chain AML / KYT</span>
+            <span class="aml-st aml-st--hand" data-zh="已交接">Handed over</span>
+            <span class="aml-pc"><i>1</i><span data-zh="阅读顺序">Reading order</span></span>
+        </div>
+        <p data-zh="每个分析师都按同样的顺序问同样四个问题：风险占比多少、转了多少钱、钱从哪来、流向哪里。旧页面把答案散在四个地方，15 分钟的审核有一部分花在来回翻找上。我按这个顺序从上到下排列答案，案件日志放在证据旁边。">Every analyst asked the same four questions in the same order: what share is risky, how much moved, where it came from, which way it went. The old page answered them in four places, so part of a 15-minute review went on jumping between them. I put the answers top to bottom in that order, with the case log beside the evidence.</p>
 
+        <div class="cs-shot gx-frame"><img src="resources/images-aml/alert-before-after.png?v=1" width="2400" height="1253" alt="Alert detail before and after. Before: the four answers sit in two sections, out of order. After: they read top to bottom in order, with the case log on the right" loading="lazy"><span class="aml-q aml-q--before aml-q--r" data-n="1" style="--x:10.6%;--y:48.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="2" style="--x:10.6%;--y:46%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="3" style="--x:10.6%;--y:80.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q aml-q--before" data-n="4" style="--x:10.6%;--y:69.8%;--w:10.8%;--h:2.6%"></span><span class="aml-q" data-n="1" style="--x:67.75%;--y:31.9%;--w:15.5%;--h:2.6%"></span><span class="aml-q" data-n="2" style="--x:67.75%;--y:44.6%;--w:15.5%;--h:2.6%"></span><span class="aml-q" data-n="3" style="--x:67.75%;--y:49.9%;--w:15.5%;--h:5.4%"></span><span class="aml-q" data-n="4" style="--x:67.75%;--y:57.9%;--w:15.5%;--h:2.6%"></span></div>
+        <ol class="aml-qkey">
+            <li><b>1</b><span data-zh="风险占比多少">What share is risky</span></li>
+            <li><b>2</b><span data-zh="转了多少钱">How much moved</span></li>
+            <li><b>3</b><span data-zh="钱从哪来">Where it came from</span></li>
+            <li><b>4</b><span data-zh="流向哪里">Which way it went</span></li>
+        </ol>
+        <p class="cs-figcap" data-zh="改版前，四个答案分散在两个区块里，顺序也是乱的；改版后，按提问顺序从上到下排列，案件日志就在旁边。">Before, the four answers sat in two sections and out of order. Now they read top to bottom in the order analysts ask, with the case log beside them.</p>
+
+        <ul class="cs-list">
+            <li data-zh="&lt;b&gt;分成三个区块：&lt;/b&gt;预警原因、支撑证据、可执行的操作。"><b>Three bands:</b> why the alert fired, the evidence behind it, and the actions available.</li>
+            <li data-zh="&lt;b&gt;一步进入其他阶段：&lt;/b&gt;用户档案和资金流图谱都能从预警页直接打开。"><b>One step to the next stage:</b> the user record and the fund-flow graph open from the alert itself.</li>
+            <li data-zh="&lt;b&gt;结论原地写完：&lt;/b&gt;分配、状态、发现和结论都放在对应内容旁边。"><b>Write-up in place:</b> assignment, status, findings and conclusion sit next to what they refer to.</li>
+        </ul>
+
+
+        <!-- ── STAGE 2 · ASSESS ───────────────────────────────── -->
         <div class="anchor" id="section5"></div>
-        <h5>Step 2 - create graph</h5>
-        <img src="resources/images-crypto-graph/2.create graph.png">
+        <span class="cs-kicker" data-zh="05 · 阶段 2 · 评估">05 · Stage 2 · Assess</span>
+        <h3 class="section" data-zh="地址风险：每个评分都能追溯到原始制裁名单">Address risk: every score traces back to the original sanctions listing</h3>
+        <div class="aml-stage">
+            <span class="aml-stage__mod" data-zh="地址风险 · On-chain AML / KYA">Address risk · On-chain AML / KYA</span>
+            <span class="aml-st aml-st--ship" data-zh="已上线">Shipped</span>
+            <span class="aml-pc"><i>2</i><span data-zh="可追溯来源">Visible source</span></span>
+        </div>
+        <p data-zh="评分遵循 FATF 指引，可以层层拆解：先是由 14+ 个可配置风险因子汇总成的五个风险维度，再往下是三张证据表，一直追到原始制裁名单。分析师不用离开页面，就能回答“你怎么知道？”">The FATF-aligned score breaks down in layers: five risk dimensions built from 14+ configurable risk factors, then three evidence tables that go down to the original sanctions listing. An analyst can answer "how do you know?" without leaving the page.</p>
 
-        <div class="anchor" id="section6" ></div>
-        <h5>Step 3 - add source address</h5>
-        <img src="resources/images-crypto-graph/3.added.png">
+        <div class="cs-shot gx-frame"><img src="resources/images-aml/kya-detected-risks.png?v=1" width="2400" height="1050" alt="Detected risks: a radar of five risk dimensions, the categories that fired, and three tabs of evidence" loading="lazy"></div>
+        <p class="cs-figcap" data-zh="风险检测：雷达图展示五个维度，旁边是触发的风险类别，下方三个 Tab 进入证据。">Detected risks: five dimensions on a radar, the categories that fired beside it, and three tabs into the evidence.</p>
+        <div class="cs-shot gx-frame"><img src="resources/images-aml/kya-blocklist.png?v=1" width="2400" height="1003" alt="The blocklist evidence table with category, list name, source link, root address and description" loading="lazy"></div>
+        <p class="cs-figcap" data-zh="黑名单表的每一行都写明风险类别、列入名单的机构、原始名单链接和根地址。分析师可以直接打开 OFAC 原始记录，而不必只看标签。">Each blocklist row names the category, the body that listed it, a link to the original listing, and the root address. The analyst can open the OFAC record instead of trusting the badge.</p>
 
+        <details class="cs-more">
+            <summary><span data-zh="密集证据的展示规则，以及多跳追踪">Rules for dense evidence, and multi-hop tracing</span><span class="cs-more__hint" data-zh="多跳追踪已交接">Multi-hop handed over</span></summary>
+            <div class="cs-more__body">
+                <ul class="cs-list">
+                    <li data-zh="&lt;b&gt;超过五行才分页。&lt;/b&gt;二十行以内可以滚动；超过后列表直接截止，不暗示已经显示完整。"><b>Pagination only above five rows.</b> Up to twenty rows scroll; beyond that the list stops rather than implying it's complete.</li>
+                    <li data-zh="&lt;b&gt;类别图最多八块。&lt;/b&gt;金额过长时改用缩写，密集的表格也能读得清。"><b>The category chart caps at eight slices.</b> Long amounts switch to abbreviated notation, so a dense table stays readable.</li>
+                    <li data-zh="&lt;b&gt;稳定币和原生币分开处理，&lt;/b&gt;交易表对两者分别展示。"><b>Stablecoins and native coins resolve differently,</b> so the transaction table treats each as its own case.</li>
+                    <li data-zh="&lt;b&gt;尚未支持的层级照样显示。&lt;/b&gt;以禁用控件加“暂不支持”提示呈现，让分析师知道工具的边界，而不是去猜。"><b>Unbuilt depth stays visible.</b> It shows as a disabled control with a "not currently supported" note, so analysts learn where the tool stops instead of guessing.</li>
+                </ul>
+                <h5 class="cs-sub" data-zh="多跳追踪：来自批量追踪的需求">Multi-hop tracing, from the bulk-tracing request</h5>
+                <p class="cs-lead-sm" data-zh="从目标地址逐层向外追踪，最多 50 个地址，悬停可查看首笔和末笔交易时间。我基于同一轮研究完成了设计和规格说明；我离开时它仍在开发中。">Trace a target address outward layer by layer, up to 50 addresses, with first and last transaction times on hover. I designed and specified it from the same research; it was with engineering when I left.</p>
+                <div class="cs-shot gx-frame"><img src="resources/images-aml/kya-multihop.png?v=1" width="2400" height="999" alt="Multi-hop analysis in three screens: the risk-path list, one asset's transaction map, and the detail panel for a related address" loading="lazy"></div>
+                <p class="cs-figcap" data-zh="多跳分析：风险路径列表、单个币种的交易地图，以及相关地址的详情面板。">Multi-hop analysis: the risk-path list, one asset's transaction map, and the detail panel for a related address.</p>
+            </div>
+        </details>
+
+
+        <!-- ── STAGE 3 · IDENTIFY ─────────────────────────────── -->
+        <div class="anchor" id="section6"></div>
+        <span class="cs-kicker" data-zh="06 · 阶段 3 · 识别">06 · Stage 3 · Identify</span>
+        <h3 class="section" data-zh="实体档案：从零设计的新模块，查清地址背后是谁">Entity profiles: a new module that shows who is behind an address</h3>
+        <div class="aml-stage">
+            <span class="aml-stage__mod" data-zh="实体档案 · On-chain AML / KYE">Entity profiles · On-chain AML / KYE</span>
+            <span class="aml-st aml-st--ship" data-zh="已上线 · 从 0 到 1">Shipped · 0→1</span>
+            <span class="aml-pc"><i>2</i><span data-zh="可追溯来源">Visible source</span></span>
+        </div>
+        <p data-zh="地址能说明钱怎么流动，却说不出你在和谁打交道。KYE 回答的正是这个问题：搜索一家交易所、混币器或服务商，就能看到它的监管状态、交易概况和主要交易对手。我从搜索、实体详情一直设计到关注列表，分四个版本上线。">An address tells you what moved, not who you're dealing with. KYE answers that: search an exchange, a mixer or a service and see its regulatory standing, transaction profile and main counterparties. I designed it from search and entity detail through to a watchlist, shipped in four releases.</p>
+
+        <div class="cs-shot gx-frame"><img src="resources/images-aml/kye-entity.png?v=1" width="2400" height="1933" alt="KYE entity page with tabs for regulatory detail, transactions, risk activity and address list, over volume, category exposure and top counterparties" loading="lazy"></div>
+        <p class="cs-figcap" data-zh="实体页：监管信息、交易、风险活动和地址列表，下方是交易量、类别敞口和主要交易对手。">The entity page: regulatory detail, transactions, risk activity and address list, over volume, category exposure and top counterparties.</p>
+
+        <ol class="aml-rel">
+            <li><b>MVP</b><time datetime="2023-09-18" data-zh="2023.09.18">18 Sep 2023</time><span data-zh="搜索、列表和实体详情">Search, list and entity detail</span></li>
+            <li><b>V1.1.0</b><time datetime="2023-11-20" data-zh="2023.11.20">20 Nov 2023</time><span data-zh="详情、列表和关注列表">Detail, list and watchlist</span></li>
+            <li><b>V1.1.1</b><time datetime="2023-11-30" data-zh="2023.11.30">30 Nov 2023</time><span data-zh="设计走查和回归测试">Design QA and a regression pass</span></li>
+            <li><b>V1.1.2</b><time datetime="2023-12-26" data-zh="2023.12.26">26 Dec 2023</time><span data-zh="响应式布局及权限变体">Responsive layouts with permission variants</span></li>
+        </ol>
+        <p class="cs-figcap" data-zh="每个版本都有独立的 UI 规范，并对开发成果做了设计走查。">Each release had its own UI spec and a design QA walkthrough of the build.</p>
+
+        <details class="cs-more">
+            <summary><span data-zh="难点：每个字段能声明什么">The hard part: what each field may claim</span><span class="cs-more__hint" data-zh="和数据团队确认的四个问题">Four questions settled with the data team</span></summary>
+            <div class="cs-more__body">
+                <p class="cs-lead-sm" data-zh="大部分待定问题与布局无关，而在于数据能如实支撑到什么程度。每个问题都和产品、数据团队确认后，字段才上线。">Most open questions weren't about layout. They were about what the data could honestly support, and each was settled with product and the data team before the field shipped.</p>
+                <div class="aml-cards">
+                    <div class="aml-card">
+                        <div class="aml-card__h" data-zh="“成立时间”精确到哪一级？">How precise is "established"?</div>
+                        <p data-zh="有的来源只给年份，有的给完整日期。字段要能同时显示两种，又不能暗示并不存在的精度。">Sources give a year for some entities and a full date for others. The field had to show both without implying precision it didn't have.</p>
+                    </div>
+                    <div class="aml-card">
+                        <div class="aml-card__h" data-zh="支持的法币：显示数量还是列表？">Fiat accepted: a count or a list?</div>
+                        <p data-zh="数量适合放进表格，列表才是合规官真正需要的。这个决定同时改变了表格列和详情卡片。">A count fits the table; a list is what a compliance officer needs. The answer changed both the column and the detail card.</p>
+                    </div>
+                    <div class="aml-card">
+                        <div class="aml-card__h" data-zh="谁算监管机构？">Who counts as the regulator?</div>
+                        <p data-zh="一家交易所可能在多个司法辖区持有多个机构的牌照，所以要先定义什么叫“受监管”，才能把它画出来。">An exchange can be licensed by several bodies in several jurisdictions, so "regulated" had to be defined before it could be drawn.</p>
+                    </div>
+                    <div class="aml-card">
+                        <div class="aml-card__h" data-zh="搜索该怎么匹配？">What should search match?</div>
+                        <p data-zh="精确、模糊还是别名匹配，决定了分析师能否用当地交易名找到实体，还是直接漏掉。">Exact, fuzzy or alias matching decides whether an analyst finds an entity under its local trading name or misses it.</p>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+
+        <!-- ── STAGE 4 · TRACE AND REPORT ─────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <h5>Step 4 - map layout & edit</h5>
-        <img src="resources/images-crypto-graph/4. graph layout overview.png">
+        <span class="cs-kicker" data-zh="07 · 阶段 4 · 追踪与报告">07 · Stage 4 · Trace and report</span>
+        <h3 class="section" data-zh="资金流图谱：按资金流向排布，在图谱里直接整理成报告">Fund-flow graph: laid out the way money moves, and written up without leaving it</h3>
+        <div class="aml-stage">
+            <span class="aml-stage__mod" data-zh="资金流图谱 · Chaintelligence">Fund-flow graph · Chaintelligence</span>
+            <span class="aml-st aml-st--ship" data-zh="已上线 · 改版用时 1 个月">Shipped · 1-month redesign</span>
+            <span class="aml-pc"><i>1</i><span data-zh="阅读顺序">Reading order</span></span>
+            <span class="aml-pc"><i>3</i><span data-zh="在产品内完成">Work inside</span></span>
+        </div>
+        <p data-zh="图谱是案件成形、交出去的地方。旧版是星状图，看不出资金方向；最后的整理还要导出到 XMind 完成。改版顺着分析师从打开图谱到整理结论的步骤展开，下面是三个最大的改动。标签说明改动来自用户痛点还是设计洞察；点开界面可放大查看。">The graph is where a case is built and handed on. The old one was a star that hid which way money moved, and the final write-up happened in XMind after an export. The redesign follows the analyst's steps from opening a graph to writing it up; the three biggest changes are below. Each tag says whether a user pain point or a design insight drove the change. Tap a screen to enlarge it.</p>
 
+        <div class="gx">
+            <article class="gx-card">
+                <header class="gx-head"><span class="cs-num">1</span><h5 class="gx-title" data-zh="布局：从星状到流向">Layout: from a star to a flow</h5><span class="gx-pill gx-pill--pain" data-zh="用户痛点">User pain point</span></header>
+                <p data-zh="放射状布局改为从左到右的流向图，顺着资金方向阅读。分散的工具栏归为三组（保存与导出、添加与筛选、编辑），编辑操作只针对当前选中的内容出现。">The radial layout became a left-to-right flow that reads the way money moves. The scattered tool rail became three groups (save and export, add and filter, edit), and edit actions appear only for what's selected.</p>
+                <div class="gx-pair">
+                    <figure class="gx-shot is-before">
+                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="工具散落在侧栏">Tools scattered down a side rail</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/layout-before.png?v=1" width="1440" height="900" alt="Before: hundreds of nodes radiating from a centre, with a vertical tool rail on the left" loading="lazy"><span class="gx-box" style="--x:5.6%;--y:18%;--w:6.4%;--h:60.1%"></span></div>
+                    </figure>
+                    <figure class="gx-shot">
+                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="只显示选中内容的操作">Actions for the current selection</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/layout-after.png?v=1" width="1440" height="900" alt="After: a left-to-right flow with grouped tools and a selection bar" loading="lazy"><span class="gx-box" style="--x:55%;--y:8.6%;--w:41%;--h:5.6%"></span></div>
+                    </figure>
+                </div>
+                <h6 class="gx-sub" data-zh="选中多个地址时">With several addresses selected</h6>
+                <p data-zh="图谱提供“Show mutual counterparts”（查看共同交易对手），也就是分析师过去在表格里手动做的比较。">The graph offers "Show mutual counterparts", the comparison analysts had been doing by hand in a spreadsheet.</p>
+                <div class="gx-pair">
+                    <figure class="gx-shot is-before">
+                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="无法比较选中的地址">No way to compare a selection</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/select-before.png?v=1" width="1440" height="900" alt="Before: a radial graph with several nodes selected and no related actions" loading="lazy"></div>
+                    </figure>
+                    <figure class="gx-shot">
+                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span>Show mutual counterparts</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/select-after.png?v=1" width="1440" height="963" alt="After: several addresses selected, with a Show Mutual Counterparts action in the top bar" loading="lazy"><span class="gx-box" style="--x:76.9%;--y:8%;--w:20.9%;--h:4.8%"></span></div>
+                    </figure>
+                </div>
+            </article>
+
+            <article class="gx-card">
+                <header class="gx-head"><span class="cs-num">2</span><h5 class="gx-title" data-zh="图谱列表：按案件组织">Graph list: one list of cases</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                <p data-zh="分析师围绕案件建图谱，而不是围绕单个地址。三种入口合并为一个案件图谱列表，浅色模式成为分析时的默认主题。">Analysts build a graph around a case, not a single address. Three entry types became one list of case graphs, and light mode became the default for analysis.</p>
+                <div class="gx-pair">
+                    <figure class="gx-shot is-before">
+                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="先选图谱类型">Pick a graph type first</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/graph-list-before.png?v=1" width="1440" height="900" alt="Before: a dark graph list with a menu asking for address graph, transaction map or transaction path" loading="lazy"><span class="gx-box" style="--x:29%;--y:14%;--w:15%;--h:17.2%"></span></div>
+                    </figure>
+                    <figure class="gx-shot">
+                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="一个案件图谱列表">One list of case graphs</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/graph-list-after.png?v=1" width="1440" height="1216" alt="After: a light Relationship Map list of case graphs with chain, dates and a thumbnail preview" loading="lazy"><span class="gx-box" style="--x:6.5%;--y:4.4%;--w:19%;--h:5%"></span></div>
+                    </figure>
+                </div>
+            </article>
+
+            <article class="gx-card">
+                <header class="gx-head"><span class="cs-num">3</span><h5 class="gx-title" data-zh="归纳：把 XMind 这一步搬进产品">Synthesise: bring the XMind step inside</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                <p data-zh="分析师过去在 XMind 里按颜色分组，再给分组命名。现在两者都在产品内完成：节点可以设颜色，选中的分组可以加摘要标签，导出的图谱本身就是报告。">Analysts grouped evidence by colour and named the groups in XMind. Both moved into the tool, a colour palette for nodes and a summary label for a group, so the exported graph is already the report.</p>
+                <div class="gx-pair">
+                    <figure class="gx-shot is-before">
+                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="密集的星状图，无法分组">A dense star, no way to group</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/layout-before.png?v=1" width="1440" height="900" alt="Before: a dense radial graph with no grouping or labels" loading="lazy"></div>
+                    </figure>
+                    <figure class="gx-shot">
+                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="在图谱上设颜色、加摘要">Colour and summary on the graph</span></figcaption>
+                        <div class="gx-frame"><img src="resources/images-aml/synthesise-after.png?v=1" width="1440" height="963" alt="After: Colour and Summary actions above a group of addresses, with the label: Suspects, addresses suspected of money laundering" loading="lazy"><span class="gx-box" style="--x:63%;--y:16.1%;--w:24.9%;--h:6%"></span><span class="gx-box" style="--x:81%;--y:39%;--w:16.9%;--h:10%"></span></div>
+                    </figure>
+                </div>
+            </article>
+        </div>
+
+        <details class="cs-more">
+            <summary><span data-zh="另外三个步骤：创建、展开、添加">Three more steps: create, expand, add</span><span class="cs-more__hint" data-zh="完整的六步改版">The full six-step redesign</span></summary>
+            <div class="cs-more__body">
+                <div class="gx">
+                    <article class="gx-card">
+                        <header class="gx-head"><span class="cs-num">4</span><h5 class="gx-title" data-zh="创建图谱：从画布中央开始">Create graph: start in the middle</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <p data-zh="输入框从顶部移到空白画布中央，样式和它将生成的地址节点一致，并支持一次添加多个地址。">The entry moved from a bar at the top to the centre of the empty canvas, styled like the address node it creates, and it takes several addresses at once.</p>
+                        <div class="gx-pair">
+                            <figure class="gx-shot is-before">
+                                <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="深色页面上的搜索栏">A search bar on a dark screen</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/create-before.png?v=1" width="1446" height="906" alt="Before: an empty dark canvas with a search bar at the top" loading="lazy"><span class="gx-box" style="--x:19%;--y:14.2%;--w:65%;--h:11.8%"></span></div>
+                            </figure>
+                            <figure class="gx-shot">
+                                <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="输入框就是第一个节点">The entry reads as the first node</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/create-after.png?v=1" width="1600" height="1176" alt="After: a centred entry field on a light canvas, with a picker for adding several addresses at once" loading="lazy"><span class="gx-box" style="--x:27.9%;--y:29.6%;--w:38.8%;--h:17.6%"></span></div>
+                            </figure>
+                        </div>
+                    </article>
+
+                    <article class="gx-card">
+                        <header class="gx-head"><span class="cs-num">5</span><h5 class="gx-title" data-zh="添加源地址：默认展开交易对手">Source added: counterparties by default</h5><span class="gx-pill gx-pill--pain" data-zh="用户痛点">User pain point</span></header>
+                        <p data-zh="旧图谱只在空白画布上放一个节点。现在会自动展开一层转入和转出地址，分析师一开始就能看到直接关联。">The old graph dropped one node onto an empty canvas. Now it expands one layer of senders and receivers automatically, so the analyst starts with the immediate picture.</p>
+                        <div class="gx-pair">
+                            <figure class="gx-shot is-before">
+                                <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="只有一个节点">One node, nothing around it</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/source-before.png?v=1" width="1440" height="900" alt="Before: a single address node in the middle of an empty dark canvas" loading="lazy"><span class="gx-box" style="--x:43.4%;--y:54.5%;--w:11%;--h:15%"></span></div>
+                            </figure>
+                            <figure class="gx-shot">
+                                <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="左边转入，右边转出">Inflows left, outflows right</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/source-after.png?v=1" width="1440" height="960" alt="After: the source address in the middle, senders on the left and receivers on the right" loading="lazy"><span class="gx-box" style="--x:1.1%;--y:20.1%;--w:19%;--h:30.1%"></span><span class="gx-box" style="--x:64.1%;--y:14.9%;--w:30%;--h:57.8%"></span></div>
+                            </figure>
+                        </div>
+                    </article>
+
+                    <article class="gx-card">
+                        <header class="gx-head"><span class="cs-num">6</span><h5 class="gx-title" data-zh="从当前位置添加地址">Add more addresses from where you are</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <p data-zh="调查人员会在线下收集可疑地址。现在可以从交易对手的相关地址面板、空白画布或交易详情面板添加，不再只能用顶部搜索栏。">Investigators gather suspicious addresses offline. They can now add them from a counterparty's related-addresses panel, from empty canvas, or from the transaction panel, not only from the top bar.</p>
+                        <div class="gx-pair">
+                            <figure class="gx-shot is-before">
+                                <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="只能用顶部搜索栏">Only the top bar</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/add-before.png?v=1" width="1440" height="900" alt="Before: adding an address only from the top search bar, with an empty result" loading="lazy"><span class="gx-box" style="--x:30%;--y:12.6%;--w:41%;--h:5.4%"></span></div>
+                            </figure>
+                            <figure class="gx-shot">
+                                <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="从相关地址面板添加">Add from the related-addresses panel</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/add-after.png?v=1" width="1440" height="963" alt="After: a related-addresses panel beside a node, with checkboxes to add addresses to the graph" loading="lazy"><span class="gx-box" style="--x:68.1%;--y:30.1%;--w:30%;--h:57%"></span></div>
+                            </figure>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </details>
+        <p class="cs-figcap" data-zh="界面来自设计稿。部分界面中的红色中文批注来自当时的评审。">Screens from the design files. Red notes inside some screens are from the original reviews, in Chinese.</p>
+
+
+        <!-- ── SYSTEM ─────────────────────────────────────────── -->
         <div class="anchor" id="section8"></div>
-        <h5>Step 5 - add more address </h5>
-        <img src="resources/images-crypto-graph/5.add more address.png">
+        <span class="cs-kicker" data-zh="08 · 设计系统">08 · System</span>
+        <h3 class="section" data-zh="四个共用组件，让四个阶段像同一个产品">Four shared components make the four stages read as one product</h3>
+        <p data-zh="一套风险等级、一个交易所 logo 库、浅色和深色两套主题，以及带权限变体的响应式布局，在四个阶段通用。每次发版前，我都对照规范检查开发成果。">One risk scale, an exchange-logo library, light and dark themes, and responsive layouts with permission variants are shared across all four stages. Before each release, I checked the build against the spec.</p>
 
+        <div class="aml-sys">
+            <figure class="aml-sys__item">
+                <div class="aml-sys__media"><img src="resources/images-aml/risk-tags.png?v=1" width="1010" height="500" alt="Risk tags from Severe to No risk detected, in two styles" loading="lazy"></div>
+                <h5 data-zh="一套风险等级，处处通用">One risk scale, everywhere</h5>
+                <p data-zh="五个等级做成一个组件，包含浅色和深色、文字和圆点变体。预警、地址和实体都用它，改一次就全部生效。">Five levels built once, with light and dark, text and dot variants. Alerts, addresses and entities all use it, so a change lands once.</p>
+            </figure>
+            <figure class="aml-sys__item">
+                <div class="aml-sys__media"><img src="resources/images-aml/exchange-logos.png?v=1" width="1100" height="832" alt="A grid of exchange logos" loading="lazy"></div>
+                <h5 data-zh="一眼认出交易对手">Counterparties you can recognise</h5>
+                <p data-zh="交易所 logo 库让交易对手显示为具体的交易所，而不是一串哈希：预警、实体列表和图谱节点都用这套 logo。">An exchange-logo library, so a counterparty reads as a venue rather than a hash: in alerts, the entity list and graph nodes.</p>
+            </figure>
+            <figure class="aml-sys__item">
+                <div class="aml-sys__media"><img src="resources/images-aml/themes.png?v=1" width="1400" height="529" alt="The fund-flow graph in the light theme beside the dark theme" loading="lazy"></div>
+                <h5 data-zh="浅色用于分析，深色用于演示">Light for analysis, dark for presenting</h5>
+                <p data-zh="整个班次都在深色画布上追踪会很累，但评审投屏时要用深色。两种主题都上线，分析时默认浅色。">A full shift on a dark canvas is tiring, but dark is what gets projected in a review. Both ship, with light as the default.</p>
+            </figure>
+            <figure class="aml-sys__item">
+                <div class="aml-sys__media"><img src="resources/images-aml/kye-breakpoints.png?v=1" width="1600" height="626" alt="The entity page at three widths" loading="lazy"></div>
+                <h5 data-zh="三种宽度，以及谁能看到什么">Three widths, and who sees what</h5>
+                <p data-zh="同一页面同时服务内部调查人员和外部客户，可见字段不同。每个断点都附带权限变体的规格。">The same page serves internal investigators and external clients, who see different fields. Each breakpoint came with its permission variants.</p>
+            </figure>
+        </div>
+
+        <details class="cs-more">
+            <summary><span data-zh="设计走查与范围取舍">Design QA and scope calls</span><span class="cs-more__hint" data-zh="每次发版的检查，以及两次取舍">How each release was checked, and two trade-offs</span></summary>
+            <div class="cs-more__body">
+                <div class="aml-qa">
+                    <div class="gx-frame"><img src="resources/images-aml/qa-finding.png?v=1" width="2160" height="1135" alt="A QA finding: a tooltip on the built entity page boxed in red" loading="lazy"></div>
+                    <div class="aml-qa__note"><span class="cs-num">1</span><p data-zh="全局规则：提示框跟随箭头方向，并始终留在内容区域内。每个问题都在开发成果上框出、编号，并对照规范记录。">Global convention: a tooltip follows the direction of its arrow and always stays inside the content area. Each finding is boxed on the build, numbered and written up against the spec.</p></div>
+                </div>
+                <div class="aml-cards">
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="延后">Deferred</span>
+                        <div class="aml-card__h" data-zh="导出水印">Export watermark</div>
+                        <p data-zh="我为导出的图谱设计了水印；开发把它移出了这次发版，导出功能先行上线。">I specified a watermark for exported graphs; engineering moved it out of the release, and export shipped without it.</p>
+                    </div>
+                    <div class="aml-card aml-card--soft">
+                        <span class="aml-card__k" data-zh="未纳入">Left out</span>
+                        <div class="aml-card__h" data-zh="一直为空的列">An always-empty column</div>
+                        <p data-zh="某次发版拿不到风险画像数据时，我们直接去掉这一列，而不是上线一个永远空着、让人习惯忽略的列。">When a release couldn't supply risk-profile data, we removed the column rather than ship one that stayed blank and taught people to ignore it.</p>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+
+        <!-- ── OUTCOME ────────────────────────────────────────── -->
         <div class="anchor" id="section9"></div>
-        <h5>Step 6 - synthesise  information</h5>
-        <img src="resources/images-crypto-graph/6.synthesise analysis.png">
+        <span class="cs-kicker" data-zh="09 · 成果与复盘">09 · Outcome</span>
+        <h3 class="section" data-zh="三个阶段上线，两项以规格交接">Three stages shipped, two handed over as specs</h3>
+        <p data-zh="资金流图谱改版、地址风险分析和实体模块均已上线；预警页重排和多跳追踪以完整规格交给了开发。">The fund-flow graph redesign, address risk analysis and the entity module shipped. The alert-page reorder and multi-hop tracing went to engineering as finished specs.</p>
 
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div class="cs-panel__flag" data-zh="已上线">Shipped</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="资金流图谱改版：按案件建图、流向布局、随选中内容变化的操作、产品内归纳">Fund-flow graph: case-based entry, flow layout, contextual actions, in-tool synthesis</li>
+                    <li data-zh="图谱埋点上线，此前没有任何使用漏斗">Event tracking on the graph, which had no usage funnel before</li>
+                    <li data-zh="地址风险分析，评分可追溯">Address risk analysis with traceable scores</li>
+                    <li data-zh="实体模块：2023 年上线 MVP 及三个后续版本">Entity module: MVP and three releases in 2023</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div class="cs-panel__flag" data-zh="已交接">Handed over</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="预警页按分析师的阅读顺序重排">Alert page reordered around the analyst's reading order</li>
+                    <li data-zh="多跳追踪，完成设计与规格说明">Multi-hop tracing, designed and specified</li>
+                </ul>
+            </div>
+        </div>
+        <p class="cs-note" data-zh="我随图谱改版制定了数据度量方案，但上线后的使用数据在我离开后才产生，所以这里没有使用数据。">I set up the measurement plan with the graph redesign, but adoption figures came in after I left, so there are no usage numbers here.</p>
 
-        <div class="anchor" id="section10"></div>
-        <h5>Other projects at OK</h5>
-        <img src="resources/images-crypto-graph/other oklink projects.png">
+        <h5 class="cs-sub" data-zh="带到下一个受监管产品的经验">What I'd take to the next regulated product</h5>
+        <div class="cs-learns">
+            <div class="cs-learn">
+                <span class="cs-learn__n">1</span>
+                <div>
+                    <h5 data-zh="观察实际工作：最大的问题从没以需求的形式出现">Watch the work: the biggest problems never arrived as requests</h5>
+                    <p data-zh="15 分钟的时间预算、绕道 XMind、把 ID 复制到另一个 Tab：这些从来没有以需求的形式出现。">The 15-minute budget, the detour into XMind and the copy-paste into a second tab never arrived as feature requests.</p>
+                </div>
+            </div>
+            <div class="cs-learn">
+                <span class="cs-learn__n">2</span>
+                <div>
+                    <h5 data-zh="按分析师的推理组织，而不是按数据存储">Follow how analysts reason, not how data is stored</h5>
+                    <p data-zh="把四个工具按一次调查的顺序串起来，比单独打磨任何一个界面都更重要。">Ordering four tools as one investigation mattered more than polishing any single screen.</p>
+                </div>
+            </div>
+            <div class="cs-learn">
+                <span class="cs-learn__n">3</span>
+                <div>
+                    <h5 data-zh="每个评分都要有可见的来源">Give every score a visible source</h5>
+                    <p data-zh="每个评分、标记和结论都要在界面上标明来源，因为总有人要向监管机构解释它。">Every score, flag and conclusion needs a source on screen, because someone will be asked to defend it to a regulator.</p>
+                </div>
+            </div>
+        </div>
 
     </div>
     </div><!-- /case-layout -->
 
-    
-
-    
-
     <script src="main.js"></script>
+    <script>
+    (function () {
+        /* Caption above each screen; a dashed line runs from the caption to the first highlight box. */
+        document.querySelectorAll('.gx-shot').forEach(function (fig) {
+            var frame = fig.querySelector('.gx-frame');
+            var cap = fig.querySelector('.gx-cap');
+            var box = frame.querySelector('.gx-box');
+            var pair = fig.closest('.gx-pair');
+            var line = null;
+            if (box) {
+                line = document.createElement('i');
+                line.className = 'gx-line';
+                fig.appendChild(line);
+            }
+            function draw() {
+                if (!box) return;
+                cap.style.left = '0px';
+                var f = fig.getBoundingClientRect();
+                var b = box.getBoundingClientRect();
+                var w = cap.getBoundingClientRect().width;
+                var cx = b.left + b.width / 2 - f.left;
+                cap.style.left = Math.max(0, Math.min(cx - w / 2, f.width - w)) + 'px';
+                var c = cap.getBoundingClientRect();
+                var y1 = c.bottom - f.top + 2;
+                var y2 = b.top - f.top;
+                line.style.left = cx + 'px';
+                line.style.top = y1 + 'px';
+                line.style.height = Math.max(0, y2 - y1) + 'px';
+            }
+            fig.addEventListener('mouseenter', function () { fig.classList.add('on'); if (pair) pair.classList.add('has-on'); });
+            fig.addEventListener('mouseleave', function () { fig.classList.remove('on'); if (pair) pair.classList.remove('has-on'); });
+            var img = frame.querySelector('img');
+            if (img && !img.complete) img.addEventListener('load', draw);
+            if (window.ResizeObserver) new ResizeObserver(draw).observe(fig);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+            document.addEventListener('case:lang', draw);
+            var more = fig.closest('details');
+            if (more) more.addEventListener('toggle', draw);
+            draw();
+        });
+    })();
+    </script>
+    <script>
+    /* Language switch: every translatable node carries data-zh; the English original is
+       cached on first switch so the two directions stay lossless. */
+    (function () {
+        var KEY = 'case-lang';
+        function apply(lang, save) {
+            var root = document.documentElement;
+            root.setAttribute('data-lang', lang);
+            root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            var nodes = document.querySelectorAll('[data-zh]');
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                if (el.innerHTML !== want) el.innerHTML = want;
+            }
+            var btns = document.querySelectorAll('.langsw button');
+            for (var j = 0; j < btns.length; j++) {
+                var on = btns[j].getAttribute('data-lang') === lang;
+                btns[j].classList.toggle('on', on);
+                btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+            }
+            if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+            document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+        }
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('.langsw button');
+            if (b) apply(b.getAttribute('data-lang'), true);
+        });
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        document.addEventListener('DOMContentLoaded', function () { if (saved === 'zh') apply('zh', false); });
+    })();
+    </script>
 </body>
 </html>

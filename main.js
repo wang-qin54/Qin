@@ -42,215 +42,134 @@
     }
     // ------------------------------------------------------------------
 
-    const chips = filterContainer.querySelectorAll('[data-filter]');
-    const recentGrid = document.querySelector('[data-filter-layout="recent"]');
-    const featuredGrid = document.querySelector('[data-filter-layout="featured"]');
-    const curatedGrid = document.querySelector('[data-filter-layout="all"]');
-    const timelineGrid = document.querySelector('[data-filter-layout="timeline"]');
-    const singleGrid = !!timelineGrid && !featuredGrid && !curatedGrid;
-    const hasFeaturedTag = !!timelineGrid && !!timelineGrid.querySelector('[data-tags*="featured"]');
-    const defaultFilter = featuredGrid || hasFeaturedTag ? 'featured' : 'all';
+    // Each tab shows the cards whose data-tags include it. Others swaps the grid
+    // for a year rail built from the same cards. Cards sit in timeline order.
+    const grid = document.querySelector('[data-filter-layout="timeline"]');
+    const timeline = document.querySelector('[data-timeline]');
+    const chips = Array.from(filterContainer.querySelectorAll('[data-filter]'));
+    const DEFAULT = 'featured';
+    const TIMELINE_TAB = 'others';
+    const LEGACY = { crypto: 'finance', fintech: 'finance', all: 'others', research: 'others', academia: 'others' };
+    let focus = DEFAULT;
 
-    const updateSectionVisibility = (root) => {
-      if (!root) return;
+    const tagsOf = (card) =>
+      (card.getAttribute('data-tags') || '').toLowerCase().split(',').map((t) => t.trim()).filter(Boolean);
 
-      let firstVisibleHeading = true;
+    // "2019–20" files under 2020, matching the newest-first order of the cards.
+    const yearOf = (card) => {
+      const caption = card.querySelector('.caption');
+      const m = caption && caption.textContent.match(/(\d{4})(?:\s*[–-]\s*(\d{2,4}))?/);
+      if (!m) return null;
+      const start = Number(m[1]);
+      if (!m[2]) return start;
+      return m[2].length === 4 ? Number(m[2]) : Math.floor(start / 100) * 100 + Number(m[2]);
+    };
 
-      root.querySelectorAll('[data-filter-section]').forEach((heading) => {
-        let next = heading.nextElementSibling;
-        let anyVisible = false;
-        const boundElements = [];
+    const buildTimeline = () => {
+      if (!timeline || !grid) return;
+      const groups = new Map();
+      grid.querySelectorAll('[data-tags]').forEach((card) => {
+        if (!tagsOf(card).includes(TIMELINE_TAB)) return;
+        const year = yearOf(card);
+        if (!groups.has(year)) groups.set(year, []);
+        groups.get(year).push(card);
+      });
 
-        while (next && !next.hasAttribute('data-filter-section')) {
-          if (next.classList.contains('work-section-intro')) {
-            boundElements.push(next);
+      const list = document.createElement('ol');
+      list.className = 'tl__years';
+      [...groups].sort((a, b) => (b[0] || 0) - (a[0] || 0)).forEach(([year, cards]) => {
+        const row = document.createElement('li');
+        row.className = 'tl__year';
+        row.innerHTML = `<div class="tl__marker"><span class="tl__label">${year}</span><span class="tl__count" data-zh="${cards.length} 个项目">${cards.length} ${cards.length === 1 ? 'project' : 'projects'}</span></div><div class="tl__items"></div>`;
+        const items = row.querySelector('.tl__items');
+        cards.forEach((card) => {
+          const item = document.createElement('a');
+          item.className = 'tl-item';
+          item.href = card.getAttribute('href');
+          const img = card.querySelector('.coverimg');
+          if (img) {
+            const thumb = img.cloneNode(false);
+            thumb.className = 'tl-item__thumb';
+            thumb.loading = 'lazy';
+            item.appendChild(thumb);
           }
-          if (next.hasAttribute('data-tags') && !next.hidden) {
-            anyVisible = true;
-          }
-          next = next.nextElementSibling;
-        }
-
-        heading.hidden = !anyVisible;
-        heading.classList.toggle('section-title--first-visible', anyVisible && firstVisibleHeading);
-        if (anyVisible) firstVisibleHeading = false;
-
-        boundElements.forEach((el) => {
-          el.hidden = !anyVisible;
+          const body = document.createElement('div');
+          body.className = 'tl-item__body';
+          [['.caption', 'tl-item__meta'], ['.card-title', 'tl-item__title'], ['.description', 'tl-item__desc'], ['.tags', 'tl-item__tags']].forEach(([sel, cls]) => {
+            const src = card.querySelector(sel);
+            if (!src) return;
+            const copy = src.cloneNode(true);
+            copy.classList.add(cls);
+            // The rail already shows a single year; keep only ranges such as "2019–20".
+            if (cls === 'tl-item__meta') {
+              const strip = (html) => html.replace(new RegExp(`^\\s*${year}\\s*(<span class="dot"[^>]*></span>)?\\s*`), '');
+              copy.innerHTML = strip(copy.innerHTML);
+              if (copy.hasAttribute('data-zh')) copy.setAttribute('data-zh', strip(copy.getAttribute('data-zh')));
+              if (!copy.textContent.trim()) return;
+            }
+            body.appendChild(copy);
+          });
+          item.appendChild(body);
+          item.insertAdjacentHTML('beforeend', '<span class="tl-item__arrow" aria-hidden="true">→</span>');
+          items.appendChild(item);
         });
+        list.appendChild(row);
       });
+      timeline.appendChild(list);
     };
 
-    // Earlier-work cards stay compact (span-3). In the flat filtered grid we
-    // tag the first visible small card so CSS can break it onto its own row,
-    // keeping the cluster from stranding beside a half-width card.
-    const markEarlierWorkRowStart = (root) => {
-      if (!root) return;
-      root.querySelectorAll('.card-small--row-start').forEach((el) =>
-        el.classList.remove('card-small--row-start')
-      );
-      const firstVisibleSmall = Array.from(
-        root.querySelectorAll('.card-small')
-      ).find((el) => !el.hidden);
-      if (firstVisibleSmall) firstVisibleSmall.classList.add('card-small--row-start');
+    const markEarlierWorkRowStart = () => {
+      grid.querySelectorAll('.card-small--row-start').forEach((el) => el.classList.remove('card-small--row-start'));
+      const firstSmall = Array.from(grid.querySelectorAll('.card-small')).find((el) => !el.hidden);
+      if (firstSmall) firstSmall.classList.add('card-small--row-start');
     };
 
-    const updateEarlierWorkLabel = (root, { forceShow } = {}) => {
-      if (!root) return;
-      const heading = root.querySelector('[data-earlier-work-section]');
-      const intro = root.querySelector('[data-earlier-work-intro]');
-      if (!heading) return;
-
-      const anyVisibleSmall = Array.from(root.querySelectorAll('.card-small')).some(
-        (el) => !el.hidden
-      );
-      const show = forceShow === undefined ? anyVisibleSmall : forceShow;
-      heading.hidden = !show;
-      if (intro) intro.hidden = !show;
-
-      if (show) {
-        const anyVisibleLarge = Array.from(root.querySelectorAll('a.card[data-tags]')).some(
-          (el) => !el.hidden
-        );
-        heading.classList.toggle('section-title--first-visible', !anyVisibleLarge);
-      } else {
-        heading.classList.remove('section-title--first-visible');
-      }
-    };
-
-    const applyFilter = (filter) => {
-      if (filter === 'recent') filter = 'all';
-      const isAll = filter === 'all';
-      const isFeatured = filter === 'featured';
-      const isRecent = false;
-
-      if (singleGrid) {
-        timelineGrid.hidden = false;
-        timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
-          card.style.order = isFeatured ? card.getAttribute('data-featured-order') || '' : '';
-        });
-        if (isAll) {
-          timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
-            card.hidden = false;
-          });
-          timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
-            h.hidden = false;
-            h.classList.remove('section-title--first-visible');
-          });
-          timelineGrid.querySelectorAll('[data-earlier-work-intro]').forEach((intro) => {
-            intro.hidden = false;
-          });
-          updateSectionVisibility(timelineGrid);
-          markEarlierWorkRowStart(timelineGrid);
-          return;
-        }
-      }
-
-      if (recentGrid) recentGrid.hidden = !isRecent;
-      if (featuredGrid) featuredGrid.hidden = !isFeatured;
-      if (curatedGrid) curatedGrid.hidden = !isAll;
-      if (timelineGrid && !singleGrid) timelineGrid.hidden = isAll || isFeatured || isRecent;
-
-      if (!singleGrid && (isAll || isFeatured || isRecent || !timelineGrid)) {
-        // Restore section headings for next time timeline is used
-        if (timelineGrid) {
-          timelineGrid.querySelectorAll('[data-filter-section]').forEach((h) => {
-            h.hidden = false;
-            h.classList.remove('section-title--first-visible');
-          });
-          timelineGrid.querySelectorAll('[data-earlier-work-intro]').forEach((intro) => {
-            intro.hidden = false;
-          });
-          updateSectionVisibility(timelineGrid);
-          markEarlierWorkRowStart(timelineGrid);
-        }
-        return;
-      }
-
-      // Hide category headings — filtered view is a flat card grid
-      timelineGrid.querySelectorAll('[data-filter-section]:not([data-earlier-work-section])').forEach((h) => {
-        h.hidden = true;
-        h.classList.remove('section-title--first-visible');
-        const intro = h.nextElementSibling;
-        if (intro && intro.classList.contains('work-section-intro')) intro.hidden = true;
+    const render = () => {
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === focus)));
+      const showTimeline = focus === TIMELINE_TAB && !!timeline;
+      if (timeline) timeline.hidden = !showTimeline;
+      grid.hidden = showTimeline;
+      grid.querySelectorAll('[data-tags]').forEach((card) => {
+        card.hidden = !tagsOf(card).includes(focus);
+        const slot = (card.getAttribute('data-order') || '').split(/\s+/).find((pair) => pair.startsWith(`${focus}:`));
+        card.style.order = slot ? slot.split(':')[1] : '';
       });
-
-      timelineGrid.querySelectorAll('[data-tags]').forEach((card) => {
-        const tags = (card.getAttribute('data-tags') || '')
-          .toLowerCase()
-          .split(',')
-          .map((t) => t.trim());
-        card.hidden = !tags.includes(filter);
-      });
-
-      updateEarlierWorkLabel(timelineGrid);
-      markEarlierWorkRowStart(timelineGrid);
+      markEarlierWorkRowStart();
     };
 
-    const setActiveFilter = (filter) => {
-      const normalized = (filter || defaultFilter).toLowerCase();
-      const chip = Array.from(chips).find(
-        (c) => c.getAttribute('data-filter') === normalized
-      );
-      if (!chip) return;
-
-      chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
-      chip.setAttribute('aria-pressed', 'true');
-      applyFilter(normalized);
+    const writeUrl = () => {
+      const query = focus === DEFAULT ? '' : `?filter=${focus}`;
+      window.history.replaceState(null, '', window.location.pathname + query);
     };
 
-    const getFilterFromUrl = () => {
-      const fromQuery = new URLSearchParams(window.location.search)
-        .get('filter')
-        ?.toLowerCase();
-      if (fromQuery) return fromQuery;
-
-      // Legacy hash URLs (?filter=crypto#crypto) — read once, no scroll.
-      const fromHash = window.location.hash.replace(/^#/, '').toLowerCase();
-      return fromHash || '';
+    const readUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      let next = (params.get('filter') || window.location.hash.replace(/^#/, '') || DEFAULT).toLowerCase();
+      if (LEGACY[next]) next = LEGACY[next];
+      focus = chips.some((c) => c.getAttribute('data-filter') === next) ? next : DEFAULT;
     };
 
-    const applyFilterFromUrl = () => {
-      const filter = getFilterFromUrl();
-      if (!filter) return false;
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      focus = chip.getAttribute('data-filter');
+      render();
+      writeUrl();
+      const target = focus === TIMELINE_TAB && timeline ? timeline : grid;
+      const top = target.getBoundingClientRect().top + window.scrollY - filterContainer.offsetHeight - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 65) - 24;
+      if (window.scrollY > top) window.scrollTo(0, Math.max(0, top));
+    }));
 
-      const chip = Array.from(chips).find(
-        (c) => c.getAttribute('data-filter') === filter
-      );
-      if (!chip) return false;
-
-      setActiveFilter(filter);
-      if (filter !== defaultFilter) updateFilterUrl(filter);
-      return true;
+    const init = () => {
+      readUrl();
+      render();
+      writeUrl();
     };
 
-    const updateFilterUrl = (filter) => {
-      const path = window.location.pathname;
-      if (filter && filter !== defaultFilter) {
-        window.history.replaceState(null, '', `${path}?filter=${filter}`);
-      } else {
-        window.history.replaceState(null, '', path);
-      }
-    };
-
-    chips.forEach((chip) => {
-      chip.addEventListener('click', () => {
-        const filter = chip.getAttribute('data-filter');
-        setActiveFilter(filter);
-        updateFilterUrl(filter);
-        window.scrollTo(0, 0);
-      });
-    });
-
-    const initFiltersFromUrl = () => {
-      if (!applyFilterFromUrl()) setActiveFilter(defaultFilter);
-    };
-
-    initFiltersFromUrl();
-    window.addEventListener('popstate', () => initFiltersFromUrl());
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) initFiltersFromUrl();
-    });
+    if (grid) {
+      buildTimeline();
+      init();
+      window.addEventListener('popstate', init);
+      window.addEventListener('pageshow', (event) => { if (event.persisted) init(); });
+    }
   }
 
   // ----------------------------------------------------------------

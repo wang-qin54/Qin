@@ -193,6 +193,28 @@
 html[data-lang="zh"] .case-hero .page-title-content h2 { letter-spacing: -0.01em; line-height: 1.35; }
 html[data-lang="zh"] .case-hero .as-meta dt { font-size: 12px; letter-spacing: 0.06em; }
 
+/* Bleed variant: the image sits --hero-top below the title's top edge, fills the column width,
+   and runs past the hero's bottom edge, where .page-title-box clips it */
+@media (min-width: 1101px) {
+  .case-hero--fill .grid { grid-template-columns: calc(520px + var(--space-5)) minmax(0, 1fr); align-items: stretch; column-gap: 0; }
+  .case-hero--fill .title-img { align-self: stretch; }
+  .case-hero--fill .page-title-content { padding-bottom: 96px; }
+  /* --hero-img-pad: the image's transparent shadow padding on each side, as a fraction of its width.
+     The visible screens then start --hero-gap after the text and --hero-top below the title's top. */
+  .case-hero--fill .title-img { --hero-gap: 64px; --hero-top: 40px; }
+  .case-hero--fill .title-img img {
+    --w: calc((100% - var(--hero-gap)) / (1 - 2 * var(--hero-img-pad, 0)));
+    position: absolute;
+    top: var(--hero-top);
+    left: calc(var(--hero-gap) - var(--w) * var(--hero-img-pad, 0));
+    width: var(--w);
+    max-width: none;
+    height: auto;
+    max-height: none;
+    margin-top: calc(var(--w) * var(--hero-img-pad, 0) * -1);
+  }
+}
+
 @media (max-width: 1100px) {
   .case-hero .grid {
     max-width: var(--container-narrow);
@@ -205,6 +227,7 @@ html[data-lang="zh"] .case-hero .as-meta dt { font-size: 12px; letter-spacing: 0
   .case-hero .title-img { grid-column: 1 / -1; justify-content: center; width: 100%; margin: 0 0 -1px; }
   .case-hero .title-img img,
   .case-hero .title-img video { max-height: 260px; object-position: center bottom; }
+  .case-hero--fill .title-img img { max-height: 420px; }
 }
 @media (max-width: 720px) {
   .page-title-box.case-hero { padding-left: 16px; padding-right: 16px; }

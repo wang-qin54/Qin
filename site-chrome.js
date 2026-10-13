@@ -169,7 +169,10 @@
     '.lbx::backdrop { background: rgba(10, 10, 12, 0.86); }',
     '.lbx[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; animation: lbx-in 0.18s ease-out; }',
     '@keyframes lbx-in { from { opacity: 0; } to { opacity: 1; } }',
-    '.lbx__stage { flex: 1 1 auto; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 64px 24px 16px; box-sizing: border-box; overflow: auto; }',
+    '.lbx__marks { position: absolute; pointer-events: none; }',
+    '.lbx__marks:empty { display: none; }',
+    '.lbx__marks .gx-box { border-width: 3px; border-radius: 8px; }',
+    '.lbx__stage { position: relative; flex: 1 1 auto; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 64px 24px 16px; box-sizing: border-box; overflow: auto; }',
     '.lbx__img { display: block; max-width: min(100%, 1600px); max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 8px; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45); cursor: zoom-out; }',
     '.lbx--tall .lbx__stage { align-items: flex-start; }',
     '.lbx--tall .lbx__img { max-height: none; width: min(100%, 1100px); }',
@@ -192,7 +195,7 @@
 
   const CHEVRON = (d) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
 
-  let dlg, imgEl, capEl, countEl, prevBtn, nextBtn, lastFocus;
+  let dlg, imgEl, marksEl, capEl, countEl, prevBtn, nextBtn, lastFocus;
   let group = [];
   let at = -1;
 
@@ -212,10 +215,13 @@
       '<button type="button" class="lbx__nav lbx__nav--prev" aria-label="Previous image">' + CHEVRON('M15 5l-7 7 7 7') + '</button>' +
       '<button type="button" class="lbx__nav lbx__nav--next" aria-label="Next image">' + CHEVRON('M9 5l7 7-7 7') + '</button>' +
       '<p class="lbx__count" aria-live="polite"></p>' +
-      '<div class="lbx__stage"><img class="lbx__img" alt=""></div>' +
+      '<div class="lbx__stage"><img class="lbx__img" alt=""><div class="lbx__marks" aria-hidden="true"></div></div>' +
       '<p class="lbx__cap"></p>';
     document.body.appendChild(dlg);
     imgEl = dlg.querySelector('.lbx__img');
+    marksEl = dlg.querySelector('.lbx__marks');
+    imgEl.addEventListener('load', placeMarks);
+    window.addEventListener('resize', placeMarks);
     capEl = dlg.querySelector('.lbx__cap');
     countEl = dlg.querySelector('.lbx__count');
     prevBtn = dlg.querySelector('.lbx__nav--prev');
@@ -236,6 +242,7 @@
     dlg.addEventListener('close', () => {
       document.documentElement.classList.remove('lbx-lock');
       imgEl.removeAttribute('src');
+      marksEl.textContent = '';
       const back = group[at] || lastFocus;
       if (back && document.contains(back)) back.focus({ preventScroll: true });
       group = [];
@@ -246,7 +253,14 @@
   function captionFor(img) {
     const fig = img.closest('figure');
     const fc = fig && fig.querySelector('figcaption');
-    if (fc && fc.textContent.trim()) return fc.textContent.trim();
+    if (fc && fc.textContent.trim()) {
+      const lead = fc.firstElementChild;
+      if (lead && lead.tagName === 'B' && fc.firstChild === lead) {
+        const rest = fc.textContent.slice(lead.textContent.length).trim();
+        return rest ? lead.textContent.trim() + ': ' + rest : lead.textContent.trim();
+      }
+      return fc.textContent.trim();
+    }
     const next = (img.closest('a') || img).parentElement;
     const sib = next && next.nextElementSibling;
     if (sib && /cap/i.test(sib.className) && sib.textContent.trim().length < 400) return sib.textContent.trim();
@@ -288,6 +302,14 @@
     imgEl.src = src || img.currentSrc || img.src;
     imgEl.alt = img.alt || '';
     capEl.textContent = captionFor(img);
+    marksEl.textContent = '';
+    marksEl.className = 'lbx__marks' + (img.closest('.is-before') ? ' is-before' : '');
+    if (img.parentElement) {
+      img.parentElement.querySelectorAll(':scope > .gx-box, :scope > [data-lbx-mark]').forEach((m) => {
+        marksEl.appendChild(m.cloneNode(true));
+      });
+    }
+    placeMarks();
     countEl.textContent = group.length > 1 ? (i + 1) + ' / ' + group.length : '';
     const lost = document.activeElement;
     prevBtn.disabled = i <= 0;
@@ -298,6 +320,15 @@
 
   function close() {
     if (dlg && dlg.open) dlg.close();
+  }
+
+  function placeMarks() {
+    if (!marksEl || !marksEl.firstChild) return;
+    const s = marksEl.style;
+    s.left = imgEl.offsetLeft + 'px';
+    s.top = imgEl.offsetTop + 'px';
+    s.width = imgEl.offsetWidth + 'px';
+    s.height = imgEl.offsetHeight + 'px';
   }
 
   function imageLink(img) {

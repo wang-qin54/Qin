@@ -26,51 +26,51 @@
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch current="about"></site-header>
 
     <main>
         <section class="section">
             <div class="container">
                 <div style="display:grid; grid-template-columns: 1.4fr 1fr; gap: 64px; align-items: start;" class="about-grid">
                     <div>
-                        <span class="eyebrow">About</span>
-                        <h1 class="display" style="font-size:clamp(36px,4.5vw,56px); margin-bottom:24px;">
+                        <span class="eyebrow" data-zh="关于">About</span>
+                        <h1 class="display" style="font-size:clamp(36px,4.5vw,56px); margin-bottom:24px;" data-zh="我帮助加密与金融团队，把复杂产品做成&lt;em&gt;清晰、让人有把握&lt;/em&gt;的体验。">
                             I help crypto and financial teams turn complex products into <em>clear, confident</em> experiences.
                         </h1>
-                        <p style="font-size:17px; line-height:1.6; color:var(--text-secondary); margin-bottom:28px;">
+                        <p style="font-size:17px; line-height:1.6; color:var(--text-secondary); margin-bottom:28px;" data-zh="我是 Qin，常驻香港的产品设计师，6 年以上经验，覆盖加密交易所、资产管理和受监管的金融工具。以研究驱动，关注结果，观点明确但不张扬。">
                             I'm Qin — a senior product designer in Hong Kong with 6+ years across crypto exchanges, asset management, and regulated financial tools. Research-led, outcome-focused, quietly opinionated.
                         </p>
 
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px 32px; margin-bottom:32px; font-size:14px; line-height:1.5; color:var(--text-secondary);">
-                            <div><strong style="color:var(--text-primary)">Product areas</strong><br>Asset management · KYB/KYC · AML · on-chain risk · internal tools</div>
-                            <div><strong style="color:var(--text-primary)">Craft</strong><br>End-to-end UX · design systems · information architecture · data-heavy UI</div>
-                            <div><strong style="color:var(--text-primary)">Research</strong><br>User interviews · usability testing · live observation · comparative testing</div>
-                            <div><strong style="color:var(--text-primary)">Leadership</strong><br>Team of 3 · critique rituals · hiring rubrics · measurement frameworks</div>
+                            <div data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;产品方向&lt;/strong&gt;&lt;br&gt;资产管理 · KYB/KYC · 反洗钱 · 链上风控 · 内部工具"><strong style="color:var(--text-primary)">Product areas</strong><br>Asset management · KYB/KYC · AML · on-chain risk · internal tools</div>
+                            <div data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;设计能力&lt;/strong&gt;&lt;br&gt;端到端 UX · 设计系统 · 信息架构 · 数据密集型界面"><strong style="color:var(--text-primary)">Craft</strong><br>End-to-end UX · design systems · information architecture · data-heavy UI</div>
+                            <div data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;研究&lt;/strong&gt;&lt;br&gt;用户访谈 · 可用性测试 · 现场观察 · 对比测试"><strong style="color:var(--text-primary)">Research</strong><br>User interviews · usability testing · live observation · comparative testing</div>
+                            <div data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;团队与管理&lt;/strong&gt;&lt;br&gt;3 人团队 · 设计评审机制 · 招聘标准 · 度量框架"><strong style="color:var(--text-primary)">Leadership</strong><br>Team of 3 · critique rituals · hiring rubrics · measurement frameworks</div>
                         </div>
 
                         <div class="cta-row" style="margin-bottom:48px; flex-wrap:wrap;">
-                            <span class="email-display" style="display:inline-flex; align-items:center; gap:8px; padding:8px 14px; font-size:14px; font-family:var(--font-sans); color:var(--text-primary); background:var(--bg-muted); border:1px solid var(--border); border-radius:var(--radius-pill); cursor:pointer;" onclick="navigator.clipboard.writeText('54wangqin1995@gmail.com');this.querySelector('.email-display__hint').textContent='Copied!';setTimeout(()=>this.querySelector('.email-display__hint').textContent='Copy',1500)" title="Click to copy email">
+                            <span class="email-display" style="display:inline-flex; align-items:center; gap:8px; padding:8px 14px; font-size:14px; font-family:var(--font-sans); color:var(--text-primary); background:var(--bg-muted); border:1px solid var(--border); border-radius:var(--radius-pill); cursor:pointer;" onclick="navigator.clipboard.writeText('54wangqin1995@gmail.com');var h=this.querySelector('.email-display__hint');var z=document.documentElement.getAttribute('data-lang')==='zh';h.textContent=z?'已复制':'Copied!';setTimeout(function(){h.textContent=z?'复制':'Copy';},1500)" title="Click to copy email">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                                 54wangqin1995@gmail.com
-                                <span class="email-display__hint" style="font-size:12px; color:var(--text-tertiary); margin-left:4px;">Copy</span>
+                                <span class="email-display__hint" style="font-size:12px; color:var(--text-tertiary); margin-left:4px;" data-zh="复制">Copy</span>
                             </span>
                             <a class="btn btn--ghost" href="resume.html" style="gap:6px;">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                                Resume
+                                <span data-zh="简历">Resume</span>
                             </a>
                             <a class="btn btn--ghost" href="https://www.linkedin.com/in/qinwangux/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         </div>
                     </div>
 
                     <aside style="background:var(--bg-subtle); border:1px solid var(--border); border-radius:var(--radius-md); padding:32px;">
-                        <img src="resources/images/aboutme-headerimg.jpg" alt="Portrait of Qin Wang" style="border-radius:var(--radius-md); margin-bottom:24px;">
-                        <h3 style="font-size:14px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:12px;">At a glance</h3>
+                        <img src="resources/images/aboutme-headerimg.jpg" alt="Portrait of Qin Wang" style="border-radius:var(--radius-md); margin-bottom:24px;" data-zh-alt="Qin Wang 肖像照">
+                        <h3 style="font-size:14px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.12em; margin-bottom:12px;" data-zh="一览">At a glance</h3>
                         <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; font-size:14px; color:var(--text-secondary);">
-                            <li><strong style="color:var(--text-primary)">Now</strong> · Hong Kong · Designing asset-management and market-data products</li>
-                            <li><strong style="color:var(--text-primary)">Focus</strong> · Crypto · financial products · research-led UX</li>
-                            <li><strong style="color:var(--text-primary)">Previously</strong> · OKX · Microsoft</li>
-                            <li><strong style="color:var(--text-primary)">Education</strong> · MSc HCI, UCL · BA Product Design, HUST</li>
-                            <li><strong style="color:var(--text-primary)">Research</strong> · CityU HK</li>
+                            <li data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;现在&lt;/strong&gt; · 香港 · 设计资产管理与市场数据产品"><strong style="color:var(--text-primary)">Now</strong> · Hong Kong · Designing asset-management and market-data products</li>
+                            <li data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;方向&lt;/strong&gt; · 加密 · 金融产品 · 研究驱动的 UX"><strong style="color:var(--text-primary)">Focus</strong> · Crypto · financial products · research-led UX</li>
+                            <li data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;曾任职&lt;/strong&gt; · OKX · Microsoft"><strong style="color:var(--text-primary)">Previously</strong> · OKX · Microsoft</li>
+                            <li data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;教育&lt;/strong&gt; · 伦敦大学学院 HCI 硕士 · 华中科大产品设计学士"><strong style="color:var(--text-primary)">Education</strong> · MSc HCI, UCL · BA Product Design, HUST</li>
+                            <li data-zh="&lt;strong style=&quot;color:var(--text-primary)&quot;&gt;研究&lt;/strong&gt; · 香港城市大学"><strong style="color:var(--text-primary)">Research</strong> · CityU HK</li>
                         </ul>
                     </aside>
                 </div>
@@ -79,48 +79,48 @@
 
         <section class="section--tight" style="border-top:1px solid var(--border); background:var(--bg-subtle);">
             <div class="container">
-                <span class="eyebrow">Career</span>
-                <h2 class="section-title" style="margin-bottom:32px;">A short timeline</h2>
+                <span class="eyebrow" data-zh="经历">Career</span>
+                <h2 class="section-title" style="margin-bottom:32px;" data-zh="简要时间线">A short timeline</h2>
 
                 <ol style="list-style:none; padding:0; margin:0; display:grid; gap:24px; max-width:760px;">
                     <li style="display:grid; grid-template-columns: 120px 1fr; gap:24px; padding-bottom:24px; border-bottom:1px solid var(--border);">
-                        <div style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;">2025 — Now</div>
+                        <div class="about-when" style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;" data-zh="2025 — 至今">2025 — Now</div>
                         <div>
-                            <h3 style="margin-bottom:4px;">Staff product designer · Avenir Group</h3>
-                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;"><em>Crypto exchange · asset management · market data · web & mobile</em></p>
-                            <p style="font-size:15px; color:var(--text-secondary); margin:0;">Designed and shipped asset-management and market-data experiences across web and mobile. Built a unified portfolio experience across crypto and traditional financial products — now live in controlled rollout.</p>
+                            <h3 style="margin-bottom:4px;" data-zh="Staff 产品设计师 · Avenir Group">Staff product designer · Avenir Group</h3>
+                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;" data-zh="&lt;em&gt;加密交易所 · 资产管理 · 市场数据 · Web 与移动端&lt;/em&gt;"><em>Crypto exchange · asset management · market data · web & mobile</em></p>
+                            <p style="font-size:15px; color:var(--text-secondary); margin:0;" data-zh="在 Web 与移动端设计并交付资产管理与市场数据体验。搭建覆盖加密与传统金融产品的统一资产视图，目前已在小范围上线。">Designed and shipped asset-management and market-data experiences across web and mobile. Built a unified portfolio experience across crypto and traditional financial products — now live in controlled rollout.</p>
                         </div>
                     </li>
                     <li style="display:grid; grid-template-columns: 120px 1fr; gap:24px; padding-bottom:24px; border-bottom:1px solid var(--border);">
-                        <div style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;">2024 — 2025</div>
+                        <div class="about-when" style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;" data-zh="2024 — 2025">2024 — 2025</div>
                         <div>
-                            <h3 style="margin-bottom:4px;">Senior / lead UI/UX designer · KuCoin</h3>
-                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;"><em>Crypto exchange · KYC/KYB · compliance · internal tools · design system</em></p>
-                            <p style="font-size:15px; color:var(--text-secondary); margin:0;">Led KYC and KYB launches for new jurisdictions, institutional onboarding, and 0&nbsp;→&nbsp;1 internal systems for compliance and customer service. Led a team of three designers and built a shared design system.</p>
+                            <h3 style="margin-bottom:4px;" data-zh="高级 / 主 UI/UX 设计师 · KuCoin">Senior / lead UI/UX designer · KuCoin</h3>
+                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;" data-zh="&lt;em&gt;加密交易所 · KYC/KYB · 合规 · 内部工具 · 设计系统&lt;/em&gt;"><em>Crypto exchange · KYC/KYB · compliance · internal tools · design system</em></p>
+                            <p style="font-size:15px; color:var(--text-secondary); margin:0;" data-zh="主导新地区的 KYC 与 KYB 上线、机构开户，以及合规与客服相关的 0→1 内部系统。带领 3 名设计师，并搭建共享设计系统。">Led KYC and KYB launches for new jurisdictions, institutional onboarding, and 0&nbsp;→&nbsp;1 internal systems for compliance and customer service. Led a team of three designers and built a shared design system.</p>
                         </div>
                     </li>
                     <li style="display:grid; grid-template-columns: 120px 1fr; gap:24px; padding-bottom:24px; border-bottom:1px solid var(--border);">
-                        <div style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;">2023 — 2024</div>
+                        <div class="about-when" style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;" data-zh="2023 — 2024">2023 — 2024</div>
                         <div>
-                            <h3 style="margin-bottom:4px;">Product designer · OKX</h3>
-                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;"><em>Crypto compliance · on-chain AML · risk analysis · B2B tools</em></p>
-                            <p style="font-size:15px; color:var(--text-secondary); margin:0;">Designed multi-chain AML monitoring and risk-analysis workflows, combining analyst research with event-tracking plans to guide the product roadmap.</p>
+                            <h3 style="margin-bottom:4px;" data-zh="产品设计师 · OKX">Product designer · OKX</h3>
+                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;" data-zh="&lt;em&gt;加密合规 · 链上反洗钱 · 风险分析 · B2B 工具&lt;/em&gt;"><em>Crypto compliance · on-chain AML · risk analysis · B2B tools</em></p>
+                            <p style="font-size:15px; color:var(--text-secondary); margin:0;" data-zh="设计多链反洗钱监控与风险分析工作流，结合分析师研究与埋点方案，支撑产品路线图。">Designed multi-chain AML monitoring and risk-analysis workflows, combining analyst research with event-tracking plans to guide the product roadmap.</p>
                         </div>
                     </li>
                     <li style="display:grid; grid-template-columns: 120px 1fr; gap:24px; padding-bottom:24px; border-bottom:1px solid var(--border);">
-                        <div style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;">2020 — 2022</div>
+                        <div class="about-when" style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;" data-zh="2020 — 2022">2020 — 2022</div>
                         <div>
-                            <h3 style="margin-bottom:4px;">UI/UX designer · Quantifeed</h3>
-                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;"><em>Wealth management · portfolio advisory · fintech SaaS · B2B2C</em></p>
-                            <p style="font-size:15px; color:var(--text-secondary); margin:0;">Designed discretionary portfolio-management workflows for major financial institutions. Ran usability testing and design workshops, and planned discovery research for a new advisor product.</p>
+                            <h3 style="margin-bottom:4px;" data-zh="UI/UX 设计师 · Quantifeed">UI/UX designer · Quantifeed</h3>
+                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;" data-zh="&lt;em&gt;财富管理 · 组合投顾 · 金融科技 SaaS · B2B2C&lt;/em&gt;"><em>Wealth management · portfolio advisory · fintech SaaS · B2B2C</em></p>
+                            <p style="font-size:15px; color:var(--text-secondary); margin:0;" data-zh="为大型金融机构设计全权委托组合管理工作流；开展可用性测试与设计工作坊，并为新的投顾产品规划探索性研究。">Designed discretionary portfolio-management workflows for major financial institutions. Ran usability testing and design workshops, and planned discovery research for a new advisor product.</p>
                         </div>
                     </li>
                     <li style="display:grid; grid-template-columns: 120px 1fr; gap:24px;">
-                        <div style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;">Earlier</div>
+                        <div class="about-when" style="font-size:13px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.1em;" data-zh="更早">Earlier</div>
                         <div>
-                            <h3 style="margin-bottom:4px;">UX designer · Microsoft · Research assistant · CityU HK</h3>
-                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;"><em>Ads platform · HCI research · 3D interaction · MSc UCL</em></p>
-                            <p style="font-size:15px; color:var(--text-secondary); margin:0;">Designed Microsoft Ads experiences and explored interaction with 3D data through prototypes and elicitation studies. MSc in Human-Computer Interaction from UCL.</p>
+                            <h3 style="margin-bottom:4px;" data-zh="UX 设计师 · Microsoft · 研究助理 · 香港城市大学">UX designer · Microsoft · Research assistant · CityU HK</h3>
+                            <p style="font-size:13px; color:var(--text-tertiary); margin:0 0 6px;" data-zh="&lt;em&gt;广告平台 · 人机交互研究 · 3D 交互 · 伦敦大学学院 HCI 硕士&lt;/em&gt;"><em>Ads platform · HCI research · 3D interaction · MSc UCL</em></p>
+                            <p style="font-size:15px; color:var(--text-secondary); margin:0;" data-zh="设计 Microsoft Ads 相关体验；通过原型与诱发式研究探索 3D 数据交互。伦敦大学学院人机交互硕士。">Designed Microsoft Ads experiences and explored interaction with 3D data through prototypes and elicitation studies. MSc in Human-Computer Interaction from UCL.</p>
                         </div>
                     </li>
                 </ol>
@@ -130,12 +130,12 @@
         <section class="section">
             <div class="container">
                 <div style="display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px; background:var(--text-primary); color:var(--text-inverse); border-radius:var(--radius-lg); gap:16px;" class="cta-block">
-                    <h2 style="color:var(--text-inverse); font-size:28px; margin-bottom:0; letter-spacing:-0.02em;">Have a problem worth working on?</h2>
-                    <p style="color:rgba(255,255,255,0.7); font-size:16px; margin:0;">Open to senior product design roles and conversations about crypto, trading, and financial-product UX.</p>
-                    <span style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:15px; font-family:var(--font-sans); color:var(--text-primary); background:white; border-radius:var(--radius-pill); cursor:pointer; margin-top:8px;" onclick="navigator.clipboard.writeText('54wangqin1995@gmail.com');this.querySelector('.cta-copy-hint').textContent='Copied!';setTimeout(()=>this.querySelector('.cta-copy-hint').textContent='Copy',1500)" title="Click to copy email">
+                    <h2 style="color:var(--text-inverse); font-size:28px; margin-bottom:0; letter-spacing:-0.02em;" data-zh="有一个值得投入的问题？">Have a problem worth working on?</h2>
+                    <p style="color:rgba(255,255,255,0.7); font-size:16px; margin:0;" data-zh="开放资深产品设计师职位，也欢迎聊聊加密、交易与金融产品 UX。">Open to senior product design roles and conversations about crypto, trading, and financial-product UX.</p>
+                    <span style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:15px; font-family:var(--font-sans); color:var(--text-primary); background:white; border-radius:var(--radius-pill); cursor:pointer; margin-top:8px;" onclick="navigator.clipboard.writeText('54wangqin1995@gmail.com');var h=this.querySelector('.cta-copy-hint');var z=document.documentElement.getAttribute('data-lang')==='zh';h.textContent=z?'已复制':'Copied!';setTimeout(function(){h.textContent=z?'复制':'Copy';},1500)" title="Click to copy email">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         54wangqin1995@gmail.com
-                        <span class="cta-copy-hint" style="font-size:12px; color:var(--text-tertiary);">Copy</span>
+                        <span class="cta-copy-hint" style="font-size:12px; color:var(--text-tertiary);" data-zh="复制">Copy</span>
                     </span>
                 </div>
             </div>
@@ -144,7 +144,7 @@
 
     <footer class="site-footer">
         <div class="site-footer__inner">
-            <div class="site-footer__cta">
+            <div class="site-footer__cta" data-zh="正在寻找资深产品设计师职位：&lt;a href=&quot;mailto:54wangqin1995@gmail.com&quot;&gt;54wangqin1995@gmail.com&lt;/a&gt;">
                 Currently open to senior product design roles —
                 <a href="mailto:54wangqin1995@gmail.com">54wangqin1995@gmail.com</a>
             </div>
@@ -167,8 +167,51 @@
       @media (max-width: 640px) {
         ol li { grid-template-columns: 1fr !important; gap: 8px !important; }
       }
+      html[data-lang="zh"] .about-when,
+      html[data-lang="zh"] aside h3 { letter-spacing: 0.04em; text-transform: none; }
+      html[data-lang="zh"] .about-grid p,
+      html[data-lang="zh"] .about-grid li,
+      html[data-lang="zh"] ol li p { line-height: 1.75; letter-spacing: 0; }
     </style>
 
     <script src="main.js?v=17"></script>
+    <script>
+        (function () {
+            var KEY = 'case-lang';
+            function apply(lang, save) {
+                var root = document.documentElement;
+                root.setAttribute('data-lang', lang);
+                root.lang = lang === 'zh' ? 'zh-CN' : 'en';
+                var nodes = document.querySelectorAll('[data-zh]');
+                for (var i = 0; i < nodes.length; i++) {
+                    var el = nodes[i];
+                    if (!el.hasAttribute('data-en-html')) el.setAttribute('data-en-html', el.innerHTML);
+                    var want = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en-html');
+                    if (el.innerHTML !== want) el.innerHTML = want;
+                }
+                var imgs = document.querySelectorAll('img[data-zh-alt]');
+                for (var k = 0; k < imgs.length; k++) {
+                    var img = imgs[k];
+                    if (!img.hasAttribute('data-en-alt')) img.setAttribute('data-en-alt', img.alt);
+                    img.alt = lang === 'zh' ? img.getAttribute('data-zh-alt') : img.getAttribute('data-en-alt');
+                }
+                var btns = document.querySelectorAll('.langsw button');
+                for (var j = 0; j < btns.length; j++) {
+                    var on = btns[j].getAttribute('data-lang') === lang;
+                    btns[j].classList.toggle('on', on);
+                    btns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+                }
+                if (save) { try { localStorage.setItem(KEY, lang); } catch (e) {} }
+                document.dispatchEvent(new CustomEvent('case:lang', { detail: { lang: lang } }));
+            }
+            document.addEventListener('click', function (e) {
+                var b = e.target.closest && e.target.closest('.langsw button');
+                if (b) apply(b.getAttribute('data-lang'), true);
+            });
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            if (saved === 'zh') apply('zh', false);
+        })();
+    </script>
 </body>
 </html>

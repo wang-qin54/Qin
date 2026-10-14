@@ -998,17 +998,10 @@
         html[data-lang="zh"] main h2, html[data-lang="zh"] main h3 { letter-spacing: -0.01em; line-height: 1.35; }
         html[data-lang="zh"] .db-3p__k, html[data-lang="zh"] .db-3p__who, html[data-lang="zh"] .db-idea__n,
         html[data-lang="zh"] .db-ladder__y, html[data-lang="zh"] .db-fold__moved span, html[data-lang="zh"] .db-quotes span,
-        html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k, html[data-lang="zh"] .db-dec dt,
+        html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k,
         html[data-lang="zh"] .db-tro__k { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
 
 
-        .db-dec { margin: 0 0 var(--space-5); padding: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-        .db-dec > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); align-items: baseline; gap: var(--space-4); padding: 12px 18px; background: var(--bg-subtle); }
-        .db-dec > div + div { border-top: 1px solid var(--border); }
-        .db-dec > div.is-turn { background: var(--accent-subtle); }
-        .db-dec dt { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
-        .db-dec > div.is-turn dt { color: var(--accent); }
-        .db-dec dd { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-primary); }
 
         .db-tro { margin: var(--space-4) 0 0; }
         .db-tro__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -1027,8 +1020,6 @@
             .db-tro__row { grid-template-columns: 1fr; }
         }
         @media (max-width: 560px) {
-            .db-dec > div { padding: 12px 14px; }
-            .db-dec dd { font-size: 14px; }
             .one-col .db-tro p.db-tro__call, .one-col .db-tro p.db-tro__cost { grid-template-columns: 1fr; gap: 2px; }
         }
         html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
@@ -1187,11 +1178,6 @@
         <div class="anchor" id="dive-dashboard"></div>
         <span data-zh="第 1 步 / 共 5 步 · 共用仪表盘" class="db-kicker">Step 1 of 5 &middot; Shared dashboard</span>
         <h3 data-zh="一个账户仪表盘，三款产品共用" class="section">One account dashboard, shared by three products</h3>
-        <dl class="db-dec">
-            <div><dt data-zh="决策">Decision</dt><dd data-zh="三款产品共用一个仪表盘，按用户设不同默认值，而不是为每类用户各做一版。">One dashboard for all three products, with defaults per audience instead of a fork per audience.</dd></div>
-            <div><dt data-zh="证据">Evidence</dt><dd data-zh="和另外两位设计师开工作坊盘点模块，再请 5 位同事做游击式走查。">A module audit in a workshop with the other two designers, then a guerrilla walkthrough with 5 colleagues.</dd></div>
-            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="上线前改了两处：账户切换器和排序，各有 5 人中 4 人没找到。之后，这个仪表盘成为销售演示的一部分，那次演示帮助签下了 HSBC Hong Kong。">Two fixes before launch, the account switcher and sorting, each missed by 4 of 5. The dashboard was then part of the sales demo that brought HSBC Hong Kong on board.</dd></div>
-        </dl>
         <p data-zh="三款产品需要同一个新页面：展示客户的概要、资产配置、业绩和持仓。前期研究很少，客户截止日期已定。">Three products needed the same new page: a client&rsquo;s summary, allocation, performance and holdings. Research was thin and a client deadline was fixed.</p>
         <p data-zh="牵头 3 位设计师 · 1 名 PM，3 名前端工程师 · 1 个月" class="db-chapter-meta">Led across 3 designers &middot; 1 PM, 3 front-end engineers &middot; 1 month</p>
 
@@ -1417,11 +1403,6 @@
         <div class="anchor" id="dive-create"></div>
         <span data-zh="第 2 步 / 共 5 步 · 创建模型组合" class="db-kicker">Step 2 of 5 &middot; Create a model portfolio</span>
         <h3 data-zh="让创建流程不容易出错" class="section">Making portfolio creation hard to get wrong</h3>
-        <dl class="db-dec">
-            <div><dt data-zh="决策">Decision</dt><dd data-zh="把一张长表单拆成四个步骤，把详情页重组为三个 Tab。">Split one long form into four steps, and regroup the view page into three tabs.</dd></div>
-            <div><dt data-zh="证据">Evidence</dt><dd data-zh="依据 Nielsen 十大可用性原则做启发式评估，再访谈产品负责人和工程师，核对字段逻辑。">A heuristic review against Nielsen&rsquo;s 10 heuristics, then interviews with the product owner and engineers to check the field logic.</dd></div>
-            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="CEO 和产品负责人在评审中通过了这个流程，反馈积极，随后上线。">The CEO and product owner passed the flow in review with positive feedback, and it launched.</dd></div>
-        </dl>
         <p data-zh="投资组合经理在这里搭建模型组合；银行再把每个组合推荐给风险评分匹配的客户。我改版了两端：创建组合（第 2 步），以及对比它的指标（第 3 步）。">Portfolio managers build model portfolios here; banks recommend each one to clients with a matching risk score. I redesigned both ends: creating a portfolio (step 2), and comparing its metrics (step 3).</p>
         <ol class="db-journey" aria-label="Model portfolio journey">
             <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;1&lt;/span&gt;模型组合列表"><span class="db-journey__n">1</span>Model portfolio list</li>
@@ -1544,11 +1525,6 @@
         <div class="anchor" id="dive-compare"></div>
         <span data-zh="第 3 步 / 共 5 步 · 指标表格" class="db-kicker">Step 3 of 5 &middot; Metrics table</span>
         <h3 data-zh="四种布局测试，一个明确胜出" class="section">Four layouts tested, one clear winner</h3>
-        <dl class="db-dec">
-            <div><dt data-zh="决策">Decision</dt><dd data-zh="选项 2：颜色区分、组合纵向排列、使用 Tab。">Option 2: colour-coded, portfolios down the side, with tabs.</dd></div>
-            <div><dt data-zh="证据">Evidence</dt><dd data-zh="对比测试：7 位测试者（含 CEO）为 4 种布局打 1–5 分。选项 2 平均 4.6 分，其余为 3.6、3.3 和 2.6。">A comparative test: 7 testers, including the CEO, rated 4 layouts from 1 to 5. Option 2 averaged 4.6, against 3.6, 3.3 and 2.6.</dd></div>
-            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="CEO 支持选项 2；同样的表格思路随后延伸到其他模块。">The CEO backed Option 2, and the same table thinking carried into the other modules.</dd></div>
-        </dl>
         <p data-zh="详情页还缺一张能对比组合的表格：要在 4 项指标、7 个时间段上对比组合和基准。">The detail page still needed a table that could compare portfolios and benchmarks across 4 metrics and 7 time periods.</p>
         <p data-zh="唯一设计师" class="db-chapter-meta">Sole designer</p>
 
@@ -1632,11 +1608,6 @@
         <div class="anchor" id="foundation"></div>
         <span data-zh="第 4 步 / 共 5 步 · 设计系统" class="db-kicker">Step 4 of 5 &middot; Design system</span>
         <h3 data-zh="把设计系统写成规则，而不只是组件" class="section">A design system written as rules, not just components</h3>
-        <dl class="db-dec">
-            <div><dt data-zh="决策">Decision</dt><dd data-zh="先定全产品通用的规则，从弹窗开始：只确认不可逆的操作，其余用撤销。">Set product-wide rules first, starting with dialogs: confirm only the irreversible, undo the rest.</dd></div>
-            <div><dt data-zh="证据">Evidence</dt><dd data-zh="模式盘点把 15 个弹窗按用途分为 6 类，再与开发开工作坊确定优先级。">A pattern audit sorted 15 dialogs into 6 jobs, and workshops with developers set the priorities.</dd></div>
-            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="设计和开发按优先级确定了 23 个组件，弹窗排第一；Figma 和代码使用同一套命名。">Designers and developers agreed 23 components in priority order, dialogs first, with the same names in Figma and code.</dd></div>
-        </dl>
         <p data-zh="颜色达不到 WCAG 对比度，字号各自走样，设计和前端对同一事物叫法不同。我以 Material Design 为基础，主导重建三款产品共用的组件库；大部分工作是和开发对齐：先做什么，叫什么。">Colours missed WCAG contrast, type sizes had drifted, and design and front-end used different names for the same things. I led the rebuild of the library all three products shared, on a Material Design base; most of the work was agreeing with developers what to build first and what to call it.</p>
         <p data-zh="主导重建 · 3 名设计师，5 名前端工程师" class="db-chapter-meta">Led the rebuild &middot; 3 designers, 5 front-end engineers</p>
 
@@ -1697,11 +1668,6 @@
         <div class="anchor" id="research"></div>
         <span data-zh="第 5 步 / 共 5 步 · 研究授权" class="db-kicker">Step 5 of 5 &middot; Research mandate</span>
         <h3 data-zh="小测试换来了真实用户研究" class="section">Small tests earned research with real users</h3>
-        <dl class="db-dec">
-            <div><dt data-zh="决策">Decision</dt><dd data-zh="为一款新的顾问产品规划真实用户研究。到 2022 年，CEO 已经看到小测试能解决哪些问题，于是把这件事交给了我。">Plan research with real users for a new advisor product. By 2022 the CEO had seen what small tests could settle, and asked me to lead it.</dd></div>
-            <div><dt data-zh="证据">Evidence</dt><dd data-zh="与 PM 一起访谈了 5 位顾问总监，多来自瑞士投资银行，通过 CEO 的人脉招募。">5 interviews with advisory directors, run with the PM, mostly from Swiss investment banks and recruited through the CEO&rsquo;s network.</dd></div>
-            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="得到了他们的工作旅程、痛点，以及新工具需要的功能清单。功能优先级工作坊和原型测试已做好计划，开展前我已离职。">Their journey, pain points and a feature list for the new tool. A prioritisation workshop and prototype tests were planned; I left before they ran.</dd></div>
-        </dl>
         <p data-zh="研究负责人 · 与 1 名 PM 合作" class="db-chapter-meta">Research lead &middot; with 1 PM</p>
         <details class="db-more">
             <summary data-zh="研究计划与访谈发现：用户旅程图、用户画像和下一步">Research plan and interview findings: journey map, persona and next steps</summary>

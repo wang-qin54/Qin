@@ -176,6 +176,9 @@
         .one-col .gx-card > p { margin: 0 0 var(--space-4) 32px; font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); }
         .one-col .gx-card h6.gx-sub { margin: var(--space-5) 0 var(--space-1) 32px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
         .one-col .gx-card h6.gx-sub + p { margin-bottom: var(--space-3); }
+        .gx-step { margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--border); }
+        .one-col .gx-step h6.gx-sub { margin-top: 0; }
+        .one-col .gx-step > p { margin: 0 0 var(--space-4) 32px; font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); }
         .gx-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); align-items: start; }
         /* Alert comparison: legend chips, two equal screens, a note under each */
         .aml-qkey { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
@@ -310,6 +313,29 @@
         .aml-qa__note .cs-num { background: #d14343; color: #fff; }
         .one-col .aml-qa__note p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
+        /* ── Story summary ───────────────────────────────── */
+        .cs-sum { margin: var(--space-6) 0 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .cs-sum__row { display: grid; grid-template-columns: 132px 1fr; align-items: baseline; gap: var(--space-4); padding: var(--space-4) var(--space-5); background: #fff; }
+        .cs-sum__row + .cs-sum__row { border-top: 1px solid var(--border); }
+        .cs-sum__row.is-turn { background: var(--accent-subtle); }
+        .cs-sum__k { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .cs-sum__row.is-turn .cs-sum__k { color: var(--accent); }
+        .one-col .cs-sum__row p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+
+        /* ── KYE options ─────────────────────────────────── */
+        .aml-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); align-items: start; margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+        .one-col .aml-opts > li { margin: 0; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .one-col .aml-opts > li.is-pick { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+        .aml-opts__h { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 14.5px; font-weight: 600; color: var(--text-primary); }
+        .aml-opts__pick { padding: 1px 8px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 600; line-height: 1.6; }
+        .one-col .aml-opts p { margin: 0 0 var(--space-3); font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
+        .one-col .aml-opts img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+
+        /* ── Concept page ────────────────────────────────── */
+        .aml-concept { margin: var(--space-4) 0 0; padding: var(--space-5); border: 1px dashed var(--text-tertiary); border-radius: 16px; }
+        .aml-concept > .aml-cards:first-child { margin-top: 0; }
+        .aml-st--concept { background: #fff4e0; color: #8a5300; }
+
         @media (max-width: 900px) {
             .aml-path { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
             .aml-path > li + li::before { display: none; }
@@ -339,7 +365,8 @@
             .gx-card { padding: 14px; }
             .gx-head { flex-wrap: wrap; }
             .gx-pill { margin-left: 32px; }
-            .one-col .gx-card > p, .one-col .gx-card h6.gx-sub { margin-left: 0; }
+            .one-col .gx-card > p, .one-col .gx-card h6.gx-sub, .one-col .gx-step > p { margin-left: 0; }
+            .gx-step { margin-top: var(--space-4); padding-top: var(--space-4); }
             .gx-pair { grid-template-columns: 1fr; gap: var(--space-5); }
             .one-col .aml-rel { grid-template-columns: 1fr 1fr; }
             .one-col .aml-rel li:nth-child(2) { border-right: 0; }
@@ -347,6 +374,10 @@
             .cs-more > summary { flex-wrap: wrap; row-gap: 2px; padding: 12px 14px; }
             .cs-more__hint { order: 3; flex-basis: 100%; }
             .cs-more__body { padding: var(--space-1) 14px 14px; }
+            .cs-sum__row { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-4); }
+            .aml-opts { grid-template-columns: 1fr; }
+            .one-col .aml-opts img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+            .aml-concept { padding: var(--space-3); }
         }
         @media (max-width: 560px) {
             .cs-kicker { margin-top: var(--space-7); }
@@ -377,10 +408,10 @@
             <div class="page-title-content">
                 <h2 data-zh="跨四个工具，重建调查流程">Rebuilding an investigation workflow across four tools</h2>
                 <p class="as-role" data-zh="&lt;strong&gt;产品设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;用户研究 + 端到端设计&lt;/span&gt;"><strong>Product designer</strong> &middot; <span class="as-role__rest">research + end-to-end design</span></p>
-                <ol class="as-stats" style="--stats-n:3" aria-label="Four stages redesigned, three shipped, one module built from zero">
+                <ol class="as-stats" style="--stats-n:3" aria-label="Four stages redesigned, three shipped, entity search built from zero">
                     <li><span class="as-stats__num">4</span><span class="as-stats__label" data-zh="个阶段重新设计">Stages redesigned</span></li>
                     <li class="is-turn"><span class="as-stats__num">3</span><span class="as-stats__label" data-zh="个已上线">Shipped</span></li>
-                    <li><span class="as-stats__num">0→1</span><span class="as-stats__label" data-zh="实体模块">Entity module</span></li>
+                    <li><span class="as-stats__num">0→1</span><span class="as-stats__label" data-zh="实体搜索">Entity search</span></li>
                 </ol>
                 <dl class="as-meta">
                     <div><dt data-zh="产品">Product</dt><dd data-zh="OKLink 链上反洗钱，覆盖 10+ 条链">OKLink on-chain AML, 10+ chains</dd></div>
@@ -390,7 +421,7 @@
                 </dl>
             </div>
             <div class="title-img">
-                <img src="resources/images-aml/hero.webp?v=16" width="1600" height="1759" style="--hero-img-pad: 0.0375" alt="The On-chain AML address risk page with its detected-risks radar, and in front the fund-flow graph with an address's transactions open beside it">
+                <img src="resources/images-aml/hero.webp?v=19" width="1600" height="1563" style="--hero-img-pad: 0.0375" alt="The On-chain AML address risk page with its detected-risks radar, and in front the fund-flow graph with an address's transactions open beside it">
             </div>
         </div>
     </div>
@@ -407,6 +438,7 @@
         <a href="#section7" class="list" data-zh="05 追踪：资金流图谱">05 Trace: fund-flow graph</a>
         <a href="#section8" class="list" data-zh="06 设计系统">06 System</a>
         <a href="#section9" class="list" data-zh="07 成果与复盘">07 Outcome</a>
+        <a href="#section10" class="list" data-zh="08 构想：AI 预处理">08 Concept: AI triage</a>
         <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
         </div>
     </div>
@@ -439,7 +471,7 @@
                 <span class="aml-step__n" data-zh="阶段 3 · 识别">Stage 3 · Identify</span>
                 <b data-zh="实体档案 · KYE">Entity profiles · KYE</b>
                 <span class="aml-step__q" data-zh="“地址背后是谁？”">"Who is behind the address?"</span>
-                <span class="aml-st aml-st--ship" data-zh="已上线 · 从 0 到 1">Shipped · 0→1</span>
+                <span class="aml-st aml-st--ship" data-zh="已上线">Shipped</span>
             </a></li>
             <li><a class="aml-step" href="#section7">
                 <img src="resources/images-aml/layout-after.png?v=1" width="1440" height="900" alt="" loading="lazy">
@@ -450,9 +482,23 @@
             </a></li>
         </ol>
 
-        <div class="cs-callout">
-            <div class="lbl" data-zh="任务">The brief</div>
-            <p class="quote" data-zh="让分析师在产品里完成整个调查：从触发调查的预警，到最后的证据，不必再导出数据另想办法。">Let analysts run an investigation inside the product, from the alert that starts it to the evidence at the end, instead of exporting to work around it.</p>
+        <div class="cs-sum">
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="问题">Problem</span>
+                <p data-zh="每条预警只有 15–45 分钟，分析师却要在四个互不相通的工具之间来回切换，最后再到 XMind 里完成案件。">Analysts had 15–45 minutes per alert, spent part of it moving between four disconnected tools, then finished the case in XMind.</p>
+            </div>
+            <div class="cs-sum__row is-turn">
+                <span class="cs-sum__k" data-zh="我的判断">My judgment</span>
+                <p data-zh="我先观察 3 名合规官处理真实案件，再按他们的调查顺序重排四个工具，串成一条调查路径，并让每个评分都能看到来源。">I watched 3 compliance officers work real cases first, then reordered the four tools into one investigation path and gave every score a visible source.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="取舍">Trade-off</span>
+                <p data-zh="我和产品经理把图谱改版拆成几个阶段，逐个功能上线。某个阶段还拿不到风险画像数据，我们就先去掉这一列，而不是上线一个空列：少一个字段，换来分析师对页面上每个字段的信任。">With the PM, I split the graph redesign into phases, shipping feature by feature. When a phase couldn't supply risk-profile data yet, we dropped that column rather than ship it empty: one field fewer, so analysts could trust every field they saw.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="结果">Result</span>
+                <p data-zh="三个阶段上线，两项以完整规格交接给开发。埋点没有在我离开前上线，所以没有使用数据。">Three stages shipped and two were handed to engineering as finished specs. Event tracking didn't ship before I left, so there are no usage numbers.</p>
+            </div>
         </div>
 
 
@@ -512,56 +558,56 @@
             <span class="sub" data-zh="所以每个阶段都先让现有功能被找到，再考虑加新功能。">So each stage made existing features findable before adding new ones.</span>
         </div>
 
-        <figure class="aml-journey">
-            <div class="aml-journey__grid">
-                <div class="aml-journey__labels" aria-hidden="true">
-                    <span></span>
-                    <span data-zh="目标">Goal</span>
-                    <span data-zh="工具内操作">In the tool</span>
-                    <span data-zh="步骤">Steps</span>
-                    <span data-zh="痛点">Pain points</span>
-                </div>
-                <ol class="aml-journey__steps">
-                    <li>
-                        <b class="aml-journey__phase" data-zh="1 · 分析">1 · Analyse</b>
-                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="筛出值得追踪的地址。">Filter down to the addresses worth following.</p></div>
-                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="创建图谱">Create graph</span></div>
-                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="输入地址或哈希，查看所有关联，按金额筛出可疑地址。">Enter an address or hash, see everything connected to it, filter suspicious addresses by amount.</p></div>
-                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
-                            <li data-zh="追踪和图谱是两个独立的产品">Tracing and the graph were two separate products</li>
-                            <li data-zh="一次只能查一个地址，无法粘贴十个地址找共同交易对手">One address at a time; no way to paste ten and find common counterparties</li>
-                            <li data-zh="星状布局看不出方向，加节点后画布会重新居中">The star layout hides direction, and adding a node re-centres the canvas</li>
-                        </ul></div>
-                    </li>
-                    <li>
-                        <b class="aml-journey__phase" data-zh="2 · 立案">2 · Open the case</b>
-                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把所有信息汇成一张完整的链路图。">Pull everything into one picture of the chain.</p></div>
-                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="编辑并保存图谱">Edit and save graph</span></div>
-                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="浏览相关地址和交易，分组并标注，保存后持续更新。">Browse related addresses and transactions, group and annotate them, save, then keep updating.</p></div>
-                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
-                            <li data-zh="加标注会替换节点图标">Annotating replaces the node's icon</li>
-                            <li data-zh="无法给一组地址加标注">No way to annotate a group of addresses</li>
-                            <li data-zh="离开画布就会清空：有自动保存吗？">Leaving the canvas clears it: is there autosave?</li>
-                        </ul></div>
-                    </li>
-                    <li>
-                        <b class="aml-journey__phase" data-zh="3 · 保存证据并结案">3 · Save evidence and close</b>
-                        <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把证据交出去。">Hand the evidence on.</p></div>
-                        <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="导出 → XMind → 结案">Export → XMind → close</span></div>
-                        <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="导出图谱，在 XMind 里重画，分享链接。">Export the graph, rebuild it in XMind, share a link.</p></div>
-                        <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
-                            <li data-zh="真正的归纳在 XMind 里完成：颜色分组、备注、其他链">The real synthesis happens in XMind: colour groups, notes, other chains</li>
-                            <li data-zh="深色适合投屏，不适合整个班次的阅读">Dark suits projecting, not a full shift of reading</li>
-                        </ul></div>
-                    </li>
-                </ol>
-            </div>
-            <figcaption data-zh="调查流程来自观察记录，根据工作坊原图重绘。流程并非线性：分析师随时会回来补充地址，一个案件可能持续几周。">The investigation journey from the observation sessions, redrawn from the workshop map. It isn't linear: analysts come back to add addresses at any point, and a case can stay open for weeks.</figcaption>
-        </figure>
 
         <details class="cs-more">
-            <summary><span data-zh="更多研究细节">More from the sessions</span><span class="cs-more__hint" data-zh="观察所得、图谱缺口和约束">What observation surfaced, graph gaps, constraints</span></summary>
+            <summary><span data-zh="更多研究细节">More from the sessions</span><span class="cs-more__hint" data-zh="调查流程图、观察所得、图谱缺口和约束">Journey map, observations, graph gaps, constraints</span></summary>
             <div class="cs-more__body">
+                <figure class="aml-journey">
+                    <div class="aml-journey__grid">
+                        <div class="aml-journey__labels" aria-hidden="true">
+                            <span></span>
+                            <span data-zh="目标">Goal</span>
+                            <span data-zh="工具内操作">In the tool</span>
+                            <span data-zh="步骤">Steps</span>
+                            <span data-zh="痛点">Pain points</span>
+                        </div>
+                        <ol class="aml-journey__steps">
+                            <li>
+                                <b class="aml-journey__phase" data-zh="1 · 分析">1 · Analyse</b>
+                                <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="筛出值得追踪的地址。">Filter down to the addresses worth following.</p></div>
+                                <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="创建图谱">Create graph</span></div>
+                                <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="输入地址或哈希，查看所有关联，按金额筛出可疑地址。">Enter an address or hash, see everything connected to it, filter suspicious addresses by amount.</p></div>
+                                <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                                    <li data-zh="追踪和图谱是两个独立的产品">Tracing and the graph were two separate products</li>
+                                    <li data-zh="一次只能查一个地址，无法粘贴十个地址找共同交易对手">One address at a time; no way to paste ten and find common counterparties</li>
+                                    <li data-zh="星状布局看不出方向，加节点后画布会重新居中">The star layout hides direction, and adding a node re-centres the canvas</li>
+                                </ul></div>
+                            </li>
+                            <li>
+                                <b class="aml-journey__phase" data-zh="2 · 立案">2 · Open the case</b>
+                                <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把所有信息汇成一张完整的链路图。">Pull everything into one picture of the chain.</p></div>
+                                <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="编辑并保存图谱">Edit and save graph</span></div>
+                                <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="浏览相关地址和交易，分组并标注，保存后持续更新。">Browse related addresses and transactions, group and annotate them, save, then keep updating.</p></div>
+                                <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                                    <li data-zh="加标注会替换节点图标">Annotating replaces the node's icon</li>
+                                    <li data-zh="无法给一组地址加标注">No way to annotate a group of addresses</li>
+                                    <li data-zh="离开画布就会清空：有自动保存吗？">Leaving the canvas clears it: is there autosave?</li>
+                                </ul></div>
+                            </li>
+                            <li>
+                                <b class="aml-journey__phase" data-zh="3 · 保存证据并结案">3 · Save evidence and close</b>
+                                <div class="aml-journey__cell" data-k="Goal" data-k-zh="目标"><p data-zh="把证据交出去。">Hand the evidence on.</p></div>
+                                <div class="aml-journey__cell" data-k="In the tool" data-k-zh="工具内操作"><span class="aml-journey__tool" data-zh="导出 → XMind → 结案">Export → XMind → close</span></div>
+                                <div class="aml-journey__cell" data-k="Steps" data-k-zh="步骤"><p data-zh="导出图谱，在 XMind 里重画，分享链接。">Export the graph, rebuild it in XMind, share a link.</p></div>
+                                <div class="aml-journey__cell" data-k="Pain points" data-k-zh="痛点"><ul class="aml-journey__pains">
+                                    <li data-zh="真正的归纳在 XMind 里完成：颜色分组、备注、其他链">The real synthesis happens in XMind: colour groups, notes, other chains</li>
+                                    <li data-zh="深色适合投屏，不适合整个班次的阅读">Dark suits projecting, not a full shift of reading</li>
+                                </ul></div>
+                            </li>
+                        </ol>
+                    </div>
+                    <figcaption data-zh="调查流程来自观察记录，根据工作坊原图重绘。流程并非线性：分析师随时会回来补充地址，一个案件可能持续几周。">The investigation journey from the observation sessions, redrawn from the workshop map. It isn't linear: analysts come back to add addresses at any point, and a case can stay open for weeks.</figcaption>
+                </figure>
                 <h5 class="cs-sub" data-zh="观察发现了需求清单里不会出现的东西">What observation surfaced that a feature request would not</h5>
                 <ul class="cs-list">
                     <li data-zh="&lt;b&gt;风险占比低不代表安全。&lt;/b&gt;分析师会看它是否反复出现：多笔小额充值加一笔大额提现是典型的洗钱模式，而单看每笔充值都不起眼。"><b>A small risk percentage is not automatically safe.</b> Analysts check how often it repeats: a known laundering pattern is many small deposits and one large withdrawal, and each deposit on its own looks minor.</li>
@@ -606,7 +652,7 @@
             <span class="aml-st aml-st--hand" data-zh="已交接">Handed over</span>
             <span class="aml-pc"><i>1</i><span data-zh="阅读顺序">Reading order</span></span>
         </div>
-        <p data-zh="每个分析师都按同样的顺序问同样四个问题：">Every analyst asked the same four questions, in the same order:</p>
+        <p data-zh="每个分析师都按同样的顺序问同样四个问题，所以我按这四个问题排布页面，而不是按数据来源：">Every analyst asked the same four questions in the same order, so I laid the page out by those questions instead of by data source:</p>
         <ol class="aml-qkey">
             <li data-q="1"><b>1</b><span data-zh="风险占比多少">What share is risky</span></li>
             <li data-q="2"><b>2</b><span data-zh="转了多少钱">How much moved</span></li>
@@ -643,7 +689,7 @@
             <span class="aml-st aml-st--ship" data-zh="已上线">Shipped</span>
             <span class="aml-pc"><i>2</i><span data-zh="可追溯来源">Visible source</span></span>
         </div>
-        <p data-zh="评分遵循 FATF 指引，可以层层拆解：先是由 14+ 个可配置风险因子汇总成的五个风险维度，再往下是三张证据表，一直追到原始制裁名单。分析师不用离开页面，就能回答“你怎么知道？”">The FATF-aligned score breaks down in layers: five risk dimensions built from 14+ configurable risk factors, then three evidence tables that go down to the original sanctions listing. An analyst can answer "how do you know?" without leaving the page.</p>
+        <p data-zh="评分遵循 FATF 指引，可以层层拆解：先是由 14+ 个可配置风险因子汇总成的五个风险维度，再往下是三张证据表，一直追到原始制裁名单。我让每一层都能打开到它的来源，因为解释不了的评分过不了复核。分析师不用离开页面，就能回答“你怎么知道？”">The FATF-aligned score breaks down in layers: five risk dimensions built from 14+ configurable risk factors, then three evidence tables that go down to the original sanctions listing. I made every layer open to its source, because a score nobody can explain doesn't survive review. An analyst can answer "how do you know?" without leaving the page.</p>
 
         <div class="cs-shot gx-frame"><img src="resources/images-aml/kya-detected-risks.png?v=1" width="2400" height="1050" alt="Detected risks: a radar of five risk dimensions, the categories that fired, and three tabs of evidence" loading="lazy"></div>
         <p class="cs-figcap" data-zh="风险检测：雷达图展示五个维度，旁边是触发的风险类别，下方三个 Tab 进入证据。">Detected risks: five dimensions on a radar, the categories that fired beside it, and three tabs into the evidence.</p>
@@ -673,7 +719,7 @@
         <h3 class="section" data-zh="实体档案：从零设计的新模块，查清地址背后是谁">Entity profiles: a new module that shows who is behind an address</h3>
         <div class="aml-stage">
             <span class="aml-stage__mod" data-zh="实体档案 · On-chain AML / KYE">Entity profiles · On-chain AML / KYE</span>
-            <span class="aml-st aml-st--ship" data-zh="已上线 · 从 0 到 1">Shipped · 0→1</span>
+            <span class="aml-st aml-st--ship" data-zh="已上线 · 搜索从 0 到 1">Shipped · 0→1 search</span>
             <span class="aml-pc"><i>2</i><span data-zh="可追溯来源">Visible source</span></span>
         </div>
         <p data-zh="地址能说明钱怎么流动，却说不出你在和谁打交道。KYE 针对交易所、混币器和服务商回答这个问题。我负责分析师找到实体的路径：入口页、搜索和类别列表；实体页由另一位设计师设计。">An address tells you what moved, not who you're dealing with. KYE answers that for exchanges, mixers and services. I designed how analysts get to an entity: the landing page, search and the category list. Another designer did the entity page.</p>
@@ -703,29 +749,45 @@
         </figure>
         </div>
 
-        <ol class="aml-rel">
-            <li><b>MVP</b><span data-zh="搜索、列表和实体详情">Search, list and entity detail</span></li>
-            <li><b>V1.1.0</b><span data-zh="详情、列表和关注列表">Detail, list and watchlist</span></li>
-            <li><b>V1.1.1</b><span data-zh="设计走查和回归测试">Design QA and a regression pass</span></li>
-            <li><b>V1.1.2</b><span data-zh="响应式布局及权限变体">Responsive layouts with permission variants</span></li>
+        <h5 class="cs-sub" data-zh="三种布局让同事试用，3 人都选了分开的视图">Three layouts tried by colleagues; all 3 picked the split view</h5>
+        <p data-zh="设计团队内部评审时对入口结构意见不一。我没有继续争论，而是请 3 位同事用同一组任务试用三种布局，例如“找出英国的暗网市场实体”。">The design team disagreed in internal review about how to structure the entry. Rather than keep arguing, I asked 3 colleagues to try three layouts on the same tasks, such as "find the darknet-market entity in the United Kingdom".</p>
+        <ol class="aml-opts">
+            <li>
+                <div class="aml-opts__h" data-zh="方案 1.1 · 一页到底">Option 1.1 · One long page</div>
+                <p data-zh="搜索、类别和完整的实体表格叠在同一个滚动页面里。">Search, categories and the full entity table stacked on one scroll.</p>
+                <img src="resources/images-aml/kye-opt-11.png?v=1" width="2400" height="3063" alt="Option 1.1: the search hero, a grid of category tiles and the full entity table on one long page" loading="lazy">
+            </li>
+            <li class="is-pick">
+                <div class="aml-opts__h"><span data-zh="方案 1.2 · 分开的视图">Option 1.2 · Split views</span><span class="aml-opts__pick" data-zh="入选">Picked</span></div>
+                <p data-zh="先搜索；类别和实体用 Tab 分开。">Search first; categories and entities on separate tabs.</p>
+                <img src="resources/images-aml/kye-opt-12.png?v=2" width="2400" height="3063" alt="Option 1.2: the search hero with tabs for entity categories and entities, the Entity tab open" loading="lazy">
+            </li>
+            <li>
+                <div class="aml-opts__h" data-zh="方案 2 · 列表优先">Option 2 · List first</div>
+                <p data-zh="没有入口页，直接打开带搜索和类别筛选的实体表格。">No landing page; open straight on the entity table with search and a category filter.</p>
+                <img src="resources/images-aml/kye-opt-2.png?v=1" width="2400" height="1500" alt="Option 2: an entity table with a search field and a category filter, without a landing page" loading="lazy">
+            </li>
         </ol>
+        <div class="cs-callout">
+            <div class="lbl" data-zh="为什么选 1.2">Why 1.2</div>
+            <p class="quote" data-zh="3 人都认为 1.2 最容易理解：先搜索，类别和实体不会混在一起。">All 3 found 1.2 the easiest to understand: search comes first, and categories don't blur into entities.</p>
+            <span class="sub" data-zh="他们的反馈也影响了最终方案：有同事看不懂缩写“KYE”，看到全称才明白，所以导航改用“Know Your Entity”。">Their comments also shaped the final design: "KYE" alone wasn't clear to them, but the full name was, so the navigation says "Know Your Entity".</span>
+        </div>
 
         <details class="cs-more">
-            <summary><span data-zh="难点：每个字段能声明什么">The hard part: what each field may claim</span><span class="cs-more__hint" data-zh="和数据团队确认的四个问题">Four questions settled with the data team</span></summary>
+            <summary><span data-zh="四个版本，以及字段能声明什么">Four releases, and what each field may claim</span><span class="cs-more__hint" data-zh="发版记录和两个数据问题">Release history and two data questions</span></summary>
             <div class="cs-more__body">
-                <p class="cs-lead-sm" data-zh="大部分待定问题与布局无关，而在于数据能如实支撑到什么程度。每个问题都和产品、数据团队确认后，字段才上线。">Most open questions weren't about layout. They were about what the data could honestly support, and each was settled with product and the data team before the field shipped.</p>
+                <ol class="aml-rel">
+                    <li><b>MVP</b><span data-zh="搜索、列表和实体详情">Search, list and entity detail</span></li>
+                    <li><b>V1.1.0</b><span data-zh="详情、列表和关注列表">Detail, list and watchlist</span></li>
+                    <li><b>V1.1.1</b><span data-zh="设计走查和回归测试">Design QA and a regression pass</span></li>
+                    <li><b>V1.1.2</b><span data-zh="响应式布局及权限变体">Responsive layouts with permission variants</span></li>
+                </ol>
+                <p class="cs-lead-sm" data-zh="很多待定问题与布局无关，而在于数据能如实支撑到什么程度。每个问题都和产品、数据团队确认后，字段才上线。">Many open questions weren't about layout but about what the data could honestly support, and each was settled with product and the data team before the field shipped.</p>
                 <div class="aml-cards">
                     <div class="aml-card">
-                        <div class="aml-card__h" data-zh="“成立时间”精确到哪一级？">How precise is "established"?</div>
-                        <p data-zh="有的来源只给年份，有的给完整日期。字段要能同时显示两种，又不能暗示并不存在的精度。">Sources give a year for some entities and a full date for others. The field had to show both without implying precision it didn't have.</p>
-                    </div>
-                    <div class="aml-card">
                         <div class="aml-card__h" data-zh="支持的法币：显示数量还是列表？">Fiat accepted: a count or a list?</div>
-                        <p data-zh="数量适合放进表格，列表才是合规官真正需要的。这个决定同时改变了表格列和详情卡片。">A count fits the table; a list is what a compliance officer needs. The answer changed both the column and the detail card.</p>
-                    </div>
-                    <div class="aml-card">
-                        <div class="aml-card__h" data-zh="谁算监管机构？">Who counts as the regulator?</div>
-                        <p data-zh="一家交易所可能在多个司法辖区持有多个机构的牌照，所以要先定义什么叫“受监管”，才能把它画出来。">An exchange can be licensed by several bodies in several jurisdictions, so "regulated" had to be defined before it could be drawn.</p>
+                        <p data-zh="数量适合放进表格，列表才是合规官真正需要的。这个决定改变了列表里的这一列。">A count fits the table; a list is what a compliance officer needs. The answer changed the column in the entity list.</p>
                     </div>
                     <div class="aml-card">
                         <div class="aml-card__h" data-zh="搜索该怎么匹配？">What should search match?</div>
@@ -746,12 +808,15 @@
             <span class="aml-pc"><i>1</i><span data-zh="阅读顺序">Reading order</span></span>
             <span class="aml-pc"><i>3</i><span data-zh="在产品内完成">Work inside</span></span>
         </div>
-        <p data-zh="旧图谱是星状图，看不出资金方向，最后的整理还要导出到 XMind 完成。改版顺着分析师从打开图谱到写出结论的步骤展开，下面是三个最大的改动。">The old graph was a star that hid which way money moved, and the write-up happened in XMind after an export. The redesign follows the analyst from opening a graph to writing it up; the three biggest changes are below.</p>
+        <p data-zh="旧图谱是星状图，看不出资金方向，最后的整理还要导出到 XMind 完成。改版顺着分析师从打开图谱到写出结论的步骤展开。最大的改动是布局：我选择从左到右的流向图，因为分析师读案件时，是顺着钱从来源流向去向。其余五个步骤收在下方。">The old graph was a star that hid which way money moved, and the write-up happened in XMind after an export. The redesign follows the analyst from opening a graph to writing it up. The biggest change was the layout: I chose a left-to-right flow because analysts read a case as money moving from source to destination. The other five steps are folded below.</p>
 
         <div class="gx">
             <article class="gx-card">
                 <header class="gx-head"><span class="cs-num">1</span><h5 class="gx-title" data-zh="布局：从星状到流向">Layout: from a star to a flow</h5><span class="gx-pill gx-pill--pain" data-zh="用户痛点">User pain point</span></header>
-                <p data-zh="放射状布局改为从左到右的流向图，顺着资金方向阅读。分散的工具栏归为三组（保存与导出、添加与筛选、编辑），编辑操作只针对当前选中的内容出现。">The radial layout became a left-to-right flow that reads the way money moves. The scattered tool rail became three groups (save and export, add and filter, edit), and edit actions appear only for what's selected.</p>
+                <p data-zh="放射状布局改为从左到右的流向图，顺着资金方向阅读。">The radial layout became a left-to-right flow that reads the way money moves.</p>
+                <div class="gx-step">
+                <h6 class="gx-sub" data-zh="工具按选中内容出现">Tools follow the selection</h6>
+                <p data-zh="分散的工具栏归为三组：保存与导出、添加与筛选、编辑。编辑操作只针对当前选中的内容出现。">The scattered tool rail became three groups: save and export, add and filter, edit. Edit actions appear only for what's selected.</p>
                 <div class="gx-pair">
                     <figure class="gx-shot is-before">
                         <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="工具散落在侧栏">Tools scattered down a side rail</span></figcaption>
@@ -762,6 +827,8 @@
                         <div class="gx-frame"><img src="resources/images-aml/layout-after.png?v=1" width="1440" height="900" alt="After: a left-to-right flow with grouped tools and a selection bar" loading="lazy"><span class="gx-box" style="--x:55%;--y:8.6%;--w:41%;--h:5.6%"></span></div>
                     </figure>
                 </div>
+                </div>
+                <div class="gx-step">
                 <h6 class="gx-sub" data-zh="选中多个地址时">With several addresses selected</h6>
                 <p data-zh="图谱提供“Show mutual counterparts”（查看共同交易对手），也就是分析师过去在表格里手动做的比较。">The graph offers "Show mutual counterparts", the comparison analysts had been doing by hand in a spreadsheet.</p>
                 <div class="gx-pair">
@@ -771,48 +838,41 @@
                     </figure>
                     <figure class="gx-shot">
                         <figcaption class="gx-cap"><b data-zh="改版后">After</b><span>Show mutual counterparts</span></figcaption>
-                        <div class="gx-frame"><img src="resources/images-aml/select-after.png?v=1" width="1440" height="963" alt="After: several addresses selected, with a Show Mutual Counterparts action in the top bar" loading="lazy"><span class="gx-box" style="--x:76.9%;--y:8%;--w:20.9%;--h:4.8%"></span></div>
+                        <div class="gx-frame"><img src="resources/images-aml/select-after.png?v=2" width="1440" height="900" alt="After: several addresses selected, with a Show Mutual Counterparts action in the top bar" loading="lazy"><span class="gx-box" style="--x:76.9%;--y:8.56%;--w:20.9%;--h:5.14%"></span></div>
                     </figure>
                 </div>
-            </article>
-
-            <article class="gx-card">
-                <header class="gx-head"><span class="cs-num">2</span><h5 class="gx-title" data-zh="图谱列表：按案件组织">Graph list: one list of cases</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
-                <p data-zh="分析师围绕案件建图谱，而不是围绕单个地址。三种入口合并为一个案件图谱列表，浅色模式成为分析时的默认主题。">Analysts build a graph around a case, not a single address. Three entry types became one list of case graphs, and light mode became the default for analysis.</p>
-                <div class="gx-pair">
-                    <figure class="gx-shot is-before">
-                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="先选图谱类型">Pick a graph type first</span></figcaption>
-                        <div class="gx-frame"><img src="resources/images-aml/graph-list-before.png?v=1" width="1440" height="900" alt="Before: a dark graph list with a menu asking for address graph, transaction map or transaction path" loading="lazy"><span class="gx-box" style="--x:29%;--y:14%;--w:15%;--h:17.2%"></span></div>
-                    </figure>
-                    <figure class="gx-shot">
-                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="一个案件图谱列表">One list of case graphs</span></figcaption>
-                        <div class="gx-frame"><img src="resources/images-aml/graph-list-after.png?v=1" width="1440" height="1216" alt="After: a light Relationship Map list of case graphs with chain, dates and a thumbnail preview" loading="lazy"><span class="gx-box" style="--x:6.5%;--y:4.4%;--w:19%;--h:5%"></span></div>
-                    </figure>
-                </div>
-            </article>
-
-            <article class="gx-card">
-                <header class="gx-head"><span class="cs-num">3</span><h5 class="gx-title" data-zh="归纳：把 XMind 这一步搬进产品">Synthesise: bring the XMind step inside</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
-                <p data-zh="分析师过去在 XMind 里按颜色分组，再给分组命名。现在两者都在产品内完成：节点可以设颜色，选中的分组可以加摘要标签，导出的图谱本身就是报告。">Analysts grouped evidence by colour and named the groups in XMind. Both moved into the tool, a colour palette for nodes and a summary label for a group, so the exported graph is already the report.</p>
-                <div class="gx-pair">
-                    <figure class="gx-shot is-before">
-                        <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="密集的星状图，无法分组">A dense star, no way to group</span></figcaption>
-                        <div class="gx-frame"><img src="resources/images-aml/layout-before.png?v=1" width="1440" height="900" alt="Before: a dense radial graph with no grouping or labels" loading="lazy"></div>
-                    </figure>
-                    <figure class="gx-shot">
-                        <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="在图谱上设颜色、加摘要">Colour and summary on the graph</span></figcaption>
-                        <div class="gx-frame"><img src="resources/images-aml/synthesise-after.png?v=1" width="1440" height="963" alt="After: Colour and Summary actions above a group of addresses, with the label: Suspects, addresses suspected of money laundering" loading="lazy"><span class="gx-box" style="--x:63%;--y:16.1%;--w:24.9%;--h:6%"></span><span class="gx-box" style="--x:81%;--y:39%;--w:16.9%;--h:10%"></span></div>
-                    </figure>
                 </div>
             </article>
         </div>
 
+        <div class="cs-callout">
+            <div class="lbl" data-zh="取舍：分阶段上线，而不是一次做完">Trade-off: ship in phases, not all at once</div>
+            <p class="quote" data-zh="我和产品经理商量后，把图谱改版拆成几个阶段，逐个功能实现和上线，每个功能做好就能用，不必等整个改版完成。">After discussing it with the PM, I split the graph redesign into phases and implemented it feature by feature, so each feature could ship when it was ready instead of waiting for the whole redesign.</p>
+            <span class="sub" data-zh="代价是有些阶段上线时并不完整。某个阶段还拿不到风险画像数据，我们就先去掉这一列，而不是上线一个空列：一直为空的列会让人习惯跳过整张表，而在合规页面上，每个看得到的字段都必须可信。">The cost was that some phases went out incomplete. When one couldn't supply risk-profile data yet, we dropped that column rather than ship it blank: a column that's always empty teaches people to skim past the table, and on a compliance screen every visible field has to be trustworthy.</span>
+        </div>
+
         <details class="cs-more">
-            <summary><span data-zh="另外三个步骤：创建、展开、添加">Three more steps: create, expand, add</span><span class="cs-more__hint" data-zh="完整的六步改版">The full six-step redesign</span></summary>
+            <summary><span data-zh="另外五个步骤：列表、创建、展开、添加、归纳">Five more steps: list, create, expand, add, synthesise</span><span class="cs-more__hint" data-zh="完整的六步改版">The full six-step redesign</span></summary>
             <div class="cs-more__body">
                 <div class="gx">
                     <article class="gx-card">
-                        <header class="gx-head"><span class="cs-num">4</span><h5 class="gx-title" data-zh="创建图谱：从画布中央开始">Create graph: start in the middle</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <header class="gx-head"><span class="cs-num">2</span><h5 class="gx-title" data-zh="图谱列表：按案件组织">Graph list: one list of cases</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <p data-zh="分析师围绕案件建图谱，而不是围绕单个地址。三种入口合并为一个案件图谱列表，浅色模式成为分析时的默认主题。">Analysts build a graph around a case, not a single address. Three entry types became one list of case graphs, and light mode became the default for analysis.</p>
+                        <div class="gx-pair">
+                            <figure class="gx-shot is-before">
+                                <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="先选图谱类型">Pick a graph type first</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/graph-list-before.png?v=1" width="1440" height="900" alt="Before: a dark graph list with a menu asking for address graph, transaction map or transaction path" loading="lazy"><span class="gx-box" style="--x:29%;--y:14%;--w:15%;--h:17.2%"></span></div>
+                            </figure>
+                            <figure class="gx-shot">
+                                <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="一个案件图谱列表">One list of case graphs</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/graph-list-after.png?v=1" width="1440" height="1216" alt="After: a light Relationship Map list of case graphs with chain, dates and a thumbnail preview" loading="lazy"><span class="gx-box" style="--x:6.5%;--y:4.4%;--w:19%;--h:5%"></span></div>
+                            </figure>
+                        </div>
+                    </article>
+
+
+                    <article class="gx-card">
+                        <header class="gx-head"><span class="cs-num">3</span><h5 class="gx-title" data-zh="创建图谱：从画布中央开始">Create graph: start in the middle</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
                         <p data-zh="输入框从顶部移到空白画布中央，样式和它将生成的地址节点一致，并支持一次添加多个地址。">The entry moved from a bar at the top to the centre of the empty canvas, styled like the address node it creates, and it takes several addresses at once.</p>
                         <div class="gx-pair">
                             <figure class="gx-shot is-before">
@@ -827,7 +887,7 @@
                     </article>
 
                     <article class="gx-card">
-                        <header class="gx-head"><span class="cs-num">5</span><h5 class="gx-title" data-zh="添加源地址：默认展开交易对手">Source added: counterparties by default</h5><span class="gx-pill gx-pill--pain" data-zh="用户痛点">User pain point</span></header>
+                        <header class="gx-head"><span class="cs-num">4</span><h5 class="gx-title" data-zh="添加源地址：默认展开交易对手">Source added: counterparties by default</h5><span class="gx-pill gx-pill--pain" data-zh="用户痛点">User pain point</span></header>
                         <p data-zh="旧图谱只在空白画布上放一个节点。现在会自动展开一层转入和转出地址，分析师一开始就能看到直接关联。">The old graph dropped one node onto an empty canvas. Now it expands one layer of senders and receivers automatically, so the analyst starts with the immediate picture.</p>
                         <div class="gx-pair">
                             <figure class="gx-shot is-before">
@@ -842,7 +902,7 @@
                     </article>
 
                     <article class="gx-card">
-                        <header class="gx-head"><span class="cs-num">6</span><h5 class="gx-title" data-zh="从当前位置添加地址">Add more addresses from where you are</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <header class="gx-head"><span class="cs-num">5</span><h5 class="gx-title" data-zh="从当前位置添加地址">Add more addresses from where you are</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
                         <p data-zh="调查人员会在线下收集可疑地址。现在可以从交易对手的相关地址面板、空白画布或交易详情面板添加，不再只能用顶部搜索栏。">Investigators gather suspicious addresses offline. They can now add them from a counterparty's related-addresses panel, from empty canvas, or from the transaction panel, not only from the top bar.</p>
                         <div class="gx-pair">
                             <figure class="gx-shot is-before">
@@ -852,6 +912,21 @@
                             <figure class="gx-shot">
                                 <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="从相关地址面板添加">Add from the related-addresses panel</span></figcaption>
                                 <div class="gx-frame"><img src="resources/images-aml/add-after.png?v=1" width="1440" height="963" alt="After: a related-addresses panel beside a node, with checkboxes to add addresses to the graph" loading="lazy"><span class="gx-box" style="--x:68.1%;--y:30.1%;--w:30%;--h:57%"></span></div>
+                            </figure>
+                        </div>
+                    </article>
+
+                    <article class="gx-card">
+                        <header class="gx-head"><span class="cs-num">6</span><h5 class="gx-title" data-zh="归纳：把 XMind 这一步搬进产品">Synthesise: bring the XMind step inside</h5><span class="gx-pill gx-pill--insight" data-zh="设计洞察">Design insight</span></header>
+                        <p data-zh="分析师过去在 XMind 里按颜色分组，再给分组命名。现在两者都在产品内完成：节点可以设颜色，选中的分组可以加摘要标签，导出的图谱本身就是报告。">Analysts grouped evidence by colour and named the groups in XMind. Both moved into the tool, a colour palette for nodes and a summary label for a group, so the exported graph is already the report.</p>
+                        <div class="gx-pair">
+                            <figure class="gx-shot is-before">
+                                <figcaption class="gx-cap"><b data-zh="改版前">Before</b><span data-zh="密集的星状图，无法分组">A dense star, no way to group</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/layout-before.png?v=1" width="1440" height="900" alt="Before: a dense radial graph with no grouping or labels" loading="lazy"></div>
+                            </figure>
+                            <figure class="gx-shot">
+                                <figcaption class="gx-cap"><b data-zh="改版后">After</b><span data-zh="在图谱上设颜色、加摘要">Colour and summary on the graph</span></figcaption>
+                                <div class="gx-frame"><img src="resources/images-aml/synthesise-after.png?v=1" width="1440" height="963" alt="After: Colour and Summary actions above a group of addresses, with the label: Suspects, addresses suspected of money laundering" loading="lazy"><span class="gx-box" style="--x:63%;--y:16.1%;--w:24.9%;--h:6%"></span><span class="gx-box" style="--x:81%;--y:39%;--w:16.9%;--h:10%"></span></div>
                             </figure>
                         </div>
                     </article>
@@ -891,22 +966,17 @@
         </div>
 
         <details class="cs-more">
-            <summary><span data-zh="设计走查与范围取舍">Design QA and scope calls</span><span class="cs-more__hint" data-zh="每次发版的检查，以及两次取舍">How each release was checked, and two trade-offs</span></summary>
+            <summary><span data-zh="设计走查，以及延后的导出水印">Design QA, and a deferred export watermark</span><span class="cs-more__hint" data-zh="每次发版如何检查">How each release was checked</span></summary>
             <div class="cs-more__body">
                 <div class="aml-qa">
                     <div class="gx-frame"><img src="resources/images-aml/qa-finding.png?v=1" width="2160" height="1135" alt="A QA finding: a tooltip on the built entity page boxed in red" loading="lazy"></div>
                     <div class="aml-qa__note"><span class="cs-num">1</span><p data-zh="全局规则：提示框跟随箭头方向，并始终留在内容区域内。每个问题都在开发成果上框出、编号，并对照规范记录。">Global convention: a tooltip follows the direction of its arrow and always stays inside the content area. Each finding is boxed on the build, numbered and written up against the spec.</p></div>
                 </div>
-                <div class="aml-cards">
+                <div class="aml-cards" style="--cols:1">
                     <div class="aml-card aml-card--soft">
                         <span class="aml-card__k" data-zh="延后">Deferred</span>
                         <div class="aml-card__h" data-zh="导出水印">Export watermark</div>
                         <p data-zh="我为导出的图谱设计了水印；开发把它移出了这次发版，导出功能先行上线。">I specified a watermark for exported graphs; engineering moved it out of the release, and export shipped without it.</p>
-                    </div>
-                    <div class="aml-card aml-card--soft">
-                        <span class="aml-card__k" data-zh="未纳入">Left out</span>
-                        <div class="aml-card__h" data-zh="一直为空的列">An always-empty column</div>
-                        <p data-zh="某次发版拿不到风险画像数据时，我们直接去掉这一列，而不是上线一个永远空着、让人习惯忽略的列。">When a release couldn't supply risk-profile data, we removed the column rather than ship one that stayed blank and taught people to ignore it.</p>
                     </div>
                 </div>
             </div>
@@ -918,13 +988,14 @@
         <span class="cs-kicker" data-zh="07 · 成果与复盘">07 · Outcome</span>
         <h3 class="section" data-zh="三个阶段上线，两项以规格交接">Three stages shipped, two handed over as specs</h3>
 
+        <p data-zh="上线之后，分析师可以在产品内从一条预警走到一张写好结论的图谱，每个风险评分都能打开看到来源。预警页和多跳追踪以完整规格交给了开发。">After launch, an analyst can go from an alert to a written-up graph inside the product, and every risk score opens to its source. The alert page and multi-hop tracing went to engineering as finished specs.</p>
         <div class="cs-compare">
             <div class="cs-panel">
                 <div class="cs-panel__flag" data-zh="已上线">Shipped</div>
                 <ul class="cs-list cs-list--check">
                     <li data-zh="资金流图谱改版：按案件建图、流向布局、随选中内容变化的操作、产品内归纳">Fund-flow graph: case-based entry, flow layout, contextual actions, in-tool synthesis</li>
                     <li data-zh="地址风险分析，评分可追溯">Address risk analysis with traceable scores</li>
-                    <li data-zh="实体模块：MVP 及三个后续版本">Entity module: MVP and three follow-up releases</li>
+                    <li data-zh="实体搜索、入口页和类别列表：MVP 及三个后续版本">Entity search, landing page and category list: MVP and three follow-up releases</li>
                 </ul>
             </div>
             <div class="cs-panel">
@@ -935,29 +1006,75 @@
                 </ul>
             </div>
         </div>
-        <p class="cs-note" data-zh="我为图谱改版写了埋点方案，但在我离开前没有上线，所以这里没有使用数据。">I specified event tracking for the graph redesign, but it didn't ship before I left, so there are no usage numbers here.</p>
 
-        <h5 class="cs-sub" data-zh="带到下一个受监管产品的经验">What I'd take to the next regulated product</h5>
+        <h5 class="cs-sub" data-zh="我会怎样衡量">How I'd measure it</h5>
+        <div class="aml-cards" style="--cols:3">
+            <div class="aml-card">
+                <span class="aml-card__k" data-zh="阅读顺序">Reading order</span>
+                <div class="aml-card__h" data-zh="预警审核时间">Alert review time</div>
+                <p data-zh="从打开预警到做出判断的时间，对照 15–45 分钟的预算，重点看高风险和严重预警。">Time from opening an alert to a decision, against the 15–45 minute budget, watching high and severe alerts most closely.</p>
+            </div>
+            <div class="aml-card">
+                <span class="aml-card__k" data-zh="在产品内完成">Work inside</span>
+                <div class="aml-card__h" data-zh="导出到 XMind 的次数">Exports to XMind</div>
+                <p data-zh="有多少案件仍要导出后在 XMind 里重画。产品内归纳有效的话，这个数字应该下降。">How many cases still get exported and rebuilt in XMind. If in-graph synthesis works, this should fall.</p>
+            </div>
+            <div class="aml-card">
+                <span class="aml-card__k" data-zh="在产品内完成">Work inside</span>
+                <div class="aml-card__h" data-zh="“Show mutual counterparts”的使用">Uses of "Show mutual counterparts"</div>
+                <p data-zh="每个案件的使用次数，用来衡量它替代了多少原本在表格里完成的比较。">Uses per case, as a measure of how much spreadsheet comparison it replaced.</p>
+            </div>
+        </div>
+        <p class="cs-note" data-zh="我为图谱改版写了埋点方案，但在我离开前没有上线，上线前也没有记录基线，所以这些是我会先看的指标，而不是结果。">I specified event tracking for the graph redesign, but it didn't ship before I left and no baseline was captured, so these are the measures I'd start with, not results.</p>
+
+        <h5 class="cs-sub" data-zh="做得好的，和下次要改的">What worked, and what I'd change</h5>
         <div class="cs-learns">
             <div class="cs-learn">
                 <span class="cs-learn__n">1</span>
                 <div>
-                    <h5 data-zh="观察实际工作：最大的问题从没以需求的形式出现">Watch the work: the biggest problems never arrived as requests</h5>
-                    <p data-zh="15–45 分钟的时间预算、绕道 XMind、把 ID 复制到另一个 Tab：这些从来没有以需求的形式出现。">The 15–45 minute budget, the detour into XMind and the copy-paste into a second tab never arrived as feature requests.</p>
+                    <h5 data-zh="先观察实际工作：最大的问题从没以需求的形式出现">Watching the work found problems no request mentioned</h5>
+                    <p data-zh="15–45 分钟的时间预算、绕道 XMind、把 ID 复制到另一个 Tab，都是在旁听真实案件时发现的。把四个工具按一次调查的顺序串起来，比单独打磨任何一个界面都更重要。">The 15–45 minute budget, the detour into XMind and the copy-paste into a second tab all came from sitting in on real cases. Ordering four tools as one investigation mattered more than polishing any single screen.</p>
                 </div>
             </div>
             <div class="cs-learn">
                 <span class="cs-learn__n">2</span>
                 <div>
-                    <h5 data-zh="按分析师的推理组织，而不是按数据存储">Follow how analysts reason, not how data is stored</h5>
-                    <p data-zh="把四个工具按一次调查的顺序串起来，比单独打磨任何一个界面都更重要。">Ordering four tools as one investigation mattered more than polishing any single screen.</p>
+                    <h5 data-zh="下次：把衡量放进第一个版本">Next time: measurement ships in the first release</h5>
+                    <p data-zh="埋点方案写好了，却没能在我离开前上线，也没有基线，所以现在只能描述做了什么，说不出省了多少时间。下次我会在设计阶段就和产品约定基线，并把埋点作为第一个版本的一部分。">The tracking was specified but didn't ship before I left, and there was no baseline, so I can describe what changed but not how much time it saved. Next time I'd agree a baseline with product during design and make tracking part of the first release.</p>
                 </div>
             </div>
-            <div class="cs-learn">
-                <span class="cs-learn__n">3</span>
-                <div>
-                    <h5 data-zh="每个评分都要有可见的来源">Give every score a visible source</h5>
-                    <p data-zh="每个评分、标记和结论都要在界面上标明来源，因为总有人要向监管机构解释它。">Every score, flag and conclusion needs a source on screen, because someone will be asked to defend it to a regulator.</p>
+        </div>
+
+
+        <!-- ── CONCEPT · AI TRIAGE ───────────────────────────── -->
+        <div class="anchor" id="section10"></div>
+        <span class="cs-kicker" data-zh="08 · 构想">08 · Concept</span>
+        <h3 class="section" data-zh="AI 预处理：智能体准备材料，分析师做决定">AI triage: the agent prepares, the analyst decides</h3>
+        <div class="aml-stage">
+            <span class="aml-st aml-st--concept" data-zh="构想 · 未上线">Concept · not shipped</span>
+        </div>
+        <p data-zh="这个产品里没有 AI。这一页是构想：如果在同一条调查路径上加一个 AI 预处理，它的边界该划在哪里。边界来自同一轮研究：每条预警只有 15–45 分钟，而每个判断都要经得起复核。">There was no AI in this product. This page is a concept: where the boundaries would sit if the same investigation path had an AI first pass. They come from the same research: 15–45 minutes per alert, and every decision gets reviewed.</p>
+        <div class="aml-concept">
+            <div class="aml-cards">
+                <div class="aml-card">
+                    <span class="aml-card__k" data-zh="可以自行完成">May do on its own</span>
+                    <div class="aml-card__h" data-zh="标记和归组">Flag and group</div>
+                    <p data-zh="把有共同交易对手的预警归到一起；预先填好预警页的四个答案；在图谱上按模式给地址分组，例如多笔小额充值加一笔大额提现。它做的任何事都不会改变案件状态。">Cluster alerts that share counterparties, pre-fill the four answers on the alert page, and group graph addresses by pattern, such as many small deposits and one large withdrawal. Nothing it does changes a case's status.</p>
+                </div>
+                <div class="aml-card">
+                    <span class="aml-card__k" data-zh="必须由分析师确认">An analyst must confirm</span>
+                    <div class="aml-card__h" data-zh="任何会留下记录的操作">Anything that leaves a record</div>
+                    <p data-zh="结案或上报、打风险标签、写结论、导出证据。智能体只起草，签字的是分析师。">Closing or escalating a case, applying a risk label, writing the conclusion, exporting evidence. The agent drafts; the analyst signs.</p>
+                </div>
+                <div class="aml-card">
+                    <span class="aml-card__k" data-zh="如何说明依据">How it explains itself</span>
+                    <div class="aml-card__h" data-zh="和人工评分用同样的来源">The same sources as a human score</div>
+                    <p data-zh="每条建议都链接到制裁名单、具体交易或交易对手，和地址风险页的证据一样。找不到可追溯来源的建议不显示。">Every suggestion links to the sanctions listing, the transaction or the counterparty, like the evidence on the address risk page. A suggestion with no traceable source isn't shown.</p>
+                </div>
+                <div class="aml-card">
+                    <span class="aml-card__k" data-zh="何时交还">When it hands back</span>
+                    <div class="aml-card__h" data-zh="不确定时停下来说明">It stops and says why</div>
+                    <p data-zh="来源互相矛盾、数据缺失（例如没有 KYC 的子账户）或遇到没见过的模式时，它停下来，说明哪些没能确认，然后把案件交回队列，不附建议。">When sources conflict, data is missing (such as sub-accounts with no KYC) or the pattern is new, it stops, says what it couldn't establish, and returns the case to the queue without a recommendation.</p>
                 </div>
             </div>
         </div>

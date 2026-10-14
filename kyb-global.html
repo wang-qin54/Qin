@@ -4,879 +4,330 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYB — Institutional Verification Redesign</title>
+    <title>Institutional KYB — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=20" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-components.css?v=3" type="text/css" rel="stylesheet">
     <style>
-        /* ---- KYB case · page-scoped components (built on detailpage.css tokens) ---- */
-        .kyb-lead {
-            font-size: 19px;
-            line-height: 1.6;
-            color: var(--text-primary);
-            margin: 0 0 var(--space-7);
-            letter-spacing: -0.01em;
-        }
-        .kyb-kicker {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            margin-bottom: var(--space-2);
-        }
-        .kyb-head {
-            font-family: var(--font-title);
-            font-size: clamp(20px, 2.6vw, 27px);
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.03em;
-            line-height: 1.2;
-            margin: 0 0 var(--space-4);
-        }
-        .kyb-list { margin: var(--space-3) 0; padding: 0; list-style: none; }
-        .kyb-list li {
-            position: relative;
-            padding-left: 18px;
-            margin: var(--space-2) 0;
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-        .kyb-list li::before {
-            content: "";
-            position: absolute;
-            left: 2px; top: 11px;
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-        /* Callout — the request / a key note */
-        .kyb-callout {
-            border-left: 3px solid var(--accent);
-            background: var(--accent-subtle);
-            border-radius: var(--radius-md);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-5) 0;
-        }
-        .kyb-callout .lbl {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
-        }
-        .kyb-callout .quote {
-            font-family: var(--font-title);
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--text-primary);
-            letter-spacing: -0.01em;
-            line-height: 1.4;
-        }
-        .kyb-callout .sub {
-            display: block;
-            margin-top: var(--space-2);
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
-        /* Metric cards */
-        .kyb-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-3);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        .kyb-metric {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-4);
-            background: var(--bg-subtle);
-        }
-        .kyb-metric .num {
-            font-family: var(--font-title);
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-        .kyb-metric .num.bad { color: #c0392b; }
-        .kyb-metric .desc {
-            display: block;
-            margin-top: var(--space-2);
-            font-size: 13px;
-            line-height: 1.45;
-            color: var(--text-secondary);
-        }
-        /* Data insight — stepped panels */
-        .kyb-insight {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-5);
-            margin: var(--space-5) 0 var(--space-6);
-        }
-        .kyb-panel {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-5);
-            background: var(--bg);
-        }
-        .kyb-panel__head {
-            display: flex;
-            align-items: baseline;
-            gap: var(--space-3);
-            margin-bottom: var(--space-4);
-            padding-bottom: var(--space-3);
-            border-bottom: 1px solid var(--border);
-        }
-        .kyb-panel__step {
-            flex: 0 0 auto;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            color: var(--accent);
-            background: var(--accent-subtle);
-            border-radius: var(--radius-sm);
-            padding: 3px 8px;
-        }
-        .kyb-panel__title {
-            font-family: var(--font-title);
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            letter-spacing: -0.01em;
-        }
-        .kyb-panel__lead {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin: 0 0 var(--space-4);
-            max-width: 62ch;
-        }
-        .kyb-panel .kyb-metrics,
-        .kyb-panel .kyb-bars,
-        .kyb-panel .kyb-cards,
-        .kyb-panel .kyb-chain {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        .kyb-panel .kyb-chain {
-            background: var(--bg-subtle);
-        }
-        .kyb-panel .kyb-figcap {
-            margin-top: var(--space-4);
-            margin-bottom: 0;
-        }
-        .kyb-panel .kyb-targets {
-            margin-bottom: var(--space-4);
-        }
-        .kyb-panel img {
-            margin-top: 0;
-        }
-        /* Screenshot — fills its container edge to edge */
-        .kyb-shot {
-            margin: var(--space-4) 0 var(--space-2);
-            border-radius: var(--radius-lg, 16px);
-            overflow: hidden;
-        }
-        .kyb-shot img {
-            margin: 0;
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: var(--radius-lg, 16px);
-            border: 1px solid var(--border);
-        }
-        .kyb-shot + .kyb-figcap {
-            margin-top: var(--space-3);
-        }
-        /* Interactive prototype embed */
-        .kyb-proto {
-            margin: var(--space-4) 0 var(--space-2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg, 16px);
-            overflow: hidden;
-            background: #fff;
-        }
-        .kyb-proto iframe {
-            display: block;
-            width: 100%;
-            aspect-ratio: 2 / 1;
-            border: 0;
-        }
-        .kyb-proto + .kyb-figcap {
-            margin-top: var(--space-3);
-        }
-        /* Root-cause chain */
-        .kyb-chain {
-            font-family: var(--font-title);
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-primary);
-            background: var(--bg-muted);
-            border-radius: var(--radius-md);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-3) 0 var(--space-5);
-            line-height: 1.9;
-        }
-        .kyb-chain .arrow { color: var(--accent); margin: 0 6px; font-weight: 700; }
-        /* Funnel */
-        .kyb-funnel { margin: var(--space-4) 0 var(--space-5); }
+        /* Page-only: the blocks this case invents (funnel, option rows). Everything else is from case-components.css. */
+        /* The prototype renders at a 1440 × 900 desktop and scales to the column; narrow columns get its responsive layout. */
+        .kyb-proto { position: relative; height: calc(900px * var(--s, 0.49)); }
+        .kyb-proto iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; transform: scale(var(--s, 0.49)); transform-origin: 0 0; }
+        .kyb-proto.is-fluid { height: auto; }
+        .kyb-proto.is-fluid iframe { position: static; width: 100%; height: 420px; transform: none; }
+
+        /* Submission funnel */
+        .kyb-funnel { margin: var(--space-5) 0 var(--space-3); }
         .kyb-fstep { display: flex; align-items: center; gap: var(--space-3); margin: 6px 0; }
-        .kyb-fstep .pct {
-            flex: 0 0 48px;
-            text-align: right;
-            font-family: var(--font-title);
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        .kyb-ftrack {
-            flex: 0 0 240px;
-            max-width: 45%;
-        }
-        .kyb-fbar {
-            height: 38px;
-            border-radius: var(--radius-sm);
-            background: var(--accent-subtle);
-            min-width: 6px;
-        }
-        .kyb-flabel {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-            white-space: nowrap;
-        }
-        .kyb-fstep.drop .pct,
-        .kyb-fstep.drop .kyb-flabel { color: #c0392b; }
-        .kyb-fstep.drop .kyb-fbar { background: rgba(192, 57, 43, 0.14); }
-        /* Horizontal bar chart (failure breakdown) */
-        .kyb-bars {
-            margin: var(--space-4) 0 0;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-        }
-        .kyb-bar-row {
-            display: grid;
-            grid-template-columns: 210px 1fr 42px;
-            align-items: center;
-            gap: var(--space-3);
-        }
-        .kyb-bar-label { font-size: 13px; color: var(--text-secondary); }
-        .kyb-bar-track {
-            background: var(--bg-muted);
-            border-radius: 999px;
-            height: 8px;
-            overflow: hidden;
-        }
-        .kyb-bar-fill {
-            height: 100%;
-            background: rgba(0, 52, 240, 0.32);
-            border-radius: 999px;
-            min-width: 4px;
-        }
-        .kyb-bar-val {
-            font-family: var(--font-title);
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-align: right;
-        }
-        .kyb-bar-row.lead .kyb-bar-fill { background: rgba(192, 57, 43, 0.38); }
-        .kyb-bar-row.lead .kyb-bar-val { color: #a84a3f; font-weight: 700; }
-        @media (max-width: 600px) {
-            .kyb-bar-row { grid-template-columns: 1fr; gap: 4px; }
-            .kyb-bar-val { text-align: left; }
-        }
-        /* Alternatives — screenshot + explanation rows */
-        .kyb-alts { display: flex; flex-direction: column; gap: var(--space-4); margin: var(--space-4) 0 var(--space-5); }
-        .kyb-alt {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: var(--space-5);
-            align-items: center;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-4);
-            background: var(--bg);
-        }
-        .kyb-alt.win { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-subtle); }
-        .kyb-alt img {
-            width: 100%;
-            height: auto;
-            margin: 0;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            display: block;
-        }
-        .kyb-alt .tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
-        }
-        .kyb-alt.win .tag { color: var(--accent); }
-        .kyb-alt h4 {
-            font-family: var(--font-title);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 var(--space-2);
-            letter-spacing: -0.01em;
-        }
-        .kyb-alt p { font-size: 14px; line-height: 1.6; margin: 0; color: var(--text-secondary); }
-        @media (max-width: 640px) { .kyb-alt { grid-template-columns: 1fr; } }
-        /* Cards (alternatives / before-after / edge cases) */
-        .kyb-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-4);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        .kyb-card {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: var(--space-5);
-            background: var(--bg);
-        }
-        .kyb-card.win {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-subtle);
-        }
-        /* Edge cases — labelled full-width figures */
-        .kyb-edges {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-6);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        .kyb-edge__head {
-            display: flex;
-            align-items: baseline;
-            gap: var(--space-3);
-            margin-bottom: var(--space-2);
-        }
-        .kyb-edge .tag {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-tertiary);
-            white-space: nowrap;
-        }
-        .kyb-edge h4 {
-            font-family: var(--font-title);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            letter-spacing: -0.01em;
-        }
-        .kyb-edge p {
-            font-size: 15px;
-            line-height: 1.6;
-            margin: 0 0 var(--space-3);
-            color: var(--text-secondary);
-            max-width: 68ch;
-        }
-        .kyb-edge img {
-            width: 100%;
-            height: auto;
-            margin: 0;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border);
-            display: block;
-        }
-        .kyb-card .tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
-        }
-        .kyb-card.win .tag { color: var(--accent); }
-        .kyb-card h4 {
-            font-family: var(--font-title);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0 0 var(--space-2);
-            letter-spacing: -0.01em;
-        }
-        .kyb-card p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0;
-            color: var(--text-secondary);
-        }
-        /* Target cards — failure breakdown row */
-        .kyb-targets .kyb-card {
-            padding: var(--space-4) var(--space-5);
-        }
-        .kyb-targets .kyb-card h4 {
-            font-size: 15px;
-            margin-bottom: var(--space-3);
-        }
-        .kyb-targets .kyb-card p {
-            font-size: 13px;
-            line-height: 1.55;
-            color: var(--text-tertiary);
-        }
-        .kyb-targets .kyb-card p + p {
-            margin-top: var(--space-2);
-        }
-        .kyb-targets .kyb-card p b {
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-        .kyb-targets .kyb-card--note {
-            border-style: dashed;
-            background: var(--bg-subtle);
-        }
-        /* Two-up compare */
-        .kyb-compare {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-            margin: var(--space-4) 0 var(--space-5);
-        }
-        /* Figure caption */
-        .kyb-figcap {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            margin: -6px 0 var(--space-6);
-            letter-spacing: 0;
-        }
-        .kyb-bars + .kyb-figcap {
-            margin-top: var(--space-4);
-        }
+        .kyb-fstep .pct { flex: 0 0 44px; text-align: right; font-family: var(--font-title); font-size: 14px; font-weight: 700; color: var(--text-secondary); }
+        .kyb-ftrack { flex: 0 0 240px; max-width: 45%; }
+        .kyb-fbar { height: 36px; min-width: 6px; border-radius: 6px; background: var(--accent-subtle); }
+        .kyb-flabel { font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .kyb-fstep.is-drop .pct,
+        .kyb-fstep.is-drop .kyb-flabel { color: #c0392b; }
+        .kyb-fstep.is-drop .kyb-fbar { background: #fdecec; }
+
+        /* Option rows: screen + the role the evidence gave it */
+        .kyb-opts { display: grid; gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
+        .kyb-opt { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: var(--space-5); align-items: center; padding: var(--space-4); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .kyb-opt.is-pick { background: var(--accent-subtle); }
+        .one-col .kyb-opt img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
+        .kyb-opt.is-pick .cs-card__k { color: var(--accent); }
+        .one-col .kyb-opt p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+
         @media (max-width: 720px) {
-            .kyb-metrics, .kyb-cards, .kyb-compare { grid-template-columns: 1fr; }
+            .kyb-ftrack { flex-basis: 110px; }
+            .kyb-opt { grid-template-columns: 1fr; gap: var(--space-3); }
         }
     </style>
-    <script src="site-chrome.js?v=8"></script>
+    <script src="site-chrome.js?v=10"></script>
 </head>
 
 <body>
-    <site-header></site-header>
+    <site-header lang-switch></site-header>
 
     <div class="anchor" id="top"></div>
-    <div class="page-title-box">
+    <div class="anchor" id="section1"></div>
+    <div class="page-title-box case-hero case-hero--fill">
         <div class="grid">
             <div class="page-title-content">
-                <nav class="case-back" aria-label="Case study navigation">
-                    <a class="case-back__link" href="work.html">
-                        <svg class="case-back__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                            <path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span data-zh="返回">Back</span>
-                    </a>
-                </nav>
-                <h2>Institutional Verification Redesign (KYB)</h2>
+                <h2 data-zh="机构认证（KYB）">Institutional KYB</h2>
+                <p class="as-role" data-zh="&lt;strong&gt;主设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;问题定义、流程与界面&lt;/span&gt;"><strong>Lead designer</strong> &middot; <span class="as-role__rest">problem framing + flow + UI</span></p>
+
+                <ol class="as-stats" aria-label="From a cosmetic request to a root-cause fix">
+                    <li><span class="as-stats__num">82%</span><span class="as-stats__label" data-zh="重复提交">Resubmitted</span></li>
+                    <li class="is-turn"><span class="as-stats__num">67%</span><span class="as-stats__label" data-zh="董事会文件出错">Board file wrong</span></li>
+                    <li><span class="as-stats__num">41→42%</span><span class="as-stats__label" data-zh="一次通过率">First-pass rate</span></li>
+                    <li><span class="as-stats__num">EU + AU</span><span class="as-stats__label" data-zh="以此为基础">Built on it</span></li>
+                </ol>
+
                 <dl class="as-meta">
-                    <dt>Timeline</dt><dd>2 weeks · UX/UI design · Web</dd>
-                    <dt>Role</dt><dd>Lead designer on the flow — with 1 PM, front-end &amp; back-end</dd>
+                    <div><dt data-zh="产品">Product</dt><dd data-zh="KuCoin 机构认证（Web）">KuCoin institutional verification (web)</dd></div>
+                    <div><dt data-zh="目标用户">Target users</dt><dd data-zh="在 KuCoin 开户的公司与机构">Companies and institutions opening a KuCoin account</dd></div>
+                    <div><dt data-zh="范围">Scope</dt><dd data-zh="文件提交，以及退回、补件和稍后继续等状态">Document submission, plus rejection, extra-document and resume states</dd></div>
+                    <div><dt data-zh="团队">Team</dt><dd data-zh="1 名产品经理，前端与后端工程师">1 PM, front-end and back-end engineers</dd></div>
+                    <div><dt data-zh="周期">Timeline</dt><dd data-zh="2 周">2 weeks</dd></div>
                 </dl>
-                
-                
+                <details class="as-hero-more">
+                    <summary data-zh="为什么重要">Why it mattered</summary>
+                    <p data-zh="机构客户贡献交易所 30–70% 的交易量。每一家卡在认证上的公司，都是最高价值客群里的收入损失。">Institutional clients drive 30–70% of an exchange's trading volume, so every company that gives up at verification is lost revenue from the highest-value segment.</p>
+                </details>
             </div>
             <div class="title-img">
-                <img src="resources/images-kyb/header_img.png" alt="KYB institutional verification flow — key screens">
+                <img src="resources/images-kyb/hero.webp?v=1" width="1600" height="1795" style="--hero-img-pad: 0.0375" alt="The institutional verification entry page, and in front the required-documents step with the board of directors or one director choice">
             </div>
         </div>
     </div>
 
-        <div class="case-layout">
+    <div class="case-layout">
     <div class="scrollspy">
-        <span class="scrollspy__title">Institutional Verification Redesign (KYB)</span>
+        <span class="scrollspy__title" data-zh="机构认证（KYB）">Institutional KYB</span>
         <div class="scrollspy__list">
-        <a href="#section1" class="list">01 Problem</a>
-        <a href="#section2" class="list">02 Data-driven insight</a>
-        <a href="#section3" class="list">03 Approach</a>
-        <a href="#section4" class="list">04 Solution</a>
-        <a href="#section5" class="list">05 Edge cases</a>
-        <a href="#section6" class="list">06 Final design</a>
-        <a href="#section7" class="list">07 Impact</a>
-        <a href="#section8" class="list">08 Hindsight</a>
-        <a href="#top" class="list">Back to top</a>
+        <a href="#section1" class="list" data-zh="01 简介">01 Intro</a>
+        <a href="#section2" class="list" data-zh="02 问题">02 Problem</a>
+        <a href="#section3" class="list" data-zh="03 研究">03 Research</a>
+        <a href="#section4" class="list" data-zh="04 思路">04 Approach</a>
+        <a href="#section5" class="list" data-zh="05 方案">05 Solution</a>
+        <a href="#section6" class="list" data-zh="06 边界情况">06 Edge cases</a>
+        <a href="#section7" class="list" data-zh="07 最终设计">07 Final design</a>
+        <a href="#section8" class="list" data-zh="08 结果">08 Result</a>
+        <a href="#section9" class="list" data-zh="09 复盘">09 Reflection</a>
+        <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
         </div>
     </div>
 <div class="one-col">
 
-        <p class="kyb-lead">
-            Reframed an &ldquo;add a selector&rdquo; request into a root-cause redesign of document
-            submission &mdash; for the institutional segment that drives <b>30&ndash;70% of exchange
-            trading volume</b>.
-        </p>
 
-        <!-- ============ 01 PROBLEM ============ -->
-        <div class="anchor" id="section1"></div>
-        <h3 class="section">01 · Problem</h3>
-        <span class="kyb-kicker">The why</span>
-        <p class="kyb-head">The request was cosmetic. The real problem was comprehension.</p>
-
-        <p>
-            KYB is how institutional clients verify their company to trade. Institutional clients drive
-            <b>30&ndash;70%</b> of exchange volume &mdash; every drop-off here is lost revenue in the
-            highest-value segment.
-        </p>
-        <p>
-            A user research report flagged a <b>low KYB conversion rate</b>. A feature request landed on
-            my desk to &ldquo;fix&rdquo; it.
-        </p>
-
-        <div class="kyb-callout">
-            <div class="lbl">The request I was handed</div>
-            <div class="quote">&ldquo;Add a company-type selector so users only see the fields relevant to them.&rdquo;</div>
-            <span class="sub">A reasonable-sounding feature request.</span>
-        </div>
-
-        <ul class="kyb-list">
-            <li><b>What I found</b> &mdash; traced it back to the user research report myself.</li>
-            <li><b>Why the request missed</b> &mdash; heaviest drop-off sat on documents nearly every company type submits; filtering by company type wouldn&rsquo;t touch the real bottleneck.</li>
-            <li><b>Two failure modes</b> &mdash; users submitted without reading requirements and got rejected; others stalled at document upload and gave up.</li>
-            <li><b>Bottom line</b> &mdash; of everyone who submitted documents, only <b>41%</b> reached approved KYB.</li>
-        </ul>
-
-        <div class="kyb-funnel">
-            <div class="kyb-fstep"><span class="pct">&mdash;</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:100%"></div></div><span class="kyb-flabel">Company info submitted &mdash; 169</span></div>
-            <div class="kyb-fstep"><span class="pct">89%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:89%"></div></div><span class="kyb-flabel">Contact person submitted &mdash; 151</span></div>
-            <div class="kyb-fstep"><span class="pct">75%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:67%"></div></div><span class="kyb-flabel">Documents submitted &mdash; 114</span></div>
-            <div class="kyb-fstep drop"><span class="pct">41%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:28%"></div></div><span class="kyb-flabel">KYB approved &mdash; 47</span></div>
-        </div>
-        <p class="kyb-figcap">Nov KYB self-submission funnel · % = conversion from the step above. Starts at company-info submission, excluding pre-intent homepage traffic the report flagged as non-institutional noise.</p>
-
-        <!-- ============ 02 DATA-DRIVEN INSIGHT ============ -->
+        <!-- ── 02 · PROBLEM ───────────────────────────────────── -->
         <div class="anchor" id="section2"></div>
-        <h3 class="section">02 · Data-driven insight</h3>
-        <span class="kyb-kicker">Prove the why, then pinpoint the where</span>
-        <p class="kyb-head">82% resubmitted — a clarity problem, not a motivation problem.</p>
+        <span class="cs-kicker" data-zh="02 · 问题">02 · Problem</span>
+        <h3 class="section" data-zh="需求要加选择器，流失却出在每家公司都要传的文件上">The brief asked for a selector; the drop-off sat on documents every company uploads</h3>
+        <p data-zh="一份用户研究报告指出 KYB 转化率偏低，随之而来的是一个功能需求。动手设计之前，我先回到报告里的漏斗。">A research report flagged low KYB conversion, and a feature request came with it. Before designing it, I went back to the report's funnel.</p>
 
-        <div class="kyb-insight">
-
-            <div class="kyb-panel">
-                <div class="kyb-panel__head">
-                    <span class="kyb-panel__step">01</span>
-                    <h5 class="kyb-panel__title">What the data showed</h5>
-                </div>
-                <p class="kyb-panel__lead">Users weren&rsquo;t abandoning out of disinterest — they were failing, resubmitting, and stalling. These three numbers set the baseline.</p>
-                <div class="kyb-metrics">
-                    <div class="kyb-metric"><span class="num">41%</span><span class="desc">document submissions passed review</span></div>
-                    <div class="kyb-metric"><span class="num bad">82%</span><span class="desc">resubmission rate — primary friction signal</span></div>
-                    <div class="kyb-metric"><span class="num">~40%</span><span class="desc">took more than 5 days to complete</span></div>
-                </div>
-            </div>
-
-            <div class="kyb-panel">
-                <div class="kyb-panel__head">
-                    <span class="kyb-panel__step">02</span>
-                    <h5 class="kyb-panel__title">Why — the failure chain</h5>
-                </div>
-                <p class="kyb-panel__lead">From the research report and internal interviews — not a motivation drop-off, a comprehension loop.</p>
-                <div class="kyb-chain">
-                    Wall-of-text requirements <span class="arrow">&rarr;</span> wrong documents submitted
-                    <span class="arrow">&rarr;</span> rejection <span class="arrow">&rarr;</span> abandonment
-                </div>
-            </div>
-
-            <div class="kyb-panel">
-                <div class="kyb-panel__head">
-                    <span class="kyb-panel__step">03</span>
-                    <h5 class="kyb-panel__title">Where — two modules drove ~90% of failures</h5>
-                </div>
-                <div class="kyb-bars">
-                    <div class="kyb-bar-row lead">
-                        <span class="kyb-bar-label">CBR / PoA &mdash; wrong document</span>
-                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:67%"></div></div>
-                        <span class="kyb-bar-val">67%</span>
-                    </div>
-                    <div class="kyb-bar-row">
-                        <span class="kyb-bar-label">Shareholder register (&gt;25%)</span>
-                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:24%"></div></div>
-                        <span class="kyb-bar-val">24%</span>
-                    </div>
-                    <div class="kyb-bar-row">
-                        <span class="kyb-bar-label">Other modules</span>
-                        <div class="kyb-bar-track"><div class="kyb-bar-fill" style="width:9%"></div></div>
-                        <span class="kyb-bar-val">9%</span>
-                    </div>
-                </div>
-                <p class="kyb-figcap">Share of document-submission failures by module (Nov).</p>
-            </div>
-
-            <div class="kyb-panel">
-                <div class="kyb-panel__head">
-                    <span class="kyb-panel__step">04</span>
-                    <h5 class="kyb-panel__title">What to fix — two precise targets</h5>
-                </div>
-                <div class="kyb-cards kyb-targets">
-                    <div class="kyb-card">
-                        <span class="tag">① CBR vs PoA · 67% wrong</span>
-                        <h4>Board vs no board</h4>
-                        <p><b>The split</b> &mdash; with vs without a board of directors, two different legal documents apply.</p>
-                        <p><b>The failure</b> &mdash; buried in a wall of text; users never noticed and uploaded the wrong one.</p>
-                    </div>
-                    <div class="kyb-card">
-                        <span class="tag">② Shareholders &gt; 25% · 24% wrong</span>
-                        <h4>Ownership thresholds</h4>
-                        <p><b>The rule</b> &mdash; shareholders owning &gt;25% trigger additional documents; further conditions add even more.</p>
-                        <p><b>The failure</b> &mdash; users couldn&rsquo;t track cascading requirements from static text.</p>
-                    </div>
-                    <div class="kyb-card kyb-card--note">
-                        <span class="tag">So what</span>
-                        <h4>Redesign focus</h4>
-                        <p><b>Takeaway</b> &mdash; fix these two modules and the redesign has a clear, measurable focus.</p>
-                    </div>
-                </div>
-                <img src="resources/images-kyb/kyb_two_documents_ui.png" alt="Previous design — the two document modules where most submissions failed">
-                <p class="kyb-figcap">Previous design — key distinctions buried in dense text at exactly these two modules.</p>
-            </div>
-
+        <div class="cs-callout">
+            <div class="lbl" data-zh="我接到的需求">The request</div>
+            <div class="quote" data-zh="「加一个公司类型选择器，让用户只看到和自己相关的字段。」">“Add a company-type selector so users only see the fields relevant to them.”</div>
         </div>
 
-        <!-- ============ 03 APPROACH ============ -->
+        <div class="kyb-funnel" role="img" aria-label="November KYB funnel: 169 submitted company info, 151 contact person, 114 documents, 47 approved">
+            <div class="kyb-fstep"><span class="pct">&mdash;</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:100%"></div></div><span class="kyb-flabel" data-zh="提交公司信息：169">Company info submitted: 169</span></div>
+            <div class="kyb-fstep"><span class="pct">89%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:89%"></div></div><span class="kyb-flabel" data-zh="提交联系人：151">Contact person submitted: 151</span></div>
+            <div class="kyb-fstep"><span class="pct">75%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:67%"></div></div><span class="kyb-flabel" data-zh="提交文件：114">Documents submitted: 114</span></div>
+            <div class="kyb-fstep is-drop"><span class="pct">41%</span><div class="kyb-ftrack"><div class="kyb-fbar" style="width:28%"></div></div><span class="kyb-flabel" data-zh="KYB 通过：47">KYB approved: 47</span></div>
+        </div>
+        <p class="cs-figcap" data-zh="11 月 KYB 自助提交漏斗，百分比为相对上一步的转化率。从提交公司信息算起，已剔除报告标为非机构流量的首页访问。">November KYB self-submission funnel; each % is conversion from the step above. It starts at company info and excludes homepage traffic the report marked as non-institutional.</p>
+
+        <ul class="cs-list">
+            <li data-zh="&lt;b&gt;流失在哪&lt;/b&gt;：114 家提交了文件的公司里，只有 47 家通过，即 41%。"><b>Where companies dropped</b>: of 114 that submitted documents, 47 were approved, or 41%.</li>
+            <li data-zh="&lt;b&gt;选择器为何没打中&lt;/b&gt;：流失最多的是几乎每种公司都要传的文件，按类型筛字段碰不到它。"><b>Why a selector would miss</b>: the biggest drop sat on documents nearly every company type uploads, so filtering fields by type wouldn't reach it.</li>
+            <li data-zh="&lt;b&gt;两种情况&lt;/b&gt;：有人没读要求就提交，被退回；有人停在上传这一步，没再回来。"><b>Two patterns</b>: some submitted without reading the requirements and were rejected; others stopped at the upload step.</li>
+        </ul>
+
+        <!-- ── 03 · RESEARCH ──────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
-        <h3 class="section">03 · Approach</h3>
-        <span class="kyb-kicker">Benchmark the pattern, then decide what to keep</span>
-        <p class="kyb-head">Competitor research was an input — alternatives were my decision.</p>
+        <span class="cs-kicker" data-zh="03 · 研究">03 · Research</span>
+        <h3 class="section" data-zh="82% 的用户重复提交：他们分不清该传哪份文件">82% resubmitted: companies couldn't tell which document to upload</h3>
+        <p data-zh="用户不是没兴趣，而是传错文件、被退回、再试一次。研究报告和内部访谈指向同一个循环。">Users weren't losing interest. They sent the wrong file, got it back and tried again; the research report and internal interviews traced the same loop.</p>
 
-        <h5>What leading platforms do</h5>
-        <p style="margin-bottom:var(--space-3);">Three patterns recurred across Binance, OKX, Coinbase and Kraken &mdash; inputs to my solution, not the answer.</p>
-        <ul class="kyb-list">
-            <li><b>Pre-select entity type</b> &mdash; route users by institution type upfront.</li>
-            <li><b>Document checklist</b> &mdash; show what to prepare before they start.</li>
-            <li><b>Plain-language instructions</b> &mdash; readable requirements at each step.</li>
-        </ul>
-        <img src="resources/images-kyb/kyb_3_competitor_deepdive.png" alt="Three recurring patterns across leading exchanges — pre-select entity type, upfront document checklist, plain-language instructions">
-        <p class="kyb-figcap">Benchmarking institutional verification flows across leading exchanges.</p>
-
-        <h5>Alternatives I considered — and how each earned its place</h5>
-        <div class="kyb-alts">
-            <div class="kyb-alt">
-                <img src="resources/images-kyb/kyb_alt_selector.png" alt="Company-type selector — a dropdown for picking the entity type before verification">
-                <div class="kyb-alt-text">
-                    <span class="tag">Option A · kept for scale</span>
-                    <h4>Company-type selector</h4>
-                    <p><b>Today&rsquo;s bottleneck</b> &mdash; doesn&rsquo;t fix comprehension failures.<br><b>At scale</b> &mdash; as EU and AU regulation expands, document requirements diverge by region; the selector routes the right set per market.</p>
-                </div>
-            </div>
-            <div class="kyb-alt">
-                <img src="resources/images-kyb/kyb_alt_helptext.png" alt="Help text — an info tooltip that explains a complex field inline">
-                <div class="kyb-alt-text">
-                    <span class="tag">Option B · supporting role</span>
-                    <h4>Help text</h4>
-                    <p>Users already skip long text, so I used it only for basic concept explanation — never as the fix for complex requirements.</p>
-                </div>
-            </div>
-            <div class="kyb-alt win">
-                <img src="resources/images-kyb/kyb_alt_guided.png" alt="Guided required choice — a required selection that routes the user down the correct path">
-                <div class="kyb-alt-text">
-                    <span class="tag">Option C · core fix</span>
-                    <h4>Guided required choice</h4>
-                    <p>Routes users to the right document with the lowest cognitive load — no hard reading required. This carried the redesign.</p>
-                </div>
-            </div>
+        <div class="cs-metrics" style="--cols:2">
+            <div class="cs-metric cs-metric--bad"><span class="cs-metric__num">82%</span><span class="cs-metric__desc" data-zh="的用户提交过多次申请">of users submitted multiple applications</span></div>
+            <div class="cs-metric"><span class="cs-metric__num">~40%</span><span class="cs-metric__desc" data-zh="超过 5 天才完成认证">took more than 5 days to complete</span></div>
         </div>
+        <ol class="cs-flow" aria-label="The rejection loop">
+            <li data-zh="大段文字要求">Wall of requirements text</li>
+            <li data-zh="传错文件">Wrong document</li>
+            <li data-zh="被退回">Rejected</li>
+            <li data-zh="重交或放弃">Resubmit or give up</li>
+        </ol>
 
-        <!-- ============ 04 SOLUTION ============ -->
+        <h5 class="cs-sub" data-zh="67% 的失败申请卡在董事会决议或授权书">67% of failed applications got the board document wrong</h5>
+        <div class="cs-bars">
+            <div class="cs-bar is-lead"><span class="cs-bar__label" data-zh="董事会决议或授权书（CBR / POA）">Board resolution or POA (CBR / POA)</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:67%"></div></div><span class="cs-bar__val">67%</span></div>
+            <div class="cs-bar"><span class="cs-bar__label" data-zh="履行承诺协议（PUA）">Performance undertaking agreement (PUA)</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:36%"></div></div><span class="cs-bar__val">36%</span></div>
+            <div class="cs-bar"><span class="cs-bar__label" data-zh="其他补充文件">Other supporting documents</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:31%"></div></div><span class="cs-bar__val">31%</span></div>
+            <div class="cs-bar"><span class="cs-bar__label" data-zh="股东名单">Shareholder list</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:24%"></div></div><span class="cs-bar__val">24%</span></div>
+            <div class="cs-bar"><span class="cs-bar__label" data-zh="所有董事名单">List of all directors</span><div class="cs-bar__track"><div class="cs-bar__fill" style="--v:24%"></div></div><span class="cs-bar__val">24%</span></div>
+        </div>
+        <p class="cs-figcap" data-zh="11 月 86 个审核不通过或审核中的申请，各文件出问题的占比；一份申请可能有多项问题。这里只列文件步骤，公司信息和联系人信息各项都在 19% 及以下。">Share of 86 rejected or in-review applications in November with a problem in each document; one application can fail on several. Shown: the document step. Company and contact-person items were 19% or less.</p>
+
+        <h5 class="cs-sub" data-zh="旧表单把规则藏在文字里">What the old form hid in its text</h5>
+        <div class="cs-cards">
+            <div class="cs-card cs-card--soft"><span class="cs-card__k" data-zh="CBR 或 POA · 67% 的失败案例">CBR or POA · 67% of failures</span><div class="cs-card__h" data-zh="有无董事会">Board or no board</div><p data-zh="有董事会要传董事会决议，没有则传授权书；这条规则只是上传框下的一行灰字。67% 的失败申请在这份文件上出错，研究报告也把它列为常见卡点。">A company with a board needs a board resolution, one without needs a power of attorney. The rule was one line of grey text; 67% of failed applications got this document wrong, and the research report named it a common blocker.</p></div>
+            <div class="cs-card cs-card--soft"><span class="cs-card__k" data-zh="股东名单 · 24% 的失败案例">Shareholder list · 24% of failures</span><div class="cs-card__h" data-zh="持股超过 25%">Ownership above 25%</div><p data-zh="每位持股超过 25% 的股东都要补文件，其他条件还会再叠加，全写在一段话里。">Each shareholder above 25% adds documents, and further conditions add more, all in one paragraph.</p></div>
+        </div>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_two_documents_ui.webp?v=1" width="2084" height="1166" loading="lazy" alt="Previous design: the board resolution or POA module and the shareholder register module, each with its rules in dense text"></figure>
+        <p class="cs-figcap" data-zh="旧版设计：关键区别正好埋在这两个模块的密集文字里。">Previous design: the key distinctions sat in dense text in exactly these two modules.</p>
+
+        <!-- ── 04 · APPROACH ──────────────────────────────────── -->
         <div class="anchor" id="section4"></div>
-        <h3 class="section">04 · Solution</h3>
-        <span class="kyb-kicker">The build</span>
-        <p class="kyb-head">Turn reading into a guided, unskippable decision.</p>
+        <span class="cs-kicker" data-zh="04 · 思路">04 · Approach</span>
+        <h3 class="section" data-zh="竞品只是输入，每个方案的角色由数据决定">Benchmarks were an input; the data decided each option's role</h3>
+        <p data-zh="Binance、OKX、Coinbase 和 Kraken 有三个共同做法：先选实体类型、开始前给出材料清单、用大白话写要求。我把每一个都放到数据面前检验。">Binance, OKX, Coinbase and Kraken share three patterns: pick the entity type first, show a document checklist up front, and write requirements in plain language. I tested each against what the data showed.</p>
 
-        <ul class="kyb-list">
-            <li><b>1. Guided selection</b> &mdash; the board / no-board distinction became a required choice that routes users to the correct document &mdash; the step that was 67% wrong before.</li>
-        </ul>
-        <img src="resources/images-kyb/kyb_4_1_key_iteration.png" alt="Guided selection replacing text instructions">
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_3_competitor_deepdive.webp?v=1" width="2560" height="684" loading="lazy" alt="Three patterns across leading exchanges: pre-select entity type, upfront document checklist, plain-language instructions"></figure>
+        <p class="cs-figcap" data-zh="头部交易所的机构认证流程对标。">Institutional verification flows at leading exchanges.</p>
 
-        <ul class="kyb-list">
-            <li><b>2. Visual hierarchy</b> &mdash; requirements are scannable instead of buried &mdash; directly targeting the 24%-wrong shareholder step.</li>
-        </ul>
-        <img src="resources/images-kyb/kyb_4_2_key_iteration.png" alt="Restructured requirements with clear visual hierarchy">
+        <h5 class="cs-sub" data-zh="三个方案，三种角色">Three options, three roles</h5>
+        <div class="kyb-opts">
+            <div class="kyb-opt">
+                <img src="resources/images-kyb/kyb_alt_selector.webp?v=1" width="812" height="650" loading="lazy" alt="Company-type selector: a dropdown for the entity type before verification">
+                <div>
+                    <span class="cs-card__k" data-zh="方案 A · 为扩展保留">Option A · kept for scale</span>
+                    <div class="cs-card__h" data-zh="公司类型选择器">Company-type selector</div>
+                    <p data-zh="退回来自看不懂，而不是字段无关，所以选择器改变不了当下的数字。欧盟和澳洲的要求各不相同，我保留它，用来按市场分配文件清单。">Rejections came from comprehension, not irrelevant fields, so a selector wouldn't move today's numbers. I kept it to route each market's document set as EU and AU rules diverge.</p>
+                </div>
+            </div>
+            <div class="kyb-opt">
+                <img src="resources/images-kyb/kyb_alt_helptext.webp?v=1" width="812" height="650" loading="lazy" alt="Help text: an info tooltip that explains a field inline">
+                <div>
+                    <span class="cs-card__k" data-zh="方案 B · 辅助角色">Option B · supporting role</span>
+                    <div class="cs-card__h" data-zh="帮助文字">Help text</div>
+                    <p data-zh="用户本来就跳过长文字，所以帮助文字只解释术语，不承载任何规则。">Users already skipped long text, so help text only explains terms; it never carries a rule.</p>
+                </div>
+            </div>
+            <div class="kyb-opt is-pick">
+                <img src="resources/images-kyb/kyb_alt_guided.webp?v=1" width="812" height="652" loading="lazy" alt="Guided required choice: a required selection that leads to the right path">
+                <div>
+                    <span class="cs-card__k" data-zh="方案 C · 核心解法">Option C · core fix</span>
+                    <div class="cs-card__h" data-zh="引导式必选">Guided required choice</div>
+                    <p data-zh="规则写在文字里时，67% 的失败申请都在这份文件上出错，所以我把它变成必选的一步，选完直接给出正确文件。">With the rule in text, 67% of failed applications got this document wrong, so the choice became a required step that leads straight to the right document.</p>
+                </div>
+            </div>
+        </div>
 
-        <ul class="kyb-list">
-            <li><b>3. Additional upload section</b> &mdash; raises approval chances when compliance requests further documents after the first submission.</li>
-        </ul>
-        <img src="resources/images-kyb/kyb_4_3_key_iteration.png" alt="Additional upload section for supplementary documents">
-
-        <!-- ============ 05 EDGE CASES ============ -->
+        <!-- ── 05 · SOLUTION ──────────────────────────────────── -->
         <div class="anchor" id="section5"></div>
-        <h3 class="section">05 · Edge cases</h3>
-        <span class="kyb-kicker">The messy parts</span>
-        <p class="kyb-head">The states a happy-path demo hides.</p>
+        <span class="cs-kicker" data-zh="05 · 方案">05 · Solution</span>
+        <h3 class="section" data-zh="用户漏看的规则，变成一次选择或一个看得见的层级">Rules users missed became a choice or a visible order</h3>
+        <p data-zh="第一处改动针对出错最多的董事会文件（67%），第二处针对股东名单（24%）；第三处让公司提前知道，合规之后可能还会要补件。">The first fix targets the board document (wrong in 67% of failed applications), the second the shareholder list (24%). The third tells companies up front that compliance may ask for more.</p>
 
-        <div class="kyb-edges">
-            <div class="kyb-edge">
-                <div class="kyb-edge__head">
-                    <span class="tag">1 / 3</span>
-                    <h4>More materials required</h4>
-                </div>
-                <p>High-risk applicants get prompted for additional documents after submission, each with a clear reason — so the request doesn&rsquo;t feel like a dead end.</p>
-                <img src="resources/images-kyb/kyb_edge_1.png" alt="More materials required — post-submission prompt for additional documents, each with a clear reason">
-            </div>
-            <div class="kyb-edge">
-                <div class="kyb-edge__head">
-                    <span class="tag">2 / 3</span>
-                    <h4>Verification failed</h4>
-                </div>
-                <p>Rejections show specific, fixable reasons so users can debug and resubmit correctly — instead of guessing and abandoning.</p>
-                <img src="resources/images-kyb/kyb_edge_2.png" alt="Verification failed — rejection screen listing specific, fixable reasons">
-            </div>
-            <div class="kyb-edge">
-                <div class="kyb-edge__head">
-                    <span class="tag">3 / 3</span>
-                    <h4>Continue later</h4>
-                </div>
-                <p>Institutional clients need time to gather documents, so progress is saved and the flow is resumable from where they left off.</p>
-                <img src="resources/images-kyb/kyb_edge_3.png" alt="Continue later — saved, resumable verification progress">
-            </div>
-        </div>
+        <h5 class="cs-sub" data-zh="1 · 有无董事会：变成必选项">1 · Board or no board becomes a required choice</h5>
+        <p data-zh="选项设计为必选且默认不选，用户必须先选公司结构；之后表单只显示适用的那份文件和它的模板。">Designed as required with nothing pre-selected, so users must pick their structure first. The form then shows only the document that applies, with its template.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_4_1_key_iteration.webp?v=1" width="2560" height="1142" loading="lazy" alt="Before: CBR or POA rule in one line under the upload. After: a 'We have a board of directors / only one director' choice that shows the matching document"></figure>
+        <p class="cs-figcap" data-zh="改版前：规则只是上传框下的一行字。改版后：先选择，再上传。">Before: the rule was one line under the upload. After: the choice comes first.</p>
 
-        <!-- ============ 06 FINAL DESIGN ============ -->
+        <h5 class="cs-sub" data-zh="2 · 股东规则：排出层级">2 · Shareholder rules in a visible order</h5>
+        <p data-zh="名册必须包含的内容放进高亮清单，持股 25% 的条件变成两个选项，而不是一段要读懂的话。">What the register must include sits in a highlighted list, and the 25% conditions become two options instead of a paragraph to decode.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_4_2_key_iteration.webp?v=1" width="2560" height="1083" loading="lazy" alt="Before: three shareholder requirements mixed into one description. After: a highlighted checklist and two options for shareholders above 25%"></figure>
+        <p class="cs-figcap" data-zh="改版前：两三条要求混在说明里。改版后：要求一目了然。">Before: two or three requirements mixed into the description. After: each one visible.</p>
+
+        <h5 class="cs-sub" data-zh="3 · 给补充文件留一个位置">3 · A place for extra documents</h5>
+        <p data-zh="最后一个可选步骤告诉公司，合规可能会要更多材料，并让他们提前补上。">An optional last step tells companies compliance may ask for more, and lets them add it up front.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_4_3_key_iteration.webp?v=1" width="2560" height="1054" loading="lazy" alt="Before: no mention of later document requests. After: an optional Additional documents step"></figure>
+        <p class="cs-figcap" data-zh="改版前：没有提到之后可能要补件。改版后：可选的补充文件步骤。">Before: no hint that more documents might follow. After: an optional additional-documents step.</p>
+
+        <!-- ── 06 · EDGE CASES ────────────────────────────────── -->
         <div class="anchor" id="section6"></div>
-        <h3 class="section">06 · Final design</h3>
-        <span class="kyb-kicker">The flow</span>
-        <p class="kyb-head">Select entity type &rarr; document checklist &rarr; guided submission.</p>
-        <ul class="kyb-list">
-            <li><b>Select entity type</b> &mdash; jurisdiction-specific routing.</li>
-            <li><b>Document checklist</b> &mdash; exactly what to prepare before starting.</li>
-            <li><b>Guided submission</b> &mdash; company info, contact person, required documents, and an additional-document step &mdash; with the right-document decision made at each fork.</li>
-        </ul>
-        <img src="resources/images-kyb/kyb_final_flow.png" alt="End-to-end KYB flow — select institution type, document checklist, steps overview, then four guided submission steps">
-        <p class="kyb-figcap">Full journey — entry, preparation, and the four submission steps.</p>
-        <img src="resources/images-kyb/kyb_final_steps.png" alt="Key screens — company info, contact person, and required documents with guided upload modules">
-        <p class="kyb-figcap">Key screens — the guided form steps where comprehension decisions happen.</p>
+        <span class="cs-kicker" data-zh="06 · 边界情况">06 · Edge cases</span>
+        <h3 class="section" data-zh="每次退回和补件，都给出原因和下一步">Every rejection and request comes with a reason and a next step</h3>
+        <p data-zh="机构申请很少一次通过，所以提交之后的状态和表单本身一样重要。">Institutional applications rarely pass in one go, so the states after submission matter as much as the form.</p>
 
-        <h5>Try it yourself</h5>
-        <div class="kyb-proto">
-            <iframe title="KYB interactive prototype" src="https://embed.figma.com/proto/2O7baY2B6mNTBQDGqQNMq0/KYB-Prototype?node-id=1-85342&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1%3A83927&page-id=0%3A1&embed-host=share" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <p class="kyb-figcap">Interactive prototype — click through the guided flow. <a href="https://www.figma.com/proto/2O7baY2B6mNTBQDGqQNMq0/KYB-Prototype?node-id=1-85342&starting-point-node-id=1%3A83927&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1" target="_blank" rel="noopener">Open in Figma &#8599;</a></p>
+        <h5 class="cs-sub" data-zh="需要补充材料">More documents requested</h5>
+        <p data-zh="高风险申请会在提交后被要求补件，每一项都写明原因，补件不像走进死胡同。">High-risk applicants are asked for more after submission, each item with its reason, so the request doesn't feel like a dead end.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_edge_1.webp?v=1" width="2560" height="1245" loading="lazy" alt="More materials required: a post-submission prompt listing each extra document with its reason"></figure>
 
-        <!-- ============ 07 IMPACT ============ -->
+        <h5 class="cs-sub" data-zh="退回时附上原因">Rejected, with reasons</h5>
+        <p data-zh="退回时列出具体、可修正的原因，用户能照着改好再交，而不是靠猜。">A rejection lists specific, fixable reasons, so companies can correct and resubmit instead of guessing.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_edge_2.webp?v=1" width="2560" height="1245" loading="lazy" alt="Verification rejected: the screen lists specific, fixable reasons"></figure>
+
+        <h5 class="cs-sub" data-zh="稍后继续">Continue later</h5>
+        <p data-zh="机构需要时间准备文件，所以进度会保存，可以从中断处继续。">Institutions need time to gather documents, so progress is saved and the flow resumes where they left off.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_edge_3.webp?v=1" width="2560" height="1245" loading="lazy" alt="Continue later: saved, resumable verification progress"></figure>
+
+        <!-- ── 07 · FINAL DESIGN ──────────────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <h3 class="section">07 · Impact</h3>
-        <span class="kyb-kicker">My contribution</span>
-        <p class="kyb-head">What I owned — and why it&rsquo;s better than before.</p>
+        <span class="cs-kicker" data-zh="07 · 最终设计">07 · Final design</span>
+        <h3 class="section" data-zh="先选实体类型，再看材料清单，然后一步步提交">Choose the entity type, see the checklist, then submit step by step</h3>
+        <p data-zh="完整流程在每个岔口替用户做好「选哪份文件」的决定，并在开始前说清要准备什么。">The full flow makes the right-document decision at each fork and says what to prepare before companies start.</p>
 
-        <h5>My role</h5>
-        <ul class="kyb-list">
-            <li><b>Reframed the brief</b> &mdash; from cosmetic selector to root-cause redesign.</li>
-            <li><b>Dug into source data</b> &mdash; established baseline and success metrics.</li>
-            <li><b>Designed IA, flow &amp; UI</b> &mdash; end-to-end, with 1 PM and front-/back-end engineers.</li>
-        </ul>
+        <ol class="cs-flow" aria-label="The KYB flow">
+            <li data-zh="选择实体类型">Entity type</li>
+            <li data-zh="材料清单">Document checklist</li>
+            <li data-zh="公司信息">Company info</li>
+            <li data-zh="联系人">Contact person</li>
+            <li data-zh="必需文件">Required documents</li>
+            <li data-zh="补充文件（可选）">Extra documents (optional)</li>
+        </ol>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_final_flow.webp?v=1" width="2560" height="1541" loading="lazy" alt="End-to-end KYB flow: entity type, document checklist, steps overview, then four guided submission steps"></figure>
+        <p class="cs-figcap" data-zh="完整旅程：入口、准备，以及四个提交步骤。">The full journey: entry, preparation and the four submission steps.</p>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_final_steps.webp?v=1" width="2560" height="1583" loading="lazy" alt="Key screens: company info, contact person and required documents with guided upload modules"></figure>
+        <p class="cs-figcap" data-zh="关键界面：做出文件选择的几个引导式步骤。">Key screens: the guided steps where the document decisions happen.</p>
 
-        <h5>Better than the previous version</h5>
-        <div class="kyb-compare">
-            <div class="kyb-card">
-                <span class="tag">Before</span>
-                <h4>A wall of text</h4>
-                <p>Static requirements users skipped &rarr; wrong submissions &rarr; rejection &rarr; drop-off, with no clear way to recover.</p>
-            </div>
-            <div class="kyb-card win">
-                <span class="tag">After</span>
-                <h4>A guided decision</h4>
-                <p>A structured choice that routes users to the right documents with no added reading — plus a rejection loop they can actually debug.</p>
-            </div>
+        <h5 class="cs-sub" data-zh="试试原型">Try the prototype</h5>
+        <div class="cs-embed kyb-proto" id="kybProto">
+            <iframe title="KYB interactive prototype" src="resources/demos/kyb-prototype.html?embed=1&amp;v=2" loading="lazy"></iframe>
         </div>
+        <p class="cs-figcap" data-zh="可交互原型：选择公司类型后走完四个步骤。第 3 步的董事选项按设计默认不选、必须作答（上线版本带了默认值）。&lt;a href=&quot;resources/demos/kyb-prototype.html?v=1&amp;amp;lang=zh&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;">Interactive prototype: pick a company type, then walk the four steps. In step 3 the director choice starts empty and must be answered, as designed (the shipped version had a default). <a href="resources/demos/kyb-prototype.html?v=1" target="_blank" rel="noopener">Open full screen &#8599;</a></p>
 
-        <h5>Outcome &amp; measurement</h5>
-        <div class="kyb-metrics">
-            <div class="kyb-metric">
-                <span class="num bad">41%</span>
-                <span class="desc">Document submissions approved — baseline</span>
-            </div>
-            <div class="kyb-metric">
-                <span class="num bad">82%</span>
-                <span class="desc">Resubmission rate — baseline</span>
-            </div>
-            <div class="kyb-metric">
-                <span class="num">10&ndash;15%</span>
-                <span class="desc">Projected lift vs. comparable KYC optimization</span>
-            </div>
-        </div>
-        <ul class="kyb-list">
-            <li><b>Target</b> — reduce wrong submissions and completion time.</li>
-            <li><b>Early read</b> — first-time pass rate edged up from <b>41% to 42%</b> — a small, real lift, well short of the projected 10&ndash;15%. Engineering capacity meant only part of the core capability shipped.</li>
-            <li><b>Tracking</b> — built the measurement framework so the full impact can be captured as the rest ships.</li>
-        </ul>
-
-        <h5>Scaled across markets</h5>
-        <p>The same guided-verification pattern became the base for the <b>EU and AU institutional flows</b> — re-applied to materially harder compliance logic: multi-layer entity structures, beneficial-ownership thresholds, and jurisdiction-specific source-of-funds rules (trust deeds, SMSF lookups).</p>
-        <div class="kyb-callout">
-            <div class="lbl">Business outcome</div>
-            <div class="quote">The EU and AU KYB/KYC flows supported the company&rsquo;s licensing submissions under local regulations.</div>
-            <span class="sub">Design that helped unlock regulated market access — not just a flow improvement.</span>
-        </div>
-        <div class="kyb-shot">
-            <img src="resources/images-kyb/kyb_scale_eu_au.png" alt="KYB EU and KYB AU — the same guided-verification pattern adapted to local regulatory requirements">
-        </div>
-        <p class="kyb-figcap">KYB EU and AU — the same pattern extended to each market&rsquo;s entity types and document rules. Full screens available on request.</p>
-
-        <!-- ============ 08 HINDSIGHT ============ -->
+        <!-- ── 08 · RESULT ────────────────────────────────────── -->
         <div class="anchor" id="section8"></div>
-        <h3 class="section">08 · Hindsight</h3>
-        <span class="kyb-kicker">Self-awareness</span>
-        <p class="kyb-head">What launch taught me — and would change next.</p>
+        <span class="cs-kicker" data-zh="08 · 结果">08 · Result</span>
+        <h3 class="section" data-zh="通过率只动了 1 个百分点，方案成为两个新市场的基础">Pass rate moved one point; the pattern became the base for two new markets</h3>
+        <p data-zh="两处改动都已上线，但开发时给董事会选项加了默认值，用户不用选也能往下走，核心机制没有按设计生效。提交申请的一次审核通过率从 41% 到 42%，远低于预期，所以我把退回案例带回给客服逐条复盘。">Both fixes shipped, but in the build the board choice came with a default already selected, so companies could move on without choosing and the core mechanism didn't run as designed. The first-time review pass rate for submitted applications went from 41% to 42%, well short of what we expected, so I took the rejections back to customer support.</p>
 
-        <p>After launch, first-time pass rate rose only marginally (<b>41% &rarr; 42%</b>) — well short of the projected lift. The more useful question was <i>why it wasn&rsquo;t larger</i>, so I sat down with customer support and the compliance team.</p>
+        <div class="cs-compare">
+            <div class="cs-panel">
+                <div class="cs-panel__flag" data-zh="首个市场">First market</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="股东规则层级按设计上线">Shareholder hierarchy shipped as designed</li>
+                    <li class="is-muted" data-zh="董事会选项上线时带默认值，而非必选">Board choice shipped with a default, not as a required choice</li>
+                    <li class="is-muted" data-zh="一次审核通过率：41% → 42%">First-time review pass rate: 41% → 42%</li>
+                </ul>
+            </div>
+            <div class="cs-panel">
+                <div class="cs-panel__flag" data-zh="欧盟与澳洲">EU and AU</div>
+                <ul class="cs-list cs-list--check">
+                    <li data-zh="引导式方案成为两地机构流程的基础">The guided pattern became the base for both institutional flows</li>
+                    <li data-zh="两地流程用于牌照申请材料">Part of the EU and AU licence submissions</li>
+                </ul>
+            </div>
+        </div>
+        <figure class="cs-shot"><img src="resources/images-kyb/kyb_scale_eu_au.webp?v=1" width="2560" height="1388" loading="lazy" alt="KYB EU and KYB AU: the same guided pattern adapted to each market's entity types and document rules"></figure>
+        <p class="cs-figcap" data-zh="KYB 欧盟与澳洲：同一套方案延伸到多层股权结构、受益所有人门槛和各地资金来源规则。完整界面可应要求提供。">KYB EU and AU: the same pattern extended to multi-layer ownership, beneficial-owner thresholds and local source-of-funds rules. Full screens on request.</p>
 
-        <ul class="kyb-list">
-            <li><b>The real gap: hidden requirements.</b> The interface never showed the <i>detailed</i> document rules — so users failed checks they were never told about. A business certificate needed a certified-true-copy stamp, not just the original. Some documents needed a manual signature that users almost always skipped.</li>
-            <li><b>What I&rsquo;d change: make every rule visible at the point of upload.</b> Guiding users to the right document isn&rsquo;t enough — I&rsquo;d also show what makes it <i>valid</i> (stamp required, signature needed) right where they upload, not buried elsewhere.</li>
-            <li><b>Ship the highest-impact piece first.</b> I&rsquo;d scope the rollout with engineering earlier, so guided routing lands first and the metric can move sooner — instead of a partial release.</li>
-        </ul>
+        <!-- ── 09 · REFLECTION ────────────────────────────────── -->
+        <div class="anchor" id="section9"></div>
+        <span class="cs-kicker" data-zh="09 · 复盘">09 · Reflection</span>
+        <h3 class="section" data-zh="剩下的退回，大多不在界面上">Most remaining rejections weren't on the screen</h3>
+        <p data-zh="我和客服、合规团队把退回案例逐条过了一遍：多数公司选对了文件，却还是被退回。">I went through the rejections one by one with customer support and compliance. Most companies had picked the right document and still got it back.</p>
+
+        <div class="cs-cards">
+            <div class="cs-card cs-card--soft"><span class="cs-card__k" data-zh="有效性规则">Validity rules</span><div class="cs-card__h" data-zh="界面从没说明的要求">Rules the screen never showed</div><p data-zh="盖章的核证副本、手写签名的授权书、名册上的公司名称，以及证件原件照片而不是截图。">Stamped certified copies, a hand-signed POA, the company name on the register, and original ID photos rather than screenshots.</p></div>
+            <div class="cs-card cs-card--soft"><span class="cs-card__k" data-zh="多余的要求">Unneeded asks</span><div class="cs-card__h" data-zh="合规并不审核的要求">Requirements compliance didn't review</div><p data-zh="手持证件加手写签名的照片其实没人审核；ECDD 要求每家公司提交，实际只有两类实体需要。">A hand-held ID with a written signature that no one checked, and ECDD asked of every company when only two entity types need it.</p></div>
+        </div>
+
+        <h5 class="cs-sub" data-zh="下次我会怎么做">What I'd do next time</h5>
+        <div class="cs-learns">
+            <div class="cs-learn"><span class="cs-learn__n">1</span><div><h5 data-zh="在选文件的地方说明有效性规则">Show validity rules where the file is chosen</h5><p data-zh="盖章、原件、签名这些规则，应该出现在上传那一刻，而不是帮助中心里。">Stamp, original and signature rules belong at the upload, not in a help article.</p></div></div>
+            <div class="cs-learn"><span class="cs-learn__n">2</span><div><h5 data-zh="把关键交互写进验收标准">Write the key interaction into acceptance criteria</h5><p data-zh="「必选、无默认值」只画在设计稿里，开发时很容易丢；它应该写进验收标准，并在上线前走查。">“Required, no default” lived only in the mockups and was easy to lose in the build. It belongs in the acceptance criteria and a design QA pass before release.</p></div></div>
+            <div class="cs-learn"><span class="cs-learn__n">3</span><div><h5 data-zh="动手设计前，先和客服一起看退回案例">Read rejections with support before designing</h5><p data-zh="和每天处理退回的人一起过一遍案例，能更早看清哪些问题属于政策和后端。">One session with the people who handle rejections shows early which causes sit in policy and the back end.</p></div></div>
+        </div>
 
     </div>
     </div><!-- /case-layout -->
 
-
-    
-
     <footer class="site-footer">
         <div class="site-footer__inner">
-            <span>© Qin Wang — Product designer</span>
-            <span class="site-footer__cta"><a href="work.html">See more work</a></span>
+            <span data-zh="© Qin Wang — 产品设计师">© Qin Wang — Product designer</span>
+            <span class="site-footer__cta"><a href="work.html" data-zh="查看更多作品">See more work</a></span>
         </div>
     </footer>
 
     <script src="main.js"></script>
+    <script src="resources/js/case-components.js?v=1"></script>
     <script>
-        // Scrollspy active-state for the right rail.
-        (function () {
-            var links = Array.prototype.slice.call(document.querySelectorAll('.scrollspy a.list'));
-            var sections = links
-                .map(function (l) {
-                    var id = l.getAttribute('href').slice(1);
-                    if (id === 'top') return null;
-                    var el = document.getElementById(id);
-                    return el ? { id: id, el: el, link: l } : null;
-                })
-                .filter(Boolean);
-            if (!sections.length) return;
-
-            function onScroll() {
-                var y = window.scrollY + 140;
-                var current = sections[0];
-                for (var i = 0; i < sections.length; i++) {
-                    if (sections[i].el.offsetTop <= y) current = sections[i];
-                }
-                links.forEach(function (l) { l.classList.remove('active'); });
-                current.link.classList.add('active');
-            }
-
-            window.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('resize', onScroll);
-            onScroll();
-        })();
+    (function () {
+        var box = document.getElementById('kybProto');
+        if (!box) return;
+        function fit() {
+            var w = box.clientWidth;
+            box.classList.toggle('is-fluid', w < 520);
+            box.style.setProperty('--s', w / 1440);
+        }
+        fit();
+        if (window.ResizeObserver) new ResizeObserver(fit).observe(box);
+        else window.addEventListener('resize', fit);
+    })();
     </script>
 </body>
 </html>

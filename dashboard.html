@@ -145,40 +145,6 @@
             color: var(--text-tertiary);
         }
 
-        .db-glance {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            margin: var(--space-4) 0 0;
-            padding: 0;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: var(--bg-subtle);
-            overflow: hidden;
-        }
-        .db-glance > div {
-            display: grid;
-            grid-template-columns: 96px minmax(0, 1fr);
-            column-gap: var(--space-4);
-            align-items: baseline;
-            padding: 14px 18px;
-            border-top: 1px solid var(--border);
-        }
-        .db-glance > div:first-child { border-top: 0; }
-        .db-glance dt {
-            margin: 0;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-tertiary);
-        }
-        .db-glance dd {
-            margin: 0;
-            font-size: 15px;
-            line-height: 1.55;
-            color: var(--text-primary);
-        }
         .db-chapter-meta {
             margin: var(--space-3) 0 var(--space-5);
             font-size: 13px;
@@ -225,13 +191,6 @@
             text-transform: uppercase;
             color: var(--accent);
         }
-        .db-part {
-            margin: var(--space-7) 0 0;
-            font-size: 19px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: var(--text-primary);
-        }
         @media (max-width: 560px) {
             .db-journey { grid-template-columns: 1fr 1fr; }
         }
@@ -269,10 +228,6 @@
         .db-more[open] { padding-bottom: var(--space-5); }
         .db-more > .db-sub:first-of-type { margin-top: var(--space-2); }
 
-        @media (max-width: 560px) {
-            .db-glance > div { grid-template-columns: 1fr; row-gap: 4px; padding: 12px 14px; }
-            .db-glance dd { font-size: 14px; }
-        }
 
         .db-embed {
             margin: var(--space-5) 0 var(--space-3);
@@ -288,6 +243,8 @@
             border: 0;
             background: #fff;
         }
+        .db-embed--proto iframe { height: auto; aspect-ratio: 3 / 2; min-height: 280px; background: #f2f2f2; }
+        .db-embed + .db-figcap a { color: var(--accent); text-underline-offset: 3px; }
 
         .sys-overview {
             border-bottom: 1px solid var(--border);
@@ -474,7 +431,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=20">
     <style>
         /* Hero: transparent composite standing on the hero edge */
         .case-hero .grid { column-gap: 64px; }
@@ -671,8 +628,6 @@
             .case-hero .as-stats { gap: 16px 20px; }
         }
 
-        .db-glance > div.is-trade { background: var(--bg); }
-        .db-glance > div.is-trade dt { color: var(--accent); }
 
         /* Evidence ladder: one step per chapter, the last is what they earned */
         .db-ladder {
@@ -845,6 +800,9 @@
         .db-anno__notes span:not(.db-pin) { font-size: 12px; line-height: 1.45; }
         .db-anno__notes .db-drv { font-size: 10px; }
         .db-anno.has-on .db-anno__stage .db-pin:not(.on) { opacity: .4; }
+        .db-anno__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 1.5px solid var(--accent); border-radius: 6px; background: rgba(0, 52, 240, .06); transition: opacity .16s ease, box-shadow .16s ease; }
+        .db-anno__box.on { box-shadow: 0 0 0 4px rgba(0, 52, 240, .15); }
+        .db-anno.has-on .db-anno__box:not(.on) { opacity: .3; }
         .db-anno__links { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2; }
         .db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: .55; transition: opacity .2s ease, stroke-width .16s ease; }
         .db-anno.has-on .db-anno__links path { opacity: 0; }
@@ -886,12 +844,6 @@
         .db-quotes p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-primary); max-width: none; }
         .db-quotes span { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
 
-        .db-step { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--space-3); font-size: 13px; color: var(--text-secondary); }
-        .db-step a { padding: 3px 8px; border-radius: 999px; background: var(--accent-subtle); color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
-        .db-part + .db-step { margin-top: 10px; }
-        .one-col p.db-next { box-sizing: border-box; max-width: calc(var(--container-narrow) - 2 * var(--space-5)); }
-        .db-next { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin: var(--space-6) 0 var(--space-7); padding: 14px 18px; border-left: 2px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-subtle); font-size: 14px; line-height: 1.55; color: var(--text-secondary); max-width: none; }
-        .db-next b { font-size: 14px; font-weight: 600; color: var(--accent); }
 
         /* Screens sit in a padded well so content never touches the frame */
         .one-col figure:not(.db-anno) > img {
@@ -904,18 +856,10 @@
         .one-col .db-ba img { box-sizing: border-box; padding: 12px; background: var(--bg-subtle); border-radius: var(--radius-md); }
 
         /* Redrawn diagrams: shared image reset inside custom blocks */
-        .one-col .db-req img, .one-col .db-flow figure > img, .one-col .db-bp figure > img, .one-col .db-tabs img, .one-col .db-lay img, .one-col .db-dlg img {
+        .one-col .db-flow figure > img, .one-col .db-bp figure > img, .one-col .db-tabs img, .one-col .db-lay img, .one-col .db-dlg img {
             display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; padding: 0; background: none;
         }
 
-        .db-req { margin: var(--space-3) 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
-        .db-req__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-        .db-req__row li { margin: 0; padding: 14px; border-radius: var(--radius-md); background: #fff; border: 1px solid var(--border); }
-        .db-req__row p { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
-        .db-req__hub { position: relative; margin: 22px 0 0; padding: 12px 16px; border-radius: var(--radius-md); background: var(--accent-subtle); color: var(--accent); font-size: 14px; font-weight: 600; text-align: center; max-width: none; }
-        .db-req__hub::before { content: ""; position: absolute; left: 16.6%; right: 16.6%; top: -12px; height: 12px; border: 1px solid var(--border); border-top: 0; border-radius: 0 0 6px 6px; }
-        .db-req__and { display: flex; gap: 10px; margin: 10px 0 0; padding: 12px 14px; border-radius: var(--radius-md); background: #fff; border: 1px solid var(--border); font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
-        .db-req__and b { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); padding-top: 2px; }
 
         .db-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 0.8fr) auto minmax(0, 1fr); align-items: center; gap: 10px; margin: var(--space-3) 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
         .one-col .db-flow figure { margin: 0; }
@@ -984,8 +928,7 @@
         .db-dlg li > span:last-child { font-size: 12px; color: var(--text-tertiary); }
 
         @media (max-width: 720px) {
-            .db-req__row, .db-ia, .db-lay { grid-template-columns: 1fr; }
-            .db-req__hub::before { display: none; }
+            .db-ia, .db-lay { grid-template-columns: 1fr; }
             .db-flow { grid-template-columns: 1fr; }
             .db-flow__arrow { max-width: none; }
             .db-flow__arrow::after { content: "\2193"; }
@@ -1011,16 +954,8 @@
             .db-anno__notes, .db-findlist, .db-ba--pair, .db-quotes, .db-res { grid-template-columns: 1fr; }
             .db-anno__stage .db-pin { width: 18px; height: 18px; font-size: 10px; }
             .db-bar { width: calc(var(--v) / 5 * 80px); }
-            .db-next { grid-template-columns: 1fr; }
         }
 
-        .db-glance { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-        .db-glance > div { display: block; padding: 12px 16px; border-top: 0; background: var(--bg-subtle); }
-        .db-glance > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
-        .db-glance dt { margin-bottom: 4px; }
-        .db-glance dd { font-size: 14px; line-height: 1.5; }
-        .db-glance dd { color: var(--text-secondary); }
-        .db-glance__h { display: block; margin-bottom: 2px; font-family: var(--font-title, inherit); font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
 
         .db-tabs--patterns .db-tabs__bar button:first-child { border-style: solid; }
         .db-tabs__t { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: var(--text-secondary); max-width: none; }
@@ -1056,7 +991,6 @@
             .db-wt__pill { margin-left: 32px; }
         }
         @media (max-width: 720px) {
-            .db-glance { grid-template-columns: 1fr; }
         }
 
         html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
@@ -1064,8 +998,39 @@
         html[data-lang="zh"] main h2, html[data-lang="zh"] main h3 { letter-spacing: -0.01em; line-height: 1.35; }
         html[data-lang="zh"] .db-3p__k, html[data-lang="zh"] .db-3p__who, html[data-lang="zh"] .db-idea__n,
         html[data-lang="zh"] .db-ladder__y, html[data-lang="zh"] .db-fold__moved span, html[data-lang="zh"] .db-quotes span,
-        html[data-lang="zh"] .db-step a, html[data-lang="zh"] .db-req__and b,
-        html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k, html[data-lang="zh"] .db-dec dt,
+        html[data-lang="zh"] .db-tro__k { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+
+
+        .db-dec { margin: 0 0 var(--space-5); padding: 0; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+        .db-dec > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); align-items: baseline; gap: var(--space-4); padding: 12px 18px; background: var(--bg-subtle); }
+        .db-dec > div + div { border-top: 1px solid var(--border); }
+        .db-dec > div.is-turn { background: var(--accent-subtle); }
+        .db-dec dt { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-dec > div.is-turn dt { color: var(--accent); }
+        .db-dec dd { margin: 0; font-size: 15px; line-height: 1.55; color: var(--text-primary); }
+
+        .db-tro { margin: var(--space-4) 0 0; }
+        .db-tro__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+        .db-tro__row li { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .db-tro__who { font-family: var(--font-title); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .one-col .db-tro p { display: grid; gap: 2px; margin: 0; max-width: none; font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
+        .db-tro__k { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
+        .db-tro p.is-got .db-tro__k { color: #1a7f4b; }
+        .db-tro p.is-gave .db-tro__k { color: #b4561b; }
+        .one-col .db-tro p.db-tro__call, .one-col .db-tro p.db-tro__cost { grid-template-columns: 150px minmax(0, 1fr); align-items: baseline; gap: var(--space-4); margin-top: 12px; padding: 12px 16px; border-radius: var(--radius-md); }
+        .one-col .db-tro p.db-tro__call { background: var(--accent-subtle); color: var(--text-primary); }
+        .db-tro__call .db-tro__k { color: var(--accent); }
+        .one-col .db-tro p.db-tro__cost { margin-top: 8px; background: var(--bg-subtle); }
+
+        @media (max-width: 720px) {
+            .db-tro__row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 560px) {
+            .db-dec > div { padding: 12px 14px; }
+            .db-dec dd { font-size: 14px; }
+            .one-col .db-tro p.db-tro__call, .one-col .db-tro p.db-tro__cost { grid-template-columns: 1fr; gap: 2px; }
+        }
         html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
     </style>
     <script src="site-chrome.js?v=8"></script>
@@ -1083,9 +1048,9 @@
                 <p data-zh="&lt;strong&gt;产品设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;0→1 仪表盘 + 5 个模块改版 + 设计系统&lt;/span&gt;" class="as-role"><strong>Product designer</strong> &middot; <span class="as-role__rest">0&rarr;1 dashboard + 5 redesigns + design system</span></p>
                 <ol class="as-stats" aria-label="From no user access to a research mandate">
                     <li><span class="as-stats__num">0</span><span data-zh="测试用户" class="as-stats__label">Test users</span></li>
-                    <li><span class="as-stats__num">3</span><span data-zh="小测试" class="as-stats__label">Small tests</span></li>
-                    <li class="is-turn"><span data-zh="HSBC HK" class="as-stats__num">HSBC HK</span><span data-zh="新客户" class="as-stats__label">New client</span></li>
-                    <li><span class="as-stats__num">5</span><span data-zh="用户访谈" class="as-stats__label">User interviews</span></li>
+                    <li><span class="as-stats__num">4</span><span data-zh="小测试" class="as-stats__label">Small tests</span></li>
+                    <li><span data-zh="HSBC HK" class="as-stats__num">HSBC HK</span><span data-zh="新客户" class="as-stats__label">New client</span></li>
+                    <li class="is-turn"><span class="as-stats__num">5</span><span data-zh="真实用户访谈" class="as-stats__label">Real user interviews</span></li>
                 </ol>
 
                 <dl class="as-meta">
@@ -1180,18 +1145,19 @@
     <div class="scrollspy">
         <span data-zh="投资组合管理系统" class="scrollspy__title">Portfolio management system</span>
         <div class="scrollspy__list">
-        <a data-zh="01 角色与方法" href="#role" class="list">01 Role and approach</a>
-        <a data-zh="02 仪表盘" href="#dive-dashboard" class="list">02 Dashboard</a>
-        <a data-zh="03 模型组合" href="#dive-model" class="list">03 Model portfolio</a>
-        <a data-zh="04 表格模式" href="#section9" class="list">04 Table patterns</a>
-        <a data-zh="05 设计系统" href="#foundation" class="list">05 Design system</a>
-        <a data-zh="06 成果与反思" href="#section10" class="list">06 Impact and reflection</a>
+        <a data-zh="背景与角色" href="#role" class="list">Context and role</a>
+        <a data-zh="1 共用仪表盘" href="#dive-dashboard" class="list">1 Shared dashboard</a>
+        <a data-zh="2 创建组合" href="#dive-model" class="list">2 Create portfolio</a>
+        <a data-zh="3 指标表格" href="#dive-compare" class="list">3 Metrics table</a>
+        <a data-zh="4 设计系统" href="#foundation" class="list">4 Design system</a>
+        <a data-zh="5 研究授权" href="#research" class="list">5 Research mandate</a>
+        <a data-zh="成果与反思" href="#section10" class="list">Results and reflection</a>
         <a data-zh="返回顶部" href="#top" class="list">Back to top</a>
         </div>
     </div>
 <div class="one-col">
         <div class="anchor" id="role"></div>
-        <span data-zh="01 · 角色与方法" class="db-kicker">01 · Role and approach</span>
+        <span data-zh="背景与角色" class="db-kicker">Context and role</span>
         <h3 data-zh="一个信息密集的机构工具，几乎没有用户可访谈" class="section">A dense institutional tool, designed with almost no user access</h3>
         <p data-zh="真实用户接触不到，我就用成本最低的证据支撑每个决策，再用结果争取正式的用户研究。">Real users were out of reach, so I backed each decision with the cheapest evidence I could get, and let the results make the case for proper research.</p>
         <ul class="db-module-list">
@@ -1214,14 +1180,18 @@
             <li><a href="#dive-create"><span data-zh="创建组合" class="db-ladder__y">Create portfolio</span><span data-zh="启发式评估" class="db-ladder__t">Heuristic review</span><span data-zh="Nielsen 十大可用性原则，加上产品和研发访谈" class="db-ladder__m">Nielsen&rsquo;s 10 heuristics, plus product and engineering interviews</span></a></li>
             <li><a href="#dive-compare"><span data-zh="指标表格" class="db-ladder__y">Metrics table</span><span data-zh="对比测试" class="db-ladder__t">Comparative test</span><span data-zh="4 种布局，7 位测试者，含 CEO" class="db-ladder__m">4 layouts, 7 testers including the CEO</span></a></li>
             <li><a href="#foundation"><span data-zh="设计系统" class="db-ladder__y">Design system</span><span data-zh="盘点与开发工作坊" class="db-ladder__t">Audit and dev workshops</span><span data-zh="与前端团队对齐优先级" class="db-ladder__m">Priorities agreed with the web team</span></a></li>
-            <li class="is-turn"><a href="#section10"><span data-zh="新产品" class="db-ladder__y">New product</span><span data-zh="真实用户访谈" class="db-ladder__t">Real user interviews</span><span data-zh="顾问总监，通过 CEO 的人脉招募" class="db-ladder__m">Advisory directors, through the CEO&rsquo;s network</span></a></li>
+            <li class="is-turn"><a href="#research"><span data-zh="新产品" class="db-ladder__y">New product</span><span data-zh="真实用户访谈" class="db-ladder__t">Real user interviews</span><span data-zh="顾问总监，通过 CEO 的人脉招募" class="db-ladder__m">Advisory directors, through the CEO&rsquo;s network</span></a></li>
         </ol>
-        <p data-zh="下面每章对应一步。最后一步，是前面几步换来的用户触达。" class="db-figcap">Each chapter below is one step. The last one is the access the earlier steps earned.</p>
+        <p data-zh="下面每一步都从三件事讲起：做了什么决策、用了什么证据、带来了什么改变。最后一步，是前面几步换来的真实用户。" class="db-figcap">Each step below opens with the decision, the evidence and what it changed. The last step is the access the first four earned.</p>
 
         <div class="anchor" id="dive-dashboard"></div>
-        <span data-zh="02 · 深度拆解 · 账户仪表盘" class="db-kicker">02 · Deep dive · Account dashboard</span>
+        <span data-zh="第 1 步 / 共 5 步 · 共用仪表盘" class="db-kicker">Step 1 of 5 &middot; Shared dashboard</span>
         <h3 data-zh="一个账户仪表盘，三款产品共用" class="section">One account dashboard, shared by three products</h3>
-        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 1 步 / 共 5 步&lt;/a&gt; 工作坊与走查" class="db-step"><a href="#role">Evidence step 1 of 5</a> Workshop and walkthrough</p>
+        <dl class="db-dec">
+            <div><dt data-zh="决策">Decision</dt><dd data-zh="三款产品共用一个仪表盘，按用户设不同默认值，而不是为每类用户各做一版。">One dashboard for all three products, with defaults per audience instead of a fork per audience.</dd></div>
+            <div><dt data-zh="证据">Evidence</dt><dd data-zh="和另外两位设计师开工作坊盘点模块，再请 5 位同事做游击式走查。">A module audit in a workshop with the other two designers, then a guerrilla walkthrough with 5 colleagues.</dd></div>
+            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="上线前改了两处：账户切换器和排序，各有 5 人中 4 人没找到。之后，这个仪表盘成为销售演示的一部分，那次演示帮助签下了 HSBC Hong Kong。">Two fixes before launch, the account switcher and sorting, each missed by 4 of 5. The dashboard was then part of the sales demo that brought HSBC Hong Kong on board.</dd></div>
+        </dl>
         <p data-zh="三款产品需要同一个新页面：展示客户的概要、资产配置、业绩和持仓。前期研究很少，客户截止日期已定。">Three products needed the same new page: a client&rsquo;s summary, allocation, performance and holdings. Research was thin and a client deadline was fixed.</p>
         <p data-zh="牵头 3 位设计师 · 1 名 PM，3 名前端工程师 · 1 个月" class="db-chapter-meta">Led across 3 designers &middot; 1 PM, 3 front-end engineers &middot; 1 month</p>
 
@@ -1240,7 +1210,7 @@
                     <p data-zh="“我该给客户看什么？”" class="db-3p__goal">&ldquo;What do I show my client?&rdquo;</p>
                     <p data-zh="需要用资产配置辅助和客户沟通。" class="db-3p__need">Needs the allocation as a conversation aid.</p>
                     <span class="db-3p__img"><img src="resources/images-dashboard/3p-advisor-tool.webp" width="960" height="691" alt="Financial advisor tool on a tablet showing a client account dashboard" loading="lazy" decoding="async"></span>
-                    <span data-zh="&lt;b&gt;顾问工具&lt;/b&gt;我主导了用户访谈和研究" class="db-3p__prod"><b>Advisor tool</b>I led user interviews and research</span>
+                    <span data-zh="&lt;b&gt;顾问工具&lt;/b&gt;之后：我主导了理财顾问工具的用户访谈（2022）" class="db-3p__prod"><b>Advisor tool</b>Later: I led the advisor-tool interviews (2022)</span>
                 </li>
                 <li>
                     <span data-zh="&lt;svg viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;8&quot; cy=&quot;5.5&quot; r=&quot;2.75&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot;/&gt;&lt;path d=&quot;M2.75 13.5c.6-2.6 2.7-4 5.25-4s4.65 1.4 5.25 4&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.4&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;个人投资者" class="db-3p__who"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.75" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.75 13.5c.6-2.6 2.7-4 5.25-4s4.65 1.4 5.25 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Individual investor</span>
@@ -1253,35 +1223,42 @@
         </div>
         <p data-zh="三类用户，三个问题，一套仪表盘模式。" class="db-figcap">Three users, three questions, one dashboard pattern.</p>
 
+        <h4 data-zh="三类用户，各有得失" class="db-sub">What each audience got, and gave up</h4>
+        <p data-zh="经理要深度，顾问要能给客户看的内容，投资者要简单。前端只有一套组件库，三类用户只能共用一个布局。">Managers wanted depth, advisors wanted something to show a client, and investors wanted it simple. With one shared front-end library, all three had to share one layout.</p>
+        <div class="db-tro" role="group" aria-label="What each audience wanted, got and gave up">
+            <ul class="db-tro__row">
+                <li>
+                    <b data-zh="投资组合经理" class="db-tro__who">Portfolio manager</b>
+                    <p><span data-zh="想要" class="db-tro__k">Wanted</span><span data-zh="多维度的深度分析。">Depth across several dimensions.</span></p>
+                    <p class="is-got"><span data-zh="得到" class="db-tro__k">Got</span><span data-zh="持仓列表可筛选、可排序、可加列。">Filters, sortable headers and extra columns on the holdings list.</span></p>
+                    <p class="is-gave"><span data-zh="放弃" class="db-tro__k">Gave up</span><span data-zh="加载时直接展开图表（为保证加载速度默认收起）。">Charts open on load. They&rsquo;re collapsed to protect load time.</span></p>
+                </li>
+                <li>
+                    <b data-zh="理财顾问" class="db-tro__who">Financial advisor</b>
+                    <p><span data-zh="想要" class="db-tro__k">Wanted</span><span data-zh="用资产配置和客户沟通。">The allocation, to talk a client through it.</span></p>
+                    <p class="is-got"><span data-zh="得到" class="db-tro__k">Got</span><span data-zh="资产配置与业绩放进首屏。">Allocation and performance in the first fold.</span></p>
+                    <p class="is-gave"><span data-zh="放弃" class="db-tro__k">Gave up</span><span data-zh="投资组合提案作为首屏模块（移到相邻 Tab，一步可达）。">Proposals as a dashboard module. They now sit one tab away.</span></p>
+                </li>
+                <li>
+                    <b data-zh="个人投资者" class="db-tro__who">Individual investor</b>
+                    <p><span data-zh="想要" class="db-tro__k">Wanted</span><span data-zh="简单，比面面俱到更重要。">Simple over complete.</span></p>
+                    <p class="is-got"><span data-zh="得到" class="db-tro__k">Got</span><span data-zh="精简的默认列表，图表收起后界面更清爽。">A short default list and a calmer view with charts collapsed.</span></p>
+                    <p class="is-gave"><span data-zh="放弃" class="db-tro__k">Gave up</span><span data-zh="交易记录留在仪表盘上（移到 Tab，默认看不到）。">Transactions on the page. They&rsquo;re in a tab, hidden by default.</span></p>
+                </li>
+            </ul>
+            <p class="db-tro__call"><span data-zh="我的决定" class="db-tro__k">My call</span><span data-zh="同一个布局，按用户设默认值：专业用户自己加深度，零售默认保持精简。">One layout with different defaults. Professionals add depth; the retail default stays short.</span></p>
+            <p class="db-tro__cost"><span data-zh="所有人的代价" class="db-tro__k">What everyone pays</span><span data-zh="查看图表、投资组合提案或交易记录，都要多一步。">One extra step to open charts, proposals or transactions.</span></p>
+        </div>
+
         <p data-zh="产品盘点与案头研究" class="db-pattern-k">Product audit &amp; desktop research</p>
         <h4 data-zh="十个模块，首屏只留四个" class="db-sub db-sub--pattern">Ten modules in, four in the first fold</h4>
-        <p data-zh="我和另外两位设计师开了一场工作坊，把竞品展示的模块，与各产品已有的模块、客户提出的需求逐一对照。">In a workshop with the other two designers, we listed the modules competitors showed against what each product already had and what clients were asking for.</p>
-        <div class="db-matrix-wrap">
-            <table class="db-matrix">
-                <thead>
-                    <tr><th data-zh="模块" scope="col">Module</th><th data-zh="顾问" scope="col">Advisor</th><th data-zh="组合管理" scope="col">Portfolio mgmt</th><th data-zh="客户" scope="col">Customer</th><th data-zh="新需求" scope="col">New requests</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="is-fold"><th data-zh="账户概要" scope="row">Account summary</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td class="na">&ndash;</td></tr>
-                    <tr class="is-fold"><th data-zh="持仓" scope="row">Holdings</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
-                    <tr class="is-fold"><th data-zh="资产配置" scope="row">Allocation</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
-                    <tr class="is-fold"><th data-zh="历史业绩" scope="row">Performance over time</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
-                    <tr><th data-zh="筛选" scope="row">Filters</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td class="na">&ndash;</td></tr>
-                    <tr><th data-zh="表现最佳持仓" scope="row">Top-performing holdings</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
-                    <tr><th data-zh="交易记录" scope="row">Transactions</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td></tr>
-                    <tr><th data-zh="投资建议书" scope="row">Proposals</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
-                    <tr><th data-zh="CIO 通告" scope="row">CIO notices</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
-                    <tr><th data-zh="多账户" scope="row">Multiple accounts</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <p data-zh="高亮的行成为共用首屏，其余移到 Tab 中，或保留为各产品专属。" class="db-figcap">Highlighted rows became the shared first fold. The rest moved to tabs or stayed product-specific.</p>
+        <p data-zh="我和另外两位设计师开了一场工作坊，把竞品展示的模块，与各产品已有的模块、客户提出的需求逐一对照。十个模块里，四个进入共用首屏；其余移到 Tab 中，或保留为各产品专属。完整对照表见下方的完整过程。">In a workshop with the other two designers, we listed the modules competitors showed against what each product already had and what clients were asking for. Four of ten made the shared first fold; the rest moved to tabs or stayed product-specific. The full table is in the full process below.</p>
 
         <figure class="db-fold" role="group" aria-label="The shared first fold: account summary, allocation and performance, holdings list">
             <div class="db-fold__top">
                 <div class="db-fold__wire" aria-hidden="true">
                     <div data-zh="CIO 通告 · 一行，可关闭" class="db-fold__strip">CIO notices &middot; one dismissible line</div>
-                    <div class="db-fold__tabs"><span data-zh="仪表盘" class="is-on">Dashboard</span><span data-zh="投资建议书">Proposals</span><span data-zh="交易记录">Transactions</span></div>
+                    <div class="db-fold__tabs"><span data-zh="仪表盘" class="is-on">Dashboard</span><span data-zh="投资组合提案">Proposals</span><span data-zh="交易记录">Transactions</span></div>
                     <div class="db-fold__mod">
                         <p data-zh="&lt;i&gt;1&lt;/i&gt;账户概要" class="db-fold__mh"><i>1</i>Account summary</p>
                         <div class="db-fold__sum"><span></span><span></span><span></span></div>
@@ -1302,7 +1279,7 @@
                 </ol>
             </div>
             <div class="db-fold__moved">
-                <div><span data-zh="移到 Tab">Moved to tabs</span><p data-zh="投资建议书和交易记录放在仪表盘旁边：专业用户一步可达，零售用户默认看不到。">Proposals and transactions sit beside the dashboard &mdash; one step away for professionals, out of sight for retail by default.</p></div>
+                <div><span data-zh="移到 Tab">Moved to tabs</span><p data-zh="投资组合提案和交易记录放在仪表盘旁边：专业用户一步可达，零售用户默认看不到。">Proposals and transactions sit beside the dashboard &mdash; one step away for professionals, out of sight for retail by default.</p></div>
                 <div><span data-zh="收为一条横栏">Moved to a strip</span><p data-zh="CIO 通告变成一行可关闭的提示，不再占用首屏模块位。">CIO notices became one dismissible line instead of a module competing for the fold.</p></div>
             </div>
         </figure>
@@ -1311,15 +1288,20 @@
         <figure class="db-anno">
             <div class="db-anno__stage">
                 <img src="resources/images/images-dashboard/system-user-accounts.png" width="4320" height="5253" alt="Account dashboard for a client: account switcher and totals in the header, tabs, an allocation and performance card, and a sortable holdings list" loading="lazy" decoding="async">
-                <span class="db-pin" style="left:29%;top:14.6%" aria-hidden="true">1</span>
-                <span class="db-pin" style="left:62.5%;top:24.4%" aria-hidden="true">2</span>
-                <span class="db-pin" style="left:83.6%;top:29.4%" aria-hidden="true">3</span>
-                <span class="db-pin" style="left:16.8%;top:57.5%" aria-hidden="true">4</span>
-                <span class="db-pin" style="left:71.4%;top:61.3%" aria-hidden="true">5</span>
+                <span class="db-anno__box" style="--x:15.6%;--y:13.1%;--w:73%;--h:4.1%" aria-hidden="true"></span>
+                <span class="db-anno__box" style="--x:15.4%;--y:18.6%;--w:28.2%;--h:3.4%" aria-hidden="true"></span>
+                <span class="db-anno__box" style="--x:16%;--y:28%;--w:72.6%;--h:3%" aria-hidden="true"></span>
+                <span class="db-anno__box" style="--x:17.2%;--y:56.6%;--w:70%;--h:1.9%" aria-hidden="true"></span>
+                <span class="db-anno__box" style="--x:16%;--y:60%;--w:72.6%;--h:2.7%" aria-hidden="true"></span>
+                <span class="db-pin" style="left:88.6%;top:15.15%" aria-hidden="true">1</span>
+                <span class="db-pin" style="left:43.6%;top:20.3%" aria-hidden="true">2</span>
+                <span class="db-pin" style="left:88.6%;top:29.5%" aria-hidden="true">3</span>
+                <span class="db-pin" style="left:87.2%;top:57.55%" aria-hidden="true">4</span>
+                <span class="db-pin" style="left:88.6%;top:61.35%" aria-hidden="true">5</span>
             </div>
             <ol class="db-anno__notes">
                 <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="账户放进页头 &lt;i class=&quot;db-drv db-drv--biz&quot;&gt;业务&lt;/i&gt;">Accounts in the header <i class="db-drv db-drv--biz">Business</i></b><span data-zh="一位客户可以有多个账户。一个切换器放在客户总额旁边。">One client can hold several accounts. A single switcher sits beside the client&rsquo;s totals.</span></div></li>
-                <li><span class="db-pin" aria-hidden="true">2</span><div><b data-zh="一个页头，三个 Tab &lt;i class=&quot;db-drv db-drv--tech&quot;&gt;技术&lt;/i&gt;">One header, three tabs <i class="db-drv db-drv--tech">Technology</i></b><span data-zh="仪表盘、投资建议书和交易记录共用页头，仪表盘还可自定义。">Dashboard, proposals and transactions share the header, and the dashboard can be customised.</span></div></li>
+                <li><span class="db-pin" aria-hidden="true">2</span><div><b data-zh="一个页头，三个 Tab &lt;i class=&quot;db-drv db-drv--tech&quot;&gt;技术&lt;/i&gt;">One header, three tabs <i class="db-drv db-drv--tech">Technology</i></b><span data-zh="仪表盘、投资组合提案和交易记录共用页头，仪表盘还可自定义。">Dashboard, proposals and transactions share the header, and the dashboard can be customised.</span></div></li>
                 <li><span class="db-pin" aria-hidden="true">3</span><div><b data-zh="可收起的图表 &lt;i class=&quot;db-drv db-drv--tech&quot;&gt;技术&lt;/i&gt;">Collapsible charts <i class="db-drv db-drv--tech">Technology</i></b><span data-zh="资产配置和业绩合并为一张可收起的卡片，重型图表不再拖慢页面。">Allocation and performance share one card that can collapse, so heavy charts don&rsquo;t slow the page.</span></div></li>
                 <li><span class="db-pin" aria-hidden="true">4</span><div><b data-zh="先看构成，再看明细 &lt;i class=&quot;db-drv db-drv--biz&quot;&gt;业务&lt;/i&gt;">Mix before rows <i class="db-drv db-drv--biz">Business</i></b><span data-zh="一条色带显示每项持仓的占比，颜色与该行左侧的色条对应。">A colour bar shows each holding&rsquo;s share of the account, matched to the stripe on its row.</span></div></li>
                 <li><span class="db-pin" aria-hidden="true">5</span><div><b data-zh="在列头排序 &lt;i class=&quot;db-drv db-drv--users&quot;&gt;用户&lt;/i&gt;">Sort from the column <i class="db-drv db-drv--users">Users</i></b><span data-zh="每个列头都能排序，箭头标出当前排序列。">Every column header sorts, and an arrow marks the active one.</span></div></li>
@@ -1371,18 +1353,29 @@
         </div>
 
         <details class="db-more">
-            <summary data-zh="完整过程：相互冲突的需求、概念流程、布局和原型">Full process: competing requirements, concept flow, layouts and prototype</summary>
+            <summary data-zh="完整过程：模块盘点、概念流程、布局和原型">Full process: module audit, concept flow, layouts and prototype</summary>
             
-            <h4 data-zh="为什么一套模式很难" class="db-sub">What made a single pattern hard</h4>
-            <div class="db-req" role="group" aria-label="Three pressures behind one shared pattern">
-                <ul class="db-req__row">
-                    <li><i data-zh="技术" class="db-drv db-drv--tech">Technology</i><p data-zh="各产品共用一套前端组件库，不可能为每类用户各做一版仪表盘。">One front-end library across products. A dashboard forked per audience was off the table.</p></li>
-                    <li><i data-zh="业务" class="db-drv db-drv--biz">Business</i><p data-zh="有客户要在同一视图里看到模型组合之外的投资，销售也需要新能力来演示。">A client needed investments beyond model portfolios in the same view, and sales wanted new capability to demo.</p></li>
-                    <li><i data-zh="用户" class="db-drv db-drv--users">Users</i><p data-zh="投资者要简单；经理和顾问要信息密集、可筛选。">Investors need it simple; managers and advisors need it dense and filterable.</p></li>
-                </ul>
-                <p data-zh="三款产品共用一套模式，不按用户分叉" class="db-req__hub">One shared pattern for three products, with no per-audience fork</p>
-                <p data-zh="&lt;b&gt;以及&lt;/b&gt;研究时间很少：日期由客户承诺决定，部分范围还没有用户。" class="db-req__and"><b>And</b>Little research runway: dates came from client commitments, and part of the scope had no users yet.</p>
+            <h4 data-zh="工作坊里的模块盘点" class="db-sub">The module audit from the workshop</h4>
+            <div class="db-matrix-wrap">
+                <table class="db-matrix">
+                    <thead>
+                        <tr><th data-zh="模块" scope="col">Module</th><th data-zh="顾问" scope="col">Advisor</th><th data-zh="组合管理" scope="col">Portfolio mgmt</th><th data-zh="客户" scope="col">Customer</th><th data-zh="新需求" scope="col">New requests</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="is-fold"><th data-zh="账户概要" scope="row">Account summary</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td class="na">&ndash;</td></tr>
+                        <tr class="is-fold"><th data-zh="持仓" scope="row">Holdings</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                        <tr class="is-fold"><th data-zh="资产配置" scope="row">Allocation</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                        <tr class="is-fold"><th data-zh="历史业绩" scope="row">Performance over time</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
+                        <tr><th data-zh="筛选" scope="row">Filters</th><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td class="na">&ndash;</td></tr>
+                        <tr><th data-zh="表现最佳持仓" scope="row">Top-performing holdings</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
+                        <tr><th data-zh="交易记录" scope="row">Transactions</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td></tr>
+                        <tr><th data-zh="投资组合提案" scope="row">Proposals</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td></tr>
+                        <tr><th data-zh="CIO 通告" scope="row">CIO notices</th><td data-zh="有" class="y">Yes</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td><td data-zh="有" class="y">Yes</td></tr>
+                        <tr><th data-zh="多账户" scope="row">Multiple accounts</th><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="无" class="n">No</td><td data-zh="有" class="y">Yes</td></tr>
+                    </tbody>
+                </table>
             </div>
+            <p data-zh="高亮的行成为共用首屏，其余移到 Tab 中，或保留为各产品专属。" class="db-figcap">Highlighted rows became the shared first fold. The rest moved to tabs or stayed product-specific.</p>
             <h4 data-zh="概念流程" class="db-sub">Concept flow</h4>
             <div class="db-flow" role="group" aria-label="Dashboard concept flow">
                 <figure class="db-flow__step">
@@ -1414,27 +1407,28 @@
             </div>
             <p data-zh="模块和顺序都不变；只有概要区改为堆叠，表格隐藏次要列。" class="db-figcap">The same modules in the same order; only the summary stacks and the table drops secondary columns.</p>
             <h4 data-zh="试用仪表盘原型" class="db-sub">Try the dashboard prototype</h4>
-            <div class="db-embed">
-                <iframe title="Interactive dashboard prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FVwG9Dk8RQS7bLFgmZDitG2%2FDashboard-Design-(User-Account)%3Fpage-id%3D209%253A41426%26node-id%3D429%253A107275%26viewport%3D-300%252C611%252C0.02%26scaling%3Dcontain%26starting-point-node-id%3D429%253A107421" allowfullscreen></iframe>
+            <div class="db-embed db-embed--proto">
+                <iframe title="Interactive dashboard prototype" loading="lazy" src="resources/demos/dashboard-prototype.html?embed=1&amp;v=4"></iframe>
             </div>
+            <p class="db-figcap" data-zh="点「User Account 1」开始；点空白处可查看可点击区域。&lt;a href=&quot;resources/demos/dashboard-prototype.html?v=4&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;">Tap “User Account 1” to start; tap an empty spot to see what’s clickable. <a href="resources/demos/dashboard-prototype.html?v=4" target="_blank" rel="noopener">Open full screen ↗</a></p>
         </details>
 
-        <p data-zh="&lt;b&gt;助力签下 HSBC HK&lt;/b&gt;这个仪表盘是销售演示的一部分，那次演示帮助签下了 HSBC Hong Kong。接下来，我把同样的小证据方法用到最难演示的模块：创建模型组合。" class="db-next"><b>Helped win HSBC HK</b>The dashboard was part of the sales demo that brought HSBC Hong Kong on board. Next, the same small-evidence approach went to the module hardest to demo: creating a model portfolio.</p>
-
         <div class="anchor" id="dive-model"></div>
-        <span data-zh="03 · 深度拆解 · 模型组合模块" class="db-kicker">03 · Deep dive · Model portfolio module</span>
-        <h3 data-zh="创建模型组合，再读懂它" class="section">Creating a model portfolio, then reading it</h3>
-        <p data-zh="投资组合经理在这里搭建模型组合；银行再把每个组合推荐给风险评分匹配的客户。我改版了两端：创建组合，以及查看它的表现。">Portfolio managers build model portfolios here; banks recommend each one to clients with a matching risk score. I redesigned both ends: creating a portfolio, and reading how it performs.</p>
+        <div class="anchor" id="dive-create"></div>
+        <span data-zh="第 2 步 / 共 5 步 · 创建模型组合" class="db-kicker">Step 2 of 5 &middot; Create a model portfolio</span>
+        <h3 data-zh="让创建流程不容易出错" class="section">Making portfolio creation hard to get wrong</h3>
+        <dl class="db-dec">
+            <div><dt data-zh="决策">Decision</dt><dd data-zh="把一张长表单拆成四个步骤，把详情页重组为三个 Tab。">Split one long form into four steps, and regroup the view page into three tabs.</dd></div>
+            <div><dt data-zh="证据">Evidence</dt><dd data-zh="依据 Nielsen 十大可用性原则做启发式评估，再访谈产品负责人和工程师，核对字段逻辑。">A heuristic review against Nielsen&rsquo;s 10 heuristics, then interviews with the product owner and engineers to check the field logic.</dd></div>
+            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="CEO 和产品负责人在评审中通过了这个流程，反馈积极，随后上线。">The CEO and product owner passed the flow in review with positive feedback, and it launched.</dd></div>
+        </dl>
+        <p data-zh="投资组合经理在这里搭建模型组合；银行再把每个组合推荐给风险评分匹配的客户。我改版了两端：创建组合（第 2 步），以及对比它的指标（第 3 步）。">Portfolio managers build model portfolios here; banks recommend each one to clients with a matching risk score. I redesigned both ends: creating a portfolio (step 2), and comparing its metrics (step 3).</p>
         <ol class="db-journey" aria-label="Model portfolio journey">
             <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;1&lt;/span&gt;模型组合列表"><span class="db-journey__n">1</span>Model portfolio list</li>
-            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;2&lt;/span&gt;创建组合 &lt;em&gt;第一部分&lt;/em&gt;" class="is-mine"><span class="db-journey__n">2</span>Create a portfolio <em>Part 1</em></li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;2&lt;/span&gt;创建组合 &lt;em&gt;第 2 步&lt;/em&gt;" class="is-mine"><span class="db-journey__n">2</span>Create a portfolio <em>Step 2</em></li>
             <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;3&lt;/span&gt;打开详情页"><span class="db-journey__n">3</span>Open its detail page</li>
-            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;4&lt;/span&gt;对比指标 &lt;em&gt;第二部分&lt;/em&gt;" class="is-mine"><span class="db-journey__n">4</span>Compare its metrics <em>Part 2</em></li>
+            <li data-zh="&lt;span class=&quot;db-journey__n&quot;&gt;4&lt;/span&gt;对比指标 &lt;em&gt;第 3 步&lt;/em&gt;" class="is-mine"><span class="db-journey__n">4</span>Compare its metrics <em>Step 3</em></li>
         </ol>
-
-        <div class="anchor" id="dive-create"></div>
-        <h4 data-zh="第一部分 · 让创建流程不容易出错" class="db-part">Part 1 &middot; Making creation hard to get wrong</h4>
-        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 2 步 / 共 5 步&lt;/a&gt; 启发式评估" class="db-step"><a href="#role">Evidence step 2 of 5</a> Heuristic review</p>
         <p data-zh="合规字段多且相互关联，错误要到最后才提示：内部员工常常迷路，销售也没法演示。">Many linked compliance fields, with errors only at the end: internal staff got lost, and sales couldn&rsquo;t demo it.</p>
         <p data-zh="唯一设计师 · 1 名 PM，1 名前端工程师 · 2 个月" class="db-chapter-meta">Sole designer &middot; 1 PM, 1 front-end engineer &middot; 2 months</p>
 
@@ -1541,21 +1535,25 @@
             </ol>
             <p data-zh="重新分组后的详情页沿用这些分组：关键信息与费用、构成、业绩。" class="db-figcap">The regrouped view page follows the same groups: key facts and fees, composition, and performance.</p>
             <h4 data-zh="试用创建流程原型" class="db-sub">Try the creation prototype</h4>
-            <div class="db-embed">
-                <iframe title="Model portfolio creation prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FTj33o5BjyN7dlhwGEsKFo6%2FMAP-Portfolios-24062021Q2%3Fpage-id%3D75%253A102%26node-id%3D2657%253A76336%26viewport%3D704%252C329%252C0.12%26scaling%3Dscale-down%26starting-point-node-id%3D2657%253A76336" allowfullscreen></iframe>
+            <div class="db-embed db-embed--proto">
+                <iframe title="Model portfolio creation prototype" loading="lazy" src="resources/demos/creation-prototype.html?embed=1&amp;v=4"></iframe>
             </div>
+            <p class="db-figcap" data-zh="点「Create」开始，点表单填入示例内容，再点「Next」走完四步。&lt;a href=&quot;resources/demos/creation-prototype.html?v=4&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;">Tap “Create” to start, tap the form to fill in sample content, then “Next” through the four steps. <a href="resources/demos/creation-prototype.html?v=4" target="_blank" rel="noopener">Open full screen ↗</a></p>
         </details>
 
-        <p data-zh="&lt;b&gt;评审通过，已上线&lt;/b&gt;CEO 和产品负责人在评审中通过了这个流程，反馈积极，随后上线。详情页还缺一张能对比组合的表格；这一次，CEO 亲自参与了测试。" class="db-next"><b>Passed review, launched</b>The CEO and product owner passed the flow in review with positive feedback, and it launched. The detail page still needed a table that could compare portfolios, and this time the CEO took the test himself.</p>
-
         <div class="anchor" id="dive-compare"></div>
-        <h4 data-zh="第二部分 · 指标表格的 4 种布局测试" class="db-part">Part 2 &middot; Testing 4 layouts for the metrics table</h4>
-        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 3 步 / 共 5 步&lt;/a&gt; 对比测试" class="db-step"><a href="#role">Evidence step 3 of 5</a> Comparative test</p>
-        <p data-zh="一张表要在 4 项指标、7 个时间段上对比组合和基准。">One table had to compare portfolios and benchmarks across 4 metrics and 7 time periods.</p>
+        <span data-zh="第 3 步 / 共 5 步 · 指标表格" class="db-kicker">Step 3 of 5 &middot; Metrics table</span>
+        <h3 data-zh="四种布局测试，一个明确胜出" class="section">Four layouts tested, one clear winner</h3>
+        <dl class="db-dec">
+            <div><dt data-zh="决策">Decision</dt><dd data-zh="选项 2：颜色区分、组合纵向排列、使用 Tab。">Option 2: colour-coded, portfolios down the side, with tabs.</dd></div>
+            <div><dt data-zh="证据">Evidence</dt><dd data-zh="对比测试：7 位测试者（含 CEO）为 4 种布局打 1–5 分。选项 2 平均 4.6 分，其余为 3.6、3.3 和 2.6。">A comparative test: 7 testers, including the CEO, rated 4 layouts from 1 to 5. Option 2 averaged 4.6, against 3.6, 3.3 and 2.6.</dd></div>
+            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="CEO 支持选项 2；同样的表格思路随后延伸到其他模块。">The CEO backed Option 2, and the same table thinking carried into the other modules.</dd></div>
+        </dl>
+        <p data-zh="详情页还缺一张能对比组合的表格：要在 4 项指标、7 个时间段上对比组合和基准。">The detail page still needed a table that could compare portfolios and benchmarks across 4 metrics and 7 time periods.</p>
         <p data-zh="唯一设计师" class="db-chapter-meta">Sole designer</p>
 
 
-        <h4 data-zh="三个选择，四种布局，一个明确胜出" class="db-sub">Three choices, four layouts, one clear winner</h4>
+        <h4 data-zh="三个二选一，八种表格，测其中四种" class="db-sub">Three yes/no choices, eight tables, four tested</h4>
         <p data-zh="三个二选一的变量能组合出八种表格。我挑出能回答待定问题的四种来测试：7 位同事（含 CEO）为每种打 1–5 分。他们能判断表格是否易读，但判断不了经理需要哪些指标。">Three yes/no choices give eight tables. I tested the four that answered the open questions: 7 colleagues, including the CEO, rated each from 1 to 5. They can judge how easy a table is to read, not which metrics managers need.</p>
         <ol class="db-lay" aria-label="Four tested layouts with average ease scores">
             <li>
@@ -1588,19 +1586,18 @@
         </ul>
         <p data-zh="来自后续访谈的记录，略有编辑。" class="db-figcap">Notes from follow-up interviews, lightly edited.</p>
 
-        <p data-zh="&lt;b&gt;CEO 支持选项 2&lt;/b&gt;CEO 亲自测试后支持选项 2；5 位受访者中有 3 位把它比作自己常用的电子表格。同样的表格思路随后延伸到其他模块。" class="db-next"><b>CEO backed Option 2</b>After taking the test himself, the CEO backed Option 2, and 3 of 5 interviewees compared it to their spreadsheets. The same table thinking then carried into the other modules.</p>
-
+        <p data-zh="5 位后续受访者中，有 3 位把选项 2 比作自己常用的电子表格。" class="db-figcap">3 of 5 follow-up interviewees compared Option 2 to their spreadsheets.</p>
 
         <div class="anchor" id="section9"></div>
-        <span data-zh="04 · 表格模式" class="db-kicker">04 · Table patterns</span>
-        <h3 data-zh="五个模块，一套表格模式" class="section">Five modules, one set of table patterns</h3>
-        <p data-zh="其余模块覆盖经理决定操作之后的环节。我围绕几种高密度数据模式改版它们，让表格、筛选和状态在各处表现一致。">The other modules cover what happens after a manager decides to act. I redesigned them around a few dense-data patterns, so tables, filters and statuses behave the same everywhere.</p>
-
         <div class="anchor" id="module-models"></div>
         <div class="anchor" id="module-instruments"></div>
         <div class="anchor" id="module-rebalance"></div>
         <div class="anchor" id="module-orders"></div>
         <div class="anchor" id="module-trades"></div>
+        <h4 data-zh="同样的表格思路，延伸到五个模块" class="db-sub">The same table thinking, in five modules</h4>
+        <p data-zh="其余模块覆盖经理决定操作之后的环节。我围绕几种高密度数据模式改版它们，让表格、筛选和状态在各处表现一致。">The other modules cover what happens after a manager decides to act. I redesigned them around a few dense-data patterns, so tables, filters and statuses behave the same everywhere.</p>
+        <details class="db-more" id="patterns-more">
+            <summary data-zh="查看五个模块：模型组合、投资标的、再平衡、订单和成交">See the five modules: model portfolios, instruments, rebalance, orders and trades</summary>
         <figure class="db-tabs db-tabs--patterns" data-tabs>
             <div class="db-tabs__bar" role="tablist" aria-label="Table patterns by module">
                 <button data-zh="模型组合" type="button" role="tab" aria-selected="true">Model portfolios</button>
@@ -1630,18 +1627,37 @@
                 <img src="resources/images/images-dashboard/system-trades.png" width="4320" height="2700" alt="Trades table with notional, trading account and reconciliation filters" loading="lazy" decoding="async">
             </div>
         </figure>
-
-        <p data-zh="&lt;b&gt;下一步：共用组件&lt;/b&gt;五个模块要共用一套模式，底层组件也必须共用。" class="db-next"><b>Next: shared parts</b>Five modules can only share one set of patterns if the components underneath are shared too.</p>
+        </details>
 
         <div class="anchor" id="foundation"></div>
-        <span data-zh="05 · 底层基础" class="db-kicker">05 · Foundation</span>
-        <h3 data-zh="支撑所有模块的设计系统" class="section">The design system behind every module</h3>
-        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 4 步 / 共 5 步&lt;/a&gt; 盘点与开发工作坊" class="db-step"><a href="#role">Evidence step 4 of 5</a> Audit and dev workshops</p>
+        <span data-zh="第 4 步 / 共 5 步 · 设计系统" class="db-kicker">Step 4 of 5 &middot; Design system</span>
+        <h3 data-zh="把设计系统写成规则，而不只是组件" class="section">A design system written as rules, not just components</h3>
+        <dl class="db-dec">
+            <div><dt data-zh="决策">Decision</dt><dd data-zh="先定全产品通用的规则，从弹窗开始：只确认不可逆的操作，其余用撤销。">Set product-wide rules first, starting with dialogs: confirm only the irreversible, undo the rest.</dd></div>
+            <div><dt data-zh="证据">Evidence</dt><dd data-zh="模式盘点把 15 个弹窗按用途分为 6 类，再与开发开工作坊确定优先级。">A pattern audit sorted 15 dialogs into 6 jobs, and workshops with developers set the priorities.</dd></div>
+            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="设计和开发按优先级确定了 23 个组件，弹窗排第一；Figma 和代码使用同一套命名。">Designers and developers agreed 23 components in priority order, dialogs first, with the same names in Figma and code.</dd></div>
+        </dl>
         <p data-zh="颜色达不到 WCAG 对比度，字号各自走样，设计和前端对同一事物叫法不同。我以 Material Design 为基础，主导重建三款产品共用的组件库；大部分工作是和开发对齐：先做什么，叫什么。">Colours missed WCAG contrast, type sizes had drifted, and design and front-end used different names for the same things. I led the rebuild of the library all three products shared, on a Material Design base; most of the work was agreeing with developers what to build first and what to call it.</p>
         <p data-zh="主导重建 · 3 名设计师，5 名前端工程师" class="db-chapter-meta">Led the rebuild &middot; 3 designers, 5 front-end engineers</p>
 
-        <h4 data-zh="先做弹窗：重复最多的模式" class="db-sub">Dialogs first: the most repeated pattern</h4>
-        <p data-zh="先做模式盘点。按用途给所有弹窗分组后，开发看到了同一模式被重复开发的频率，于是弹窗排在我们共同确定的 23 个组件之首。">A pattern audit came first. Grouping every dialog by job showed developers how often the same pattern was being rebuilt, so dialogs led the 23 components we prioritised together.</p>
+        <p data-zh="规则 1" class="db-pattern-k">Rule 1</p>
+        <h4 data-zh="只确认不可逆的操作，其余用撤销" class="db-sub db-sub--pattern">Confirm only the irreversible; undo the rest</h4>
+        <p data-zh="只有当操作不可逆、后果严重、复杂且少见时才弹确认框；其余操作一律用可撤销的轻提示。">A confirmation box only when an action is irreversible, severe, complex and rare; everything else gets an undo toast.</p>
+        <figure>
+            <img src="resources/images/designsys-guideline.png" width="1840" height="1268" alt="Guideline comparing a confirmation box with an undo toast, using off-boarding a client portfolio as the example" loading="lazy" decoding="async">
+            <figcaption data-zh="注销客户组合同时满足这四条：无法恢复、会触发资金交易、记录保留 7 年，所以使用确认框。" class="db-figcap">Off-boarding a client portfolio meets all four tests &mdash; it can&rsquo;t be restored, it triggers a fund transaction, and the record stays for 7 years &mdash; so it gets a confirmation box.</figcaption>
+        </figure>
+
+        <p data-zh="规则 2" class="db-pattern-k">Rule 2</p>
+        <h4 data-zh="每个弹窗只问一个问题" class="db-sub db-sub--pattern">One question per dialog</h4>
+        <p data-zh="确实需要弹窗时，文案也有规则，这样三款产品的弹窗读起来像同一个声音。">When a dialog is needed, its copy follows rules too, so dialogs read the same across all three products.</p>
+        <figure>
+            <img src="resources/images/designsys-copy.png" width="1840" height="968" alt="Writing guide for confirmation dialogs: do and don't for title, description and buttons" loading="lazy" decoding="async">
+            <figcaption data-zh="弹窗文案：标题提出一个清晰的问题，描述说明后果，按钮呼应标题。" class="db-figcap">Dialog copy: one clear question in the title, consequences in the description, buttons that echo the title.</figcaption>
+        </figure>
+
+        <h4 data-zh="规则从哪里来：先盘点弹窗" class="db-sub">Where the rules came from: a dialog audit</h4>
+        <p data-zh="按用途给所有弹窗分组后，开发看到了同一模式被重复开发的频率，于是弹窗成为我们共同确定的第一优先级。">Grouping every dialog by job showed developers how often the same pattern was being rebuilt, so dialogs became the first priority we agreed together.</p>
         <ul class="db-dlg" aria-label="Dialogs grouped by job">
             <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-selection.png?v=1" width="1107" height="797" alt="Selection dialog example" loading="lazy" decoding="async"></span><b data-zh="选择">Selection</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
             <li><span class="db-dlg__img"><img src="resources/images-dashboard/dlg-edit.png?v=1" width="1395" height="1475" alt="Edit dialog example" loading="lazy" decoding="async"></span><b data-zh="编辑">Edit</b><span data-zh="盘点中 3 个">3 in the audit</span></li>
@@ -1652,30 +1668,18 @@
         </ul>
         <p data-zh="产品中共 15 个弹窗，按用途分组，每组展示一个示例。" class="db-figcap">15 dialogs across the product, grouped by the job they do. One example per group.</p>
 
-        <h4 data-zh="样式指南：对比度、字体和统一命名" class="db-sub">Style guide: contrast, type and shared names</h4>
-        <p data-zh="颜色修正到符合 WCAG 对比度，字号重新调校，每个样式在 Figma 和代码中同名。更新通过每月一次的设计 × 前端会议同步。">Colours fixed for WCAG contrast, type sizes tuned, and every style named the same in Figma and code. Updates went out in a monthly design &times; web meeting.</p>
-        <figure>
-            <img src="resources/images/designsys-styleguide.png" width="2000" height="1060" alt="Style guide showing type levels on list and detail pages, colours, statuses and data-visualisation palette" loading="lazy" decoding="async">
-            <figcaption data-zh="字体层级套用到真实的列表页和详情页，并附颜色、状态和图表色板。" class="db-figcap">Type levels mapped to real list and detail pages, plus colours, statuses and the chart palette.</figcaption>
-        </figure>
-
         <details class="db-more">
-            <summary data-zh="设计系统的更多内容：确认与撤销规范、组件、文案指南、栅格和使用指南">More from the design system: confirm vs undo guideline, components, writing guide, grid and usage guide</summary>
-            <h4 data-zh="只确认不可逆的操作，其余用撤销" class="db-sub">Confirm only the irreversible; undo the rest</h4>
-            <p data-zh="只有当操作不可逆、后果严重、复杂且少见时才弹确认框；其余操作一律用可撤销的轻提示。">A confirmation box only when an action is irreversible, severe, complex and rare; everything else gets an undo toast.</p>
+            <summary data-zh="设计系统的更多内容：样式指南、组件、栅格和使用指南">More from the design system: style guide, components, grid and usage guide</summary>
+            <h4 data-zh="样式指南：对比度、字体和统一命名" class="db-sub">Style guide: contrast, type and shared names</h4>
+            <p data-zh="颜色修正到符合 WCAG 对比度，字号重新调校，每个样式在 Figma 和代码中同名。更新通过每月一次的设计 × 前端会议同步。">Colours fixed for WCAG contrast, type sizes tuned, and every style named the same in Figma and code. Updates went out in a monthly design &times; web meeting.</p>
             <figure>
-                <img src="resources/images/designsys-guideline.png" width="1840" height="1268" alt="Guideline comparing a confirmation box with an undo toast, using off-boarding a client portfolio as the example" loading="lazy" decoding="async">
-                <figcaption data-zh="注销客户组合同时满足这四条：无法恢复、会触发资金交易、记录保留 7 年，所以使用确认框。" class="db-figcap">Off-boarding a client portfolio meets all four tests &mdash; it can&rsquo;t be restored, it triggers a fund transaction, and the record stays for 7 years &mdash; so it gets a confirmation box.</figcaption>
+                <img src="resources/images/designsys-styleguide.png" width="2000" height="1060" alt="Style guide showing type levels on list and detail pages, colours, statuses and data-visualisation palette" loading="lazy" decoding="async">
+                <figcaption data-zh="字体层级套用到真实的列表页和详情页，并附颜色、状态和图表色板。" class="db-figcap">Type levels mapped to real list and detail pages, plus colours, statuses and the chart palette.</figcaption>
             </figure>
             <h4 data-zh="共用组件，不再各做一版" class="db-sub">Shared components, not local copies</h4>
             <p data-zh="模态框、标签、面包屑、滚动导航和 Snackbar：各产品原本都在自己做，现在统一补进组件库。">Modals, chips, breadcrumbs, scrollspy and snackbar, added where products kept building their own versions.</p>
             <figure>
                 <img src="resources/images/designsys-components.png" width="1880" height="434" alt="New components: modals, chips, breadcrumbs, scrollspy and snackbar" loading="lazy" decoding="async">
-            </figure>
-            <h4 data-zh="每个弹窗只问一个问题" class="db-sub">One question per dialog</h4>
-            <figure>
-                <img src="resources/images/designsys-copy.png" width="1840" height="968" alt="Writing guide for confirmation dialogs: do and don't for title, description and buttons" loading="lazy" decoding="async">
-                <figcaption data-zh="弹窗文案：标题提出一个清晰的问题，描述说明后果，按钮呼应标题。" class="db-figcap">Dialog copy: one clear question in the title, consequences in the description, buttons that echo the title.</figcaption>
             </figure>
             <h4 data-zh="按任务优先级设计的栅格" class="db-sub">A grid built around task priority</h4>
             <p data-zh="根据平台布局和任务优先级定制的栅格。">A grid tailored to the platform&rsquo;s layouts and task priority.</p>
@@ -1690,24 +1694,13 @@
             </figure>
         </details>
 
-        <p data-zh="&lt;b&gt;换来研究授权&lt;/b&gt;到 2022 年，CEO 已经看到小测试能解决哪些问题。为了一款新的顾问产品，他请我规划真实用户研究。" class="db-next"><b>Earned a research mandate</b>By 2022 the CEO had seen what small tests could settle. For a new advisor product, he asked me to plan research with real users.</p>
-
-        <div class="anchor" id="section10"></div>
-        <span data-zh="06 · 成果与反思" class="db-kicker">06 · Impact and reflection</span>
-        <h3 data-zh="从小测试到正式的研究授权" class="section">From small tests to a research mandate</h3>
-        <p data-zh="&lt;a href=&quot;#role&quot;&gt;证据 第 5 步 / 共 5 步&lt;/a&gt; 真实用户访谈" class="db-step"><a href="#role">Evidence step 5 of 5</a> Real user interviews</p>
-        <p data-zh="以上证据都不完美，但每一份都推动了一个决策；合在一起，改变了 CEO 对用户研究的看法。">None of the evidence above was perfect, but each piece moved a decision, and together they changed how the CEO saw research.</p>
-        <ol class="db-res">
-            <li><span data-zh="仪表盘" class="db-res__t">Dashboard</span><h4 data-zh="一次帮助赢得客户的演示">A demo that helped win a client</h4><p data-zh="销售向潜在客户演示了新仪表盘及其新能力，HSBC Hong Kong 随后签约。">Sales showed prospective clients the new dashboard and its new capabilities, and HSBC Hong Kong came on board.</p></li>
-            <li><span data-zh="创建流程与指标表格" class="db-res__t">Creation and metrics table</span><h4 data-zh="CEO 签字认可">Signed off by the CEO</h4><p data-zh="CEO 和产品负责人在评审中通过了创建流程；CEO 亲自测试后，也支持了指标表格的布局。">The CEO and product owner passed the creation flow in review, and the CEO backed the metrics layout after taking the test himself.</p></li>
-            <li><span data-zh="新产品" class="db-res__t">New product</span><h4 data-zh="接触到真实用户">Access to real users</h4><p data-zh="CEO 请我为一款新的顾问产品规划研究，并动用自己的人脉帮忙招募。">The CEO asked me to plan research for a new advisor product, and opened his own network to recruit for it.</p></li>
-        </ol>
-
-        <h4 data-zh="CEO 要求的这项研究" class="db-sub">The research the CEO asked for</h4>
-        <dl class="db-glance">
-            <div><dt data-zh="研究">Research</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;5 位顾问总监&lt;/span&gt;与 PM 一起访谈，受访者多来自瑞士投资银行，通过 CEO 的人脉招募。"><span class="db-glance__h">5 advisory directors</span>Interviewed with the PM, mostly from Swiss investment banks, recruited through the CEO&rsquo;s network.</dd></div>
-            <div><dt data-zh="归纳">Synthesis</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;用户旅程与功能清单&lt;/span&gt;他们的工作旅程、痛点，以及新工具需要的功能。"><span class="db-glance__h">Journey and feature list</span>Their journey, pain points and the features a new tool would need.</dd></div>
-            <div><dt data-zh="下一步">Next</dt><dd data-zh="&lt;span class=&quot;db-glance__h&quot;&gt;计划已交接&lt;/span&gt;一场功能优先级工作坊和一份原型测试计划。两者开展前我已离职。"><span class="db-glance__h">Plans handed over</span>A feature-prioritisation workshop and a prototype-testing plan. I left before either ran.</dd></div>
+        <div class="anchor" id="research"></div>
+        <span data-zh="第 5 步 / 共 5 步 · 研究授权" class="db-kicker">Step 5 of 5 &middot; Research mandate</span>
+        <h3 data-zh="小测试换来了真实用户研究" class="section">Small tests earned research with real users</h3>
+        <dl class="db-dec">
+            <div><dt data-zh="决策">Decision</dt><dd data-zh="为一款新的顾问产品规划真实用户研究。到 2022 年，CEO 已经看到小测试能解决哪些问题，于是把这件事交给了我。">Plan research with real users for a new advisor product. By 2022 the CEO had seen what small tests could settle, and asked me to lead it.</dd></div>
+            <div><dt data-zh="证据">Evidence</dt><dd data-zh="与 PM 一起访谈了 5 位顾问总监，多来自瑞士投资银行，通过 CEO 的人脉招募。">5 interviews with advisory directors, run with the PM, mostly from Swiss investment banks and recruited through the CEO&rsquo;s network.</dd></div>
+            <div class="is-turn"><dt data-zh="带来的改变">What it changed</dt><dd data-zh="得到了他们的工作旅程、痛点，以及新工具需要的功能清单。功能优先级工作坊和原型测试已做好计划，开展前我已离职。">Their journey, pain points and a feature list for the new tool. A prioritisation workshop and prototype tests were planned; I left before they ran.</dd></div>
         </dl>
         <p data-zh="研究负责人 · 与 1 名 PM 合作" class="db-chapter-meta">Research lead &middot; with 1 PM</p>
         <details class="db-more">
@@ -1720,8 +1713,19 @@
             </div>
         </details>
 
+        <div class="anchor" id="section10"></div>
+        <span data-zh="成果与反思" class="db-kicker">Results and reflection</span>
+        <h3 data-zh="这些证据换来了什么" class="section">What the evidence earned</h3>
+        <p data-zh="以上证据都不完美，但每一份都推动了一个决策；合在一起，改变了 CEO 对用户研究的看法。">None of the evidence above was perfect, but each piece moved a decision, and together they changed how the CEO saw research.</p>
+        <ol class="db-res">
+            <li><span data-zh="仪表盘" class="db-res__t">Dashboard</span><h4 data-zh="一次帮助赢得客户的演示">A demo that helped win a client</h4><p data-zh="销售向潜在客户演示了新仪表盘及其新能力，HSBC Hong Kong 随后签约。">Sales showed prospective clients the new dashboard and its new capabilities, and HSBC Hong Kong came on board.</p></li>
+            <li><span data-zh="创建流程与指标表格" class="db-res__t">Creation and metrics table</span><h4 data-zh="CEO 签字认可">Signed off by the CEO</h4><p data-zh="CEO 和产品负责人在评审中通过了创建流程；CEO 亲自测试后，也支持了指标表格的布局。">The CEO and product owner passed the creation flow in review, and the CEO backed the metrics layout after taking the test himself.</p></li>
+            <li><span data-zh="新产品" class="db-res__t">New product</span><h4 data-zh="接触到真实用户">Access to real users</h4><p data-zh="CEO 请我为一款新的顾问产品规划研究，并动用自己的人脉帮忙招募。">The CEO asked me to plan research for a new advisor product, and opened his own network to recruit for it.</p></li>
+        </ol>
+
         <h4 data-zh="反思：先找成本最低的证据" class="db-sub">Reflection: the cheapest evidence first</h4>
-        <p data-zh="一开始我很被动：申请做研究，总是没有下文。精益和游击式方法把我的问题从“怎么找到用户？”变成“这个决策，成本最低的证据是什么？”最终让我接触到真实用户的，是拿出结果，而不是申请预算。">At the start I felt stuck: asking for research went nowhere. Lean and guerrilla methods changed my question from &ldquo;how do I get users?&rdquo; to &ldquo;what is the cheapest evidence for this decision?&rdquo; Showing results, not asking for budget, is what got me real users.</p>
+        <p data-zh="&lt;b&gt;有效的做法。&lt;/b&gt;一开始我很被动：申请做研究，总是没有下文。精益和游击式方法把我的问题从“怎么找到用户？”变成“这个决策，成本最低的证据是什么？”最终让我接触到真实用户的，是拿出结果，而不是申请预算。"><b>What worked.</b> At the start I felt stuck: asking for research went nowhere. Lean and guerrilla methods changed my question from &ldquo;how do I get users?&rdquo; to &ldquo;what is the cheapest evidence for this decision?&rdquo; Showing results, not asking for budget, is what got me real users.</p>
+        <p data-zh="&lt;b&gt;局限。&lt;/b&gt;这些测试都没有接触到投资组合经理。它们能判断界面好不好用，判断不了是否契合经理的工作；上线后也没有使用数据来验证。"><b>The limit.</b> None of these tests reached a portfolio manager. They settled whether screens were easy to use, not whether they fit a manager&rsquo;s job, and nothing shipped with usage data to check.</p>
 
         <h4 data-zh="如果能接触真实用户，我会衡量什么" class="db-sub">What I&rsquo;d measure with real access</h4>
         <ul class="db-module-list">
@@ -1838,6 +1842,8 @@
                 var panel = hash && document.querySelector('[data-hash="' + hash.replace('#', '') + '"]');
                 if (!panel) return;
                 var fig = panel.closest('[data-tabs]');
+                var more = fig.closest('details');
+                if (more) more.open = true;
                 var i = Array.prototype.indexOf.call(fig.querySelectorAll('[role="tabpanel"]'), panel);
                 fig.querySelectorAll('[role="tab"]')[i].click();
             }
@@ -1854,6 +1860,7 @@
                 var stage = fig.querySelector('.db-anno__stage');
                 var pins = stage.querySelectorAll('.db-pin');
                 var notes = fig.querySelectorAll('.db-anno__notes li');
+                var boxes = stage.querySelectorAll('.db-anno__box');
                 if (!pins.length || pins.length !== notes.length) return;
                 var svg = document.createElementNS(NS, 'svg');
                 svg.setAttribute('class', 'db-anno__links');
@@ -1913,12 +1920,12 @@
 
                 function set(n) {
                     fig.classList.toggle('has-on', n >= 0);
-                    [pins, notes, paths].forEach(function (list) {
+                    [pins, notes, paths, boxes].forEach(function (list) {
                         Array.prototype.forEach.call(list, function (el, j) { el.classList.toggle('on', j === n); });
                     });
                 }
 
-                [pins, notes].forEach(function (list) {
+                [pins, notes, boxes].forEach(function (list) {
                     Array.prototype.forEach.call(list, function (el, i) {
                         el.addEventListener('mouseenter', function () { set(i); });
                         el.addEventListener('mouseleave', function () { set(-1); });

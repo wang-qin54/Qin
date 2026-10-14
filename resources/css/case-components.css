@@ -84,7 +84,7 @@
 .one-col .cs-shot img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: 16px; }
 .cs-shot + .cs-figcap { margin-top: var(--space-3); }
 
-.cs-embed { margin: var(--space-4) 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); overflow: hidden; }
+.cs-embed { margin: var(--space-4) 0 var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; overflow: hidden; }
 .cs-embed iframe { display: block; width: 100%; height: 560px; margin: 0; border: 0; border-radius: 0; background: #fff; }
 
 /* ------------------------------------------------------------------
@@ -115,14 +115,14 @@
 .cs-how span:not(.cs-num) { display: block; margin-top: var(--space-1); font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
 .cs-flow { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 var(--space-4); padding: 0; list-style: none; counter-reset: flow; }
-.cs-flow li { counter-increment: flow; display: flex; align-items: center; gap: 6px; margin: 0; padding: 6px 12px 6px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-subtle); font-size: 13.5px; color: var(--text-primary); }
-.cs-flow li::before { content: counter(flow); display: grid; place-items: center; width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 50%; background: #fff; font-size: 11px; font-weight: 700; color: var(--text-tertiary); }
+.cs-flow li { counter-increment: flow; display: flex; align-items: center; gap: 6px; margin: 0; padding: 6px 12px 6px 6px; border-radius: 999px; background: var(--bg-subtle); font-size: 13.5px; color: var(--text-primary); }
+.cs-flow li::before { content: counter(flow); display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #fff; font-size: 11px; font-weight: 700; color: var(--text-tertiary); }
 
 /* ------------------------------------------------------------------
    7. Evidence: metric tiles and horizontal bars (research numbers only)
    ------------------------------------------------------------------ */
 .cs-metrics { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: var(--space-3); margin: var(--space-4) 0 var(--space-5); }
-.cs-metric { padding: var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+.cs-metric { padding: var(--space-4); border-radius: var(--radius-md); background: var(--bg-subtle); }
 .cs-metric__num { display: block; font-family: var(--font-title); font-size: 32px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); }
 .cs-metric--bad .cs-metric__num { color: #c0392b; }
 .cs-metric__desc { display: block; margin-top: var(--space-2); font-size: 13px; line-height: 1.45; color: var(--text-secondary); }

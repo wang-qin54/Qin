@@ -56,63 +56,36 @@
         .kyc-list li b { color: var(--text-primary); font-weight: 600; }
         /* Callout — the brief / a key note */
         .kyc-callout {
-            margin: var(--space-7) 0 0;
-            padding: 28px 32px;
-            border: 1px solid rgba(0, 52, 240, 0.14);
-            border-radius: var(--radius-lg);
-            background:
-                radial-gradient(120% 140% at 100% 0%, rgba(0, 52, 240, 0.07), transparent 55%),
-                linear-gradient(180deg, rgba(0, 52, 240, 0.035), #fff);
+            margin: var(--space-6) 0 0;
+            padding: 14px 18px;
+            border-left: 2px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            background: var(--bg-subtle);
         }
         .kyc-callout .lbl {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 12px 4px 4px;
-            border: 1px solid rgba(0, 52, 240, 0.16);
-            border-radius: 999px;
-            background: #fff;
-            font-size: 12px;
+            display: block;
+            font-size: 14px;
             font-weight: 600;
             color: var(--accent);
         }
-        .kyc-callout .lbl::before {
-            content: "?";
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            font-family: var(--font-title);
-            font-size: 12px;
-            font-weight: 700;
-        }
         .kyc-callout .quote {
             display: block;
-            max-width: 34em;
-            margin-top: 16px;
+            max-width: 40em;
+            margin-top: 6px;
             font-family: var(--font-title);
-            font-size: clamp(19px, 2.2vw, 24px);
+            font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: -0.02em;
-            line-height: 1.35;
-            text-wrap: balance;
+            letter-spacing: -0.01em;
+            line-height: 1.45;
+            text-wrap: pretty;
         }
         .kyc-callout .sub {
             display: block;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(0, 52, 240, 0.12);
+            margin-top: 8px;
             font-size: 14px;
-            line-height: 1.55;
+            line-height: 1.6;
             color: var(--text-secondary);
-        }
-        @media (max-width: 720px) {
-            .kyc-callout { padding: 20px; border-radius: var(--radius-md); }
         }
         /* Screenshot — fills its container edge to edge */
         .kyc-shot {
@@ -307,7 +280,11 @@
         html[data-lang="zh"] body { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", var(--font-sans); }
         html[data-lang="zh"] .one-col p, html[data-lang="zh"] .one-col li, html[data-lang="zh"] .kyc-why dd { line-height: 1.8; letter-spacing: 0; }
         html[data-lang="zh"] .one-col h3, html[data-lang="zh"] .kyc-decision__h, html[data-lang="zh"] .kyc-callout .quote { letter-spacing: -0.01em; line-height: 1.4; }
-        html[data-lang="zh"] .kyc-kicker, html[data-lang="zh"] .kyc-card .tag, html[data-lang="zh"] .kyc-callout .lbl,
+        html[data-lang="zh"] .one-col .kyc-callout .quote { line-height: 1.6; }
+        html[data-lang="zh"] .one-col h3 { text-wrap: balance; }
+        html[data-lang="zh"] .one-col :is(p, li, dd, h4, h5, .quote, .sub, .kyc-figcap),
+        html[data-lang="zh"] .page-title-box :is(p, dd) { text-wrap: pretty; }
+        html[data-lang="zh"] .kyc-kicker, html[data-lang="zh"] .kyc-card .tag,
         html[data-lang="zh"] .kyc-panel__flag { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
         html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
         @media (min-width: 721px) {
@@ -459,14 +436,26 @@
         }
         .kyc-why dd.is-key { color: var(--text-primary); font-weight: 500; }
         .kyc-shot--decision { margin-top: 0; }
-        .kyc-more { margin: var(--space-3) 0 var(--space-5); font-size: 14px; color: var(--text-secondary); }
-        .kyc-more summary {
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
+        /* In short: conflict, call, trade-off, result */
+        /* Disclosure: optional depth */
+        .cs-more { margin: var(--space-4) 0 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .cs-more + .cs-more { margin-top: var(--space-3); }
+        .cs-more > summary { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; padding: 14px 18px; list-style: none; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-more > summary::-webkit-details-marker { display: none; }
+        .cs-more > summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: -4px 4px 0 auto; border-right: 2px solid var(--text-tertiary); border-bottom: 2px solid var(--text-tertiary); transform: rotate(45deg); transition: transform .2s; }
+        .cs-more[open] > summary::after { margin-top: 4px; transform: rotate(-135deg); }
+        .cs-more > summary:hover { color: var(--accent); }
+        .cs-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-md); }
+        .cs-more__hint { font-size: 13px; font-weight: 400; color: var(--text-tertiary); }
+        .cs-more__body { padding: var(--space-2) 18px 18px; border-top: 1px solid var(--border); }
+        .cs-more__body > :first-child { margin-top: var(--space-3); }
+        .cs-more__body > p { font-size: 15px; line-height: 1.65; color: var(--text-secondary); }
+        .cs-more__body .kyc-figcap:last-child { margin-bottom: 0; }
+        .cs-more__body .kyc-gallery { margin-bottom: 0; }
+        .cs-more__body .kyc-cards { margin-bottom: var(--space-4); }
+        @media (max-width: 720px) {
+            .cs-more__body { padding: var(--space-2) 14px 14px; }
         }
-        .kyc-more[open] summary { margin-bottom: var(--space-3); }
         @media (max-width: 720px) {
             .kyc-cards, .kyc-cards--2, .kyc-cards--4, .kyc-compare {
                 grid-template-columns: 1fr;
@@ -617,7 +606,7 @@
         .case-layout > .one-col > .kyc-flow,
         .case-layout > .one-col > .kyc-decision,
         .case-layout > .one-col > .kyc-gallery,
-        .case-layout > .one-col > .kyc-more,
+        .case-layout > .one-col > .cs-more,
         .case-layout > .one-col > .kyc-results,
         .case-layout > .one-col > .kyc-learn,
         .case-layout > .one-col > .kyc-kicker,
@@ -631,7 +620,7 @@
             padding-top: var(--space-7);
             border-top: 1px solid var(--border);
         }
-        #section2 + .kyc-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
+        .one-col > .anchor:first-child + .kyc-kicker { margin-top: 0; padding-top: 0; border-top: 0; }
         .one-col h3.section {
             font-size: clamp(22px, 2.4vw, 28px);
             line-height: 1.25;
@@ -753,7 +742,7 @@
         .kyc-note b { color: var(--text-secondary); font-weight: 600; }
         .kyc-learn {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: var(--space-3);
             margin: var(--space-4) 0 0;
             padding: 0;
@@ -792,7 +781,7 @@
                 drop-shadow(0 18px 40px rgba(15, 23, 42, 0.12));
         }
     </style>
-    <link rel="stylesheet" href="resources/css/case-pattern.css?v=1">
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=20">
     <script src="site-chrome.js?v=8"></script>
 </head>
 
@@ -809,9 +798,9 @@
 
                 <ol class="as-stats" aria-label="From new regulation to approval">
                     <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="受监管市场">Regulated markets</span></li>
-                    <li><span class="as-stats__num" data-zh="约 3 周">~3 weeks</span><span class="as-stats__label" data-zh="每个 MVP">Per MVP</span></li>
+                    <li><span class="as-stats__num" data-zh="3 周">3 weeks</span><span class="as-stats__label" data-zh="设计用时">Design time</span></li>
                     <li class="is-turn"><span class="as-stats__num" data-zh="4 轮">4 rounds</span><span class="as-stats__label" data-zh="测验改版">Quiz redesign</span></li>
-                    <li><span class="as-stats__num" data-zh="已获批">Approved</span><span class="as-stats__label">MiCA + AUSTRAC</span></li>
+                    <li><span class="as-stats__num" data-zh="已演示">Demoed</span><span class="as-stats__label" data-zh="MiCA 申请">In MiCA application</span></li>
                 </ol>
 
                 <dl class="as-meta">
@@ -838,13 +827,14 @@
         <a href="#section1" class="list" data-zh="01 简介">01 Intro</a>
         <a href="#section2" class="list" data-zh="02 问题">02 Problem</a>
         <a href="#section3" class="list" data-zh="03 方案">03 Solution</a>
-        <a href="#section4" class="list" data-zh="04 关键决策">04 Key decisions</a>
+        <a href="#section4" class="list" data-zh="04 关键决策">04 Key decision</a>
         <a href="#section5" class="list" data-zh="05 规则变化">05 Changing rules</a>
-        <a href="#section6" class="list" data-zh="06 用户迁移">06 Migration</a>
-        <a href="#section7" class="list" data-zh="07 结果">07 Outcome</a>
+        <a href="#section6" class="list" data-zh="06 模块化框架">06 Framework</a>
+        <a href="#section7" class="list" data-zh="07 结果与复盘">07 Result &amp; retro</a>
         </div>
     </div>
 <div class="one-col">
+
 
         <!-- ── 02 · PROBLEM ───────────────────────────────────── -->
         <div class="anchor" id="section2"></div>
@@ -967,7 +957,7 @@
         <div class="kyc-callout">
             <div class="lbl" data-zh="设计问题">The design question</div>
             <span class="quote" data-zh="怎样让一个严格、只有通过与不通过的合规流程显得公平，同时又不引导用户选出正确答案？">How do you make a strict, pass/fail compliance flow feel fair, without coaching users toward the right answers?</span>
-            <span class="sub" data-zh="开发期间要求还在不断变化，设计必须能吸收变化，同时保持结构稳定。">Requirements also kept shifting during the build, so the design had to absorb change without losing its structure.</span>
+            <span class="sub" data-zh="开发期间要求也在不断变化，设计既要能吸收变化，也要保持结构稳定。">Requirements also kept shifting during the build, so the design had to absorb change without losing its structure.</span>
         </div>
 
 
@@ -986,49 +976,52 @@
         <p class="kyc-figcap" data-zh="先披露，再开放：身份与证件认证之后，是适当性测试、风险披露和声明；达到一定金额时，需上传资产证明。">Disclosure before access: after identity and documents come the appropriateness test, disclosures and declarations, plus proof of assets above a threshold.</p>
 
 
-        <!-- ── 04 · KEY DECISIONS ─────────────────────────────── -->
+        <!-- ── 04 · KEY DECISION ──────────────────────────────── -->
         <div class="anchor" id="section4"></div>
-        <span class="kyc-kicker" data-zh="04 · 关键决策">04 · Key decisions</span>
-        <h3 class="section" data-zh="让严格规则变得好用的三个决策">Three decisions that made strict rules usable</h3>
-        <p data-zh="测验经过四轮迭代，才同时满足合规要求和用户需要。动手之前，我研究了五家交易所如何处理分级认证和知识测验。五家都有两个共同做法：一页一题，以及先教育再测验。前两个决策正是由此而来。">The quiz went through four rounds before it worked for both compliance and users. First, I benchmarked how five exchanges handle tiered verification and knowledge tests. Two patterns held across all five: one question per page, and education before the test. Both shaped the first two decisions.</p>
+        <span class="kyc-kicker" data-zh="04 · 关键决策">04 · Key decision</span>
+        <h3 class="section" data-zh="在测验之外教，测验之内不教">Teach outside the quiz, never inside it</h3>
+        <p data-zh="测验改了四轮。最难的决定是：合规说这场测验不能有任何引导，那怎样帮用户通过？双方的要求都有道理。">The quiz went through four rounds. The hardest call was how to help users pass a test that compliance said no one could coach. Both sides had a fair point.</p>
 
-        <div class="kyc-gallery">
-            <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_coinbase.png" loading="lazy" alt="Coinbase: a knowledge-quiz gate with a 'read our crypto guide' pre-step"></div>
-                <div class="kyc-bench-card__body">
-                    <div class="kyc-bench-card__name">Coinbase</div>
-                    <div class="kyc-bench-card__note" data-zh="测验前给指南：先教育，再评估。">Guide before the quiz: educate, then assess.</div>
-                </div>
+        <div class="kyc-compare">
+            <div class="kyc-panel">
+                <div class="kyc-panel__flag" data-zh="合规的要求">Compliance needed</div>
+                <h4 data-zh="一场真实的评估">A genuine assessment</h4>
+                <ul class="kyc-list">
+                    <li data-zh="&lt;b&gt;措辞固定。&lt;/b&gt;ASIC 的题目不能改写、简化或解释。"><b>Locked wording.</b> ASIC's questions can't be reworded, simplified or explained.</li>
+                    <li data-zh="&lt;b&gt;不能提示。&lt;/b&gt;任何指向答案的内容，都会让测验变成引导答题。"><b>No hints.</b> Anything that points to an answer turns the test into coaching.</li>
+                </ul>
             </div>
-            <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_binance.png" loading="lazy" alt="Binance: verification levels compared side by side with the limits each unlocks"></div>
-                <div class="kyc-bench-card__body">
-                    <div class="kyc-bench-card__name">Binance</div>
-                    <div class="kyc-bench-card__note" data-zh="等级并排对比：每级的好处一目了然。">Levels side by side: each benefit is explicit.</div>
-                </div>
-            </div>
-            <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_kraken.png" loading="lazy" alt="Kraken: verification tiers framed by the access and limits each unlocks"></div>
-                <div class="kyc-bench-card__body">
-                    <div class="kyc-bench-card__name">Kraken</div>
-                    <div class="kyc-bench-card__note" data-zh="一张表看清代价：完成时长与解锁额度。">One matrix: time to complete vs. limits unlocked.</div>
-                </div>
-            </div>
-            <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_okx.png" loading="lazy" alt="OKX: requirements and limits listed before a single Verify action"></div>
-                <div class="kyc-bench-card__body">
-                    <div class="kyc-bench-card__name">OKX</div>
-                    <div class="kyc-bench-card__note" data-zh="要求先行：额度在前，只有一个认证按钮。">Requirements first: limits listed before one Verify button.</div>
-                </div>
-            </div>
-            <div class="kyc-bench-card">
-                <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_bitget.png" loading="lazy" alt="Bitget: tiered verification with the deposit and withdrawal limits of each level"></div>
-                <div class="kyc-bench-card__body">
-                    <div class="kyc-bench-card__name">Bitget</div>
-                    <div class="kyc-bench-card__note" data-zh="好处先行：每级能获得什么，开头就讲清楚。">Benefits up front: what each level earns.</div>
-                </div>
+            <div class="kyc-panel">
+                <div class="kyc-panel__flag" data-zh="用户的需要">Users needed</div>
+                <h4 data-zh="公平的通过机会">A fair chance to pass</h4>
+                <ul class="kyc-list">
+                    <li data-zh="&lt;b&gt;不想毫无准备就答题。&lt;/b&gt;新手用户直接面对衍生品相关的法律题目，事先没有任何准备。"><b>Not to fail cold.</b> Novice users met legal questions about derivatives with nothing to prepare them.</li>
+                    <li data-zh="&lt;b&gt;答错代价高。&lt;/b&gt;两次未通过要等 24 小时，第三次未通过要等 12 个月。"><b>Failing is costly.</b> Two misses mean a 24-hour wait; a third means 12 months.</li>
+                </ul>
             </div>
         </div>
+
+        <div class="kyc-callout">
+            <div class="lbl" data-zh="我的判断标准">My criterion</div>
+            <span class="quote" data-zh="任何指向答案的内容，都不进测验；任何解释主题的内容，都可以放在测验之前。">Anything that points to an answer stays out of the quiz. Anything that explains the topic can sit before it.</span>
+            <span class="sub" data-zh="合规可以按这条线逐页审核指南，用户也能提前准备，而不会被告知该选什么。">Compliance could check every guide screen against that line, and users could prepare without being told what to pick.</span>
+        </div>
+
+        <div class="kyc-decision">
+            <h4 class="kyc-decision__h"><span class="kyc-decision__n" aria-hidden="true">&#10003;</span><span data-zh="上线方案：先教育，再把关">What shipped: educate before the gate</span></h4>
+            <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_regulation_trust.webp?v=trim" width="4000" height="2057" loading="lazy" alt="Before: a hard quiz that ends in a fail state. After: the same quiz with an optional crypto guide before it"></div>
+            <dl class="kyc-why">
+                <dt data-zh="问题">Problem</dt><dd data-zh="新手用户直接面对一场很难的测验，要么靠猜，要么放弃。">Novice users met a hard pass/fail quiz cold, so they either guessed or gave up.</dd>
+                <dt class="is-key" data-zh="决策">Decision</dt><dd class="is-key" data-zh="测验前提供可选的加密指南。没通过时，用户能看到答错的主题，并一键回到指南。">An optional crypto guide before the quiz. After a missed attempt, users see which topics to review and a way back to the guide.</dd>
+                <dt data-zh="取舍">Trade-off</dt><dd data-zh="测验内部不提供任何提示；指南放在测验之外，只做教育。">No hints inside the quiz itself. The guide sits outside it, as education only.</dd>
+            </dl>
+        </div>
+
+        <h5 data-zh="我接受的风险">The risk I accepted</h5>
+        <p data-zh="指南只有在讲解概念、而不是复述题目时才合规，所以每次修改都要重新经过合规审核。而且指南是可选的，仍会有用户跳过它，毫无准备地参加测验。">The guide stays compliant only while it teaches concepts rather than mirroring questions, so every guide edit goes back through compliance. And because it's optional, some users will still skip it and take the test cold.</p>
+
+        <h5 data-zh="支撑它的两个决策">Two decisions that supported it</h5>
+        <p data-zh="我研究了五家交易所，发现它们都有两个共同做法：先教育再测验（这支持了指南的方案），以及一页一题。">Benchmarking five exchanges showed two patterns in all of them: education before the test, which backed the guide, and one question per page.</p>
 
         <div class="kyc-decision">
             <h4 class="kyc-decision__h"><span class="kyc-decision__n">01</span><span data-zh="一页一题">One question per page</span></h4>
@@ -1041,17 +1034,7 @@
         </div>
 
         <div class="kyc-decision">
-            <h4 class="kyc-decision__h"><span class="kyc-decision__n">02</span><span data-zh="先教育，再把关">Educate before the gate</span></h4>
-            <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_regulation_trust.webp?v=trim" width="4000" height="2057" loading="lazy" alt="Before: a hard quiz that ends in a fail state. After: the same quiz with an optional crypto guide before it"></div>
-            <dl class="kyc-why">
-                <dt data-zh="问题">Problem</dt><dd data-zh="新手用户直接面对一场很难的测验，要么靠猜，要么放弃。">Novice users met a hard pass/fail quiz cold, so they either guessed or gave up.</dd>
-                <dt class="is-key" data-zh="决策">Decision</dt><dd class="is-key" data-zh="测验前提供可选的加密指南。没通过时，用户能看到答错的主题，并一键回到指南。">An optional crypto guide before the quiz. After a missed attempt, users see which topics to review and a way back to the guide.</dd>
-                <dt data-zh="取舍">Trade-off</dt><dd data-zh="测验内部不提供任何提示；指南放在测验之外，只做教育。">No hints inside the quiz itself. The guide sits outside it, as education only.</dd>
-            </dl>
-        </div>
-
-        <div class="kyc-decision">
-            <h4 class="kyc-decision__h"><span class="kyc-decision__n">03</span><span data-zh="让用户自己选择路径">Let users choose their path</span></h4>
+            <h4 class="kyc-decision__h"><span class="kyc-decision__n">02</span><span data-zh="让用户自己选择路径">Let users choose their path</span></h4>
             <div class="kyc-shot kyc-shot--decision"><img src="resources/images-kyc-aus/fig_iter3_usertypes.webp?v=trim" width="3447" height="2521" loading="lazy" alt="An AU Level 2 user-type selector that branches verified users into separate retail and wholesale flows"></div>
             <dl class="kyc-why">
                 <dt data-zh="问题">Problem</dt><dd data-zh="在澳洲，零售和批发用户的要求和权益都不同，而且没有现成的模式可以参考。">In Australia, retail and wholesale users had different requirements and benefits, and there was no existing pattern to follow.</dd>
@@ -1060,61 +1043,119 @@
             </dl>
         </div>
 
+        <details class="cs-more">
+            <summary><span data-zh="五家交易所怎么做">How five exchanges handle it</span><span class="cs-more__hint">Coinbase · Binance · Kraken · OKX · Bitget</span></summary>
+            <div class="cs-more__body">
+            <div class="kyc-gallery">
+                <div class="kyc-bench-card">
+                    <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_coinbase.png" loading="lazy" alt="Coinbase: a knowledge-quiz gate with a 'read our crypto guide' pre-step"></div>
+                    <div class="kyc-bench-card__body">
+                        <div class="kyc-bench-card__name">Coinbase</div>
+                        <div class="kyc-bench-card__note" data-zh="测验前给指南：先教育，再评估。">Guide before the quiz: educate, then assess.</div>
+                    </div>
+                </div>
+                <div class="kyc-bench-card">
+                    <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_binance.png" loading="lazy" alt="Binance: verification levels compared side by side with the limits each unlocks"></div>
+                    <div class="kyc-bench-card__body">
+                        <div class="kyc-bench-card__name">Binance</div>
+                        <div class="kyc-bench-card__note" data-zh="等级并排对比：每级的好处一目了然。">Levels side by side: each benefit is explicit.</div>
+                    </div>
+                </div>
+                <div class="kyc-bench-card">
+                    <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_kraken.png" loading="lazy" alt="Kraken: verification tiers framed by the access and limits each unlocks"></div>
+                    <div class="kyc-bench-card__body">
+                        <div class="kyc-bench-card__name">Kraken</div>
+                        <div class="kyc-bench-card__note" data-zh="一张表看清代价：完成时长与解锁额度。">One matrix: time to complete vs. limits unlocked.</div>
+                    </div>
+                </div>
+                <div class="kyc-bench-card">
+                    <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_okx.png" loading="lazy" alt="OKX: requirements and limits listed before a single Verify action"></div>
+                    <div class="kyc-bench-card__body">
+                        <div class="kyc-bench-card__name">OKX</div>
+                        <div class="kyc-bench-card__note" data-zh="要求先行：额度在前，只有一个认证按钮。">Requirements first: limits listed before one Verify button.</div>
+                    </div>
+                </div>
+                <div class="kyc-bench-card">
+                    <div class="kyc-bench-card__frame"><img src="resources/images-kyc-aus/bench_bitget.png" loading="lazy" alt="Bitget: tiered verification with the deposit and withdrawal limits of each level"></div>
+                    <div class="kyc-bench-card__body">
+                        <div class="kyc-bench-card__name">Bitget</div>
+                        <div class="kyc-bench-card__note" data-zh="好处先行：每级能获得什么，开头就讲清楚。">Benefits up front: what each level earns.</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </details>
+
 
         <!-- ── 05 · CHANGING RULES ────────────────────────────── -->
         <div class="anchor" id="section5"></div>
         <span class="kyc-kicker" data-zh="05 · 规则变化">05 · Changing rules</span>
-        <h3 class="section" data-zh="三个月，规则一直在变">Three months of changing rules</h3>
-        <p data-zh="开发的三个月里，要求经常临时调整。我直接和合规、法务团队合作，每个月调整一次流程：先用线框图对齐理解，再修改权益说明，最后做成分支流程。">Over three months of build, requirements changed on short notice. I worked directly with compliance and legal and reshaped the flow each month: a wireframe to align understanding, then revised benefits, then the branched flow.</p>
+        <h3 class="section" data-zh="三周设计时间，关键流程改了三次">Three key-flow changes in three weeks of design</h3>
+        <p data-zh="设计工作断断续续，加起来大约三周：两版草稿，随着规则变化三次修改关键流程，开发支持，以及为牌照申请演示做的一天整理。我直接和合规、法务团队合作，每次变化都先用线框图对齐理解，再改流程。">Design ran on and off, about three weeks in total: two drafts, three changes to the key flow as the rules moved, development support, and a one-day clean-up for the licence demo. I worked directly with compliance and legal, aligning on a wireframe before each change to the flow.</p>
         <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_iter4_regchanges.webp?v=trim" width="4000" height="1966" loading="lazy" alt="A Month 1 to Month 3 timeline showing the identity flow redesigned as AU and EU requirements changed"></div>
-        <p class="kyc-figcap" data-zh="第 1 到第 3 个月：随着澳洲和欧盟要求变化，身份认证流程如何调整。">Month 1 to Month 3: how the identity flow changed as AU and EU requirements moved.</p>
+        <p class="kyc-figcap" data-zh="第 1 到第 3 个月：设计工作断断续续，分布在这三个月里；随着澳洲和欧盟要求变化，身份认证流程跟着调整。">Month 1 to Month 3: design ran on and off across these months, and the identity flow changed as AU and EU requirements moved.</p>
 
-        <h5 data-zh="一次设计，按市场组合">Built once, composed per market</h5>
-        <p data-zh="为了让两个市场保持一致，每种页面类型（表单、问卷、声明、文件上传）只设计一次，再按司法辖区组合。">To keep two markets consistent, each screen type was designed once (forms, questionnaires, declarations, document upload) and composed differently per jurisdiction.</p>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_page_module.webp?v=trim" width="3031" height="1037" loading="lazy" alt="Reusable page modules: Forms, Questionnaire, Declarations and Upload Doc patterns shared across markets"></div>
-        <p class="kyc-figcap" data-zh="澳洲和欧盟共用的页面模块。">Page modules shared by AU and EU.</p>
-        <details class="kyc-more">
-            <summary data-zh="查看组件模块和认证状态">See the component modules and verification states</summary>
-            <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_component_module.webp?v=trim" width="3828" height="1496" loading="lazy" alt="Reusable component modules: landing pages, required-information blocks, and verification step states (not started, ongoing, verified, failed)"></div>
-            <p class="kyc-figcap" data-zh="落地页、所需信息区块，以及每个认证步骤的状态。">Landing pages, required-information blocks and every verification step state.</p>
-        </details>
 
-        <h5 data-zh="上线后：模块化 KYC 框架">After launch: a modular KYC framework</h5>
-        <p data-zh="两个市场上线后，我和产品、设计团队一起，把这些模式整理成面向未来市场的框架：一个全球身份认证核心，加上每个司法辖区的区域分支。">Once both markets shipped, I worked with the product and design team to turn these patterns into a framework for future markets: a global identity core, plus a regional branch per jurisdiction.</p>
+        <!-- ── 06 · FRAMEWORK ─────────────────────────────────── -->
+        <div class="anchor" id="section6"></div>
+        <span class="kyc-kicker" data-zh="06 · 模块化框架">06 · Framework</span>
+        <h3 class="section" data-zh="一个核心，每个市场一个分支">One core, one branch per market</h3>
+        <p data-zh="两个市场上线后，我推动把这些模式系统化，整理成一个模块化 KYC 框架：一个全球身份认证核心，加上每个司法辖区的区域分支。团队把它作为后续市场的起点。">Once both markets shipped, I pushed to systematise these patterns into a modular KYC framework: one global identity core, plus a regional branch per jurisdiction. The team adopted it as the starting point for the next markets.</p>
         <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_modular.webp?v=trim" width="2013" height="588" loading="lazy" alt="Modular KYC framework: one shared global core with EU and AU regional branches"></div>
         <p class="kyc-figcap" data-zh="进入新市场，只需新增一个分支，不必重做一条流程。">A new market becomes a new branch, not a new flow.</p>
 
+        <p data-zh="每种页面类型（表单、问卷、声明、文件上传）只设计一次，再按司法辖区组合，两个市场因此保持一致。">Each screen type (forms, questionnaires, declarations, document upload) is designed once and composed per jurisdiction, which kept the two markets consistent.</p>
+        <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_page_module.webp?v=trim" width="3031" height="1037" loading="lazy" alt="Reusable page modules: Forms, Questionnaire, Declarations and Upload Doc patterns shared across markets"></div>
+        <p class="kyc-figcap" data-zh="澳洲和欧盟共用的页面模块。">Page modules shared by AU and EU.</p>
 
-        <!-- ── 06 · MIGRATION ─────────────────────────────────── -->
-        <div class="anchor" id="section6"></div>
-        <span class="kyc-kicker" data-zh="06 · 用户迁移">06 · Migration</span>
-        <h3 class="section" data-zh="重新认证，但不从头开始">Re-verify without starting over</h3>
-        <p data-zh="老用户要转到欧盟实体，必须按 MiCA 重新认证。流程不会让用户从空白账户开始，而是先识别当前的认证状态，只补充 MiCA 仍然要求的内容。">Existing users moving to the EU entity had to re-verify under MiCA. Instead of starting over with a blank account, the flow reads where each user already is and asks only for what MiCA still requires.</p>
-        <div class="kyc-cards">
-            <div class="kyc-card">
-                <span class="tag" data-zh="状态映射">State mapping</span>
-                <h4 data-zh="只补缺的步骤">Only the missing steps</h4>
-                <p data-zh="每个起始认证等级，都对应最少的补充步骤。">Each starting verification level maps to the minimum extra steps.</p>
+        <details class="cs-more">
+            <summary><span data-zh="框架如何扩展">How the framework scales</span><span class="cs-more__hint" data-zh="核心 · 分支 · 新市场">Core · branches · new markets</span></summary>
+            <div class="cs-more__body">
+                <ul class="kyc-list">
+                    <li data-zh="&lt;b&gt;全球核心。&lt;/b&gt;身份信息、证件拍摄、人脸识别和结果状态只定义一次，两个市场共用。"><b>Global core.</b> Identity, document capture, liveness and result states, defined once and used in both markets.</li>
+                    <li data-zh="&lt;b&gt;区域分支。&lt;/b&gt;欧盟加入知识指南、MiCA 测验和风险披露；澳洲加入零售/批发选择，决定是否进入 ASIC 评估。"><b>Regional branches.</b> The EU adds the knowledge guide, MiCA quiz and risk disclosures. Australia adds the retail/wholesale choice that gates the ASIC assessment.</li>
+                    <li data-zh="&lt;b&gt;扩展方式。&lt;/b&gt;进入新市场，只需定义当地规则并组合一个分支，不必重做整条流程。"><b>Expansion model.</b> A new market means defining its rules and composing a branch, not rebuilding the flow.</li>
+                </ul>
             </div>
-            <div class="kyc-card">
-                <span class="tag" data-zh="沟通">Communication</span>
-                <h4 data-zh="为什么要再认证一次">Why you're asked again</h4>
-                <p data-zh="说明原因和不处理的后果，但不制造恐慌。">Explains the reason and what happens if you don't act, without alarming users.</p>
+        </details>
+        <details class="cs-more">
+            <summary><span data-zh="组件模块与认证状态">Component modules and verification states</span><span class="cs-more__hint" data-zh="落地页 · 信息区块 · 步骤状态">Landing pages · info blocks · step states</span></summary>
+            <div class="cs-more__body">
+                <div class="kyc-shot"><img src="resources/images-kyc-aus/fig_component_module.webp?v=trim" width="3828" height="1496" loading="lazy" alt="Reusable component modules: landing pages, required-information blocks, and verification step states (not started, ongoing, verified, failed)"></div>
+                <p class="kyc-figcap" data-zh="落地页、所需信息区块，以及每个认证步骤的状态。">Landing pages, required-information blocks and every verification step state.</p>
             </div>
-            <div class="kyc-card">
-                <span class="tag" data-zh="恢复">Recovery</span>
-                <h4 data-zh="完成一半也是一种状态">Partial completion is a state</h4>
-                <p data-zh="中途离开的用户能看到自己进行到哪一步，之后再继续。">A user halfway through can see where they are and pick it up later.</p>
+        </details>
+        <details class="cs-more">
+            <summary><span data-zh="老用户迁移：重新认证，但不从头开始">User migration: re-verify without starting over</span><span class="cs-more__hint" data-zh="迁移到欧盟实体">Moving to the EU entity</span></summary>
+            <div class="cs-more__body">
+                <p data-zh="老用户要转到欧盟实体，必须按 MiCA 重新认证。流程不会让用户从空白账户开始，而是先识别当前的认证状态，只补充 MiCA 仍然要求的内容。">Existing users moving to the EU entity had to re-verify under MiCA. Instead of starting over with a blank account, the flow reads where each user already is and asks only for what MiCA still requires.</p>
+            <div class="kyc-cards">
+                <div class="kyc-card">
+                    <span class="tag" data-zh="状态映射">State mapping</span>
+                    <h4 data-zh="只补缺的步骤">Only the missing steps</h4>
+                    <p data-zh="每个起始认证等级，都对应最少的补充步骤。">Each starting verification level maps to the minimum extra steps.</p>
+                </div>
+                <div class="kyc-card">
+                    <span class="tag" data-zh="沟通">Communication</span>
+                    <h4 data-zh="为什么要再认证一次">Why you're asked again</h4>
+                    <p data-zh="说明原因和不处理的后果，但不制造恐慌。">Explains the reason and what happens if you don't act, without alarming users.</p>
+                </div>
+                <div class="kyc-card">
+                    <span class="tag" data-zh="恢复">Recovery</span>
+                    <h4 data-zh="完成一半也是一种状态">Partial completion is a state</h4>
+                    <p data-zh="中途离开的用户能看到自己进行到哪一步，之后再继续。">A user halfway through can see where they are and pick it up later.</p>
+                </div>
             </div>
-        </div>
-        <div class="kyc-shot"><img src="resources/images-kyc-aus/7_migration_flow.webp?v=trim" width="3846" height="1805" loading="lazy" alt="User migration flow from the main exchange to the EU entity"></div>
-        <p class="kyc-figcap" data-zh="从主站迁移到欧盟实体的流程。">Migration from the main exchange to the EU entity.</p>
+            <div class="kyc-shot"><img src="resources/images-kyc-aus/7_migration_flow.webp?v=trim" width="3846" height="1805" loading="lazy" alt="User migration flow from the main exchange to the EU entity"></div>
+            <p class="kyc-figcap" data-zh="从主站迁移到欧盟实体的流程。">Migration from the main exchange to the EU entity.</p>
+            </div>
+        </details>
 
 
         <!-- ── 07 · OUTCOME ───────────────────────────────────── -->
         <div class="anchor" id="section7"></div>
-        <span class="kyc-kicker" data-zh="07 · 结果">07 · Outcome</span>
-        <h3 class="section" data-zh="两个市场获批，留下可复用的框架">Both markets approved, one framework to reuse</h3>
+        <span class="kyc-kicker" data-zh="07 · 结果与复盘">07 · Result &amp; reflection</span>
+        <h3 class="section" data-zh="已用于 MiCA 申请，可扩展到新市场">Used in the MiCA application, built to extend</h3>
         <ul class="kyc-results">
             <li class="kyc-result kyc-result--lead">
                 <span class="kyc-result__ic" aria-hidden="true"></span>
@@ -1134,18 +1175,18 @@
                 <span class="kyc-result__ic" aria-hidden="true"></span>
                 <div>
                     <h4 data-zh="加密指南上线">The crypto guide shipped</h4>
-                    <p data-zh="合规团队认可它是教育，而不是引导答题，因此作为正式功能上线。">Compliance accepted it as education, not coaching, so it shipped as a product feature.</p>
+                    <p data-zh="合规团队认可它属于教育而非引导答题，因此它作为正式功能上线。">Compliance accepted it as education, not coaching, so it shipped as a product feature.</p>
                 </div>
             </li>
             <li class="kyc-result">
                 <span class="kyc-result__ic" aria-hidden="true"></span>
                 <div>
                     <h4 data-zh="新市场的模板">A template for new markets</h4>
-                    <p data-zh="模块化框架成为团队拓展新司法辖区的起点。">The modular framework became the team's starting point for future jurisdictions.</p>
+                    <p data-zh="团队把模块化框架作为后续市场的起点。">The team adopted the modular framework as the starting point for the next markets.</p>
                 </div>
             </li>
         </ul>
-        <p class="kyc-note" data-zh="&lt;b&gt;关于数据：&lt;/b&gt;这些是以合规为门槛的 MVP，成功的标准是通过监管审核。我没有上线后的转化漏斗数据；优化转化本应是下一阶段的工作。"><b>On metrics:</b> these were compliance-gated MVPs, so success meant clearing the regulator. I don't have post-launch funnel data; conversion would have been the next phase.</p>
+        <p class="kyc-note" data-zh="&lt;b&gt;关于数据：&lt;/b&gt;上线前没有做可用性测试，我也没有上线后的转化漏斗数据：这些是以合规为门槛的 MVP，标准是通过监管审核。如果继续，我会衡量两个指标：首次测验通过率（区分是否打开过指南），以及 Level&amp;nbsp;2 完成率与原五步流程的差异。"><b>On metrics:</b> no usability testing ran before launch, and I don't have post-launch funnel data: these were compliance-gated MVPs, so the bar was clearing the regulator. Next, I'd measure first-attempt pass rate (with and without opening the guide) and Level&nbsp;2 completion against the old five-step flow.</p>
 
         <h5 data-zh="我的收获">What I learned</h5>
         <ol class="kyc-learn">
@@ -1156,13 +1197,8 @@
             </li>
             <li>
                 <span class="kyc-learn__n">02</span>
-                <h4 data-zh="从第一天就模块化">Go modular from day one</h4>
-                <p data-zh="框架是上线后才整理出来的；如果一开始就这样做，两个市场能少很多返工。">I distilled the framework after launch; starting with it would have saved rework across the two markets.</p>
-            </li>
-            <li>
-                <span class="kyc-learn__n">03</span>
-                <h4 data-zh="尽早规划迁移">Scope migration early</h4>
-                <p data-zh="迁移流程接手较晚；如果和主流程同步设计，会顺畅得多。">Migration came in late; designing it alongside the main flows would have been smoother.</p>
+                <h4 data-zh="仍待验证：让新手用户测试指南">Still open: test the guide with novice users</h4>
+                <p data-zh="指南是否真的能帮新手通过测验，目前还只是推断。下一步，我会请首次接触衍生品的用户试用，比较读完指南后的通过率。">Whether the guide actually helps novices pass is still an assumption. Next, I'd run it with first-time derivatives users and compare pass rates after reading it.</p>
             </li>
         </ol>
 

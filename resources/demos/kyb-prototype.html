@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Institutional verification (KYB) prototype</title>
+<script>if (location.search.indexOf("embed=1") >= 0) document.documentElement.classList.add("embed");</script>
+<style>
+  :root {
+    --t1: #1d1d1d;
+    --t2: rgba(29, 29, 29, 0.6);
+    --t3: rgba(29, 29, 29, 0.48);
+    --t4: rgba(29, 29, 29, 0.4);
+    --b4: rgba(29, 29, 29, 0.04);
+    --b8: rgba(29, 29, 29, 0.08);
+    --b12: rgba(29, 29, 29, 0.12);
+    --b20: rgba(29, 29, 29, 0.2);
+    --bg2: rgba(29, 29, 29, 0.02);
+    --brand: #01bc8d;
+    --brand8: rgba(1, 188, 141, 0.08);
+    --brand12: rgba(1, 188, 141, 0.12);
+    --warn: #f8b200;
+    --warn4: rgba(248, 178, 0, 0.04);
+    --warn8: rgba(248, 178, 0, 0.08);
+    --warn20: rgba(248, 178, 0, 0.2);
+    --err: #f65454;
+    --pad-x: 64px;
+    --top-h: 64px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--t1);
+    background: #fff;
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; }
+  p { margin: 0; }
+  [hidden] { display: none !important; }
+
+  /* Top bar */
+  .top { height: var(--top-h); display: flex; align-items: center; gap: 24px; padding: 0 24px; border-bottom: 1px solid var(--b8); background: #fff; position: relative; z-index: 20; }
+  .top__logo { width: 104px; height: 24px; flex-shrink: 0; }
+  .top__nav { display: flex; gap: 20px; align-items: center; font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .top__nav span { display: inline-flex; align-items: center; gap: 4px; }
+  .top__nav b { font-weight: 500; }
+  .top__nav img { width: 8px; height: 8px; opacity: 0.6; }
+  .top__right { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .top__search { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 20px; background: var(--b4); color: var(--t4); font-size: 13px; width: 150px; }
+  .top__search img { width: 16px; height: 16px; }
+  .top__fund { display: inline-flex; align-items: center; gap: 4px; height: 36px; padding: 0 14px; border-radius: 20px; background: var(--brand8); color: var(--brand); }
+  .top__fund img { width: 16px; height: 16px; }
+  .top__avatar { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--b12); display: grid; place-items: center; font-size: 13px; font-weight: 600; }
+  .top__icon { width: 36px; height: 36px; border-radius: 50%; background: var(--b4); display: grid; place-items: center; }
+  .top__icon img { width: 20px; height: 20px; }
+
+  /* Shell */
+  .shell { display: flex; height: calc(100% - var(--top-h)); }
+  .side { width: 240px; flex-shrink: 0; background: #f9f9f9; border-right: 1px solid var(--b8); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .side a { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 28px; font-size: 15px; font-weight: 500; color: var(--t1); }
+  .side a img { width: 20px; height: 20px; }
+  .side a.is-on { background: var(--brand8); color: var(--brand); }
+  .main { flex: 1; min-width: 0; overflow-y: auto; overflow-x: hidden; position: relative; scroll-behavior: auto; }
+
+  /* Page headers */
+  .ptitle { padding: 28px var(--pad-x) 20px; font-size: 24px; font-weight: 600; line-height: 1.4; }
+  .crumb { display: inline-flex; align-items: center; gap: 8px; padding: 24px var(--pad-x) 0; font-size: 14px; color: var(--t2); }
+  .crumb img { width: 16px; height: 16px; }
+  .ptitle--rule { border-bottom: 1px solid var(--b8); padding-top: 12px; }
+  .stephead { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--b8); display: flex; align-items: center; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap; padding: 18px var(--pad-x); }
+  .stephead__back { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 500; white-space: nowrap; }
+  .stephead__back svg { width: 22px; height: 22px; }
+  .steps { display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0; font-size: 13px; }
+  .steps li { display: inline-flex; align-items: center; gap: 6px; color: var(--t4); white-space: nowrap; }
+  .steps li + li::before { content: ""; width: 12px; height: 12px; margin-right: 4px; background: url(kyb-assets/ic-chevron-right.svg) center / 10px no-repeat; opacity: 0.35; }
+  .steps__n { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; background: var(--b20); color: #fff; }
+  .steps li.is-cur { color: var(--t1); font-weight: 500; }
+  .steps li.is-cur .steps__n { background: var(--t1); }
+  .steps li.is-done { color: var(--t1); }
+  .steps li.is-done .steps__n { background: var(--t1) url(kyb-assets/ic-check-white.svg) center / 12px no-repeat; color: transparent; }
+
+  .wrap { padding: 32px var(--pad-x) 80px; }
+  .form { max-width: 920px; margin: 0 auto; }
+  .h2 { font-size: 22px; font-weight: 600; margin: 0 0 24px; }
+  .h3 { font-size: 20px; font-weight: 500; margin: 48px 0 20px; }
+  .h3:first-child { margin-top: 0; }
+
+  /* Fields */
+  .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; max-width: 830px; }
+  .fields .full { grid-column: 1 / -1; }
+  .in, .sel {
+    width: 100%; height: 56px; padding: 0 16px; border: 1px solid var(--b12); border-radius: 8px;
+    font: inherit; font-size: 15px; color: var(--t1); background: #fff; outline: none;
+  }
+  .in::placeholder { color: var(--t1); opacity: 0.9; }
+  .in:focus, .sel:focus { border-color: var(--t1); }
+  .sel { appearance: none; -webkit-appearance: none; padding-right: 44px; background: #fff url(kyb-assets/ic-chevron-down.svg) right 16px center / 20px no-repeat; cursor: pointer; }
+  .sel.is-empty { color: var(--t1); }
+  .hint { margin-top: 6px; font-size: 12px; line-height: 1.5; color: var(--t3); }
+  .err { margin-top: 6px; font-size: 13px; color: var(--err); }
+  .is-error .in, .is-error .sel { border-color: var(--err); }
+
+  .check > span:last-child { min-width: 0; }
+  .check { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer; user-select: none; }
+  .check__box { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--b20); flex-shrink: 0; position: relative; transition: border-color 0.15s; }
+  .check.is-on .check__box { border-color: var(--t1); }
+  .check.is-on .check__box::after { content: ""; position: absolute; inset: 3.5px; border-radius: 50%; background: var(--t1); }
+
+  /* Upload card */
+  .up { display: flex; justify-content: space-between; gap: 40px; padding: 24px 40px; border: 1px solid var(--b12); border-radius: 12px; margin-top: 20px; }
+  .up__info { flex: 0 1 440px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .up__t { font-size: 16px; font-weight: 500; }
+  .up__d { margin-top: 4px; font-size: 14px; color: var(--t3); }
+  .up__side { flex: 0 1 440px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .up__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .link { color: var(--brand); font-weight: 500; }
+
+  .notice { display: flex; gap: 12px; padding: 16px; border-radius: 8px; background: var(--warn4); font-size: 14px; line-height: 1.6; color: var(--t2); }
+  .notice img { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; }
+  .notice ul { margin: 0; padding-left: 20px; }
+  .notice b { color: var(--t1); font-weight: 600; }
+
+  .drop { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 24px; border: 1px dashed var(--b20); border-radius: 8px; background: var(--bg2); text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; width: 100%; }
+  .drop:hover { border-color: var(--t3); background: var(--b4); }
+  .drop img { width: 56px; height: 56px; }
+  .drop__t { font-size: 16px; font-weight: 500; }
+  .drop__d { font-size: 13px; color: var(--t3); }
+
+  .file { display: flex; align-items: center; gap: 12px; height: 40px; }
+  .file__box { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 100%; padding: 0 12px; border: 1px solid var(--b8); border-radius: 8px; font-size: 14px; font-weight: 500; }
+  .file__box span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file__ic { width: 20px; height: 22px; flex-shrink: 0; }
+  .file__spin { width: 16px; height: 16px; animation: spin 0.9s linear infinite; }
+  .file__ok { width: 16px; height: 16px; border-radius: 50%; background: var(--brand) url(kyb-assets/ic-check-white.svg) center / 10px no-repeat; }
+  .file__del { width: 16px; height: 16px; opacity: 0.8; }
+  .file__del img { width: 16px; height: 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Reference tiles */
+  .ref { padding: 16px 20px; border-radius: 8px; background: var(--warn4); }
+  .ref__t { font-size: 14px; font-weight: 500; }
+  .ref__d { font-size: 12px; color: var(--t2); margin-bottom: 10px; }
+  .ref__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+  .tile { height: 96px; border-radius: 8px; border: 1px solid var(--warn20); background: var(--warn8); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 8px; }
+  .tile__lbl { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+  .tile__lbl svg { width: 14px; height: 14px; }
+  .idcard { position: absolute; top: 9px; left: 50%; width: 80px; height: 56px; margin-left: -40px; border: 0.5px solid #000; border-radius: 4px; background: #fff; }
+  .idcard::before { content: ""; position: absolute; left: 5px; right: 5px; top: 5px; height: 8px; border-radius: 2px; background: #eae9e9; }
+  .idcard::after { content: ""; position: absolute; left: 32px; top: 19px; width: 36px; height: 3px; border-radius: 1px; background: #eae9e9; box-shadow: 0 7px 0 #eae9e9, 0 14px 0 #eae9e9; }
+  .idcard i { position: absolute; left: 6px; top: 18px; width: 22px; height: 28px; border-radius: 2px; background: #86d993; }
+  .idcard i::after { content: ""; position: absolute; left: 6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: #1d1d1d; box-shadow: 0 10px 0 2px #1d1d1d; clip-path: inset(0 -4px -6px -4px); }
+  .tile--crop .idcard { left: auto; right: -24px; margin-left: 0; }
+  .tile--blur .idcard { filter: blur(1.6px); }
+  .tile--glare .idcard { overflow: hidden; }
+  .tile--glare .idcard b { position: absolute; inset: -10px 18px; background: linear-gradient(100deg, transparent 0 30%, #fff 30% 46%, transparent 46% 56%, #fff 56% 66%, transparent 66%); z-index: 2; }
+  .hand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .hand figure { margin: 0; }
+  .hand svg { width: 100%; height: auto; border-radius: 8px; background: var(--warn8); border: 1px solid var(--warn20); display: block; }
+  .hand figcaption { font-size: 12px; color: var(--t2); margin-top: 6px; text-align: center; }
+  .ticks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; color: var(--t2); }
+  .ticks li { position: relative; padding-left: 22px; }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: 2px; width: 14px; height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3 3 7-7' fill='none' stroke='%2301bc8d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .ticks b { color: var(--t1); font-weight: 600; }
+
+  /* Required documents */
+  .rules { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 15px; line-height: 1.6; }
+  .rules b { font-weight: 600; }
+  .choice { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 28px 40px; border: 1px solid var(--b12); border-radius: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .choice__lbl { font-size: 16px; }
+  .choice__req { color: var(--err); margin-left: 2px; }
+  .pill { padding: 8px 16px; border-radius: 40px; border: 1px solid var(--b8); font-size: 14px; color: var(--t3); transition: all 0.15s; }
+  .pill:hover { border-color: var(--b20); color: var(--t1); }
+  .pill.is-on { background: var(--brand8); border-color: var(--brand12); color: var(--brand); }
+  .choice__hint { flex-basis: 100%; font-size: 13px; color: var(--t3); }
+  .choice.is-error { border-color: var(--err); box-shadow: 0 0 0 3px rgba(246, 84, 84, 0.08); }
+  .choice.is-error .choice__hint { color: var(--err); }
+  .reveal { animation: rise 0.25s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .boxed { border: 1px solid var(--b12); border-radius: 12px; margin-top: 20px; }
+  .boxed .up { border: 0; margin: 0; }
+  .boxed__rule { height: 1px; background: var(--b8); margin: 0 40px; }
+  .boxed__opts { display: grid; gap: 14px; padding: 24px 40px; }
+  .boxed--pad { padding: 24px 40px; }
+
+  .actions { display: flex; gap: 16px; margin-top: 56px; }
+  .btn { height: 48px; padding: 0 28px; border-radius: 24px; font-size: 16px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn--back { min-width: 100px; background: var(--b4); }
+  .btn--next { min-width: 190px; background: var(--t1); color: #fff; }
+  .btn--next:hover { background: #000; }
+  .btn--block { width: 100%; }
+  .btn img { width: 18px; height: 18px; }
+
+  /* Landing + entry */
+  .cols { display: flex; gap: 48px; align-items: flex-start; padding: 16px var(--pad-x) 64px; }
+  .cols--entry { gap: 56px; padding-top: 40px; }
+  .col-main { flex: 0 1 580px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .col-side { flex: 0 0 360px; }
+  .opt { border: 1px solid var(--b12); border-radius: 20px; padding: 24px; cursor: pointer; transition: border-color 0.15s; }
+  .opt.is-on { border-color: var(--t1); cursor: default; }
+  .opt__row { display: flex; align-items: center; gap: 20px; }
+  .opt__row > img:first-child { width: 24px; height: 24px; }
+  .opt__txt { flex: 1; min-width: 0; }
+  .opt__t { font-size: 18px; font-weight: 600; line-height: 1.6; }
+  .opt__d { font-size: 14px; color: var(--t3); }
+  .opt__radio { width: 24px; height: 24px; flex-shrink: 0; }
+  .opt__body { margin-top: 24px; padding-top: 28px; border-top: 1px solid var(--b8); display: grid; gap: 28px; }
+  .q__t { font-size: 16px; }
+  .q__d { font-size: 14px; color: var(--t3); margin: 2px 0 16px; }
+  .selwrap { position: relative; }
+  .selwrap .flag { position: absolute; left: 16px; top: 20px; width: 24px; height: 16px; pointer-events: none; }
+  .selwrap .flag + .sel { padding-left: 48px; }
+
+  .faq { border: 1px solid var(--b8); border-radius: 20px; padding: 24px 28px 8px; }
+  .faq__h { font-size: 20px; font-weight: 500; }
+  .faq__i { border-bottom: 1px solid var(--b4); padding: 20px 0; }
+  .faq__i:last-child { border-bottom: 0; }
+  .faq__q { display: flex; justify-content: space-between; gap: 12px; width: 100%; text-align: left; font-size: 15px; font-weight: 500; line-height: 1.4; }
+  .faq__ic { width: 20px; height: 20px; flex-shrink: 0; position: relative; border-radius: 50%; background: var(--b4); }
+  .faq__ic::before, .faq__ic::after { content: ""; position: absolute; left: 6px; right: 6px; top: 9.25px; height: 1.5px; background: var(--t2); border-radius: 1px; }
+  .faq__ic::after { transform: rotate(90deg); transition: transform 0.2s; }
+  .faq__i.is-open .faq__ic::after { transform: rotate(0); }
+  .faq__a { margin-top: 12px; font-size: 14px; color: var(--t2); }
+  .faq__a ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .faq__a u { text-underline-offset: 2px; }
+  .faq__link { font-size: 15px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+
+  .co { border: 1px solid var(--b8); border-radius: 20px; padding: 28px 32px; display: flex; flex-direction: column; gap: 28px; }
+  .co__name { font-size: 24px; font-weight: 600; color: var(--t3); line-height: 1.5; }
+  .co__name.is-set { color: var(--t1); }
+  .co__meta { font-size: 14px; color: var(--t3); display: grid; gap: 2px; }
+  .co__meta b { font-weight: 400; margin-left: 8px; }
+  .co__rule { height: 1px; background: var(--b8); }
+  .co__h { font-size: 18px; font-weight: 500; margin-bottom: 16px; }
+  .req { background: var(--bg2); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+  .req ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .req li { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--t2); }
+  .req li img { width: 18px; height: 18px; }
+  .btn--pill { height: 40px; padding: 0 28px; border-radius: 100px; background: var(--t1); color: #fff; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .btn--pill img { width: 16px; height: 16px; }
+  .review { display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: var(--warn8); color: #b07d00; font-size: 14px; font-weight: 500; width: 100%; }
+  .review svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+  .kv { display: grid; gap: 8px; font-size: 14px; }
+  .kv div { display: flex; justify-content: space-between; gap: 16px; }
+  .kv span { color: var(--t3); }
+  .kv b { font-weight: 500; text-align: right; }
+  .or { display: flex; align-items: center; gap: 16px; font-size: 14px; color: var(--t3); }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--b8); }
+  .tg { font-size: 14px; color: var(--t3); text-align: center; margin-top: 16px; }
+  .tg a { color: var(--brand); }
+  .more__h { font-size: 20px; font-weight: 500; margin: 24px 0 16px; }
+  .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .bn { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border: 1px solid var(--b8); border-radius: 12px; font-size: 14px; }
+  .bn p { flex: 1; min-width: 0; }
+  .bn b { font-weight: 700; }
+  .bn__ic { width: 58px; height: 58px; position: relative; flex-shrink: 0; }
+  .bn__ic img { position: absolute; width: auto; height: auto; }
+
+  /* Done + toast + restart */
+  .toast { position: fixed; left: 50%; bottom: 72px; transform: translate(-50%, 12px); background: var(--t1); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 50; max-width: calc(100% - 32px); text-align: center; }
+  .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+  .proto { position: fixed; right: 16px; bottom: 16px; z-index: 40; display: flex; gap: 8px; }
+  .proto button { height: 32px; padding: 0 12px; border-radius: 16px; background: rgba(255, 255, 255, 0.94); border: 1px solid var(--b12); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); font-size: 12px; font-weight: 600; color: var(--t2); }
+  .proto button:hover { color: var(--t1); border-color: var(--b20); }
+  .proto button.is-on { color: var(--t1); background: #fff; border-color: var(--t1); }
+  html.embed .proto [data-lang-btn] { display: none; }
+
+  /* Responsive */
+  @media (max-width: 1280px) { .top__nav span:nth-child(n+5) { display: none; } }
+  @media (max-width: 1100px) {
+    :root { --pad-x: 32px; --top-h: 56px; }
+    .side { display: none; }
+    .top__nav { display: none; }
+    .cols { flex-direction: column; }
+    .col-main, .col-side { flex: none; width: 100%; max-width: 640px; }
+  }
+  @media (max-width: 860px) {
+    .top__search, .top__right .top__txt { display: none; }
+    .up { flex-direction: column; gap: 20px; padding: 24px; }
+    .up__info, .up__side { flex: none; width: 100%; }
+    .boxed__rule { margin: 0 24px; }
+    .boxed__opts, .boxed--pad { padding: 20px 24px; }
+    .choice { padding: 20px 24px; }
+    .stephead { padding-top: 14px; padding-bottom: 14px; }
+  }
+  @media (max-width: 640px) {
+    :root { --pad-x: 16px; }
+    .top { padding: 0 16px; gap: 12px; }
+    .top__fund, .top__avatar, .top__icon:not(.top__menu) { display: none; }
+    .fields { grid-template-columns: 1fr; gap: 16px; }
+    .steps li:not(.is-cur) .steps__lbl { display: none; }
+    .stephead__back { font-size: 16px; }
+    .ptitle { font-size: 20px; }
+    .h2 { font-size: 20px; }
+    .wrap { padding-top: 24px; }
+    .more { grid-template-columns: 1fr; }
+    .co { padding: 20px; }
+    .opt { padding: 20px; }
+    .opt__t { font-size: 16px; }
+    .faq { padding: 20px 20px 4px; }
+    .actions { margin-top: 40px; }
+    .btn--next { flex: 1; min-width: 0; }
+    .hand { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ref__grid { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <img class="top__logo" src="kyb-assets/logo.svg" alt="KuCoin" />
+  <nav class="top__nav" aria-hidden="true">
+    <span><b data-zh="买币">Buy Crypto</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+    <span><b data-zh="行情">Markets</b></span>
+    <span><b data-zh="交易">Trade</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+    <span><b data-zh="合约">Derivatives</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+    <span><b data-zh="理财">Earn</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+    <span><b>Web3</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+    <span><b data-zh="机构">Institutional</b> <img src="kyb-assets/ic-caret.svg" alt="" /></span>
+  </nav>
+  <div class="top__right" aria-hidden="true">
+    <span class="top__search"><img src="kyb-assets/ic-search.svg" alt="" /><span data-zh="搜索币种">Search coin</span></span>
+    <span class="top__fund"><img src="kyb-assets/ic-deposit.svg" alt="" /><span data-zh="充值">Fund wallet</span></span>
+    <span class="top__txt" data-zh="资产">Assets</span>
+    <span class="top__txt" data-zh="订单">Orders</span>
+    <span class="top__avatar">St</span>
+    <span class="top__icon"><img src="kyb-assets/ic-bell.svg" alt="" /></span>
+    <span class="top__icon top__menu"><img src="kyb-assets/ic-menu.svg" alt="" /></span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side" aria-hidden="true">
+    <a><img src="kyb-assets/nav-overview.svg" alt="" /><span data-zh="概览">Overview</span></a>
+    <a><img src="kyb-assets/nav-security.svg" alt="" /><span data-zh="安全">Security</span></a>
+    <a class="is-on"><img src="kyb-assets/nav-identity.svg" alt="" /><span data-zh="身份认证">Identity Verification</span></a>
+    <a><img src="kyb-assets/nav-api.svg" alt="" /><span data-zh="API 管理">API management</span></a>
+    <a><img src="kyb-assets/nav-sub.svg" alt="" /><span data-zh="子账户">Sub account</span></a>
+    <a><img src="kyb-assets/nav-export.svg" alt="" /><span data-zh="导出记录">Export History</span></a>
+  </aside>
+
+  <main class="main" id="main">
+
+    <!-- 1 · Identity verification: choose institutional, country and company type -->
+    <section data-screen="landing">
+      <h1 class="ptitle" data-zh="身份认证">Identity verification</h1>
+      <div class="cols">
+        <div class="col-main">
+          <div class="opt" id="optInd" role="radio" tabindex="0" aria-checked="false">
+            <div class="opt__row">
+              <img src="kyb-assets/ic-individual.svg" alt="" />
+              <div class="opt__txt">
+                <p class="opt__t" data-zh="个人认证">Individual verification</p>
+                <p class="opt__d" data-zh="适用于需要独立、安全地交易、发送、接收和管理加密货币的个人用户。">For individual users looking to trade, send, receive, and manage cryptocurrency securely and independently.</p>
+              </div>
+              <img class="opt__radio" src="kyb-assets/radio-off.svg" alt="" />
+            </div>
+          </div>
+          <div class="opt is-on" id="optInst" role="radio" tabindex="0" aria-checked="true">
+            <div class="opt__row">
+              <img src="kyb-assets/ic-institution.svg" alt="" />
+              <div class="opt__txt">
+                <p class="opt__t" data-zh="机构认证">Institutional Verification</p>
+                <p class="opt__d" data-zh="适用于代表客户安全地存储、投资、收付和管理加密货币的机构。">For institutions looking to securely store, invest, receive, pay, and manage cryptocurrency on behalf of their clients.</p>
+              </div>
+              <img class="opt__radio" src="kyb-assets/radio-on.svg" alt="" />
+            </div>
+            <div class="opt__body" id="instBody">
+              <div>
+                <p class="q__t" data-zh="选择注册国家/地区">Select Registered Country / Region</p>
+                <p class="q__d" data-zh="公司正式成立或注册所在的国家或地区">The physical location where the company is officially established or incorporated</p>
+                <div class="selwrap">
+                  <img class="flag" id="flag" src="kyb-assets/flag-au.svg" alt="" />
+                  <select class="sel" id="country" aria-label="Country / Region">
+                    <option value="au" data-zh="澳大利亚" selected>Australia</option>
+                    <option value="sg" data-zh="新加坡">Singapore</option>
+                    <option value="hk" data-zh="中国香港">Hong Kong</option>
+                    <option value="ph" data-zh="菲律宾">Philippines</option>
+                    <option value="gb" data-zh="英国">United Kingdom</option>
+                    <option value="de" data-zh="德国">Germany</option>
+                  </select>
+                </div>
+              </div>
+              <div id="typeField">
+                <p class="q__t" data-zh="选择公司类型">Select Company Type</p>
+                <p class="q__d" data-zh="请选择公司类型并准备所需文件。不同国家/地区的法律法规要求可能不同。">Please select your company type and prepare the required documents. Requirements may vary based on laws and regulations of different countries/ regions</p>
+                <select class="sel is-empty" id="ctype" aria-label="Company type">
+                  <option value="" data-zh="公司类型" selected disabled>Company Type</option>
+                  <option value="ordinary" data-zh="普通企业">Ordinary enterprise</option>
+                  <option value="large" data-zh="大型企业">Large enterprise</option>
+                  <option value="sole" data-zh="个体经营/一人公司">Sole trader/one-person business</option>
+                  <option value="partner" data-zh="合伙企业">Partnership enterprise</option>
+                  <option value="fi" data-zh="金融机构">Financial institution</option>
+                  <option value="other" data-zh="其他">Other</option>
+                </select>
+                <p class="err" id="typeErr" hidden data-zh="请选择公司类型。">Select a company type.</p>
+              </div>
+              <button class="btn btn--next btn--block" id="goLanding"><span data-zh="去认证">Go Verify</span><img src="kyb-assets/ic-arrow-right-white.svg" alt="" /></button>
+            </div>
+          </div>
+        </div>
+        <aside class="col-side">
+          <div class="faq">
+            <p class="faq__h">FAQ</p>
+            <div class="faq__i is-open">
+              <button class="faq__q"><span data-zh="可以同时完成个人认证和机构认证吗？">Can I verify both an individual account and institutional verification?</span><i class="faq__ic"></i></button>
+              <div class="faq__a"><p data-zh="可以。个人认证和机构认证需使用不同的账户完成。">Yes. Individual and institutional verification are completed on separate accounts.</p></div>
+            </div>
+            <div class="faq__i">
+              <button class="faq__q"><span data-zh="个人认证和机构认证有什么区别？">What is the difference between individual verification and institutional?</span><i class="faq__ic"></i></button>
+              <div class="faq__a" hidden><p data-zh="个人认证核验你本人的身份；机构认证核验公司及其董事、股东和联系人。">Individual verification checks your own identity. Institutional verification checks the company, its directors, shareholders and a contact person.</p></div>
+            </div>
+            <div class="faq__i">
+              <button class="faq__q"><span data-zh="如何确认我的公司类型？">How can I know my company type?</span><i class="faq__ic"></i></button>
+              <div class="faq__a" hidden><p data-zh="请查看公司注册证书上的公司形式。如不确定，请选择“其他”。">Check the company form on your registration certificate. If you're not sure, choose Other.</p></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 2 · Institutional verification entry -->
+    <section data-screen="entry" hidden>
+      <button class="crumb" data-go="landing"><img src="kyb-assets/ic-arrow-left.svg" alt="" /><span data-zh="身份认证">Identity Verification</span></button>
+      <h1 class="ptitle ptitle--rule" data-zh="机构认证">Institutional Verification</h1>
+      <div class="cols cols--entry">
+        <div class="col-main">
+          <div class="co">
+            <div>
+              <p class="co__name" data-co-name data-zh="公司名称">Company Name</p>
+              <div class="co__meta">
+                <p><span data-zh="注册国家/地区：">Country/Region of Registration:</span><b data-co-country></b></p>
+                <p><span data-zh="企业类型：">Type of Business:</span><b data-co-type></b></p>
+              </div>
+            </div>
+            <div class="co__rule"></div>
+            <div>
+              <p class="co__h" data-zh="认证要求">Verification Requirements</p>
+              <div class="req">
+                <ul>
+                  <li><img src="kyb-assets/ic-institution.svg" alt="" /><span data-zh="公司信息">Company Info</span></li>
+                  <li><img src="kyb-assets/ic-contact.svg" alt="" /><span data-zh="联系人信息">Contact person info</span></li>
+                  <li><img src="kyb-assets/ic-docs.svg" alt="" /><span data-zh="证明文件">Proof documents</span></li>
+                  <li><img src="kyb-assets/ic-docs.svg" alt="" /><span data-zh="补充信息（选填）">Additional Info (Optional)</span></li>
+                </ul>
+                <button class="btn--pill" data-go="s1"><span data-zh="去认证">Go Verify</span><img src="kyb-assets/ic-arrow-right-white.svg" alt="" /></button>
+              </div>
+            </div>
+            <div class="co__rule"></div>
+            <div>
+              <p class="co__h" data-zh="认证后权益">Benefits After Verification</p>
+              <div class="kv">
+                <div><span data-zh="充值">Deposit</span><b data-zh="无限额">Unlimited</b></div>
+                <div><span data-zh="提现">Withdrawal</span><b data-zh="每日最高 60,000,000 USD">Up to 60,000,000 USD daily</b></div>
+              </div>
+            </div>
+            <div>
+              <p class="or" data-zh="或">Or</p>
+              <p class="tg" data-zh="&lt;a href=&quot;#&quot; data-toast&gt;通过 Telegram 认证&lt;/a&gt;，由销售代表协助完成。"><a href="#" data-toast>Verify via Telegram</a> with sales representative guidance.</p>
+            </div>
+          </div>
+          <div>
+            <p class="more__h" data-zh="更多权益">More Benefits</p>
+            <div class="more">
+              <div class="bn"><p data-zh="做市商可获得 &lt;b&gt;-1.2bps 的 Maker 返佣&lt;/b&gt;。">Market makers can get a Maker <b>rebate of -1.2bps</b>.</p>
+                <span class="bn__ic"><img src="kyb-assets/bn-rebate-a.svg" alt="" style="left:5.75%;top:37.67%;width:66.81%;height:62.43%" /><img src="kyb-assets/bn-rebate-b.svg" alt="" style="left:37.97%;top:0;width:55.54%;height:69.33%" /></span></div>
+              <div class="bn"><p data-zh="新客户可享 &lt;b&gt;免息小额借贷&lt;/b&gt;。">New customers can access <b>interest-free small loans</b>.</p>
+                <span class="bn__ic"><img src="kyb-assets/bn-loan.svg" alt="" style="left:3.86%;top:3.45%;width:92.35%;height:93.1%" /></span></div>
+              <div class="bn"><p data-zh="资管机构可通过 &lt;b&gt;托管子账户&lt;/b&gt; 共享 &lt;b&gt;更优费率&lt;/b&gt;。">Asset managers can share <b>better rates</b> via <b>custodial sub-accounts.</b></p>
+                <span class="bn__ic"><img src="kyb-assets/bn-rate-a.svg" alt="" style="left:20.83%;top:2.29%;width:77.59%;height:96.63%" /><img src="kyb-assets/bn-rate-b.svg" alt="" style="left:1.57%;top:1.12%;width:38.82%;height:52.72%" /></span></div>
+              <div class="bn"><p data-zh="API 与独立经纪商可获得 &lt;b&gt;40%–70% 的交易返佣&lt;/b&gt;。">API and independent brokers can earn trading <b>rebates of 40%–70%</b>.</p>
+                <span class="bn__ic"><img src="kyb-assets/bn-api.svg" alt="" style="left:0;top:3.84%;width:100%;height:92.32%" /></span></div>
+            </div>
+          </div>
+        </div>
+        <aside class="col-side">
+          <div class="faq">
+            <p class="faq__h">FAQ</p>
+            <div class="faq__i is-open">
+              <button class="faq__q"><span data-zh="根据公司类型，我需要准备哪些文件？">Which documents should I prepare for my company type?</span><i class="faq__ic"></i></button>
+              <div class="faq__a">
+                <ul>
+                  <li><u data-zh="普通企业">Ordinary enterprise</u></li>
+                  <li><u data-zh="大型企业">Large enterprise</u></li>
+                  <li><u data-zh="个体经营/一人公司">Sole trader/one-person business</u></li>
+                  <li><u data-zh="合伙企业">Partnership enterprise</u></li>
+                  <li><u data-zh="金融机构">Financial institution</u></li>
+                  <li><u data-zh="其他">Other</u></li>
+                </ul>
+              </div>
+            </div>
+            <div class="faq__i">
+              <button class="faq__q"><span data-zh="完成机构认证有什么好处？">What are the benefits of completing institutional verification?</span><i class="faq__ic"></i></button>
+              <div class="faq__a" hidden><p data-zh="更高的充提额度，以及做市、借贷、托管子账户和 API 返佣等机构权益。">Higher deposit and withdrawal limits, plus institutional benefits for market making, loans, custodial sub-accounts and API rebates.</p></div>
+            </div>
+            <div class="faq__i">
+              <button class="faq__q"><span data-zh="KYB 审核通常需要多长时间？">What is the typical time frame for getting KYB approval?</span><i class="faq__ic"></i></button>
+              <div class="faq__a" hidden><p data-zh="资料齐全时，审核结果通常在 1–2 个工作日内通知。">When the documents are complete, results are usually sent within 1–2 working days.</p></div>
+            </div>
+            <div class="faq__i"><a href="#" class="faq__link" data-toast data-zh="加入 API 交易者 Telegram 社区">Join API traders' telegram community</a></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Steps 1–4 share this header -->
+    <div class="stephead" id="stephead" hidden>
+      <button class="stephead__back" data-go="entry">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4M10 6l-6 6 6 6" /></svg>
+        <span data-zh="机构认证">Institutional Verification</span>
+      </button>
+      <ol class="steps" id="steps">
+        <li data-step="1"><span class="steps__n">1</span><span class="steps__lbl" data-zh="公司信息">Company Info</span></li>
+        <li data-step="2"><span class="steps__n">2</span><span class="steps__lbl" data-zh="联系人信息">Contact Person's Info</span></li>
+        <li data-step="3"><span class="steps__n">3</span><span class="steps__lbl" data-zh="所需文件">Required documents</span></li>
+        <li data-step="4"><span class="steps__n">4</span><span class="steps__lbl" data-zh="补充信息（选填）">Additional Info (Optional)</span></li>
+      </ol>
+    </div>
+
+    <!-- 3 · Step 1 Company info -->
+    <section data-screen="s1" data-step="1" hidden>
+      <div class="wrap"><div class="form">
+        <h2 class="h2" data-zh="公司信息">Company Info</h2>
+        <div class="fields">
+          <input class="in" placeholder="Company Name" data-zh-ph="公司名称" />
+          <select class="sel" aria-label="Registration time"><option selected disabled data-zh="注册时间">Registration Time</option><option data-zh="不足 1 年">Less than 1 year</option><option data-zh="1–3 年">1–3 years</option><option data-zh="3 年以上">More than 3 years</option></select>
+          <input class="in" placeholder="Company Code" data-zh-ph="公司编号" />
+          <input class="in" placeholder="Tax Identification Number" data-zh-ph="税务识别号" />
+          <input class="in" placeholder="Source of Investment Fund" data-zh-ph="投资资金来源" />
+          <select class="sel" aria-label="Transaction value"><option selected disabled data-zh="交易金额（BTC/24 小时）">Transaction Value (BTC/24h)</option><option>&lt; 10</option><option>10 – 100</option><option>&gt; 100</option></select>
+          <div class="full">
+            <input class="in" placeholder="Company Director" data-zh-ph="公司董事" />
+            <p class="hint" data-zh="请输入公司董事长姓名（如无董事长，请输入公司最高级别管理人员或实际控制人姓名）">Please enter the name of the company chairman (if there is no chairman, enter the name of the highest-ranking company executive or actual controller)</p>
+          </div>
+          <input class="in full" placeholder="Govt. Companies Registry Website URL (Optional)" data-zh-ph="政府公司注册处网站链接（选填）" />
+          <input class="in full" placeholder="Company Website URL (Optional)" data-zh-ph="公司网站链接（选填）" />
+        </div>
+
+        <h3 class="h3" data-zh="公司注册地址">Company Registry Address</h3>
+        <div class="fields">
+          <select class="sel" aria-label="Corporation registration address"><option selected disabled data-zh="公司注册地址">Corporation Registration Address</option><option data-co-country-opt></option></select>
+          <input class="in" placeholder="State/Province" data-zh-ph="州/省" />
+          <input class="in" placeholder="City" data-zh-ph="城市" />
+          <input class="in" placeholder="Postcode" data-zh-ph="邮编" />
+          <input class="in" placeholder="Building Name, Street Address" data-zh-ph="楼宇名称、街道地址" />
+          <input class="in" placeholder="Floor, Unit Number" data-zh-ph="楼层、单元号" />
+        </div>
+
+        <h3 class="h3" data-zh="公司办公地址">Company Office Address</h3>
+        <span class="check is-on" data-check role="checkbox" aria-checked="true" tabindex="0"><span class="check__box"></span><span data-zh="与公司注册地址相同。">Same as the company registry address.</span></span>
+
+        <h3 class="h3" data-zh="公司注册文件">Company Corporation Documents</h3>
+        <div class="up">
+          <div class="up__info">
+            <div>
+              <p class="up__t" data-zh="公司/商业登记证书">Company / business registration certificate</p>
+              <p class="up__d" data-zh="由政府出具、证明公司已依法注册成立的法律文件。">A legal document from the government that confirms a company is officially registered.</p>
+            </div>
+            <div class="notice"><img src="kyb-assets/ic-notice.svg" alt="" /><div data-zh="请确保照片清晰有效，并包含以下信息：&lt;ul&gt;&lt;li&gt;&lt;b&gt;公司名称&lt;/b&gt;&lt;/li&gt;&lt;li&gt;&lt;b&gt;地址&lt;/b&gt;&lt;/li&gt;&lt;li&gt;&lt;b&gt;注册日期&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;">Please make sure the photo is clear and valid, and include the following<ul><li><b>Company name</b></li><li><b>Address</b></li><li><b>Registration date</b></li></ul></div></div>
+          </div>
+          <div class="up__side" data-up="registration_certificate.pdf"></div>
+        </div>
+        <div class="up">
+          <div class="up__info">
+            <div>
+              <p class="up__t" data-zh="一张包含以下内容的照片：本人面部、公司注册证书、手写便条">A Photo including: Your face, Company Registration Certificate, Handwritten Note</p>
+            </div>
+            <div class="hand">
+              <figure><svg viewBox="0 0 200 130" aria-hidden="true"><circle cx="70" cy="44" r="18" fill="#1d1d1d"/><path d="M38 128c0-26 14-44 32-44s32 18 32 44z" fill="#1d1d1d"/><rect x="92" y="52" width="74" height="54" rx="4" fill="#fff" stroke="#1d1d1d" stroke-width="1"/><rect x="100" y="60" width="40" height="6" rx="2" fill="#eae9e9"/><rect x="100" y="72" width="58" height="3" rx="1" fill="#eae9e9"/><rect x="100" y="80" width="50" height="3" rx="1" fill="#eae9e9"/><rect x="100" y="88" width="56" height="3" rx="1" fill="#eae9e9"/><circle cx="150" cy="96" r="6" fill="#86d993"/><rect x="86" y="96" width="14" height="10" rx="4" fill="#1d1d1d"/></svg><figcaption data-zh="手持照片">Handheld photo</figcaption></figure>
+              <figure><svg viewBox="0 0 200 130" aria-hidden="true"><rect x="50" y="18" width="100" height="96" rx="4" fill="#fff" stroke="#1d1d1d" stroke-width="1"/><path d="M64 46c8-10 14 6 22-4s12 6 20-2" fill="none" stroke="#1d1d1d" stroke-width="2" stroke-linecap="round"/><text x="64" y="74" font-family="Inter,Arial" font-size="13" font-weight="600" fill="#1d1d1d">4FESD2</text><text x="64" y="96" font-family="Inter,Arial" font-size="12" fill="#1d1d1d">YY-MM-DD</text></svg><figcaption data-zh="手写便条示例">Handwritten Note Reference</figcaption></figure>
+            </div>
+            <ul class="ticks">
+              <li data-zh="面部清晰可见，没有遮挡。">The face is clearly visible without obstruction.</li>
+              <li data-zh="公司注册证书清晰可读。">The Company Registration Certificate is clearly readable.</li>
+              <li data-zh="包含你的&lt;b&gt;签名&lt;/b&gt;。">Contains your <b>signature</b>.</li>
+              <li data-zh="包含文字标注 &lt;b&gt;“4FESD2”&lt;/b&gt;。">Contains the text annotation <b>"4FESD2"</b>.</li>
+              <li data-zh="包含今天的日期 &lt;b&gt;“YY-MM-DD”&lt;/b&gt;。">Includes today's date <b>"YY-MM-DD"</b>.</li>
+            </ul>
+          </div>
+          <div class="up__side" data-up="handheld_certificate.jpg"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--back" data-go="entry" data-zh="返回">Back</button>
+          <button class="btn btn--next" data-go="s2" data-zh="下一步">Next</button>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 4 · Step 2 Contact person -->
+    <section data-screen="s2" data-step="2" hidden>
+      <div class="wrap"><div class="form">
+        <h2 class="h2" data-zh="联系人信息">Contact Person's Info</h2>
+        <div class="fields">
+          <input class="in" placeholder="First Name" data-zh-ph="名" />
+          <input class="in" placeholder="Last Name" data-zh-ph="姓" />
+          <input class="in" placeholder="Middle Name 1 (if applicable)" data-zh-ph="中间名 1（如有）" />
+          <input class="in" placeholder="Middle Name 2 (if applicable)" data-zh-ph="中间名 2（如有）" />
+          <input class="in" placeholder="Occupation" data-zh-ph="职业" />
+          <input class="in" placeholder="Telegram/Whatsapp (Optional)" data-zh-ph="Telegram/Whatsapp（选填）" />
+        </div>
+
+        <h3 class="h3" data-zh="主要联系人身份证件">ID document of main contact person</h3>
+        <div class="fields" style="align-items:center">
+          <select class="sel" aria-label="Expiry date"><option selected disabled data-zh="有效期至">Expiry Date</option><option>2027</option><option>2028</option><option>2029</option><option>2030+</option></select>
+          <span class="check" data-check role="checkbox" aria-checked="false" tabindex="0"><span class="check__box"></span><span data-zh="长期有效">Valid Permanently</span></span>
+        </div>
+        <div class="up">
+          <div class="up__info">
+            <div>
+              <p class="up__t" data-zh="身份证件">ID Document</p>
+              <p class="up__d" data-zh="上传身份证件的正面和背面（如适用）。">Upload the front and back (if applicable) of the ID document.</p>
+            </div>
+            <div class="ref">
+              <p class="ref__t" data-zh="参考示例">Reference</p>
+              <p class="ref__d" data-zh="请确保照片清晰有效。">Please make sure the photo is clear and valid.</p>
+              <div class="ref__grid">
+                <div class="tile"><span class="idcard"><i></i></span><span class="tile__lbl"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="#01bc8d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-zh="正确">Do</span></span></div>
+                <div class="tile tile--crop"><span class="idcard"><i></i></span><span class="tile__lbl"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="#f65454" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="不要裁切">Not cropped</span></span></div>
+                <div class="tile tile--blur"><span class="idcard"><i></i></span><span class="tile__lbl"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="#f65454" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="不要模糊">Not blurry</span></span></div>
+                <div class="tile tile--glare"><span class="idcard"><i></i><b></b></span><span class="tile__lbl"><svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="#f65454" stroke-width="1.8" stroke-linecap="round"/></svg><span data-zh="不要反光">Not reflective</span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="up__side" data-up="id_front.jpg|id_back.jpg"></div>
+        </div>
+        <div class="up">
+          <div class="up__info">
+            <div>
+              <p class="up__t" data-zh="一张包含以下内容的照片：本人面部、身份证件、手写便条">A Photo including: Your face, ID document, Handwritten Note</p>
+            </div>
+            <ul class="ticks">
+              <li data-zh="面部清晰可见，没有遮挡。">The face is clearly visible without obstruction.</li>
+              <li data-zh="身份证件清晰可读。">The photo ID is clearly readable.</li>
+              <li data-zh="包含你的&lt;b&gt;签名&lt;/b&gt;。">Contains your <b>signature</b>.</li>
+              <li data-zh="包含文字标注 &lt;b&gt;“DUJM8A”&lt;/b&gt;。">Contains the text annotation <b>"DUJM8A"</b>.</li>
+              <li data-zh="包含今天的日期 &lt;b&gt;“YY-MM-DD”&lt;/b&gt;。">Includes today's date <b>"YY-MM-DD"</b>.</li>
+            </ul>
+          </div>
+          <div class="up__side" data-up="handheld_id.jpg"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--back" data-go="s1" data-zh="返回">Back</button>
+          <button class="btn btn--next" data-go="s3" data-zh="下一步">Next</button>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 5 · Step 3 Required documents -->
+    <section data-screen="s3" data-step="3" hidden>
+      <div class="wrap"><div class="form">
+        <h2 class="h2" data-zh="证明文件">Supporting Documents</h2>
+        <ol class="rules">
+          <li data-zh="所有提交的证明文件都必须加盖&lt;b&gt;公章&lt;/b&gt;。如果没有公章，需要在补充文件中上传一份&lt;a href=&quot;#&quot; class=&quot;link&quot; data-toast&gt;声明&lt;/a&gt;。">All supporting documents submitted must be stamped with the <b>official seal</b>. If no official seal is available, you need to upload a <a href="#" class="link" data-toast>Declaration</a> in Supplementary Documents.</li>
+          <li data-zh="为便于核验，请尽量提供&lt;b&gt;英文&lt;/b&gt;版本的证明文件。">To better verify your information, provide supporting documents in <b>English</b> where possible.</li>
+          <li data-zh="请确保填写证明文件中的&lt;b&gt;所有空白处&lt;/b&gt;。">Make sure you fill in <b>all the spaces</b> in the supporting documents.</li>
+          <li data-zh="确保扫描件清晰易读。">Ensure that the scanned documents are clear and easy to read.</li>
+        </ol>
+
+        <h3 class="h3" data-zh="董事">Director</h3>
+        <div class="choice" id="dirChoice" role="radiogroup" aria-label="Director structure">
+          <span class="choice__lbl"><span data-zh="我们有">We have</span><span class="choice__req">*</span></span>
+          <button class="pill" data-dir="board" role="radio" aria-checked="false" data-zh="董事会">A board of directors</button>
+          <button class="pill" data-dir="one" role="radio" aria-checked="false" data-zh="仅一名董事">Only one director</button>
+          <p class="choice__hint" id="dirHint" data-zh="先选择一项，下方会显示你需要上传的董事文件。">Choose one first. The director documents you need will appear below.</p>
+        </div>
+
+        <div id="dirDocs" hidden>
+          <div class="up" id="dirList">
+            <div class="up__info">
+              <div>
+                <p class="up__t" data-zh="董事名单">List of Directors</p>
+                <p class="up__d" data-zh="列明董事会成员，包括姓名、身份证件号码和地址。">Record the members of the board, including their names, identification document numbers, and addresses.</p>
+              </div>
+              <div class="notice"><img src="kyb-assets/ic-notice.svg" alt="" /><div data-zh="名单需包含每位董事的：&lt;ul&gt;&lt;li&gt;姓名&lt;/li&gt;&lt;li&gt;身份证件号码&lt;/li&gt;&lt;li&gt;地址&lt;/li&gt;&lt;/ul&gt;">The list needs to include directors':<ul><li>Name</li><li>Identification document numbers</li><li>Addresses</li></ul></div></div>
+            </div>
+            <div class="up__side" data-up="list_of_directors.pdf"></div>
+          </div>
+          <div class="up">
+            <div class="up__info">
+              <div>
+                <p class="up__t" id="dirIdT" data-zh="董事身份证件">Director's ID Document</p>
+                <p class="up__d" id="dirIdD" data-zh="请上传董事清晰有效的身份证件。">Please upload a clear and valid ID document for the director.</p>
+              </div>
+              <div class="notice"><img src="kyb-assets/ic-notice.svg" alt="" /><div data-zh="&lt;ul&gt;&lt;li&gt;确保身份证件&lt;b&gt;清晰&lt;/b&gt;且&lt;b&gt;有效&lt;/b&gt;。&lt;/li&gt;&lt;li&gt;包含&lt;b&gt;正反两面&lt;/b&gt;（如适用）。&lt;/li&gt;&lt;li&gt;可接受的证件：身份证、护照或驾照。&lt;/li&gt;&lt;/ul&gt;"><ul><li>Make sure the ID document is <b>clear</b> and <b>valid.</b></li><li>Include the <b>front and back</b> side (if applicable).</li><li>Example document can be: NRIC, National ID, Passport, or Driver's License.</li></ul></div></div>
+            </div>
+            <div class="up__side" data-up="director_id_front.jpg|director_id_back.jpg"></div>
+          </div>
+        </div>
+
+        <h3 class="h3" data-zh="股东">Shareholder</h3>
+        <div class="boxed">
+          <div class="up">
+            <div class="up__info">
+              <div>
+                <p class="up__t" data-zh="股东名单">List of Shareholders</p>
+                <p class="up__d" data-zh="列明股东，或对公司拥有实际控制权的个人或法人实体。">Record the list of shareholders or individuals or legal entities that have actual control over the company.</p>
+              </div>
+              <div class="notice"><img src="kyb-assets/ic-notice.svg" alt="" /><div data-zh="名单需包含：&lt;ul&gt;&lt;li&gt;股东姓名/名称&lt;/li&gt;&lt;li&gt;地址&lt;/li&gt;&lt;li&gt;持股比例&lt;/li&gt;&lt;/ul&gt;">The list needs to include:<ul><li>Names of shareholders</li><li>Addresses</li><li>Percentages of shares</li></ul></div></div>
+            </div>
+            <div class="up__side" data-up="list_of_shareholders.pdf"></div>
+          </div>
+          <div class="boxed__rule"></div>
+          <div class="boxed__opts">
+            <span class="check" data-check role="checkbox" aria-checked="false" tabindex="0"><span class="check__box"></span><span data-zh="有持股超过 25% 的&lt;b&gt;个人&lt;/b&gt;股东">There are <b>individual</b> shareholders holding more than 25% of shares</span></span>
+            <span class="check" data-check role="checkbox" aria-checked="false" tabindex="0"><span class="check__box"></span><span data-zh="有持股超过 25% 的&lt;b&gt;机构&lt;/b&gt;股东">There are <b>institutional</b> shareholders holding more than 25% of shares</span></span>
+          </div>
+        </div>
+
+        <h3 class="h3" data-zh="其他文件">Other Documents</h3>
+        <div class="up">
+          <div class="up__info">
+            <div>
+              <div class="up__head"><p class="up__t" data-zh="履约承诺协议（PUA）">Performance Undertaking Agreement (PUA)</p><a href="#" class="link" data-toast data-zh="下载模板">Download Template</a></div>
+              <p class="up__d" data-zh="公司承诺履行与 KuCoin 协议中规定义务的法律文件。">The company commits to fulfilling the legal documents that stipulate the obligations outlined in the agreement with KuCoin.</p>
+            </div>
+          </div>
+          <div class="up__side" data-up="pua_signed.pdf"></div>
+        </div>
+        <div class="boxed boxed--pad">
+          <span class="check" data-check role="checkbox" aria-checked="false" tabindex="0"><span class="check__box"></span><span data-zh="以上上传的文件中，有无法加盖&lt;b&gt;公章&lt;/b&gt;的文件。">For the documents uploaded above, there are documents we are unable to stamp with an <b>official seal</b>.</span></span>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--back" data-go="s2" data-zh="返回">Back</button>
+          <button class="btn btn--next" id="nextS3" data-zh="下一步">Next</button>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 6 · Step 4 Additional documents -->
+    <section data-screen="s4" data-step="4" hidden>
+      <div class="wrap"><div class="form">
+        <h2 class="h2" data-zh="补充文件（选填）">Additional Document (Optional)</h2>
+        <p style="font-size:15px;line-height:1.6;max-width:830px" data-zh="提交申请后，我们可能会根据你的情况要求补充更多文件。提前提供额外文件有助于一次通过审核，并加快流程。你可以提供以下文件：">After you submit your application, we might ask for more documents depending on your situation. Adding extra files can improve your chances of getting approved right away and speed up the process. Here are the documents you can provide:</p>
+        <ul style="font-size:15px;line-height:1.8;margin:12px 0 0;padding-left:22px">
+          <li data-zh="强化客户尽职调查报告（ECDD）">Enhanced Customer Due Diligence Report (ECDD)</li>
+          <li data-zh="资产证明">Asset proof</li>
+          <li data-zh="其他你认为有帮助的文件">Any other documents you think might help</li>
+        </ul>
+        <div class="boxed boxed--pad" style="max-width:520px">
+          <div class="up__side" data-up="ecdd_report.pdf|asset_proof.pdf|other_document.pdf" style="max-width:none"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--back" data-go="s3" data-zh="返回">Back</button>
+          <button class="btn btn--next" data-go="done" data-zh="提交">Submit</button>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 7 · Submitted, under review -->
+    <section data-screen="done" hidden>
+      <button class="crumb" data-go="landing"><img src="kyb-assets/ic-arrow-left.svg" alt="" /><span data-zh="身份认证">Identity Verification</span></button>
+      <h1 class="ptitle ptitle--rule" data-zh="机构认证">Institutional Verification</h1>
+      <div class="cols cols--entry">
+        <div class="col-main">
+          <div class="co">
+            <div>
+              <p class="co__name is-set">Northwind Capital Ltd.</p>
+              <div class="co__meta">
+                <p><span data-zh="注册国家/地区：">Country/Region of Registration:</span><b data-co-country></b></p>
+                <p><span data-zh="企业类型：">Type of Business:</span><b data-co-type></b></p>
+              </div>
+            </div>
+            <div class="co__rule"></div>
+            <div>
+              <p class="co__h" data-zh="认证要求">Verification Requirements</p>
+              <div class="req">
+                <ul>
+                  <li><img src="kyb-assets/ic-institution.svg" alt="" /><span data-zh="公司信息">Company Info</span></li>
+                  <li><img src="kyb-assets/ic-contact.svg" alt="" /><span data-zh="联系人信息">Contact person info</span></li>
+                  <li><img src="kyb-assets/ic-docs.svg" alt="" /><span data-zh="证明文件">Proof documents</span></li>
+                  <li><img src="kyb-assets/ic-docs.svg" alt="" /><span data-zh="补充信息（选填）">Additional Info (Optional)</span></li>
+                </ul>
+                <div class="review" role="status">
+                  <svg viewBox="0 0 20 20" fill="none" stroke="#f8b200" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.2l2.6 1.6" stroke-linecap="round"/></svg>
+                  <span data-zh="审核中，结果预计在 1–2 个工作日内通知你。">Under review. Results are expected within 1–2 working days.</span>
+                </div>
+              </div>
+            </div>
+            <div class="co__rule"></div>
+            <div>
+              <p class="co__h" data-zh="认证后权益">Benefits After Verification</p>
+              <div class="kv">
+                <div><span data-zh="充值">Deposit</span><b data-zh="无限额">Unlimited</b></div>
+                <div><span data-zh="提现">Withdrawal</span><b data-zh="每日最高 60,000,000 USD">Up to 60,000,000 USD daily</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="proto">
+  <button data-lang-btn="en" class="is-on">EN</button>
+  <button data-lang-btn="zh">中文</button>
+  <button id="restart" data-zh="重新开始">Restart</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var main = $("#main");
+  var lang = "en";
+  var state = { screen: "landing", dir: null };
+
+  var T = {
+    en: {
+      drag: "Drag or click here", types: "PDF, JPG, PNG. Max file size: 100 MB",
+      toast: "Not part of this prototype.", individual: "This prototype covers institutional verification only.",
+      dirErr: "Select whether you have a board of directors or one director to continue.",
+      dirHint: "Choose one first. The director documents you need will appear below.",
+      idOneT: "Director's ID Document", idOneD: "Please upload a clear and valid ID document for the director.",
+      idBoardT: "Directors' ID Documents", idBoardD: "Please upload a clear and valid ID document for each director on the list.",
+      del: "Delete file"
+    },
+    zh: {
+      drag: "拖拽或点击上传", types: "PDF、JPG、PNG，最大 100 MB",
+      toast: "此原型不包含该功能。", individual: "此原型仅演示机构认证流程。",
+      dirErr: "请选择你们有董事会还是仅一名董事，才能继续。",
+      dirHint: "先选择一项，下方会显示你需要上传的董事文件。",
+      idOneT: "董事身份证件", idOneD: "请上传董事清晰有效的身份证件。",
+      idBoardT: "董事身份证件", idBoardD: "请为名单上的每位董事上传清晰有效的身份证件。",
+      del: "删除文件"
+    }
+  };
+  function t(k) { return T[lang][k]; }
+
+  /* Screens */
+  function show(name) {
+    state.screen = name;
+    $$("[data-screen]").forEach(function (s) { s.hidden = s.getAttribute("data-screen") !== name; });
+    var cur = $('[data-screen="' + name + '"]');
+    var step = cur && cur.getAttribute("data-step");
+    $("#stephead").hidden = !step;
+    if (step) {
+      $$("#steps li").forEach(function (li) {
+        var n = +li.getAttribute("data-step");
+        li.classList.toggle("is-done", n < +step);
+        li.classList.toggle("is-cur", n === +step);
+      });
+    }
+    $("#restart").hidden = name === "landing";
+    fillCompany();
+    main.scrollTop = 0;
+  }
+  document.addEventListener("click", function (e) {
+    var go = e.target.closest("[data-go]");
+    if (go) { e.preventDefault(); show(go.getAttribute("data-go")); return; }
+    var tl = e.target.closest("[data-toast]");
+    if (tl) { e.preventDefault(); toast(t("toast")); }
+  });
+  $("#restart").addEventListener("click", reset);
+
+  /* Landing */
+  function pickOpt(inst) {
+    $("#optInst").classList.toggle("is-on", inst);
+    $("#optInd").classList.toggle("is-on", !inst);
+    $("#optInst").setAttribute("aria-checked", inst);
+    $("#optInd").setAttribute("aria-checked", !inst);
+    $("#optInst .opt__radio").src = "kyb-assets/radio-" + (inst ? "on" : "off") + ".svg";
+    $("#optInd .opt__radio").src = "kyb-assets/radio-" + (inst ? "off" : "on") + ".svg";
+    $("#instBody").hidden = !inst;
+    if (!inst) toast(t("individual"));
+  }
+  $("#optInst").addEventListener("click", function () { if (!this.classList.contains("is-on")) pickOpt(true); });
+  $("#optInd").addEventListener("click", function () { if (!this.classList.contains("is-on")) pickOpt(false); });
+  $("#country").addEventListener("change", function () { $("#flag").hidden = this.value !== "au"; });
+  $("#ctype").addEventListener("change", function () {
+    this.classList.remove("is-empty");
+    $("#typeField").classList.remove("is-error");
+    $("#typeErr").hidden = true;
+  });
+  $("#goLanding").addEventListener("click", function () {
+    if (!$("#ctype").value) {
+      $("#typeField").classList.add("is-error");
+      $("#typeErr").hidden = false;
+      $("#ctype").focus();
+      return;
+    }
+    show("entry");
+  });
+  function optText(sel) {
+    var o = sel.options[sel.selectedIndex];
+    return o && o.value ? o.textContent : "";
+  }
+  function fillCompany() {
+    $$("[data-co-country]").forEach(function (b) { b.textContent = optText($("#country")); });
+    $$("[data-co-type]").forEach(function (b) { b.textContent = optText($("#ctype")); });
+    $$("[data-co-country-opt]").forEach(function (o) { o.textContent = optText($("#country")); });
+  }
+
+  /* FAQ */
+  $$(".faq__q").forEach(function (q) {
+    q.addEventListener("click", function () {
+      var i = q.parentNode, a = $(".faq__a", i);
+      var open = !i.classList.contains("is-open");
+      i.classList.toggle("is-open", open);
+      if (a) a.hidden = !open;
+    });
+  });
+
+  /* Checkbox-style rows */
+  $$("[data-check]").forEach(function (c) {
+    function flip() { var on = !c.classList.contains("is-on"); c.classList.toggle("is-on", on); c.setAttribute("aria-checked", on); }
+    c.addEventListener("click", function (e) { if (!e.target.closest("a")) flip(); });
+    c.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); } });
+  });
+
+  /* Upload slots: a dropzone, then mock file rows */
+  var FILE_IC = '<svg class="file__ic" viewBox="0 0 20 22" aria-hidden="true"><path d="M3 1h9l5 5v15H3z" fill="#e6f8f3" stroke="#01bc8d" stroke-width="1.2"/><path d="M12 1v5h5" fill="none" stroke="#01bc8d" stroke-width="1.2"/><rect x="1" y="11" width="12" height="7" rx="1.5" fill="#01bc8d"/></svg>';
+  function buildSlot(side) {
+    var names = side.getAttribute("data-up").split("|");
+    side.innerHTML = "";
+    var drop = document.createElement("button");
+    drop.type = "button";
+    drop.className = "drop";
+    drop.innerHTML = '<img src="kyb-assets/ic-upload.svg" alt="" /><span class="drop__t"></span><span class="drop__d"></span>';
+    side.appendChild(drop);
+    var n = 0;
+    drop.addEventListener("click", function () {
+      var name = names[n % names.length];
+      if (n >= names.length) name = name.replace(/(\.\w+)$/, "_" + (Math.floor(n / names.length) + 1) + "$1");
+      n++;
+      var row = document.createElement("div");
+      row.className = "file reveal";
+      row.innerHTML = '<div class="file__box">' + FILE_IC + "<span></span>" + '<img class="file__spin" src="kyb-assets/ic-loading.svg" alt="" /></div><button type="button" class="file__del"><img src="kyb-assets/ic-delete.svg" alt="" /></button>';
+      row.querySelector("span").textContent = name;
+      row.querySelector(".file__del").setAttribute("aria-label", t("del"));
+      row.querySelector(".file__del").addEventListener("click", function () { row.remove(); });
+      side.appendChild(row);
+      setTimeout(function () {
+        var s = row.querySelector(".file__spin");
+        if (s) { var ok = document.createElement("i"); ok.className = "file__ok"; s.replaceWith(ok); }
+      }, 900);
+    });
+    labelSlot(side);
+  }
+  function labelSlot(side) {
+    var d = $(".drop", side);
+    if (!d) return;
+    $(".drop__t", d).textContent = t("drag");
+    $(".drop__d", d).textContent = t("types");
+  }
+  $$("[data-up]").forEach(buildSlot);
+
+  /* Director structure: required, nothing pre-selected */
+  function setDir(v) {
+    state.dir = v;
+    $$("[data-dir]").forEach(function (p) {
+      var on = p.getAttribute("data-dir") === v;
+      p.classList.toggle("is-on", on);
+      p.setAttribute("aria-checked", on);
+    });
+    var docs = $("#dirDocs");
+    if (v) {
+      $("#dirChoice").classList.remove("is-error");
+      $("#dirHint").hidden = true;
+      docs.hidden = false;
+      docs.classList.remove("reveal"); void docs.offsetWidth; docs.classList.add("reveal");
+      $("#dirList").hidden = v !== "board";
+    } else {
+      docs.hidden = true;
+      $("#dirHint").hidden = false;
+    }
+    dirCopy();
+  }
+  function dirCopy() {
+    var board = state.dir === "board";
+    $("#dirIdT").textContent = t(board ? "idBoardT" : "idOneT");
+    $("#dirIdD").textContent = t(board ? "idBoardD" : "idOneD");
+    var hint = $("#dirHint");
+    hint.textContent = $("#dirChoice").classList.contains("is-error") ? t("dirErr") : t("dirHint");
+  }
+  $$("[data-dir]").forEach(function (p) {
+    p.addEventListener("click", function () { setDir(p.getAttribute("data-dir")); });
+  });
+  $("#nextS3").addEventListener("click", function () {
+    if (!state.dir) {
+      var c = $("#dirChoice");
+      c.classList.add("is-error");
+      dirCopy();
+      main.scrollTo({ top: Math.max(0, c.offsetTop - 120), behavior: "smooth" });
+      return;
+    }
+    show("s4");
+  });
+
+  /* Toast */
+  var tt;
+  function toast(msg) {
+    var el = $("#toast");
+    el.textContent = msg;
+    el.classList.add("is-on");
+    clearTimeout(tt);
+    tt = setTimeout(function () { el.classList.remove("is-on"); }, 2200);
+  }
+
+  /* Reset */
+  function reset() {
+    $$("input.in").forEach(function (i) { i.value = ""; });
+    $$("[data-check]").forEach(function (c, i) {
+      var on = c.closest('[data-screen="s1"]') !== null;
+      c.classList.toggle("is-on", on);
+      c.setAttribute("aria-checked", on);
+    });
+    $$("[data-up]").forEach(buildSlot);
+    $("#dirChoice").classList.remove("is-error");
+    setDir(null);
+    pickOpt(true);
+    $("#country").value = "au"; $("#flag").hidden = false;
+    $("#ctype").selectedIndex = 0; $("#ctype").classList.add("is-empty");
+    $("#typeField").classList.remove("is-error"); $("#typeErr").hidden = true;
+    show("landing");
+  }
+
+  /* Language */
+  function setLang(l) {
+    lang = l === "zh" ? "zh" : "en";
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    $$("[data-zh]").forEach(function (el) {
+      if (!el.hasAttribute("data-en")) el.setAttribute("data-en", el.innerHTML);
+      el.innerHTML = lang === "zh" ? el.getAttribute("data-zh") : el.getAttribute("data-en");
+    });
+    $$("[data-zh-ph]").forEach(function (el) {
+      if (!el.hasAttribute("data-en-ph")) el.setAttribute("data-en-ph", el.placeholder);
+      el.placeholder = lang === "zh" ? el.getAttribute("data-zh-ph") : el.getAttribute("data-en-ph");
+    });
+    $$("[data-up]").forEach(labelSlot);
+    $$(".file__del").forEach(function (b) { b.setAttribute("aria-label", t("del")); });
+    $$("[data-lang-btn]").forEach(function (b) { b.classList.toggle("is-on", b.getAttribute("data-lang-btn") === lang); });
+    dirCopy();
+    fillCompany();
+  }
+  window.setLang = setLang;
+  $$("[data-lang-btn]").forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.getAttribute("data-lang-btn")); });
+  });
+
+  setDir(null);
+  show("landing");
+
+  /* Embedded in the case study: follow the page's EN / 中文 switch. */
+  if (document.documentElement.classList.contains("embed")) {
+    var host = null;
+    try { host = window.parent !== window ? window.parent.document : null; } catch (_) {}
+    setLang(host && host.documentElement.getAttribute("data-lang") === "zh" ? "zh" : "en");
+    if (host) host.addEventListener("case:lang", function (e) { setLang(e.detail && e.detail.lang); });
+  } else if (/[?&]lang=zh/.test(location.search)) {
+    setLang("zh");
+  }
+})();
+</script>
+</body>
+</html>

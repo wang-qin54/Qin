@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuCoin internal platforms — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-pattern.css?v=1" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=20" type="text/css" rel="stylesheet">
     <style>
         .cs-embed {
             margin: var(--space-4) 0 var(--space-3);
@@ -18,9 +18,11 @@
         .cs-embed iframe {
             display: block;
             width: 100%;
-            height: 560px;
+            height: auto;
+            aspect-ratio: 1440 / 800;
+            margin: 0;
             border: 0;
-            background: #fff;
+            background: #f2f2f2;
         }
         .cs-figcap a { color: var(--accent); }
         .cs-eco {
@@ -67,7 +69,7 @@
         .cs-eco__card p.cs-eco__desc { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
         .cs-why {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--space-3);
             margin: var(--space-3) 0 var(--space-4);
         }
@@ -78,17 +80,13 @@
         }
         .cs-why b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
         .cs-why span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
-        .cs-callout p { margin: 0; }
+        .cs-callout p, .one-col .cs-callout p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
         .cs-callout p b { font-weight: 600; color: var(--text-primary); }
         html[data-lang="zh"] .cs-eco__who { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
         @media (max-width: 560px) {
             .cs-eco, .cs-eco__pair { grid-template-columns: 1fr; }
             .cs-eco__card.is-chat .cs-eco__media { height: 300px; flex: none; }
             .cs-replaced, .cs-why { grid-template-columns: 1fr; }
-        }
-        
-        @media (max-width: 720px) {
-            .cs-embed iframe { height: 420px; }
         }
         .cs-kicker + h3.section { margin-top: var(--space-4); }
         @media (min-width: 1101px) {
@@ -286,35 +284,10 @@
             background: var(--accent);
         }
         .cs-list li b { color: var(--text-primary); font-weight: 600; }
-        .cs-callout {
-            border-left: 3px solid var(--accent);
-            background: var(--accent-subtle);
-            border-radius: var(--radius-md);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-5) 0;
-        }
-        .cs-callout .lbl {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-tertiary);
-            margin-bottom: var(--space-2);
-        }
-        .cs-callout .quote {
-            font-family: var(--font-title);
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--text-primary);
-            letter-spacing: -0.01em;
-            line-height: 1.4;
-        }
-        .cs-callout .sub {
-            display: block;
-            margin-top: var(--space-2);
-            font-size: 13px;
-            color: var(--text-tertiary);
-        }
+        .cs-callout { margin: var(--space-5) 0; padding: 14px 18px; border-left: 2px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--bg-subtle); }
+        .cs-callout .lbl { margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--accent); }
+        .cs-callout .quote { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--text-primary); }
+        .cs-callout .sub { display: block; margin-top: 4px; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
         .cs-shot {
             margin: var(--space-4) 0 var(--space-2);
             border-radius: var(--radius-lg, 16px);
@@ -389,9 +362,6 @@
         .one-col h5 { margin-top: var(--space-6); font-size: 17px; letter-spacing: -0.01em; }
         .cs-figcap { font-size: 13px; line-height: 1.5; }
         .cs-eco img, .cs-replaced img, .cs-sys__img img { margin: 0; border: 0; border-radius: 0; }
-
-        .cs-callout .lbl { color: var(--accent); }
-        .cs-callout p { font-size: 15.5px; line-height: 1.65; }
 
         .cs-panel { border-top: 3px solid var(--accent); }
 
@@ -611,6 +581,50 @@
         }
         .cs-how b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
         .cs-how span:not(.cs-how__n) { display: block; margin-top: var(--space-1); font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .cs-how--2 { grid-template-columns: repeat(2, 1fr); }
+        .cs-how + .cs-note { margin-top: var(--space-4); }
+        .one-col h5.cs-sub + .cs-sum { margin-top: var(--space-3); }
+
+        .ai-duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-3); margin: var(--space-5) 0 var(--space-4); }
+        .ai-duo__card { display: flex; flex-direction: column; min-width: 0; }
+        .ai-duo__frame {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            padding: var(--space-5);
+            box-sizing: border-box;
+            border-radius: var(--radius-md);
+            background: linear-gradient(160deg, var(--accent-subtle), var(--bg-subtle));
+        }
+        .ai-duo__frame img {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 12px 32px -12px rgba(15, 23, 42, .22);
+        }
+        .ai-duo__cap { margin: var(--space-3) 0 0; }
+        .ai-duo__cap b { display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .ai-duo__cap span { display: block; margin-top: 2px; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        @media (max-width: 720px) {
+            .ai-duo { grid-template-columns: 1fr; gap: var(--space-5); }
+            .ai-duo__frame { height: auto; padding: var(--space-4); }
+            .ai-duo__card:last-child .ai-duo__frame img { max-height: 520px; }
+        }
+
+        .cs-more { margin: var(--space-5) 0 0; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .cs-more > summary { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 14px 18px; box-sizing: border-box; list-style: none; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-more > summary::-webkit-details-marker { display: none; }
+        .cs-more > summary::after { content: ""; flex: none; width: 7px; height: 7px; margin: -4px 4px 0 auto; border-right: 2px solid var(--text-tertiary); border-bottom: 2px solid var(--text-tertiary); transform: rotate(45deg); transition: transform .2s; }
+        .cs-more[open] > summary::after { margin-top: 4px; transform: rotate(-135deg); }
+        .cs-more > summary:hover { color: var(--accent); }
+        .cs-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-md); }
+        .cs-more__body { padding: var(--space-2) 18px 18px; border-top: 1px solid var(--border); }
+        .cs-more__body p:last-child { margin-bottom: 0; }
 
         .cs-note { font-size: 14px; line-height: 1.6; color: var(--text-tertiary); }
         .cs-panel .cs-list--check li { font-size: 14.5px; }
@@ -618,7 +632,9 @@
         @media (max-width: 720px) {
             .cs-sum__row { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-4); }
             .cs-roles { grid-auto-columns: 82%; gap: var(--space-3); }
-            .cs-how { grid-template-columns: 1fr; }
+            .cs-how, .cs-how--2 { grid-template-columns: 1fr; }
+            .cs-more > summary { padding: 12px 14px; }
+            .cs-more__body { padding: var(--space-1) 14px 14px; }
         }
 
         /* ── Annotated screen (screenshot-annotation.mdc, from dashboard.html) ── */
@@ -664,8 +680,20 @@
         .db-anno__stage .db-pin::after { content: ""; position: absolute; inset: -8px; }
         .db-anno__stage .db-pin.on { transform: translate(-50%, -50%) scale(1.3); }
         .db-anno.has-on .db-anno__stage .db-pin:not(.on) { opacity: .4; }
+        .db-anno__stage .db-pin--box {
+            transform: none; border-radius: 6px; background: transparent;
+            border: 1px solid rgba(0, 52, 240, .45); box-shadow: none;
+            transition: border-color .16s ease, box-shadow .16s ease, opacity .16s ease;
+        }
+        .db-anno__stage .db-pin--box.on { transform: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 52, 240, .12); }
+        .db-anno.has-on .db-anno__stage .db-pin--box:not(.on) { opacity: .5; }
+        .db-anno__stage .db-pin--box::before {
+            content: attr(data-n); display: none; position: absolute; left: 0; top: 0; transform: translate(-55%, -55%);
+            width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: #fff;
+            font-size: 9px; font-weight: 700; line-height: 16px; text-align: center;
+        }
         .db-anno__links { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2; }
-        .db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: .55; transition: opacity .2s ease, stroke-width .16s ease; }
+        .db-anno__links path { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; opacity: .35; transition: opacity .2s ease, stroke-width .16s ease; }
         .db-anno.has-on .db-anno__links path { opacity: 0; }
         .db-anno.has-on .db-anno__links path.on { opacity: 1; stroke-width: 1.75; stroke-dasharray: none; }
         .db-anno > figcaption { margin: var(--space-4) 0 0; }
@@ -680,6 +708,7 @@
             .db-anno__links { display: none; }
             .db-anno__notes { grid-template-columns: 1fr; }
             .db-anno__stage .db-pin { width: 18px; height: 18px; font-size: 10px; }
+            .db-anno__stage .db-pin--box::before { display: block; }
         }
 
         /* ── Before / after cards (screenshot-annotation.mdc) ── */
@@ -778,7 +807,7 @@
                 </dl>
             </div>
             <div class="title-img">
-                <img src="resources/images-internal-system/cover-programme.png?v=4" width="1920" height="1500" alt="The redesigned agent workspace beside the four other platforms: customer-service console, chatbot configuration, data platform and compliance system, all on one design system">
+                <img src="resources/images-internal-system/cover-programme.png?v=5" width="1920" height="1626" alt="The redesigned agent workspace beside the four other platforms: customer-service console, chatbot configuration, data platform and compliance system, all on one design system">
             </div>
         </div>
     </div>
@@ -787,13 +816,13 @@
     <div class="scrollspy">
         <span data-zh="KuCoin 内部平台" class="scrollspy__title">KuCoin internal platforms</span>
         <div class="scrollspy__list">
-        <a data-zh="02 概要" href="#section2" class="list">02 In short</a>
+        <a data-zh="02 概览" href="#section2" class="list">02 Overview</a>
         <a data-zh="03 带领项目" href="#section3" class="list">03 Leading the programme</a>
-        <a data-zh="04 亲自下场" href="#section4" class="list">04 Stepping in</a>
-        <a data-zh="05 用户研究" href="#section5" class="list">05 Research</a>
-        <a data-zh="06 三项改进" href="#section6" class="list">06 Three fixes</a>
-        <a data-zh="07 AI 辅助" href="#section7" class="list">07 AI assistance</a>
-        <a data-zh="08 数据平台" href="#section8" class="list">08 Data platform</a>
+        <a data-zh="04 设计系统" href="#section4" class="list">04 Design system</a>
+        <a data-zh="05 亲自下场" href="#section5" class="list">05 Stepping in</a>
+        <a data-zh="06 用户研究" href="#section6" class="list">06 Research</a>
+        <a data-zh="07 三项改进" href="#section7" class="list">07 Three fixes</a>
+        <a data-zh="08 AI 辅助" href="#section8" class="list">08 AI assistance</a>
         <a data-zh="09 结果" href="#section9" class="list">09 Result</a>
         <a data-zh="10 复盘" href="#section10" class="list">10 Reflection</a>
         <a data-zh="回到顶部" href="#top" class="list">Back to top</a>
@@ -801,43 +830,24 @@
     </div>
 <div class="one-col">
 
-        <!-- ── IN SHORT ───────────────────────────────────────── -->
+        <!-- ── OVERVIEW ───────────────────────────────────────── -->
         <div class="anchor" id="section2"></div>
-        <span data-zh="02 · 概要" class="cs-kicker">02 · In short</span>
+        <span data-zh="02 · 概览" class="cs-kicker">02 · Overview</span>
         <h3 data-zh="带领五个平台，并在关键时刻亲自下场" class="section">Leading five platforms, and stepping in where it mattered</h3>
         <p data-zh="KuCoin 决定用自研平台替代 Zendesk、Ada 等第三方工具。我带领 3 名设计师负责全部五个平台和一套共用设计系统。当最关键的客服工作台 MVP 让客服无从下手时，我亲自接手改版。">KuCoin set out to replace Zendesk, Ada and other third-party tools with in-house platforms. I led a team of 3 designers across all five platforms and a shared design system. When the most critical one, the agent workspace, left agents stuck, I stepped in to redesign it.</p>
 
-        <div class="cs-sum">
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="任务">The brief</span>
-                <p data-zh="六个月内为五个不同团队从零搭建内部平台：客服、客服管理、机器人运营、数据和合规。">Five internal platforms for five different teams, built from scratch in six months: support, support leads, chatbot, data and compliance.</p>
-            </div>
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="我如何带团队">How I led</span>
-                <p data-zh="先做共用设计系统，评审每个平台，控制每个 MVP 的范围，并按设计师的长处分配工作。">Shared design system first, a review on every platform, a tight scope for each MVP, and work matched to each designer's strength.</p>
-            </div>
-            <div class="cs-sum__row is-turn">
-                <span class="cs-sum__k" data-zh="亲自下场">Stepping in</span>
-                <p data-zh="客服工作台 MVP 中，80% 被观察的客服不知道要先领取工单。我带 2 名设计师用两周观察 5 名客服，并把发现转化为三项改进。">In the agent workspace MVP, 80% of observed agents didn't know to claim a ticket first. With 2 designers, I observed 5 agents and turned the findings into three fixes in two weeks.</p>
-            </div>
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="结果">Outcome</span>
-                <p data-zh="五个平台和设计系统在六个月内完成；改版后的客服工作台可进入 20 人试点。">Five platforms and a design system built in six months; the redesigned agent workspace ready for a 20-agent pilot.</p>
-            </div>
-        </div>
 
 
         <!-- ── THE PROGRAMME ──────────────────────────────────── -->
         <div class="anchor" id="section3"></div>
         <span data-zh="03 · 带领项目" class="cs-kicker">03 · Leading the programme</span>
         <h3 data-zh="五个平台，一个设计团队" class="section">Five platforms, one design team</h3>
-        <p data-zh="第三方工具成本高，也跟不上加密业务的需求。自建平台意味着三名设计师要同时服务五个团队，所以我先定下共用的规范，再决定自己在哪里亲自设计、在哪里负责评审。">Third-party tools were costly and couldn't keep up with crypto-specific work. Building in-house meant three designers serving five teams, so I set shared foundations first, then chose where to design hands-on and where to lead through review.</p>
+        <p data-zh="第三方工具成本高，也跟不上加密业务的需求。一个小团队要服务五类用户，我的工作是决定谁负责哪个平台、每个 MVP 做多少，以及用哪些共用规则保证质量。">Third-party tools were costly and couldn't keep up with crypto-specific work. With a small team serving five user groups, my job was to decide who owned which platform, how much each MVP covered, and which shared rules kept quality even.</p>
 
         <div class="cs-why">
             <div><b data-zh="降低成本">Lower cost</b><span data-zh="替代 Zendesk 和 Ada">Replace Zendesk and Ada</span></div>
             <div><b data-zh="贴合加密业务">Built for crypto</b><span data-zh="流程围绕加密业务设计">Workflows shaped around crypto support</span></div>
-            <div><b data-zh="全天候">Always on</b><span data-zh="支撑 7×24 小时全球客服">Built for 24/7 global support</span></div>
-            <div><b data-zh="深度集成">Connected</b><span data-zh="对接风控、KYC、交易和账户系统">Linked to risk, KYC, trading and account systems</span></div>
+            <div><b data-zh="深度集成">Connected</b><span data-zh="对接核心系统的风控、KYC、交易和账户模块">Linked to the core system's risk, KYC, trading and account modules</span></div>
         </div>
 
         <div class="cs-roles-head">
@@ -850,7 +860,7 @@
         </div>
         <ul class="cs-roles" tabindex="0" aria-labelledby="roles-title">
             <li class="is-focus">
-                <img src="resources/images-internal-system/cover-img.png" width="2078" height="1212" alt="Agent workspace" loading="lazy">
+                <img src="resources/images-internal-system/kudesk-livechat.png?v=1" width="4320" height="2700" alt="Agent workspace" loading="lazy">
                 <div><b data-zh="客服工作台">Agent workspace</b><span data-zh="200+ 名客服专员 · 替代 Zendesk">200+ support agents · replaced Zendesk</span></div>
                 <em data-zh="主导改版 · 亲自设计">Led redesign · hands-on</em>
             </li>
@@ -882,17 +892,60 @@
         </ul>
         <p data-zh="其余部分由我带领并评审。界面为中文版，面向内部团队。" class="cs-figcap">Everything else I led and reviewed. Screens captured in Chinese, as built for the internal teams.</p>
 
-        <h5 data-zh="五个平台如何保证质量" class="cs-sub">How I kept quality across five platforms</h5>
-        <div class="cs-how">
-            <div><span class="cs-how__n">1</span><b data-zh="组件先行">Shared components first</b><span data-zh="设计系统先统一导航和核心组件，每个平台都从同一套规范起步。">The design system set navigation and core components once, so every platform started from the same patterns.</span></div>
-            <div><span class="cs-how__n">2</span><b data-zh="每个平台都评审">Review on every platform</b><span data-zh="三个客服工具保持同一套交互模式。">Kept the three support tools on one interaction model.</span></div>
-            <div><span class="cs-how__n">3</span><b data-zh="控制范围">Tight MVP scope</b><span data-zh="每个 MVP 只做必需流程，其余放到后续迭代。">Each MVP covered the must-have workflow; the rest went into later iterations.</span></div>
+        <button type="button" class="cs-entry" data-drawer="diting-case" aria-haspopup="dialog">
+            <span class="cs-entry__text">
+                <b data-zh="阅读谛听迷你案例">Read the Diting mini case study</b>
+                <span data-zh="我亲自设计的数据平台：调研、范围和三项核心设计">The data platform I designed hands-on: research, scope and three core designs</span>
+            </span>
+            <span class="cs-entry__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </button>
+
+        <h5 data-zh="按长处分配平台" class="cs-sub">Who owned what, and why</h5>
+        <div class="cs-sum">
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="客服工作台">Agent workspace</span>
+                <p data-zh="设计师 A，视觉最强。客服在这里和客户对话，很多模式接近面向用户的产品。">Designer A, the strongest on visuals. Agents chat with customers here, so it shares many consumer-facing patterns.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="合规系统">Compliance system</span>
+                <p data-zh="设计师 B，能很快理解复杂的产品逻辑和专业背景，并把合规规则落成合理的布局和流程。">Designer B, quick to grasp complex product logic and professional context, and to turn compliance rules into sound layouts and workflows.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="工单与设计系统">Tickets and design system</span>
+                <p data-zh="设计师 C。团队工作量过大时，我向总监申请了支援。C 对设计系统很感兴趣，这部分也不需要先学习业务背景。">Designer C, who joined for the later months after I asked the director for help when we were overloaded. C was keen on design systems, and that work needed no domain ramp-up.</p>
+            </div>
+            <div class="cs-sum__row">
+                <span class="cs-sum__k" data-zh="数据平台">Data platform</span>
+                <p data-zh="我自己负责，同时评审其他四个平台。">Me, alongside reviewing the other four.</p>
+            </div>
+        </div>
+
+        <h5 data-zh="范围：五个平台一起上线" class="cs-sub">Scope: five platforms, one launch</h5>
+        <p data-zh="我控制每个 MVP 的范围，让五个平台差不多同时上线。第一天用不到的内容都放到后续迭代，包括共用的空状态、加载和报错状态，它们在第二次迭代才统一。">I scoped every MVP so all five platforms could go live at about the same time. Anything a platform didn't need on day one moved to a later iteration, including the shared empty, loading and error states, which arrived in the second.</p>
+
+        <div class="cs-callout">
+            <div class="lbl" data-zh="和开发的分歧">A disagreement with developers</div>
+            <p data-zh="开发工作量过大，希望交互尽量简单；我的标准是用户体验不能打折。我们最后约定先做设计系统，用它统一设计模式，也让开发更快。&lt;b&gt;代价是第一版的 UI 细节（如间距和字体）暂时粗糙；设计和代码里的组件同步后，视觉才补上。&lt;/b&gt;">Developers were overloaded and wanted simpler interactions; my test was whether the experience still held up for the people using it. We agreed to build the design system first, to settle patterns once and speed up development. <b>The trade-off: UI details such as spacing and type were rough for a while, and caught up once components were synced in design and code.</b></p>
+        </div>
+
+
+        <!-- ── DESIGN SYSTEM ──────────────────────────────────── -->
+        <div class="anchor" id="section4"></div>
+        <span data-zh="04 · 设计系统" class="cs-kicker">04 · Design system</span>
+        <h3 data-zh="一套规则，而不只是一套组件" class="section">Rules, not just components</h3>
+        <p data-zh="设计系统基于 Ant Design，但它定下的不只是按钮样式，而是每个平台都遵循的规则。客服、组长和合规官无论在哪个平台，遇到的都是同样的行为。我按这些规则评审每个平台。">Built on Ant Design, the system set more than button styles. It set the rules every platform followed, so an agent, a team lead and a compliance officer met the same behaviour wherever they worked. I reviewed every platform against these rules.</p>
+
+        <div class="cs-how cs-how--2">
+            <div><span class="cs-how__n">1</span><b data-zh="领取即锁定">Claim and lock</b><span data-zh="谁先领取工单，工单就分配给谁。一条规则，避免两名客服回复同一位客户。">Whoever claims a ticket first is assigned it. One rule, so two agents don't answer the same customer.</span></div>
+            <div><span class="cs-how__n">2</span><b data-zh="空状态、加载与报错">Empty, loading and error</b><span data-zh="第二次迭代起统一，每个表格和面板在没有数据、等待和出错时表现一致。">Shared from the second iteration, so every table and panel behaves the same when it's empty, waiting or failing.</span></div>
+            <div><span class="cs-how__n">3</span><b data-zh="权限">Permissions</b><span data-zh="不同角色看到不同操作（可编辑或只读）；在合规系统里，看到的模块也不同。">Roles see different actions, such as edit or view only, and in compliance, different modules.</span></div>
+            <div><span class="cs-how__n">4</span><b data-zh="共用交互模式">One interaction model</b><span data-zh="同一个侧边栏、同一套视觉，以及中后台常用组件：按钮、表格和决策树。">One sidebar, one visual language, and the components B2B tools rely on: buttons, tables and decision trees.</span></div>
         </div>
 
 
         <!-- ── AGENT WORKSPACE ────────────────────────────────── -->
-        <div class="anchor" id="section4"></div>
-        <span data-zh="04 · 亲自下场 · 客服工作台" class="cs-kicker">04 · Stepping in · Agent workspace</span>
+        <div class="anchor" id="section5"></div>
+        <span data-zh="05 · 亲自下场 · 客服工作台" class="cs-kicker">05 · Stepping in · Agent workspace</span>
         <h3 data-zh="最常用的平台需要重新梳理" class="section">The busiest platform needed a rethink</h3>
         <p data-zh="客户打开 KuCoin 在线客服时，背后有三个平台在运转。客服工作台是 200+ 名客服每天处理对话和工单的地方。">When a customer opens KuCoin Support, three platforms work behind the scenes. The agent workspace is where 200+ agents handle chats and tickets all day.</p>
 
@@ -935,23 +988,23 @@
 
         <div class="cs-callout">
             <div class="lbl" data-zh="我为什么接手">Why I stepped in</div>
-            <p data-zh="第一版 MVP 在时间压力下完成，上线前没有客服用过。评审时客服频频卡住：关键操作藏得太深，界面顺序也和实际工作顺序对不上。&lt;b&gt;距开发截止只剩两周，我带着 2 名设计师（其中一名刚入职）接手改版。&lt;/b&gt;">The first MVP was built under time pressure, before any agent had tried it. In review, agents kept getting stuck: key actions were hidden and the screens didn't follow their workflow. <b>With two weeks to the development deadline, I took over the redesign with 2 designers, one of them newly hired.</b></p>
+            <p data-zh="第一版 MVP 在时间压力下完成，上线前没有客服用过。界面视觉完整，但流程是断开的：评审时客服频频卡住，关键操作藏得太深，界面顺序也和实际工作顺序对不上。这不是一夜之间能改变的思路。合规系统刚好告一段落，&lt;b&gt;我请擅长流程逻辑的设计师 B 加入，在距开发截止只剩两周时，和 A、B 一起接手改版。&lt;/b&gt;">The first MVP was built under time pressure, before any agent had tried it. The screens were polished, but the flow was fragmented: in review, agents kept getting stuck, key actions were hidden and the screens didn't follow their workflow. That wasn't a way of working to change overnight. Compliance had just wrapped up, <b>so I brought in designer B, the strongest on flow logic, and with two weeks to the development deadline took over the redesign with A and B.</b></p>
         </div>
 
 
         <!-- ── RESEARCH ───────────────────────────────────────── -->
-        <div class="anchor" id="section5"></div>
-        <span data-zh="05 · 用户研究" class="cs-kicker">05 · Research</span>
+        <div class="anchor" id="section6"></div>
+        <span data-zh="06 · 用户研究" class="cs-kicker">06 · Research</span>
         <h3 data-zh="先看客服怎么用，再动手改" class="section">Watch agents first, then redesign</h3>
         <p data-zh="时间只有两周，我没有直接改界面，而是先组织现场观察：5 名客服在可用的 MVP 上操作，每场 2–3 人。我们把每个困惑点标在界面上，再归纳为三个结构性障碍。">With only two weeks, I started with observation rather than screens: 5 agents worked on the live MVP, 2–3 per session. We pinned every point of confusion to the screen, then grouped them into three structural blockers.</p>
 
         <figure class="db-anno">
             <div class="db-anno__stage">
                 <img src="resources/images-internal-system/observation-mvp.png?v=1" width="1024" height="617" alt="The live MVP during an observation session" loading="lazy">
-                <span class="db-pin" style="left:25.4%;top:11.5%" aria-hidden="true">1</span>
-                <span class="db-pin" style="left:24.6%;top:25.6%" aria-hidden="true">2</span>
-                <span class="db-pin" style="left:58.2%;top:42.6%" aria-hidden="true">3</span>
-                <span class="db-pin" style="left:25.4%;top:57.6%" aria-hidden="true">4</span>
+                <span class="db-pin db-pin--box" data-n="1" style="left:19.2%;top:9.7%;width:10.4%;height:3.6%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-n="2" style="left:19.6%;top:23.5%;width:21.6%;height:3.7%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-n="3" style="left:47.4%;top:36.5%;width:21.8%;height:13%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-n="4" style="left:22.2%;top:55.1%;width:6.5%;height:5%" aria-hidden="true"></span>
             </div>
             <ol class="db-anno__notes">
                 <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="标题来源不明">Unclear title</b><span data-zh="标题取的是哪个字段？需要加小标题说明。">Which field does it come from? Needs a label.</span></div></li>
@@ -964,8 +1017,8 @@
 
 
         <!-- ── THREE FIXES ────────────────────────────────────── -->
-        <div class="anchor" id="section6"></div>
-        <span data-zh="06 · 三项改进" class="cs-kicker">06 · Three fixes</span>
+        <div class="anchor" id="section7"></div>
+        <span data-zh="07 · 三项改进" class="cs-kicker">07 · Three fixes</span>
         <h3 data-zh="三个障碍，三项改进" class="section">Three blockers, three fixes</h3>
         <p data-zh="三个障碍解释了几乎所有阻力。我把每个障碍对应到一处聚焦的改动，范围控制在开发截止日期内。">Three blockers explained almost all the friction. I scoped each to one focused change that fit the development deadline.</p>
 
@@ -1075,24 +1128,36 @@
             </article>
         </div>
 
+        <details class="cs-more">
+            <summary><span data-zh="改进 2：比较过的三种侧栏布局">Fix 2: three side-panel layouts we compared</span></summary>
+            <div class="cs-more__body">
+                <ul class="cs-list">
+                    <li data-zh="&lt;b&gt;分成两个区域，可折叠：&lt;/b&gt;用户信息和工单信息分在两个区域。"><b>Two zones, collapsible:</b> user info and ticket info in separate areas.</li>
+                    <li data-zh="&lt;b&gt;锚点导航：&lt;/b&gt;一整栏长内容，顶部链接跳到各部分。"><b>Anchor navigation:</b> one long column, with links at the top that jump to each part.</li>
+                    <li data-zh="&lt;b&gt;可展开收起的分区（采用）：&lt;/b&gt;一栏按客服查看的顺序排列：用户、历史、工单，每部分都能展开或收起。"><b>Collapsible sections (chosen):</b> one column in the order agents check context: user, history, ticket, each able to expand or fold.</li>
+                </ul>
+                <p data-zh="我们选了分区方案：所有信息在同一栏里，按客服阅读的顺序排列，用不到的部分可以收起。">We chose collapsible sections: everything stays in one column, in the order agents read it, and they can fold away what they don't need.</p>
+            </div>
+        </details>
+
         <h5 data-zh="试用改版后的工作台">Try the redesigned workspace</h5>
-        <p data-zh="从登录页开始，完整体验改版后的流程。原型较大，加载需要一点时间。">Try it here: start at the sign-in screen and follow the redesign as one flow. The prototype is large, so it takes a moment to load.</p>
+        <p data-zh="从登录页开始，完整走一遍改版后的流程：上线、用 AI 建议回复、创建工单，再结束对话。">Try it here: start at the sign-in screen and follow the redesign as one flow, from going online to replying with an AI suggestion, raising an admin ticket and closing the chat.</p>
         <div class="cs-embed">
-            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2FgS3HJQ2Tl5oUzClzItP3kk%2F%25E5%25AE%25A2%25E6%259C%258D%25E5%25B7%25A5%25E4%25BD%259C%25E5%258C%25BA-UX-2025%3Fpage-id%3D2206%253A351874%26node-id%3D2206-395367%26viewport%3D-6602%252C-175%252C0.31%26scaling%3Dscale-down%26content-scaling%3Dfixed%26starting-point-node-id%3D2206%253A395367" allowfullscreen></iframe>
+            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="resources/demos/agent-workspace-prototype.html?embed=1&amp;v=2"></iframe>
         </div>
-        <p data-zh="Figma 原型，界面为中文版。&lt;a href=&quot;https://www.figma.com/proto/gS3HJQ2Tl5oUzClzItP3kk/%E5%AE%A2%E6%9C%8D%E5%B7%A5%E4%BD%9C%E5%8C%BA-UX-2025?page-id=2206%3A351874&amp;amp;node-id=2206-395367&amp;amp;viewport=-6602%2C-175%2C0.31&amp;amp;scaling=scale-down&amp;amp;content-scaling=fixed&amp;amp;starting-point-node-id=2206%3A395367&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开&lt;/a&gt;" class="cs-figcap">Figma prototype, captured in Chinese. <a href="https://www.figma.com/proto/gS3HJQ2Tl5oUzClzItP3kk/%E5%AE%A2%E6%9C%8D%E5%B7%A5%E4%BD%9C%E5%8C%BA-UX-2025?page-id=2206%3A351874&amp;node-id=2206-395367&amp;viewport=-6602%2C-175%2C0.31&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2206%3A395367" target="_blank" rel="noopener">Open full screen</a></p>
+        <p data-zh="根据 Figma 原型制作的可交互原型。点空白处可高亮可操作区域。&lt;a href=&quot;resources/demos/agent-workspace-prototype.html?v=2&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;" class="cs-figcap">Interactive prototype built from the Figma file. Tap an empty spot to highlight the active areas. <a href="resources/demos/agent-workspace-prototype.html?v=2" target="_blank" rel="noopener">Open full screen ↗</a></p>
 
 
         <!-- ── AI ASSISTANCE ──────────────────────────────────── -->
-        <div class="anchor" id="section7"></div>
-        <span data-zh="07 · AI 辅助" class="cs-kicker">07 · AI assistance</span>
+        <div class="anchor" id="section8"></div>
+        <span data-zh="08 · AI 辅助" class="cs-kicker">08 · AI assistance</span>
         <h3 data-zh="AI 辅助客服判断，而不是替代" class="section">AI that supports the agent's judgment</h3>
-        <p data-zh="我给两项 AI 功能定了同一条原则：紧扣客服眼前的工单，回复始终由客服审核后发送。设计参考了 Ant Design 的 AI 规范和竞品客服工具。">I set one rule for both AI features: tie them to the ticket in front of the agent, and let the agent review and send every reply. The design followed the Ant Design AI guidelines and a review of competing support tools.</p>
+        <p data-zh="我给两项 AI 功能定了同一条原则：紧扣客服眼前的工单，发给客户的内容始终由客服决定。设计参考了 Ant Design 的 AI 规范和竞品客服工具。">I set one rule for both AI features: tie them to the ticket in front of the agent, and leave what reaches the customer to the agent. The design followed the Ant Design AI guidelines and a review of competing support tools.</p>
 
         <div class="cs-compare">
             <div class="cs-panel">
                 <div data-zh="AI 回复建议" class="cs-panel__flag">AI reply suggestions</div>
-                <h4 data-zh="一键生成回复草稿">A draft reply in one click</h4>
+                <h4 data-zh="可直接修改的回复草稿">A draft reply, ready to edit</h4>
                 <ul class="cs-list">
                     <li data-zh="识别客户问题，给出可修改的回复">Detects the issue and suggests a reply to edit</li>
                     <li data-zh="旨在减少输入和处理时间">Designed to cut typing and handling time</li>
@@ -1108,46 +1173,28 @@
             </div>
         </div>
 
-        <div class="cs-shot"><img src="resources/images-internal-system/slide_8.png?v=2" width="778" height="176" alt="AI reply suggestions and AI summary in the agent workspace"></div>
-        <p data-zh="回复建议显示在对话中；摘要位于每个工单顶部，展示情绪、敏感标记、分类和建议回复。" class="cs-figcap">Reply suggestions appear in the chat; the summary shows sentiment, sensitivity flags, category and a suggested reply at the top of each ticket.</p>
-
-
-        <!-- ── DATA PLATFORM ──────────────────────────────────── -->
-        <div class="anchor" id="section8"></div>
-        <span data-zh="08 · 亲自设计 · 数据平台" class="cs-kicker">08 · Also hands-on · Data platform</span>
-        <h3 data-zh="不写 SQL 也能自助取数" class="section">Self-serve data, without writing SQL</h3>
-        <p data-zh="谛听是公司的内部数据平台。另一位设计师负责一两个模块，其余约八到九成由我设计。我先和用户通话，梳理他们取数的完整流程，再动手设计。">Diting is KuCoin's internal data platform. Another designer took one or two modules; I designed most of the rest. Before designing, I had calls with its users to map how a data request actually moved.</p>
-
-        <div class="cs-compare">
-            <div class="cs-panel">
-                <div data-zh="原流程" class="cs-panel__flag">Before</div>
-                <h4 data-zh="每次取数都要找分析师">Every request went through an analyst</h4>
-                <ul class="cs-list">
-                    <li data-zh="Jira 提需求、写 SQL、核对，再用邮件发表格">Jira ticket, SQL, a double-check, then a spreadsheet by email</li>
-                    <li data-zh="导出上限 5 万行，大数据量要分段导出">Exports capped at 50,000 rows, so large pulls were split</li>
-                </ul>
+        <figure class="ai-duo">
+            <div class="ai-duo__card">
+                <div class="ai-duo__frame"><img src="resources/images-internal-system/ai-reply.png?v=3" width="1890" height="1224" alt="A suggested reply under the detected issue in the chat, with Paste to reply box and a close button" loading="lazy"></div>
+                <p class="ai-duo__cap"><b data-zh="AI 回复建议">AI reply suggestion</b><span data-zh="在对话中、识别出的问题下方。客服可以粘贴到回复框后修改，或直接关闭。">In the chat, under the detected issue. The agent pastes it into the reply box to edit, or closes it.</span></p>
             </div>
-            <div class="cs-panel">
-                <div data-zh="新设计" class="cs-panel__flag">Redesign</div>
-                <h4 data-zh="常用需求做成模板">Templates for repeat requests</h4>
-                <ul class="cs-list">
-                    <li data-zh="选数据模型、字段和筛选条件即可取数">Pick a data model, columns and filters</li>
-                    <li data-zh="旨在减少步骤和出错">Designed to cut steps and errors</li>
-                </ul>
+            <div class="ai-duo__card">
+                <div class="ai-duo__frame"><img src="resources/images-internal-system/ai-summary.png?v=2" width="1086" height="2292" alt="Copilot panel: summary, emotion, consulting sensitivity, category, recommended reply and related issues" loading="lazy"></div>
+                <p class="ai-duo__cap"><b data-zh="AI 摘要">AI summary</b><span data-zh="侧栏里的摘要、情绪、敏感标记、分类和建议回复。">Summary, emotion, sensitivity flag, category and a recommended reply, in the side panel.</span></p>
             </div>
+        </figure>
+
+        <h5 data-zh="客服始终掌握主动" class="cs-sub">Where the agent stays in charge</h5>
+        <div class="cs-how cs-how--2">
+            <div><span class="cs-how__n">1</span><b data-zh="何时出现">When it appears</b><span data-zh="客户每发一条消息，只要有值得建议的内容，就自动出现。">Automatically, on a customer message, whenever there's something worth suggesting.</span></div>
+            <div><span class="cs-how__n">2</span><b data-zh="建议不对时">When it's wrong</b><span data-zh="客服可以关闭或修改建议；客服不发送，什么都不会发出。">The agent closes or edits it. Nothing goes out until the agent sends it.</span></div>
+            <div><span class="cs-how__n">3</span><b data-zh="敏感工单">Sensitive tickets</b><span data-zh="摘要会标出敏感内容，客服再按团队指引处理。">The summary flags sensitivity, and the agent handles the case under the team's guidelines.</span></div>
+            <div><span class="cs-how__n">4</span><b data-zh="由客服发送">The agent sends</b><span data-zh="每条回复都由客服审核后发送，AI 不会直接回复客户。">Every reply is reviewed and sent by the agent. The AI never answers a customer on its own.</span></div>
         </div>
+        <p class="cs-note" data-zh="仍待解决：客服可以关闭或修改建议，但不能重新生成或标记错误。我会加上这两项，让一条不好的建议变成反馈，而不是死胡同。">Still open: agents could close or edit a suggestion, but not regenerate or flag it. I'd add both, so a poor suggestion becomes feedback rather than a dead end.</p>
 
-        <div class="cs-shot"><img src="resources/images-internal-system/diting-self-serve.png?v=1" width="2880" height="2658" alt="Diting self-serve query: data model fields on the left, selected columns and nested and/or filters on the right" loading="lazy"></div>
-        <p data-zh="自助取数：左侧选择字段，右侧用“且 / 或”组合筛选条件。" class="cs-figcap">Self-serve query: pick fields on the left, combine and/or filters on the right. Captured in Chinese.</p>
 
-        <button type="button" class="cs-entry" data-drawer="diting-case" aria-haspopup="dialog">
-            <span class="cs-entry__text">
-                <b data-zh="阅读谛听迷你案例">Read the Diting mini case study</b>
-                <span data-zh="调研、范围和三项核心设计">Research, scope and the three core designs</span>
-            </span>
-            <span class="cs-entry__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-        </button>
-
+        <!-- ── DITING MINI CASE (opened from the roles section) ── -->
         <dialog class="cs-drawer" id="diting-case" aria-labelledby="diting-title">
             <div class="cs-drawer__scroll">
                 <div class="cs-drawer__bar">
@@ -1225,40 +1272,47 @@
         <!-- ── RESULT ─────────────────────────────────────────── -->
         <div class="anchor" id="section9"></div>
         <span data-zh="09 · 结果" class="cs-kicker">09 · Result</span>
-        <h3 data-zh="五个平台落地，工作台可进入试点" class="section">Five platforms built, one workspace ready to pilot</h3>
-        <p data-zh="项目在六个月内交付了五个平台和一套共用设计系统；改版后的客服工作台已可进入 20 人试点。">The programme delivered five platforms and a shared design system in six months, and the redesigned agent workspace was ready for a 20-agent pilot.</p>
+        <h3 data-zh="已可试点，尚未衡量" class="section">Ready to pilot, not yet measured</h3>
+        <p data-zh="六个月里，团队交付了五个平台和一套共用设计系统，改版后的客服工作台已可进入 20 人试点。试点开始前团队调整，我转到面向用户的项目，因此没有使用数据。">Over six months, the team delivered five platforms on one shared design system, and the redesigned agent workspace was ready for a 20-agent pilot. Before the pilot ran, the team was restructured and I moved to a customer-facing project, so there is no usage data.</p>
 
         <div class="cs-compare">
             <div class="cs-panel">
                 <div data-zh="整体项目" class="cs-panel__flag">Programme</div>
                 <ul class="cs-list cs-list--check">
-                    <li data-zh="六个月内从零搭建五个平台">Five platforms built from scratch in six months</li>
+                    <li data-zh="五个平台从零搭建，共用一套设计系统">Five platforms built from scratch on one design system</li>
                     <li data-zh="自研工具替代 Zendesk 和 Ada">Zendesk and Ada replaced by in-house tools</li>
-                    <li data-zh="五个平台共用一套设计系统">One design system shared by all five</li>
+                    <li data-zh="三个客服工具共用一套交互模式">One interaction model across the three support tools</li>
                 </ul>
             </div>
             <div class="cs-panel">
                 <div data-zh="客服工作台" class="cs-panel__flag">Agent workspace</div>
                 <ul class="cs-list cs-list--check">
-                    <li data-zh="参与评审的客服确认主要痛点已解决">Agents in review confirmed the main pain points were resolved</li>
+                    <li data-zh="新设计评审中，客服反馈主要痛点已解决">In the new-design review, agents said the main pain points were resolved</li>
                     <li data-zh="关键操作放在客服工作的位置">Key actions now sit where agents work</li>
                     <li data-zh="可进入 20 人试点">Ready for a 20-agent pilot</li>
                 </ul>
             </div>
         </div>
-        <p class="cs-note" data-zh="试点开始前团队调整，我转到面向用户的项目，因此没有收集使用数据。这版设计留作工作台后续迭代的基础。">Before the pilot ran, the team was restructured and I moved to a customer-facing project, so usage metrics weren't collected. The redesign stayed as the baseline for the workspace.</p>
+
+        <h5 data-zh="我会如何衡量" class="cs-sub">How I'd measure it</h5>
+        <div class="cs-how">
+            <div><span class="cs-how__n">1</span><b data-zh="首次回复时长">Time to first reply</b><span data-zh="在回复框里直接领取，是否让客服更快开始回复。">Does taking the ticket in the reply box get agents answering sooner?</span></div>
+            <div><span class="cs-how__n">2</span><b data-zh="领取出错">Claim errors</b><span data-zh="客服在领取前就尝试回复的次数，也就是 MVP 最大的障碍。">How often agents try to reply before claiming, the MVP's biggest blocker.</span></div>
+            <div><span class="cs-how__n">3</span><b data-zh="带文字工具的使用率">Labelled tool use</b><span data-zh="快捷回复、添加备注和求助的使用频率，对比原来的小图标。">How often agents use Quick Reply, Add Note and Ask Help, compared with the old icons.</span></div>
+        </div>
+        <p class="cs-note" data-zh="试点第一周的数据，可以和 MVP 对比。这版设计留作工作台后续迭代的基础。">The first pilot week, compared with the MVP, would set the baseline. The redesign stayed as the starting point for the workspace.</p>
 
 
         <!-- ── REFLECTION ─────────────────────────────────────── -->
         <div class="anchor" id="section10"></div>
         <span data-zh="10 · 复盘" class="cs-kicker">10 · Reflection</span>
-        <h3 data-zh="作为负责人，我会继续坚持的做法" class="section">What I'd keep doing as a lead</h3>
+        <h3 data-zh="作为负责人，我会保留和改变的做法" class="section">What I'd keep, and what I'd change, as a lead</h3>
         <div class="cs-learns">
         <div class="cs-learn">
             <span class="cs-learn__n">1</span>
             <div>
-                <h5 data-zh="按问题匹配设计师">Match designers to the problem</h5>
-                <p data-zh="按设计师的长处分配工作，比如交互逻辑或视觉设计，可以避免后期代价高昂的返工。">Assigning work by each designer's strength, such as interaction logic or visual design, avoids costly redesigns later.</p>
+                <h5 data-zh="按问题匹配设计师，而不只是按长处">Match designers to the problem, not only their strength</h5>
+                <p data-zh="按长处分配，在合规系统和设计系统上效果很好。但客服工作台流程很重，只靠视觉强项不够。下次我会从一开始就在最繁忙的平台上搭配视觉和流程两种能力。">Matching by strength worked for compliance and the design system. On the agent workspace, a flow-heavy tool, strong visuals alone weren't enough. Next time I'd pair visual and flow skills on the busiest platform from the start.</p>
             </div>
         </div>
 
@@ -1273,8 +1327,8 @@
         <div class="cs-learn">
             <span class="cs-learn__n">3</span>
             <div>
-                <h5 data-zh="AI 紧扣任务才有用">AI works when it's tied to the task</h5>
-                <p data-zh="两项 AI 功能之所以有用，是因为它们基于客服眼前的工单，而发送什么始终由客服决定。">Both AI features help because they read the ticket in front of the agent, and the agent stays in control of what gets sent.</p>
+                <h5 data-zh="仍待解决：从第一天就开始衡量">Still open: measure from day one</h5>
+                <p data-zh="没有基线数据，这次改版的价值只能依靠评审反馈来证明。下次我会在 MVP 上线前就定好首次回复时长和领取出错这些指标，让改版有据可依。">Without a baseline, the redesign's value rests on review feedback. Next time I'd set time to first reply and claim errors before the MVP ships, so any redesign can be judged against them.</p>
             </div>
         </div>
         </div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rebuilding an investigation workflow across four tools — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-pattern.css?v=15" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=20" type="text/css" rel="stylesheet">
     <style>
         /* ── Type scale and section rhythm (matches asset.html) ──
            Section head 28 · lead 16 · sub-head 18 · body 15 · card body 14 · labels 13/600 sentence case · captions 13.
@@ -314,13 +314,6 @@
         .one-col .aml-qa__note p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
         /* ── Story summary ───────────────────────────────── */
-        .cs-sum { margin: var(--space-6) 0 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-        .cs-sum__row { display: grid; grid-template-columns: 132px 1fr; align-items: baseline; gap: var(--space-4); padding: var(--space-4) var(--space-5); background: #fff; }
-        .cs-sum__row + .cs-sum__row { border-top: 1px solid var(--border); }
-        .cs-sum__row.is-turn { background: var(--accent-subtle); }
-        .cs-sum__k { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-        .cs-sum__row.is-turn .cs-sum__k { color: var(--accent); }
-        .one-col .cs-sum__row p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
 
         /* ── KYE options ─────────────────────────────────── */
         .aml-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); align-items: start; margin: var(--space-4) 0 0; padding: 0; list-style: none; }
@@ -374,7 +367,6 @@
             .cs-more > summary { flex-wrap: wrap; row-gap: 2px; padding: 12px 14px; }
             .cs-more__hint { order: 3; flex-basis: 100%; }
             .cs-more__body { padding: var(--space-1) 14px 14px; }
-            .cs-sum__row { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-4); }
             .aml-opts { grid-template-columns: 1fr; }
             .one-col .aml-opts img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
             .aml-concept { padding: var(--space-3); }
@@ -482,24 +474,6 @@
             </a></li>
         </ol>
 
-        <div class="cs-sum">
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="问题">Problem</span>
-                <p data-zh="每条预警只有 15–45 分钟，分析师却要在四个互不相通的工具之间来回切换，最后再到 XMind 里完成案件。">Analysts had 15–45 minutes per alert, spent part of it moving between four disconnected tools, then finished the case in XMind.</p>
-            </div>
-            <div class="cs-sum__row is-turn">
-                <span class="cs-sum__k" data-zh="我的判断">My judgment</span>
-                <p data-zh="我先观察 3 名合规官处理真实案件，再按他们的调查顺序重排四个工具，串成一条调查路径，并让每个评分都能看到来源。">I watched 3 compliance officers work real cases first, then reordered the four tools into one investigation path and gave every score a visible source.</p>
-            </div>
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="取舍">Trade-off</span>
-                <p data-zh="我和产品经理把图谱改版拆成几个阶段，逐个功能上线。某个阶段还拿不到风险画像数据，我们就先去掉这一列，而不是上线一个空列：少一个字段，换来分析师对页面上每个字段的信任。">With the PM, I split the graph redesign into phases, shipping feature by feature. When a phase couldn't supply risk-profile data yet, we dropped that column rather than ship it empty: one field fewer, so analysts could trust every field they saw.</p>
-            </div>
-            <div class="cs-sum__row">
-                <span class="cs-sum__k" data-zh="结果">Result</span>
-                <p data-zh="三个阶段上线，两项以完整规格交接给开发。埋点没有在我离开前上线，所以没有使用数据。">Three stages shipped and two were handed to engineering as finished specs. Event tracking didn't ship before I left, so there are no usage numbers.</p>
-            </div>
-        </div>
 
 
         <!-- ── RESEARCH ───────────────────────────────────────── -->

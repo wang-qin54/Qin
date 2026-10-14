@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Model portfolio creation prototype · Qin Wang</title>
+<link rel="stylesheet" href="proto-player.css?v=4">
+<style>
+    .cp-field { position: absolute; box-sizing: border-box; background: #f5f5f5; border-bottom: 1px solid #626262; padding: 6px 16px 0; }
+    .cp-field:focus-within { border-bottom: 2px solid #0034F0; }
+    .cp-field label { display: block; font-size: 12px; line-height: 16px; color: #757575; }
+    .cp-field label b { color: #ef233c; font-weight: 400; }
+    .cp-field input, .cp-field textarea {
+        display: block; box-sizing: border-box; width: 100%; margin: 0; padding: 2px 0 0; border: 0; outline: 0;
+        background: transparent; font: inherit; font-size: 16px; line-height: 22px; color: #212121; resize: none;
+    }
+    .cp-field textarea { height: calc(100% - 24px); padding: 0; }
+    .cp-count { position: absolute; box-sizing: border-box; background: #fff; text-align: right; font-size: 12px; line-height: 16px; color: #424242; }
+</style>
+</head>
+<body>
+<div class="pp" data-base="">
+    <div class="pp-view"><div class="pp-sizer"><div class="pp-stage"></div></div></div>
+    <div class="pp-modal"></div>
+    <div class="pp-bar">
+        <button type="button" class="pp-btn" data-k="restart">Restart</button>
+        <span class="pp-hint" data-k="hint"></span>
+    </div>
+</div>
+<script>
+window.PROTO = {
+    start: '2657:76336', w: 1440, variants: {},
+    frames: {
+        '2657:76336': { w: 1440, h: 1340, img: 'pm-proto/create/2657-76336.webp', name: 'Model portfolio list',
+            hs: [{ a: 'N', b: [1304, 88, 112, 36], to: '2657:72439' }] },
+        '2657:72439': { w: 1440, h: 1340, img: 'pm-proto/create/2657-72439.webp?v=2', name: 'Step 1, description', fixed: [276, 1268, 1156, 72],
+            hs: [{ a: 'X', b: [413, 209, 888, 497], to: 'fill' },
+                 { a: 'N', b: [1206, 1280, 96, 48], to: '2925:120178' },
+                 { a: 'N', b: [1110, 1286, 76, 36], to: '2657:76336' }] },
+        '2925:120178': { w: 1440, h: 1340, img: 'pm-proto/create/2925-120178.webp', name: 'Step 2, settings', fixed: [276, 1268, 1156, 72],
+            hs: [{ a: 'N', b: [1206, 1280, 96, 48], to: '2657:72677' },
+                 { a: 'B', b: [1086, 1280, 96, 48] },
+                 { a: 'N', b: [986, 1286, 76, 36], to: '2657:76336' }] },
+        '2657:72677': { w: 1440, h: 1644, img: 'pm-proto/create/2657-72677.webp', name: 'Step 3, allocation', fixed: [276, 1572, 1156, 72],
+            hs: [{ a: 'N', b: [1206, 1584, 96, 48], to: '2657:73589' },
+                 { a: 'B', b: [1086, 1584, 96, 48] },
+                 { a: 'N', b: [986, 1590, 76, 36], to: '2657:76336' }] },
+        '2657:73589': { w: 1440, h: 1340, img: 'pm-proto/create/2657-73589.webp', name: 'Step 4, fees', fixed: [276, 1276, 1156, 64],
+            hs: [{ a: 'N', b: [1206, 1284, 96, 48], to: '2657:77234' },
+                 { a: 'B', b: [1086, 1284, 96, 48] },
+                 { a: 'N', b: [986, 1290, 76, 36], to: '2657:76336' }] },
+        '2657:77234': { w: 1440, h: 1815, img: 'pm-proto/create/2657-77234.webp', name: 'New model portfolio (draft)',
+            hs: [{ a: 'N', b: [262, 88, 116, 24], to: '2657:76336' }] }
+    }
+};
+(function () {
+    var NAME = 'Global Portfolio Plus, Fast ‘n Furious';
+    var SHORT = 'The global version of DBS digiPortfolio is denominated in USD, and the minimum is US$1,000 instead of S$1,000.';
+    var LONG = SHORT + ' It’s also recommended that you have some investment experience. You’ll have to pass the following 1-question “test” before you can open the portfolio.\n\nSimilar to the Asia portfolio, the global digiPortfolio comes in 3 risk “flavours”. For each risk level, the allocation of bonds vs equity is exactly the same as the Asia one.';
+
+    function box(tag, cls, x, y, w, h) {
+        var e = document.createElement(tag);
+        e.className = cls;
+        e.style.left = x + 'px'; e.style.top = y + 'px'; e.style.width = w + 'px'; e.style.height = h + 'px';
+        return e;
+    }
+    function field(wrap, st, key, x, y, w, h, labelHtml, max, counterY) {
+        var f = box('div', 'cp-field pp-live', x, y, w, h);
+        var id = 'cp-' + key;
+        f.innerHTML = '<label for="' + id + '">' + labelHtml + '</label>';
+        var input = document.createElement(counterY ? 'textarea' : 'input');
+        input.id = id;
+        input.maxLength = max;
+        input.value = st.vals[key];
+        f.appendChild(input);
+        wrap.appendChild(f);
+        if (counterY) {
+            var c = box('div', 'cp-count pp-live', x, counterY, w, 20);
+            c.style.paddingTop = '2px';
+            var paint = function () { c.textContent = input.value.length + ' / ' + max + ' characters'; };
+            paint();
+            wrap.appendChild(c);
+            input.addEventListener('input', function () { st.vals[key] = input.value; paint(); });
+        } else {
+            input.addEventListener('input', function () { st.vals[key] = input.value; });
+        }
+    }
+    window.PROTO.onFrame = function (id, wrap, st) {
+        if (id !== '2657:72439' || !st.flags.fill) return;
+        if (!st.vals) st.vals = { name: NAME, short: SHORT, long: LONG };
+        field(wrap, st, 'name', 641, 209, 432, 48, '<b>*</b> Model Portfolio Name', 100);
+        field(wrap, st, 'short', 641, 409, 660, 75, 'Short Description', 150, 484);
+        field(wrap, st, 'long', 641, 527, 660, 157, 'Long Description', 1000, 684);
+    };
+})();
+</script>
+<script src="proto-player.js?v=3"></script>
+</body>
+</html>

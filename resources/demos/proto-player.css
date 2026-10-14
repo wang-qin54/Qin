@@ -1,0 +1,65 @@
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f2f2f2; }
+
+.pp { position: relative; height: 100%; }
+.pp-view { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.pp-sizer { position: relative; margin: 0 auto; overflow: hidden; }
+.pp-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: #fff; }
+.pp-stage.pp-enter { animation: pp-in 160ms ease-out; }
+@keyframes pp-in { from { opacity: 0.4; } to { opacity: 1; } }
+
+.pp-frame { position: relative; }
+.pp-frame > img { display: block; position: absolute; left: 0; top: 0; user-select: none; -webkit-user-select: none; }
+.pp-var { position: absolute; }
+.pp-var--round { border-radius: 4px; }
+
+.pp-hs {
+    position: absolute; margin: 0; padding: 0; border: 0; border-radius: 4px;
+    background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: background-color 200ms, box-shadow 200ms;
+}
+.pp-hs:focus-visible { outline: 4px solid #0034F0; outline-offset: 2px; }
+.pp-flash .pp-hs { background: rgba(0, 52, 240, 0.22); box-shadow: 0 0 0 4px #0034F0; }
+
+.pp-fixed { position: absolute; z-index: 1; overflow: hidden; background: #fff; box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08); }
+.pp-fixed__in { position: absolute; transform-origin: 0 0; }
+.pp-fixed__in > img { position: absolute; display: block; max-width: none; }
+
+.pp-catch { position: absolute; inset: 0; }
+.pp-pop {
+    position: absolute; background: #fff; border-radius: 4px; overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+.pp-catch--dim { background: rgba(0, 0, 0, 0.25); }
+.pp-pop--right { border-radius: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; box-shadow: -4px 0 24px rgba(0, 0, 0, 0.16); }
+.pp-pop--clear { background: none; border-radius: 0; box-shadow: none; }
+.pp-modal { position: absolute; inset: 0; display: none; z-index: 2; }
+.pp-modal.on { display: block; }
+.pp-dialog {
+    position: absolute; left: 50%; top: 50%; transform-origin: center;
+    background: #fff; border-radius: 4px; overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+}
+
+.pp-bar { position: absolute; left: 12px; bottom: calc(12px + var(--pp-fixed-h, 0px)); z-index: 3; display: flex; gap: 8px; align-items: center; pointer-events: none; }
+.pp-bar > * { pointer-events: auto; }
+.pp-btn, .pp-hint {
+    font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.2; color: #fff;
+    background: rgba(17, 17, 17, 0.82); border: 0; border-radius: 999px; padding: 9px 14px;
+}
+.pp-btn { position: relative; cursor: pointer; }
+.pp-btn::after { content: ""; position: absolute; inset: -6px; }
+.pp-btn:focus-visible { outline: 3px solid #0034F0; outline-offset: 2px; }
+.pp-hint { font-weight: 400; background: rgba(17, 17, 17, 0.6); transition: opacity 300ms; }
+.pp-hint.is-gone { opacity: 0; pointer-events: none; }
+
+@media (max-width: 520px) {
+    .pp-bar { left: 8px; bottom: calc(8px + var(--pp-fixed-h, 0px)); }
+    .pp-hint { display: none; }
+    .pp-btn { font-size: 12px; padding: 6px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-stage.pp-enter { animation: none; }
+    .pp-hs, .pp-hint { transition: none; }
+}

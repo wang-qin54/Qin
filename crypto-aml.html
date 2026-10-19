@@ -324,11 +324,6 @@
         .one-col .aml-opts p { margin: 0 0 var(--space-3); font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
         .one-col .aml-opts img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
 
-        /* ── Concept page ────────────────────────────────── */
-        .aml-concept { margin: var(--space-4) 0 0; padding: var(--space-5); border: 1px dashed var(--text-tertiary); border-radius: 16px; }
-        .aml-concept > .aml-cards:first-child { margin-top: 0; }
-        .aml-st--concept { background: #fff4e0; color: #8a5300; }
-
         @media (max-width: 900px) {
             .aml-path { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
             .aml-path > li + li::before { display: none; }
@@ -369,7 +364,6 @@
             .cs-more__body { padding: var(--space-1) 14px 14px; }
             .aml-opts { grid-template-columns: 1fr; }
             .one-col .aml-opts img { aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
-            .aml-concept { padding: var(--space-3); }
         }
         @media (max-width: 560px) {
             .cs-kicker { margin-top: var(--space-7); }
@@ -413,7 +407,7 @@
                 </dl>
             </div>
             <div class="title-img">
-                <img src="resources/images-aml/hero.webp?v=19" width="1600" height="1563" style="--hero-img-pad: 0.0375" alt="The On-chain AML address risk page with its detected-risks radar, and in front the fund-flow graph with an address's transactions open beside it">
+                <img src="resources/images-aml/hero.webp?v=20" width="1600" height="1563" style="--hero-img-pad: 0.0375" alt="The On-chain AML address risk page with its detected-risks radar, and in front the fund-flow graph with an address's transactions open beside it">
             </div>
         </div>
     </div>
@@ -430,7 +424,6 @@
         <a href="#section7" class="list" data-zh="05 追踪：资金流图谱">05 Trace: fund-flow graph</a>
         <a href="#section8" class="list" data-zh="06 设计系统">06 System</a>
         <a href="#section9" class="list" data-zh="07 成果与复盘">07 Outcome</a>
-        <a href="#section10" class="list" data-zh="08 构想：AI 预处理">08 Concept: AI triage</a>
         <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
         </div>
     </div>
@@ -1015,40 +1008,6 @@
                 <div>
                     <h5 data-zh="下次：把衡量放进第一个版本">Next time: measurement ships in the first release</h5>
                     <p data-zh="埋点方案写好了，却没能在我离开前上线，也没有基线，所以现在只能描述做了什么，说不出省了多少时间。下次我会在设计阶段就和产品约定基线，并把埋点作为第一个版本的一部分。">The tracking was specified but didn't ship before I left, and there was no baseline, so I can describe what changed but not how much time it saved. Next time I'd agree a baseline with product during design and make tracking part of the first release.</p>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- ── CONCEPT · AI TRIAGE ───────────────────────────── -->
-        <div class="anchor" id="section10"></div>
-        <span class="cs-kicker" data-zh="08 · 构想">08 · Concept</span>
-        <h3 class="section" data-zh="AI 预处理：智能体准备材料，分析师做决定">AI triage: the agent prepares, the analyst decides</h3>
-        <div class="aml-stage">
-            <span class="aml-st aml-st--concept" data-zh="构想 · 未上线">Concept · not shipped</span>
-        </div>
-        <p data-zh="这个产品里没有 AI。这一页是构想：如果在同一条调查路径上加一个 AI 预处理，它的边界该划在哪里。边界来自同一轮研究：每条预警只有 15–45 分钟，而每个判断都要经得起复核。">There was no AI in this product. This page is a concept: where the boundaries would sit if the same investigation path had an AI first pass. They come from the same research: 15–45 minutes per alert, and every decision gets reviewed.</p>
-        <div class="aml-concept">
-            <div class="aml-cards">
-                <div class="aml-card">
-                    <span class="aml-card__k" data-zh="可以自行完成">May do on its own</span>
-                    <div class="aml-card__h" data-zh="标记和归组">Flag and group</div>
-                    <p data-zh="把有共同交易对手的预警归到一起；预先填好预警页的四个答案；在图谱上按模式给地址分组，例如多笔小额充值加一笔大额提现。它做的任何事都不会改变案件状态。">Cluster alerts that share counterparties, pre-fill the four answers on the alert page, and group graph addresses by pattern, such as many small deposits and one large withdrawal. Nothing it does changes a case's status.</p>
-                </div>
-                <div class="aml-card">
-                    <span class="aml-card__k" data-zh="必须由分析师确认">An analyst must confirm</span>
-                    <div class="aml-card__h" data-zh="任何会留下记录的操作">Anything that leaves a record</div>
-                    <p data-zh="结案或上报、打风险标签、写结论、导出证据。智能体只起草，签字的是分析师。">Closing or escalating a case, applying a risk label, writing the conclusion, exporting evidence. The agent drafts; the analyst signs.</p>
-                </div>
-                <div class="aml-card">
-                    <span class="aml-card__k" data-zh="如何说明依据">How it explains itself</span>
-                    <div class="aml-card__h" data-zh="和人工评分用同样的来源">The same sources as a human score</div>
-                    <p data-zh="每条建议都链接到制裁名单、具体交易或交易对手，和地址风险页的证据一样。找不到可追溯来源的建议不显示。">Every suggestion links to the sanctions listing, the transaction or the counterparty, like the evidence on the address risk page. A suggestion with no traceable source isn't shown.</p>
-                </div>
-                <div class="aml-card">
-                    <span class="aml-card__k" data-zh="何时交还">When it hands back</span>
-                    <div class="aml-card__h" data-zh="不确定时停下来说明">It stops and says why</div>
-                    <p data-zh="来源互相矛盾、数据缺失（例如没有 KYC 的子账户）或遇到没见过的模式时，它停下来，说明哪些没能确认，然后把案件交回队列，不附建议。">When sources conflict, data is missing (such as sub-accounts with no KYC) or the pattern is new, it stops, says what it couldn't establish, and returns the case to the queue without a recommendation.</p>
                 </div>
             </div>
         </div>

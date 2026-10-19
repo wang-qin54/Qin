@@ -198,12 +198,16 @@
         .db-more {
             margin: var(--space-5) 0 0;
             border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 0;
         }
+        .db-more + .db-more { border-top: 1px solid var(--border); }
+        .db-more:last-of-type { border-bottom: 1px solid var(--border); }
         .db-more > summary {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-wrap: wrap;
+            align-items: baseline;
+            column-gap: 12px;
+            row-gap: 2px;
             padding: 16px 0;
             cursor: pointer;
             list-style: none;
@@ -217,6 +221,8 @@
             flex: none;
             width: 6px;
             height: 6px;
+            margin-top: 0.35em;
+            align-self: flex-start;
             border-right: 1.5px solid currentColor;
             border-bottom: 1.5px solid currentColor;
             transform: rotate(-45deg);
@@ -224,9 +230,208 @@
         }
         .db-more[open] > summary::before { transform: rotate(45deg); }
         .db-more > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .db-more > summary:hover .db-more__hint { text-decoration: none; }
         .db-more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+        .db-more__hint {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-tertiary);
+        }
         .db-more[open] { padding-bottom: var(--space-5); }
         .db-more > .db-sub:first-of-type { margin-top: var(--space-2); }
+
+        .db-drawer-launch {
+            margin: var(--space-5) 0 0;
+        }
+        .db-drawer-open {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            margin: 0;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: var(--bg-subtle);
+            cursor: pointer;
+            text-align: left;
+            font: inherit;
+            color: inherit;
+            transition: border-color 160ms ease, background 160ms ease;
+        }
+        .db-drawer-open:hover {
+            border-color: rgba(0, 52, 240, 0.35);
+            background: var(--accent-subtle);
+        }
+        .db-drawer-open:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .db-drawer-open__text {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .db-drawer-open__text > span:first-child {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--text-primary);
+        }
+        .db-drawer-open__text .db-more__hint {
+            display: block;
+            margin: 0;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-tertiary);
+        }
+        .db-drawer-open__arrow {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--accent);
+            transition: transform 160ms ease, border-color 160ms ease;
+        }
+        .db-drawer-open:hover .db-drawer-open__arrow {
+            transform: translateX(3px);
+            border-color: rgba(0, 52, 240, 0.35);
+        }
+        .db-drawer-open__arrow svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        dialog.db-drawer {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--text-primary);
+            display: none;
+        }
+        dialog.db-drawer[open] { display: block; }
+        dialog.db-drawer::backdrop { background: rgba(17, 17, 17, 0.32); }
+        .db-drawer__panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(740px, 100vw);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            box-shadow: -12px 0 40px rgba(0, 0, 0, 0.12);
+        }
+        .db-drawer__bar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            flex: none;
+            padding: 8px 12px 0 20px;
+            border-bottom: 1px solid var(--border);
+            background: #fff;
+        }
+        .db-drawer__tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0 4px;
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+        }
+        .db-drawer__tabs button {
+            appearance: none;
+            position: relative;
+            margin: 0;
+            padding: 14px 12px 12px;
+            border: 0;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            background: none;
+            cursor: pointer;
+            font: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+        }
+        .db-drawer__tabs button:hover { color: var(--text-primary); }
+        .db-drawer__tabs button[aria-selected="true"] {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .db-drawer__tabs button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        .db-drawer__close {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            margin: 0 0 6px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 22px;
+            line-height: 1;
+        }
+        .db-drawer__close:hover { background: var(--bg-subtle); color: var(--text-primary); }
+        .db-drawer__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .db-drawer__body {
+            flex: 1;
+            overflow: auto;
+            overscroll-behavior: contain;
+            padding: 8px 20px 40px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .db-drawer__pane > .db-sub:first-child { margin-top: var(--space-4); }
+        .db-drawer__pane > p:first-child { margin-top: var(--space-4); }
+        .db-drawer__pane[hidden] { display: none; }
+        .db-drawer .db-guide { grid-template-columns: 1fr 1fr; }
+        .db-drawer .db-feat { grid-template-columns: 1fr; }
+        .db-drawer .db-persona { grid-template-columns: 1fr; }
+        .db-drawer .db-jm__phases { grid-template-columns: 1fr 1fr; }
+        .db-drawer .db-jm__pains { grid-template-columns: 1fr; }
+        .db-drawer .db-plan-body { max-width: none; }
+        .db-drawer .db-tabs--plan { margin-top: var(--space-3); }
+        @media (max-width: 560px) {
+            .db-drawer__panel { width: 100vw; }
+            .db-drawer__bar, .db-drawer__body { padding-left: 16px; padding-right: 16px; }
+            .db-drawer .db-guide,
+            .db-drawer .db-jm__phases { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            .db-drawer[open] .db-drawer__panel { animation: db-drawer-in 0.22s ease-out; }
+            dialog.db-drawer::backdrop { animation: db-drawer-fade 0.22s ease-out; }
+        }
+        @keyframes db-drawer-in {
+            from { transform: translateX(16px); opacity: 0.7; }
+            to { transform: none; opacity: 1; }
+        }
+        @keyframes db-drawer-fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
 
         .db-embed {
@@ -834,13 +1039,13 @@
         .db-cap__h { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
         .db-cap__h svg { flex: none; width: 16px; height: 16px; }
 
-        .db-findlist { list-style: none; margin: var(--space-3) 0 var(--space-5); padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .db-findlist li { margin: 0; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-subtle); }
+        .db-findlist { list-style: none; margin: var(--space-3) 0 var(--space-5); padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .db-findlist li { margin: 0; padding: 14px 16px; border: 0; border-radius: var(--radius-md); background: var(--bg-subtle); }
         .db-findlist b { display: block; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
         .db-findlist span { display: block; margin-top: 4px; font-size: 12px; color: var(--text-tertiary); }
 
-        .db-quotes { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-        .db-quotes li { margin: 0; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg); display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+        .db-quotes { list-style: none; margin: var(--space-5) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+        .db-quotes li { margin: 0; padding: 16px; border: 0; border-radius: var(--radius-md); background: var(--bg-subtle); display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
         .db-quotes p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-primary); max-width: none; }
         .db-quotes span { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-tertiary); }
 
@@ -901,6 +1106,7 @@
         .db-tabs__bar button[aria-selected="true"] { background: var(--accent-subtle); border-color: var(--accent); color: var(--accent); font-weight: 600; }
         .db-tabs__panel { padding: clamp(12px, 3%, 24px); border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
         .db-tabs__panel img { aspect-ratio: 2880 / 1900; object-fit: contain; object-position: top center; }
+        .db-tabs:not(.db-tabs--patterns):not(.db-tabs--plan) .db-tabs__panel { padding: 0; overflow: hidden; }
         .db-tabs__scroll { aspect-ratio: 2880 / 1900; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
         .db-tabs__scroll::-webkit-scrollbar { width: 6px; }
         .db-tabs__scroll::-webkit-scrollbar-thumb { border-radius: 3px; background: var(--border); }
@@ -970,7 +1176,7 @@
         .db-wt__k { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
         .db-wt__pill { margin-left: auto; flex: none; padding: 3px 10px; border-radius: 999px; background: #fdecec; color: #b42318; font-size: 12px; font-weight: 600; white-space: nowrap; }
         .one-col .db-wt__pair { position: relative; display: grid; gap: 10px; margin: 0; }
-        .db-wt__shot { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
+        .db-wt__shot { position: relative; overflow: hidden; border-radius: 10px; background: var(--bg-subtle); }
         .db-wt__shot img { display: block; width: 100%; height: auto; }
         .db-wt__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 8px; background: rgba(0, 52, 240, .06); transition: box-shadow .15s, background .15s; }
         .db-wt__box--before { border-color: #d14343; background: rgba(209, 67, 67, .06); }
@@ -999,13 +1205,13 @@
         html[data-lang="zh"] .db-3p__k, html[data-lang="zh"] .db-3p__who, html[data-lang="zh"] .db-idea__n,
         html[data-lang="zh"] .db-ladder__y, html[data-lang="zh"] .db-fold__moved span, html[data-lang="zh"] .db-quotes span,
         html[data-lang="zh"] .db-ia__k, html[data-lang="zh"] .db-pattern-k,
-        html[data-lang="zh"] .db-tro__k { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        html[data-lang="zh"] .db-tro__k, html[data-lang="zh"] .db-persona__stats dt, html[data-lang="zh"] .db-jm__k, html[data-lang="zh"] .db-plan-lab > b { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
 
 
 
         .db-tro { margin: var(--space-4) 0 0; }
         .db-tro__row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-        .db-tro__row li { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: #fff; }
+        .db-tro__row li { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 16px; border: 0; border-radius: var(--radius-md); background: var(--bg-subtle); }
         .db-tro__who { font-family: var(--font-title); font-size: 15px; font-weight: 600; color: var(--text-primary); }
         .one-col .db-tro p { display: grid; gap: 2px; margin: 0; max-width: none; font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
         .db-tro__k { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary); }
@@ -1016,8 +1222,567 @@
         .db-tro__call .db-tro__k { color: var(--accent); }
         .one-col .db-tro p.db-tro__cost { margin-top: 8px; background: var(--bg-subtle); }
 
+        .db-tabs--plan { margin: var(--space-3) 0 var(--space-6); }
+        .db-tabs--plan .db-tabs__bar { gap: 6px; margin: 0; padding: 0; border: 0; }
+        .db-tabs--plan .db-tabs__bar button:first-child { border-style: solid; }
+        .db-tabs.db-tabs--plan .db-tabs__panel {
+            padding: 40px 0 4px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            overflow: visible;
+        }
+        .db-plan-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px 16px;
+            margin: 0 0 8px;
+        }
+        .db-plan-st {
+            flex: none;
+            margin: 0;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--bg-subtle);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            white-space: nowrap;
+        }
+        .db-plan-st.is-ran { background: var(--accent-subtle); color: var(--accent); }
+        .db-plan-sheet { margin: 0; }
+        .db-plan-row {
+            display: grid;
+            grid-template-columns: 168px minmax(0, 1fr);
+            gap: 16px 24px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+        }
+        .db-plan-row:first-child { border-top: 0; padding-top: 8px; }
+        .db-plan-lab {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .db-plan-lab > b {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .db-plan-lab > span {
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text-tertiary);
+        }
+        .one-col .db-plan-body { margin: 0; max-width: none; }
+        .one-col .db-plan-body > p,
+        .one-col .db-plan-body > ul,
+        .one-col .db-plan-body > ol { margin: 0; max-width: none; }
+        .one-col .db-plan-body > p + p,
+        .one-col .db-plan-body > p + ul,
+        .one-col .db-plan-body > ul + p,
+        .one-col .db-plan-body > ol + p,
+        .one-col .db-plan-body > p + ol { margin-top: 10px; }
+        .db-plan-body p,
+        .db-plan-body li {
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .db-plan-body ul,
+        .db-plan-body ol { padding-left: 1.15em; }
+        .db-plan-body ol.db-cs,
+        .db-plan-body ul.db-feat,
+        .db-plan-body ul.db-kano,
+        .db-plan-body ol.db-guide { padding-left: 0; }
+        .db-plan-body li + li { margin-top: 6px; }
+        .db-plan-body ul ul { margin-top: 6px; }
+        .db-plan-body .db-cs li + li,
+        .db-plan-body .db-feat li + li,
+        .db-plan-body .db-guide li + li { margin-top: 0; }
+        .db-hl {
+            color: #c0392b;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .db-hl--mark {
+            background: #fff3a3;
+            color: inherit;
+            font-weight: 600;
+            font-style: normal;
+            padding: 0 0.15em;
+            border-radius: 2px;
+        }
+        .db-feat {
+            list-style: none;
+            margin: 12px 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            border: 0;
+            background: transparent;
+        }
+        .db-feat li { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--bg-subtle); }
+        .db-feat b { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .db-feat span { display: block; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-cs {
+            list-style: none;
+            margin: 12px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0;
+            counter-reset: cs;
+            border: 0;
+        }
+        .db-cs > li {
+            --db-cs-n: 22px;
+            position: relative;
+            display: grid;
+            grid-template-columns: var(--db-cs-n) minmax(0, 1fr);
+            column-gap: 14px;
+            align-items: start;
+            margin: 0;
+            padding: 0 0 22px;
+            background: none;
+            border-radius: 0;
+            counter-increment: cs;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .db-cs > li:last-child { padding-bottom: 0; }
+        .db-cs > li::before {
+            content: counter(cs);
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            width: var(--db-cs-n);
+            height: var(--db-cs-n);
+            border: 0;
+            border-radius: 50%;
+            background: var(--bg-subtle);
+            color: var(--text-tertiary);
+            font-size: 11px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+        .db-cs > li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: calc(var(--db-cs-n) / 2);
+            top: calc(var(--db-cs-n) + 4px);
+            bottom: 4px;
+            width: 1px;
+            transform: translateX(-50%);
+            background: var(--border);
+        }
+        .db-cs__txt { min-width: 0; padding-top: 2px; }
+        .db-cs__txt b { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .db-cs__txt ul {
+            margin: 6px 0 0;
+            padding-left: 1.15em;
+        }
+        .db-cs__txt li {
+            display: list-item;
+            position: static;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            counter-increment: none;
+            font-size: 13px;
+        }
+        .db-cs__txt li::before,
+        .db-cs__txt li::after { content: none; display: none; }
+        .db-cs__txt li + li { margin-top: 4px; }
+        .db-plan-k {
+            display: block;
+            margin: 14px 0 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .db-plan-body > .db-plan-k:first-child { margin-top: 0; }
+        .one-col .db-plan-body > ul + .db-plan-k { margin-top: 28px; }
+        .db-plan-lab .db-plan-illu {
+            display: grid;
+            gap: 0;
+            margin: 12px 0 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100px;
+        }
+        .db-cs-draw {
+            margin: 0;
+            padding: 6px 0 10px;
+            text-align: center;
+        }
+        .db-cs-draw + .db-cs-draw {
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+        .db-cs-draw__title {
+            margin: 0 0 6px;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.25;
+            color: var(--text-tertiary);
+        }
+        .db-cs-draw__sub {
+            margin: -2px 0 8px;
+            font-size: 8px;
+            font-weight: 500;
+            line-height: 1.25;
+            color: var(--text-tertiary);
+        }
+        .db-cs-draw__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 3px;
+            margin: 0 auto;
+        }
+        .db-cs-draw__card {
+            display: grid;
+            place-items: center;
+            aspect-ratio: 1;
+            min-width: 0;
+            min-height: 0;
+            overflow: hidden;
+            padding: 2px;
+            border: 1px solid rgba(0, 52, 240, 0.1);
+            border-radius: 5px;
+            background: var(--accent-subtle);
+            box-shadow: none;
+            font-size: 5px;
+            font-weight: 600;
+            line-height: 1.1;
+            color: var(--text-secondary);
+            text-align: center;
+            word-break: break-word;
+        }
+        .db-cs-draw__stair {
+            display: grid;
+            gap: 3px;
+            margin: 0 auto;
+            justify-items: start;
+        }
+        .db-cs-draw__rank {
+            position: relative;
+            width: 38%;
+        }
+        .db-cs-draw__rank:nth-child(1) { margin-left: 0; }
+        .db-cs-draw__rank:nth-child(2) { margin-left: 28%; }
+        .db-cs-draw__rank:nth-child(3) { margin-left: 56%; }
+        .db-cs-draw__rank .db-cs-draw__card {
+            width: 100%;
+            aspect-ratio: 1;
+        }
+        .db-cs-draw__rank i {
+            position: absolute;
+            top: -1px;
+            right: -11px;
+            font-size: 7px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-tertiary);
+        }
+        .db-plan-body > ul { margin-top: 0; }
+        .db-plan-jump { margin: 18px 0 0; }
+        .db-plan-jump__btn {
+            appearance: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            text-underline-offset: 3px;
+        }
+        .db-plan-jump__btn:hover { text-decoration: underline; }
+        .db-plan-jump__btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+        .db-kano {
+            list-style: none;
+            margin: 12px 0 0;
+            padding: 0;
+            display: grid;
+            gap: 8px;
+        }
+        .db-kano li {
+            margin: 0;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: var(--bg-subtle);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        .db-kano b { display: block; margin-bottom: 2px; font-size: 13px; font-weight: 700; }
+        .db-kano li.is-must b { color: #c0392b; }
+        .db-kano li.is-perf b { color: var(--accent); }
+        .db-kano li.is-attr b { color: #1a7f4b; }
+        .one-col .db-tabs--plan > p { margin: 0 0 16px; max-width: none; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        html[data-lang="zh"] .db-plan-lab > b { font-size: 13px; letter-spacing: 0; }
+
+        .db-guide {
+            list-style: none;
+            margin: 12px 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+            counter-reset: g;
+            border: 0;
+            background: transparent;
+        }
+        .db-guide li { margin: 0; padding: 14px; border-radius: 12px; background: var(--bg-subtle); counter-increment: g; }
+        .db-guide b { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .db-guide b::before { content: counter(g) " · "; color: var(--accent); }
+        .db-guide span { display: block; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        @media (max-width: 720px) {
+            .db-plan-row { grid-template-columns: 1fr; gap: 8px; }
+            .db-plan-lab .db-plan-illu { display: none; }
+        }
+
+        .db-find { margin: var(--space-7) 0 0; padding-top: 0; border-top: 0; }
+        .db-find > .db-sub { margin-top: 0; }
+        .db-find + .db-find { margin-top: var(--space-6); }
+
+        .db-persona {
+            display: grid;
+            grid-template-columns: 180px minmax(0, 1fr);
+            gap: 16px;
+            margin: var(--space-3) 0 0;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            overflow: visible;
+        }
+        .db-persona__id {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 14px;
+            text-align: center;
+            background: var(--bg-subtle);
+            border-radius: 12px;
+            border-right: 0;
+        }
+        .db-persona__av {
+            display: grid;
+            place-items: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .db-persona__id > b { font-family: var(--font-title); font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .db-persona__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .db-persona__tags li {
+            margin: 0;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #fff;
+            border: 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .db-persona__stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 0;
+        }
+        .db-persona__stats > div {
+            padding: 16px 18px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--bg-subtle);
+        }
+        .db-persona__stats dt {
+            margin: 0 0 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-tertiary);
+        }
+        .db-persona__stats dd { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-persona__stats dd b { display: block; margin-bottom: 2px; font-size: 20px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; color: var(--accent); }
+
+        .db-jm__lead {
+            margin: var(--space-3) 0 0;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: var(--bg-subtle);
+        }
+        .one-col .db-jm__lead p { margin: 0; max-width: none; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .one-col .db-jm__lead p + p { margin-top: 8px; }
+        .db-jm__lead b { color: var(--text-primary); }
+        .db-jm { margin: 12px 0 0; padding: 0; border-radius: 0; background: transparent; }
+        .db-jm__phases {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .db-jm__phases > li {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 0;
+            padding: 14px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--bg-subtle);
+            min-height: 100%;
+        }
+        .db-jm__phases > li.is-pain { background: #fff1f0; }
+        .db-jm__n {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .db-jm__phases > li.is-pain .db-jm__n { background: #d14343; }
+        .db-jm__phases > li > b { font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+        .db-jm__do { font-size: 13px; line-height: 1.5; color: var(--text-secondary); }
+        .db-jm__acts {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 4px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-secondary);
+        }
+        .db-jm__acts li { margin: 0; padding: 0; }
+        .db-jm__acts li::before { content: none; }
+        .db-jm__goals {
+            list-style: disc;
+            margin: 0;
+            padding-left: 1.15em;
+            display: grid;
+            gap: 6px;
+        }
+        .db-jm__goals li {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .db-jm__tools {
+            margin-top: auto;
+            padding-top: 8px;
+            border-top: 0;
+            font-size: 12px;
+            line-height: 1.45;
+            color: var(--text-tertiary);
+        }
+        .db-jm__mood { position: relative; height: 48px; margin: 14px 12px 0; }
+        .db-jm__mood svg { display: block; width: 100%; height: 100%; overflow: visible; }
+        .db-jm__mood polyline { fill: none; stroke: var(--border); stroke-width: 2; vector-effect: non-scaling-stroke; }
+        .db-jm__mood span {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px #fff;
+            transform: translate(-50%, -50%);
+        }
+        .db-jm__mood span.is-low { background: #d14343; }
+        .one-col p.db-jm__legend { margin: 6px 0 0; max-width: none; font-size: 12px; color: var(--text-tertiary); text-align: center; }
+        .db-jm__pains {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 200px;
+            gap: 12px;
+            align-items: stretch;
+            margin: 16px 0 0;
+        }
+        .db-jm__pains > div {
+            padding: 16px 18px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--bg-subtle);
+        }
+        .db-jm__k {
+            display: block;
+            margin: 0 0 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #b03a3a;
+        }
+        .db-jm__pains ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+        .db-jm__pains li {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 13px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .db-jm__pains li b { display: block; margin-bottom: 2px; color: var(--text-primary); font-weight: 600; }
+        .one-col p.db-jm__opp {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+            margin: 0;
+            max-width: none;
+            padding: 18px 16px;
+            border-radius: 12px;
+            background: rgba(26, 127, 75, .08);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #145f39;
+        }
+        .db-jm__opp .db-jm__k { margin: 0; color: #1a7f4b; }
+
         @media (max-width: 720px) {
             .db-tro__row { grid-template-columns: 1fr; }
+            .db-guide { grid-template-columns: 1fr 1fr; }
+            .db-persona { grid-template-columns: 1fr; }
+            .db-persona__id { padding: 16px 12px 8px; }
+            .db-jm__pains { grid-template-columns: 1fr; }
+            .db-jm__phases { grid-template-columns: 1fr 1fr; }
+            .db-jm__mood, .db-jm__legend { display: none; }
+            .db-feat { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 460px) {
+            .db-guide, .db-jm__phases, .db-persona__stats { grid-template-columns: 1fr; }
         }
         @media (max-width: 560px) {
             .one-col .db-tro p.db-tro__call, .one-col .db-tro p.db-tro__cost { grid-template-columns: 1fr; gap: 2px; }
@@ -1474,7 +2239,7 @@
                 <button data-zh="当前构成" type="button" role="tab" aria-selected="false">Current composition</button>
                 <button data-zh="草稿构成" type="button" role="tab" aria-selected="false">Draft composition</button>
             </div>
-            <div class="db-tabs__panel" role="tabpanel" hidden><img src="resources/images-dashboard/idea-audit.webp" width="1200" height="1072" alt="Before: one long view page mixing basic information, constraints, fees, performance and composition" loading="lazy" decoding="async"></div>
+            <div class="db-tabs__panel" role="tabpanel" hidden><div class="db-tabs__scroll" tabindex="0" aria-label="Before, scroll to see the full page"><img src="resources/images-dashboard/idea-audit.webp" width="1200" height="1072" alt="Before: one long view page mixing basic information, constraints, fees, performance and composition" loading="lazy" decoding="async"></div></div>
             <div class="db-tabs__panel" role="tabpanel"><div class="db-tabs__scroll" tabindex="0" aria-label="Info tab, scroll to see the full page"><img src="resources/images-dashboard/view-info-full.png?v=3x" width="4320" height="4800" alt="Info tab: key facts, dates, basics, custom fields, descriptions and fees, with a side menu" loading="lazy" decoding="async"></div></div>
             <div class="db-tabs__panel" role="tabpanel" hidden><div class="db-tabs__scroll" tabindex="0" aria-label="Current composition tab, scroll to see the full page"><img src="resources/images-dashboard/view-current-full.png?v=3x" width="4320" height="9339" alt="Current composition tab: allocation chart, instruments grouped by asset class, and performance" loading="lazy" decoding="async"></div></div>
             <div class="db-tabs__panel" role="tabpanel" hidden><div class="db-tabs__scroll" tabindex="0" aria-label="Draft composition tab, scroll to see the full page"><img src="resources/images-dashboard/view-draft-full.png?v=3x" width="4320" height="9798" alt="Draft composition tab: draft allocation with current, draft and difference per instrument, and draft vs current performance" loading="lazy" decoding="async"></div></div>
@@ -1670,15 +2435,404 @@
         <h3 data-zh="小测试换来了真实用户研究" class="section">Small tests earned research with real users</h3>
         <p data-zh="研究负责人 · 与 1 名 PM 合作" class="db-chapter-meta">Research lead &middot; with 1 PM</p>
         <p data-zh="仪表盘演示之后，CEO 请我为一款新的顾问产品规划研究，并动用自己的人脉帮忙招募。我和 PM 一起访谈了 5 位顾问总监（多来自瑞士的银行），整理出用户旅程、痛点和功能清单；优先级工作坊和卡片分类已经规划，但我在执行前离开了公司。">After the dashboard demo, the CEO asked me to plan research for a new advisor product and opened his network to recruit for it. With the PM, I interviewed 5 advisory directors, mostly from Swiss banks, and turned the findings into a journey map, pain points and a feature list; a prioritisation workshop and card sorting were planned, but I left before they ran.</p>
-        <details class="db-more">
-            <summary data-zh="研究计划与访谈发现：用户旅程图、用户画像和下一步">Research plan and interview findings: journey map, persona and next steps</summary>
-            <div class="db-embed">
-                <iframe title="Advisor-tool research plan prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D698%253A47432%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D698%253A47199" allowfullscreen></iframe>
+        <div class="db-drawer-launch">
+            <button type="button" class="db-drawer-open" data-drawer="research-drawer" aria-haspopup="dialog" aria-controls="research-drawer">
+                <span class="db-drawer-open__text">
+                    <span data-zh="研究计划与访谈发现">Research plan and interview findings</span>
+                    <span data-zh="方法 · 画像与旅程" class="db-more__hint">Methods · persona and journey</span>
+                </span>
+                <span class="db-drawer-open__arrow" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                </span>
+            </button>
+        </div>
+        <dialog class="db-drawer" id="research-drawer" aria-label="Research plan and interview findings">
+            <div class="db-drawer__panel">
+            <div class="db-drawer__bar">
+                <div class="db-drawer__tabs" role="tablist" aria-label="Research sections" data-drawer-tabs>
+                    <button type="button" role="tab" id="drawer-tab-plan" aria-controls="drawer-pane-plan" aria-selected="true" data-zh="研究计划">Research plan</button>
+                    <button type="button" role="tab" id="drawer-tab-findings" aria-controls="drawer-pane-findings" aria-selected="false" data-zh="访谈发现">Interview findings</button>
+                </div>
+                <button type="button" class="db-drawer__close" data-drawer-close aria-label="Close">&times;</button>
             </div>
-            <div class="db-embed">
-                <iframe title="Advisor journey map and persona prototype" loading="lazy" src="https://www.figma.com/embed?embed_host=share&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fg6YQ1NrgQb8R5vrSQejjhu%2FCore-Advisor---Desktop%3Fpage-id%3D340%253A13298%26node-id%3D1647%253A52518%26viewport%3D305%252C98%252C0.02%26scaling%3Dscale-down-width%26starting-point-node-id%3D1647%253A52630" allowfullscreen></iframe>
+            <div class="db-drawer__body">
+            <div class="db-drawer__pane" id="drawer-pane-plan" role="tabpanel" aria-labelledby="drawer-tab-plan">
+            <p data-zh="原文还有一页背景与目标。下面是计划中的四种方法；离职前只完成了访谈。">The source plan also had a context page. The four methods below were the plan; only the interviews ran before I left.</p>
+            <figure class="db-tabs db-tabs--plan" data-tabs>
+                <div class="db-tabs__bar" role="tablist" aria-label="Research plan methods">
+                    <button data-zh="访谈" type="button" role="tab" aria-selected="true">Interview</button>
+                    <button data-zh="功能排序" type="button" role="tab" aria-selected="false">Feature ranking</button>
+                    <button data-zh="卡片分类" type="button" role="tab" aria-selected="false">Card sorting</button>
+                    <button data-zh="可用性测试" type="button" role="tab" aria-selected="false">Usability testing</button>
+                </div>
+                <div class="db-tabs__panel" role="tabpanel">
+                    <div class="db-plan-head">
+                        <span data-zh="已完成 · 5 位顾问总监" class="db-plan-st is-ran">Ran · 5 advisory directors</span>
+                    </div>
+                    <div class="db-plan-sheet">
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="目标">Goal</b><span data-zh="40–60 分钟">40&ndash;60 min</span></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="弄清我们面向&lt;em class=&quot;db-hl&quot;&gt;哪类顾问&lt;/em&gt;">Understand <em class="db-hl">who</em> we are targeting</li>
+                                    <li data-zh="弄清顾问的工作，验证&lt;em class=&quot;db-hl&quot;&gt;画像&lt;/em&gt;">Understand the advisor&rsquo;s job, validate our <em class="db-hl">persona</em></li>
+                                    <li data-zh="找出旅程级的&lt;em class=&quot;db-hl&quot;&gt;痛点与挫败&lt;/em&gt;">Identify journey-level <em class="db-hl">pain points / frustrations</em></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="方法">Method</b><span data-zh="访谈">Interview</span></div>
+                            <div class="db-plan-body">
+                                <p data-zh="访谈提纲按五段展开：">Interview outline in five blocks:</p>
+                                <ol class="db-guide">
+                                    <li><b data-zh="背景">Background</b><span data-zh="“带我回顾一下你工作中的高光和低谷。”">&ldquo;Take me through the high and low points of your job.&rdquo;</span></li>
+                                    <li><b data-zh="工作与工具">Work and tools</b><span data-zh="“你特别喜欢哪些&lt;em class=&quot;db-hl--mark&quot;&gt;工具&lt;/em&gt;？&lt;em class=&quot;db-hl--mark&quot;&gt;为什么&lt;/em&gt;？”">&ldquo;Which <em class="db-hl--mark">tools</em> do you like, and <em class="db-hl--mark">why</em>?&rdquo;</span></li>
+                                    <li><b data-zh="动机">Motivations</b><span data-zh="“你的&lt;em class=&quot;db-hl--mark&quot;&gt;首要目标&lt;/em&gt;和&lt;em class=&quot;db-hl--mark&quot;&gt;优先级&lt;/em&gt;是什么？”">&ldquo;What are your <em class="db-hl--mark">top goals</em> and <em class="db-hl--mark">priorities</em>?&rdquo;</span></li>
+                                    <li><b data-zh="挫败与痛点">Frustrations</b><span data-zh="“&lt;em class=&quot;db-hl--mark&quot;&gt;服务客户时&lt;/em&gt;，最让你头疼的是什么？”">&ldquo;What frustrates you most <em class="db-hl--mark">when you serve clients</em>?&rdquo;</span></li>
+                                    <li><b data-zh="客户关系">Client relations</b><span data-zh="“客户通常为什么事情来找你？”">&ldquo;What do clients usually come to you for?&rdquo;</span></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="可衡量产出">Measurable outcome</b></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="用户画像">Persona</li>
+                                    <li data-zh="用户旅程图">User journey map</li>
+                                    <li data-zh="痛点清单（并作为功能清单的输入）">A list of pain points (and input for the feature list)</li>
+                                </ul>
+                                <p class="db-plan-jump">
+                                    <button type="button" class="db-plan-jump__btn" data-drawer-goto="drawer-tab-findings" data-zh="发现 →">Findings →</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="db-tabs__panel" role="tabpanel" hidden>
+                    <div class="db-plan-head">
+                        <span data-zh="已规划 · 未执行" class="db-plan-st">Planned · not run</span>
+                    </div>
+                    <div class="db-plan-sheet">
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="目标">Goal</b><span data-zh="约 1 小时">1 h</span></div>
+                            <div class="db-plan-body">
+                                <p data-zh="用&lt;em class=&quot;db-hl&quot;&gt;用户价值&lt;/em&gt;对&lt;em class=&quot;db-hl&quot;&gt;技术可行性&lt;/em&gt;称重，&lt;em class=&quot;db-hl&quot;&gt;排出功能优先级&lt;/em&gt;并形成路线图。">Weigh <em class="db-hl">user value</em> vs <em class="db-hl">technical feasibility</em> of planned feature releases against each other in order to <em class="db-hl">prioritise features</em> and shape a roadmap.</p>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="方法">Method</b><span data-zh="Kano 工作坊">Kano workshop</span></div>
+                            <div class="db-plan-body">
+                                <p data-zh="对每个功能评分：有它时顾问感觉如何，没有时感觉如何（从 −2 挫败到 +2 惊喜）。">Workshop: for each feature, rate how the advisor feels if it exists and if it doesn&rsquo;t &mdash; from &minus;2 (frustrated) to +2 (delighted).</p>
+                                <ol>
+                                    <li data-zh="有这个功能时，你感觉如何？">How do you feel if you <em class="db-hl--mark">have</em> the feature?</li>
+                                    <li data-zh="没有这个功能时，你感觉如何？">How do you feel if you <em class="db-hl--mark">don&rsquo;t have</em> the feature?</li>
+                                </ol>
+                                <p data-zh="量表：喜欢 / 理应如此 / 无所谓 / 可以忍受 / 不喜欢。">Scale: I like it &middot; I expect it &middot; I am neutral &middot; I can live with it &middot; I dislike it.</p>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="材料">Materials</b><span data-zh="预定义功能清单">Pre-defined feature list</span></div>
+                            <div class="db-plan-body">
+                                <ul class="db-feat">
+                                    <li><b data-zh="仪表盘">Dashboard</b><span data-zh="管理资产规模随时间、客户数、添加客户、CIO 通告、表现最佳标的">AUM over time, client count, add client, CIO notices, best-performing holdings</span></li>
+                                    <li><b data-zh="客户列表">Client list</b><span data-zh="姓名、账户、市值、提醒">Name, account, market value, alerts</span></li>
+                                    <li><b data-zh="潜在客户列表">Prospect list</b><span data-zh="档案完成度、状态、联系客户、补全资料">Profile completion, status, contact client, complete profile</span></li>
+                                    <li><b data-zh="组合列表与管理">Portfolio list and manage</b><span data-zh="查看详情、赎回、追加、再平衡">View details, withdraw, top up, rebalance</span></li>
+                                    <li><b data-zh="产品列表">Product list</b><span data-zh="按时间排列的全部产品、新产品">All products by time, new products</span></li>
+                                    <li><b data-zh="用户账户仪表盘">User account dashboard</b><span data-zh="概要、资产配置、业绩、全部投资；添加投资、编辑设置">Summary, allocation, performance, full investment list; add investment, edit settings</span></li>
+                                    <li><b data-zh="开户 / 调研 / 提案 / 健康检查">Onboarding / research / proposal / health check</b><span data-zh="共用标的列表（名称、ISIN 等）">Shared instrument list (name, ISIN and more)</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="可衡量产出">Measurable outcome</b></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="优先级矩阵（Kano 模型）">Priority matrix &mdash; Kano model</li>
+                                    <li data-zh="功能清单">Feature list</li>
+                                </ul>
+                                <ul class="db-kano">
+                                    <li class="is-must"><b data-zh="必须有 / 基本需求">Must-be / basic needs</b><span data-zh="必须满足，没有商量余地。">Have to meet the requirement &mdash; no choice.</span></li>
+                                    <li class="is-perf"><b data-zh="表现型">Performance</b><span data-zh="选对功能、做到合适的程度，产品才有竞争力。">Choose the right set, at the right level, for a competitive product.</span></li>
+                                    <li class="is-attr"><b data-zh="加分型">Attractive</b><span data-zh="从深度理解客户中挑 1–2 项，制造惊喜与差异。">Pick 1&ndash;2 from deep customer understanding &mdash; delight and differentiation.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="db-tabs__panel" role="tabpanel" hidden>
+                    <div class="db-plan-head">
+                        <span data-zh="已规划 · 未执行" class="db-plan-st">Planned · not run</span>
+                    </div>
+                    <div class="db-plan-sheet">
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="目标">Goal</b><span data-zh="约 1 小时">1 h</span></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="该包含哪些&lt;em class=&quot;db-hl&quot;&gt;功能&lt;/em&gt;？">What <em class="db-hl">features</em> do we include?</li>
+                                    <li data-zh="产品和信息该如何&lt;em class=&quot;db-hl&quot;&gt;组织&lt;/em&gt;？（导航与信息架构）">How do we <em class="db-hl">structure</em> products and information? (navigation and information architecture)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab">
+                                <b data-zh="方法">Method</b>
+                                <span data-zh="卡片分类">Card sorting</span>
+                                <div class="db-plan-illu" aria-hidden="true">
+                                    <div class="db-cs-draw">
+                                        <p data-zh="待分类卡片" class="db-cs-draw__title">Cards to Sort</p>
+                                        <div class="db-cs-draw__grid">
+                                            <span class="db-cs-draw__card">Flash Sales</span>
+                                            <span class="db-cs-draw__card">Membership Discounts</span>
+                                            <span class="db-cs-draw__card">Personal Stylist</span>
+                                            <span class="db-cs-draw__card">Seasonal Lookbook</span>
+                                            <span class="db-cs-draw__card">Instagram Feed</span>
+                                            <span class="db-cs-draw__card">Wish List</span>
+                                            <span class="db-cs-draw__card">Coupons</span>
+                                            <span class="db-cs-draw__card">Online Only Sales</span>
+                                            <span class="db-cs-draw__card">In-Store Discounts</span>
+                                        </div>
+                                    </div>
+                                    <div class="db-cs-draw">
+                                        <p data-zh="参与者分类示例" class="db-cs-draw__title">Example of Participant Sorted Cards</p>
+                                        <p data-zh="前三选择" class="db-cs-draw__sub">Top 3 Choices</p>
+                                        <div class="db-cs-draw__stair">
+                                            <div class="db-cs-draw__rank">
+                                                <span class="db-cs-draw__card">Coupons</span>
+                                                <i>+1</i>
+                                            </div>
+                                            <div class="db-cs-draw__rank">
+                                                <span class="db-cs-draw__card">Personal Stylist</span>
+                                                <i>+2</i>
+                                            </div>
+                                            <div class="db-cs-draw__rank">
+                                                <span class="db-cs-draw__card">Online Only Sales</span>
+                                                <i>+3</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="给顾问 30–40 个主题">Give users 30&ndash;40 topics</li>
+                                    <li data-zh="请他们分组并边做边说">Ask them to group the topics and think aloud</li>
+                                    <li data-zh="再追问">Ask follow-up questions</li>
+                                    <li data-zh="用共同模式指导产品的信息架构">Use common patterns to inform the product IA</li>
+                                </ul>
+                                <p data-zh="步骤" class="db-plan-k">Steps</p>
+                                <ol class="db-cs">
+                                    <li>
+                                        <div class="db-cs__txt">
+                                            <b data-zh="写卡片">Write cards</b>
+                                            <span data-zh="写 30–40 个相关主题。">Write 30&ndash;40 related topics.</span>
+                                            <ul>
+                                                <li data-zh="可改主意、改卡片内容">Can change mind and edit card content</li>
+                                                <li data-zh="例如「编辑资料」">e.g. edit profile</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="db-cs__txt">
+                                            <b data-zh="分组并边做边说">Group and think aloud</b>
+                                            <span data-zh="打乱卡片，请顾问分组（不给预设组名）。">Shuffle cards and ask users to group the topics (no predefined group names).</span>
+                                            <ul>
+                                                <li data-zh="全程可新建、修改、重排，数量不限">Can create, change and rearrange throughout, with no number limit</li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="db-cs__txt">
+                                            <b data-zh="命名分组">Name the piles</b>
+                                            <span data-zh="请顾问为每组起名并贴标签。">Ask users to create a name for each group and label the piles.</span>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="材料">Materials</b></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="30–40 张半定义主题 / 功能卡片（基于假设与访谈中可能的新功能；顾问可增改）">30&ndash;40 semi-defined topics / feature list (from assumptions and potential new features from interviews; advisors can add or edit)</li>
+                                    <li data-zh="准备空白卡；为保证质量、避免疲劳，总数不超过 40">Prepare blank cards; keep the set at a maximum of 40 so the session stays manageable</li>
+                                    <li data-zh="至少 5 位顾问">At least 5 advisors</li>
+                                </ul>
+                                <p data-zh="&lt;b&gt;会后追问：&lt;/b&gt;为什么这样分组？有没有卡片犹豫过、在几组之间来回？有没有主题觉得可以放进不止一组？若有剩牌，为什么？"><b>End-of-session questions:</b> why these categories? any cards they struggled with or moved back and forth? any topics that could sit in more than one group? if some cards were left, why?</p>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="可衡量产出">Measurable outcome</b></div>
+                            <div class="db-plan-body">
+                                <p data-zh="分析结果" class="db-plan-k">Analyse result</p>
+                                <ol>
+                                    <li data-zh="用户共同形成了哪些组？">What common groups did your users come up with?</li>
+                                    <li data-zh="哪些卡片经常被放在一起？">Which cards were frequently paired together?</li>
+                                </ol>
+                                <p data-zh="从汇总模式得到的产品结构设想。">Idea of product structure from aggregated patterns.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="db-tabs__panel" role="tabpanel" hidden>
+                    <div class="db-plan-head">
+                        <span data-zh="已规划 · 未执行" class="db-plan-st">Planned · not run</span>
+                    </div>
+                    <div class="db-plan-sheet">
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="目标">Goal</b><span data-zh="约 40 分钟">40 min</span></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="找出体验设计中的&lt;em class=&quot;db-hl&quot;&gt;痛点&lt;/em&gt;">Identify <em class="db-hl">pain points</em> in the experience design</li>
+                                    <li data-zh="判断设计是否支撑顾问需要">Understand how well the design supports advisor needs</li>
+                                    <li data-zh="形成改版方向">Shape design directions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="方法">Method</b><span data-zh="可用性测试（原型任务 + 出声思考）">Usability testing (tasks on prototypes + think aloud)</span></div>
+                            <div class="db-plan-body">
+                                <p data-zh="&lt;b&gt;测前问题：&lt;/b&gt;"><b>Pre-test questions:</b></p>
+                                <ol>
+                                    <li data-zh="你用什么工具给客户开户、调研标的、制定投资计划？最近一次是什么时候？过程怎样？">What tools do you use to onboard a client, research instruments and create an investment plan? When was the last time &mdash; and how did it go?</li>
+                                    <li data-zh="客户大概什么年龄段？你管多少客户？主要提供哪些&lt;em class=&quot;db-hl--mark&quot;&gt;建议&lt;/em&gt;？">What age group are your clients? How many do you manage? What sort of <em class="db-hl--mark">advice</em> do you offer?</li>
+                                </ol>
+                                <p data-zh="&lt;b&gt;范围 · 现有顾问工具设计中的旅程：&lt;/b&gt;"><b>Scope &middot; journeys in the existing advisor-tool design:</b></p>
+                                <ol>
+                                    <li data-zh="开户（设定目标、改偏好、录入财务信息）">Onboarding (set objectives, change preferences, log financial information)</li>
+                                    <li data-zh="调研产品">Research products</li>
+                                    <li data-zh="创建提案">Create a proposal</li>
+                                    <li data-zh="复核投资计划，以及买入、赎回、再平衡">Review the investment plan; buy, withdraw, rebalance</li>
+                                    <li data-zh="健康检查">Health check</li>
+                                    <li data-zh="为特定客户定制组合">Customise a portfolio for a particular client</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="材料">Materials</b></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="低保真可交互原型（无装饰）">Interactive low-fi prototype (without visual decoration)</li>
+                                    <li data-zh="任务清单">Task list</li>
+                                    <li data-zh="在线测试平台（如 &lt;em class=&quot;db-hl--mark&quot;&gt;Usertesting.com&lt;/em&gt;）"><em class="db-hl--mark">Online testing platform</em> (e.g. <em class="db-hl--mark">Usertesting.com</em>)</li>
+                                </ul>
+                                <p data-zh="&lt;b&gt;示例任务：&lt;/b&gt;"><b>Example tasks:</b></p>
+                                <ul class="db-feat">
+                                    <li><b data-zh="开户 · 场景">Onboarding &middot; scenario</b><span data-zh="新客户 Winnie 需要退休计划：建档、记录基本信息、设定投资目标与偏好。">New client Winnie needs a retirement plan: create an account, document basics, set objectives and preferences.</span></li>
+                                    <li><b data-zh="开户 · 预期">Onboarding &middot; expected</b><span data-zh="顾问创建账户，录入与下一步相关的客户信息（目标、偏好）。">Advisor creates an account and enters the client basics needed next (objectives, preferences).</span></li>
+                                    <li><b data-zh="调研 · 场景">Research &middot; scenario</b><span data-zh="为计划探索股票、基金和组合等标的与产品。">Explore instruments and products (stocks, funds, portfolios) for her plan.</span></li>
+                                    <li><b data-zh="调研 · 预期">Research &middot; expected</b><span data-zh="打开标的列表并查看详情。">Open the instrument list and view details.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="db-plan-row">
+                            <div class="db-plan-lab"><b data-zh="可衡量产出">Measurable outcome</b></div>
+                            <div class="db-plan-body">
+                                <ul>
+                                    <li data-zh="设计改进建议清单">A list of design-improvement suggestions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </figure>
             </div>
-        </details>
+
+            <div class="db-drawer__pane" id="drawer-pane-findings" role="tabpanel" aria-labelledby="drawer-tab-findings" hidden>
+            <div class="db-find">
+            <h4 data-zh="用户画像" class="db-sub">Persona</h4>
+            <div class="db-persona">
+                <div class="db-persona__id">
+                    <span class="db-persona__av" aria-hidden="true">AH</span>
+                    <b>Alex Hamilton</b>
+                    <ul class="db-persona__tags">
+                        <li data-zh="香港市场">Hong Kong market</li>
+                        <li data-zh="35 岁">35 years old</li>
+                        <li data-zh="3 年顾问经验">3 years experience in advising</li>
+                        <li data-zh="一线私人银行">Tier 1 private bank</li>
+                    </ul>
+                </div>
+                <dl class="db-persona__stats">
+                    <div><dt data-zh="账户 / 客户数">Account / client number</dt><dd><b>80&ndash;100</b><span data-zh="总数；其中 30 位活跃（按日、周、月交易）">Total; 30 active (daily, weekly, monthly trade)</span></dd></div>
+                    <div><dt data-zh="管理规模">AUM</dt><dd><b data-zh="200–500 万美元">USD 2&ndash;5 million</b><span data-zh="最低；最高超过 5 亿美元">lowest; &gt;USD 500 million highest</span></dd></div>
+                    <div><dt data-zh="管理策略">Management strategy</dt><dd><b>20% / 80%</b><span data-zh="20% 贡献主要收入的客户 → 主动管理；80% 贡献相对较小的客户 → 更多依赖系统提醒做批量管理">20% major-contribution clients &rarr; active management; 80% smaller-contribution clients &rarr; rely more on system alerts for bulk management</span></dd></div>
+                    <div><dt data-zh="交易频率">Trade</dt><dd><b data-zh="隔周">Every other week</b><span data-zh="股票隔周；基金每月；债券每季">Equity every other week; fund monthly; bond quarterly</span></dd></div>
+                </dl>
+            </div>
+            </div>
+
+            <div class="db-find">
+            <h4 data-zh="场景与用户旅程" class="db-sub">Scenario and user journey</h4>
+            <div class="db-jm__lead">
+                <p data-zh="&lt;b&gt;场景：&lt;/b&gt;同一套工作按天、周、月循环：了解客户偏好 → 调研并匹配交易建议 → 电话沟通并下单 → 跟进合规与成交，再进入下一轮。"><b>Scenario:</b> the same non-linear loop every day, week and month &mdash; know the client&rsquo;s preference, research and match trade ideas, call to suggest and place orders, follow up through compliance and the fill, then another day, week, month.</p>
+                <p data-zh="目标" class="db-plan-k">Goals</p>
+                <ul class="db-jm__goals">
+                    <li data-zh="多卖少定制的&lt;em class=&quot;db-hl&quot;&gt;核心组合&lt;/em&gt;">Sell more <em class="db-hl">core portfolios</em> with <em class="db-hl">less customisation</em></li>
+                    <li data-zh="多促成&lt;em class=&quot;db-hl&quot;&gt;交易&lt;/em&gt;">Get more <em class="db-hl">trades</em> done</li>
+                    <li data-zh="让客户对&lt;em class=&quot;db-hl&quot;&gt;投资业绩&lt;/em&gt;满意">Make sure clients are happy with their <em class="db-hl">investment performance</em></li>
+                </ul>
+            </div>
+            <div class="db-jm" role="group" aria-label="Advisor journey map">
+                <ol class="db-jm__phases">
+                    <li>
+                        <span class="db-jm__n">1</span>
+                        <b data-zh="了解客户偏好">Know clients&rsquo; preference</b>
+                        <span class="db-jm__tools" data-zh="云端管理系统">Cloud management system</span>
+                    </li>
+                    <li class="is-pain">
+                        <span class="db-jm__n">2</span>
+                        <b data-zh="调研与匹配">Research and match</b>
+                        <ul class="db-jm__acts">
+                            <li data-zh="收集&lt;em class=&quot;db-hl&quot;&gt;市场&lt;/em&gt;信息">Collect <em class="db-hl">market</em> info</li>
+                            <li data-zh="向其他部门要&lt;em class=&quot;db-hl&quot;&gt;交易分析&lt;/em&gt;">Collect <em class="db-hl">trading analysis</em> from other departments</li>
+                            <li data-zh="查看客户现有&lt;em class=&quot;db-hl&quot;&gt;组合&lt;/em&gt;">Look at client&rsquo;s existing <em class="db-hl">portfolio</em></li>
+                            <li data-zh="把交易建议与组合&lt;em class=&quot;db-hl&quot;&gt;匹配&lt;/em&gt;"><em class="db-hl">Match</em> trading suggestion with portfolios</li>
+                        </ul>
+                        <span class="db-jm__tools">Bloomberg &middot; AASTOCKS &middot; iQuote &middot; <span data-zh="内部交易、手工手册、报价、邮件">Intra trade, manual book, quotation, emails</span></span>
+                    </li>
+                    <li class="is-pain">
+                        <span class="db-jm__n">3</span>
+                        <b data-zh="联系客户">Call the client</b>
+                        <ul class="db-jm__acts">
+                            <li data-zh="&lt;em class=&quot;db-hl&quot;&gt;电话&lt;/em&gt;建议交易">Make <em class="db-hl">phone calls</em> to suggest trades</li>
+                            <li data-zh="客户同意后，再通过&lt;em class=&quot;db-hl&quot;&gt;电话下单&lt;/em&gt;"><em class="db-hl">Place orders via phone call</em> after getting agreement</li>
+                        </ul>
+                        <span class="db-jm__tools" data-zh="电话">Phone call</span>
+                    </li>
+                    <li>
+                        <span class="db-jm__n">4</span>
+                        <b data-zh="跟进">Follow up</b>
+                        <ul class="db-jm__acts">
+                            <li data-zh="等待&lt;em class=&quot;db-hl&quot;&gt;合规审核&lt;/em&gt; → 订单成交">Waiting for <em class="db-hl">compliance check</em> &rarr; order get filled</li>
+                            <li data-zh="再&lt;em class=&quot;db-hl&quot;&gt;通知客户&lt;/em&gt;"><em class="db-hl">Inform clients</em></li>
+                        </ul>
+                        <span class="db-jm__tools" data-zh="WhatsApp、云端管理系统">WhatsApp, cloud management system</span>
+                    </li>
+                </ol>
+                <div class="db-jm__mood" aria-hidden="true">
+                    <svg viewBox="0 0 400 56" preserveAspectRatio="none"><polyline points="50,10 150,46 250,46 350,26" /></svg>
+                    <span style="--x:12.5%;--y:10px"></span><span class="is-low" style="--x:37.5%;--y:46px"></span><span class="is-low" style="--x:62.5%;--y:46px"></span><span style="--x:87.5%;--y:26px"></span>
+                </div>
+                <p data-zh="情绪：调研和联系客户两步最低。" class="db-jm__legend">Mood: lowest while researching and calling.</p>
+            </div>
+            <div class="db-jm__pains">
+                <div>
+                    <p data-zh="痛点" class="db-jm__k">Pain points</p>
+                    <ul>
+                        <li data-zh="&lt;b&gt;信息量巨大。&lt;/b&gt;本以为都在一个应用里，却要不停切屏、记笔记。"><b>Massive information.</b> Suppose everything in one application &mdash; still need to switch screens a lot, so many screens and note-taking are involved.</li>
+                        <li data-zh="&lt;b&gt;渠道和屏幕太多。&lt;/b&gt;内部、市场、业绩、偏好，各看各的。"><b>Various different channels and screens</b> to refer (internal, market, performance, preference, etc).</li>
+                        <li data-zh="&lt;b&gt;手工计算。&lt;/b&gt;要做大量计算来修正错误的债券数据。"><b>Manual calculation.</b> Do a lot of calculation to correct wrong data of bonds.</li>
+                        <li data-zh="&lt;b&gt;向客户展示很费力。&lt;/b&gt;要把现有信息拼起来，才能讲给客户听。"><b>Hard to present.</b> A lot of effort to put together existing info and present to clients.</li>
+                        <li data-zh="&lt;b&gt;跟不上市场。&lt;/b&gt;市场变化快，分析却依赖海量历史业绩。"><b>Keeping up.</b> Catch up with a fast-moving market vs analysis based on massive historical performance.</li>
+                    </ul>
+                </div>
+                <p class="db-jm__opp"><span data-zh="机会" class="db-jm__k">Opportunity</span><span data-zh="把所有信息放在一个屏幕上，可能会有帮助。"><em class="db-hl">All info</em> in one screen may help.</span></p>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+        </dialog>
 
         <div class="anchor" id="section10"></div>
         <span data-zh="成果与反思" class="db-kicker">Results and reflection</span>
@@ -1819,6 +2973,66 @@
                 if (a) openTabFor(a.getAttribute('href'));
             });
             openTabFor(location.hash);
+        })();
+
+        (function () {
+            function openDrawer(id) {
+                var d = document.getElementById(id);
+                if (!d || typeof d.showModal !== 'function') return;
+                if (!d.open) d.showModal();
+                var closeBtn = d.querySelector('[data-drawer-close]');
+                if (closeBtn) closeBtn.focus();
+            }
+            function closeDrawer(d) {
+                if (d && d.open) d.close();
+            }
+            document.addEventListener('click', function (e) {
+                var openBtn = e.target.closest('[data-drawer]');
+                if (openBtn) {
+                    e.preventDefault();
+                    openDrawer(openBtn.getAttribute('data-drawer'));
+                    return;
+                }
+                if (e.target.closest('[data-drawer-close]')) {
+                    closeDrawer(e.target.closest('dialog'));
+                    return;
+                }
+                var d = e.target.closest('dialog.db-drawer');
+                if (d && e.target === d) closeDrawer(d);
+            });
+            document.addEventListener('case:lang', function () {
+                var btn = document.querySelector('#research-drawer [data-drawer-close]');
+                if (!btn) return;
+                btn.setAttribute('aria-label', document.documentElement.getAttribute('data-lang') === 'zh' ? '关闭' : 'Close');
+            });
+            function selectDrawerTab(tabId) {
+                var tab = document.getElementById(tabId);
+                if (!tab) return;
+                var list = tab.closest('[data-drawer-tabs]');
+                if (!list) return;
+                var tabs = list.querySelectorAll('[role="tab"]');
+                tabs.forEach(function (t) {
+                    var on = t === tab;
+                    t.setAttribute('aria-selected', on ? 'true' : 'false');
+                    var pane = document.getElementById(t.getAttribute('aria-controls'));
+                    if (pane) pane.hidden = !on;
+                });
+                var paneId = tab.getAttribute('aria-controls');
+                var body = document.getElementById(paneId) && document.getElementById(paneId).closest('.db-drawer__body');
+                if (body) body.scrollTop = 0;
+                tab.focus();
+            }
+            document.querySelectorAll('[data-drawer-tabs]').forEach(function (list) {
+                list.querySelectorAll('[role="tab"]').forEach(function (tab) {
+                    tab.addEventListener('click', function () { selectDrawerTab(tab.id); });
+                });
+            });
+            document.addEventListener('click', function (e) {
+                var jump = e.target.closest('[data-drawer-goto]');
+                if (!jump) return;
+                e.preventDefault();
+                selectDrawerTab(jump.getAttribute('data-drawer-goto'));
+            });
         })();
 
         (function () {

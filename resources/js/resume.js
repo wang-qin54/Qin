@@ -164,7 +164,7 @@
     }
 
     function savePdf() {
-        const label = { '02': 'Financial Products ', '03': 'Enterprise ', '04': 'DL ' }[version] || '';
+        const label = { '02': 'Financial Products ', '03': 'Enterprise ', '04': 'DL ', '05': 'Web3 ' }[version] || '';
         const lang = document.documentElement.lang === 'zh-CN' ? 'CN' : 'EN';
 
         document.body.classList.add('force-print-desktop');

@@ -49,7 +49,7 @@
     const chips = Array.from(filterContainer.querySelectorAll('[data-filter]'));
     const DEFAULT = 'featured';
     const TIMELINE_TAB = 'others';
-    const LEGACY = { crypto: 'finance', fintech: 'finance', all: 'others', research: 'others', academia: 'others' };
+    const LEGACY = { web3: 'crypto', fintech: 'finance', all: 'others', research: 'others', academia: 'others' };
     let focus = DEFAULT;
 
     const tagsOf = (card) =>

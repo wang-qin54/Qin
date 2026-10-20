@@ -354,10 +354,7 @@ window.addEventListener("message", function (e) {
     position: absolute; z-index: 45; top: 12px; left: 50%; transform: translateX(-50%);
     width: 104px; height: 28px; background: #000; border-radius: 16px;
   }
-  .home-bar {
-    position: absolute; z-index: 45; bottom: 8px; left: 50%; transform: translateX(-50%);
-    width: 134px; height: 5px; border-radius: 100px; background: #000;
-  }
+  .home-bar { display: none; }
   .scroll { height: 812px; overflow-y: auto; padding-bottom: 32px; }
   .scroll::-webkit-scrollbar { display: none; }
   .pad { padding-left: 16px; padding-right: 16px; }
@@ -466,16 +463,9 @@ window.addEventListener("message", function (e) {
   .cash-amt, .cash-sub,
   .chart-expand .ce-tip .ce-tip-v { font-variant-numeric: tabular-nums; }
   .pnl-val.fall { color: var(--txt-fall); }   /* 单账户态把账户口径的盈亏搬上来时可能是负的 */
-  /* 小图是「点开大图」的入口，但原来没有任何 affordance —— 补一个角标 + 按压态。
-     角标只有 12px、txt_tertiary，不抢视觉，但足以说明这块可点。 */
+  /* 小图整块可点，展开大图。不另加角标。 */
   .total-chart { position: relative; width: 88px; display: flex; align-items: center; cursor: pointer; }
   .total-chart:active { opacity: .6; }
-  .total-chart::after {
-    content: ''; position: absolute; right: 0; top: 0; width: 12px; height: 12px;
-    background: currentColor; color: var(--txt-tertiary); opacity: .75;
-    -webkit-mask: var(--ico-expand) center/12px no-repeat; mask: var(--ico-expand) center/12px no-repeat;
-  }
-  .total-card.chart-open .total-chart::after { display: none; }
   .total-chart svg { display: block; width: 88px; height: 56px; overflow: visible; }
   /* 展开态：小图隐藏，大图 + 区间 tabs 另起一整行。
      ⚠ .total-card 默认不换行，不加 wrap 的话 .chart-expand 会变成同一行的第三个 flex 项、
@@ -2206,7 +2196,7 @@ window.addEventListener("message", function (e) {
   .page.active { display: block; }
   /* 底部导航（Figma XTabbar 5457:305936）：5 项，图标 20px 装在 px12/py4/radius8 的容器里，
      选中态 = fn_brand_soft 胶囊底 + txt_link 文字；图标全部 currentColor，跟随文字色。 */
-  .tabbar { flex-shrink: 0; background: var(--bg-white); border-top: .5px solid var(--line-div-def); display: flex; gap: 3px; padding: var(--sp-6) 0 22px; }
+  .tabbar { flex-shrink: 0; background: var(--bg-white); border-top: .5px solid var(--line-div-def); display: flex; gap: 3px; padding: var(--sp-6) 0 10px; }
   .tabbar .tab { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: var(--sp-6); font-size: 10px; font-weight: 500; line-height: normal; color: var(--txt-secondary); cursor: pointer; }
   .tabbar .tab .ic { display: inline-flex; align-items: center; padding: var(--sp-4) var(--sp-12); border-radius: var(--r-md); }
   .tabbar .tab .ic svg { display: block; width: 20px; height: 20px; }

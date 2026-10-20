@@ -4617,6 +4617,213 @@ a.list.active {
             padding-top: var(--space-5);
         }
         .as-more__body > h4:first-child { margin-top: 0; }
+
+        /* Competitor first-screen teardown (collapsed by default). */
+        .as-comp__board {
+            margin: var(--space-4) 0 var(--space-3);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: #eceef1;
+            scrollbar-width: thin;
+        }
+        .as-comp__board img {
+            display: block;
+            height: min(480px, 62vh);
+            width: auto;
+            max-width: none;
+        }
+        .one-col .as-comp__cap {
+            margin: 0 0 var(--space-4);
+            font-size: 12.5px;
+            line-height: 1.45;
+            color: var(--text-tertiary);
+        }
+        .as-comp__takes {
+            margin: 0 0 var(--space-4);
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 14px;
+            max-width: 40rem;
+        }
+        .as-comp__takes li {
+            margin: 0;
+            font-size: 14.5px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .as-comp__takes strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .as-comp__more {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .as-comp__more:hover { text-decoration: underline; }
+        .as-comp__more span { font-size: 12px; line-height: 1; }
+        button.as-comp__more {
+            border: 0;
+            background: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .as-comp-launch {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-areas: "k go" "t go" "d go";
+            gap: 2px 16px;
+            width: 100%;
+            margin: var(--space-4) 0 0;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--bg-subtle);
+            text-align: left;
+            cursor: pointer;
+            font: inherit;
+            color: inherit;
+        }
+        .as-comp-launch:hover { border-color: var(--accent); }
+        .as-comp-launch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .as-comp-launch__k {
+            grid-area: k;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        html[lang="zh-CN"] .as-comp-launch__k { letter-spacing: 0.04em; }
+        .as-comp-launch__t {
+            grid-area: t;
+            font-family: var(--font-title);
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        .as-comp-launch__d {
+            grid-area: d;
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--text-tertiary);
+        }
+        .as-comp-launch__go {
+            grid-area: go;
+            align-self: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 0 1px var(--border);
+            position: relative;
+        }
+        .as-comp-launch__go::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 11px;
+            width: 7px;
+            height: 7px;
+            border-right: 1.6px solid var(--accent);
+            border-top: 1.6px solid var(--accent);
+            transform: translateY(-50%) rotate(45deg);
+        }
+        body.as-comp-lock { overflow: hidden; }
+        .as-comp-panel[hidden] { display: none; }
+        .as-comp-panel {
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+        }
+        .as-comp-panel__backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(17, 17, 17, 0.42);
+            opacity: 0;
+            transition: opacity 200ms var(--ease);
+        }
+        .as-comp-panel.is-open .as-comp-panel__backdrop { opacity: 1; }
+        .as-comp-panel__sheet {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: min(720px, 100%);
+            background: #fff;
+            box-shadow: -16px 0 40px rgba(17, 17, 17, 0.12);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 220ms var(--ease);
+        }
+        .as-comp-panel.is-open .as-comp-panel__sheet { transform: translateX(0); }
+        .as-comp-panel__head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 20px 22px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .as-comp-panel__k {
+            margin: 0 0 4px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        html[lang="zh-CN"] .as-comp-panel__k { letter-spacing: 0.04em; }
+        .as-comp-panel__head h2 {
+            margin: 0;
+            font-family: var(--font-title);
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+        .as-comp-panel__x {
+            flex: none;
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .as-comp-panel__x:hover { color: var(--text-primary); border-color: var(--text-tertiary); }
+        .as-comp-panel__body {
+            overflow: auto;
+            padding: 18px 22px 28px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .as-comp-panel__body .as-comp__board { margin-top: 0; }
+        .as-comp-panel__body .as-comp__board img { height: min(72vh, 820px); }
+        .as-comp-panel__figma {
+            display: inline-flex;
+            margin-top: 4px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .as-comp-panel__figma:hover { text-decoration: underline; }
+
         .as-more--section > summary {
             font-family: var(--font-title);
             font-size: 15px;
@@ -5446,6 +5653,56 @@ a.list.active {
             margin: 0;
         }
         .as-fd-web { margin: 0 0 var(--space-5); }
+        .as-final {
+            margin: var(--space-5) 0 var(--space-7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .as-final__eye {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        html[lang="zh-CN"] .as-final__eye { letter-spacing: 0.02em; }
+        .as-final__phone {
+            box-sizing: content-box;
+            width: min(290px, calc(72vw - 10px));
+            height: calc(min(290px, calc(72vw - 10px)) * 812 / 375);
+            border-radius: 32px;
+            border: 5px solid #1a1a1a;
+            overflow: hidden;
+            background: #fff;
+            container-type: inline-size;
+            box-shadow:
+                0 0 0 1px rgba(17, 17, 17, 0.06),
+                0 18px 40px rgba(17, 17, 17, 0.12);
+        }
+        .as-final__phone iframe {
+            display: block;
+            width: 375px;
+            height: 812px;
+            margin: 0;
+            border: 0;
+            transform: scale(calc(100cqw / 375px));
+            transform-origin: top left;
+        }
+        .one-col .as-final figcaption {
+            margin: 0;
+            max-width: 34rem;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+        .one-col .as-final figcaption strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
         .as-fd-x { margin: var(--space-4) 0 var(--space-6); }
         .as-beat__h,
         .as-fd-x h4 {
@@ -7100,7 +7357,7 @@ a.list.active {
                 </details>
             </div>
             <div class="title-img">
-                <img src="resources/images-asset/asset_detailPage_header.webp?v=1" data-zh-src="resources/images-asset/asset_detailPage_header-zh.webp?v=1" alt="Before and after: the original data-dense asset home behind, the redesigned asset home in front — total assets, account, actions, records, and the crypto panel" width="1600" height="1239">
+                <img src="resources/images-asset/asset_detailPage_header.webp?v=3" data-zh-src="resources/images-asset/asset_detailPage_header-zh.webp?v=3" alt="Before and after: the original data-dense asset home behind, the redesigned asset home in front — total assets, account, actions, records, and the crypto panel" width="1600" height="1239">
             </div>
         </div>
     </div>
@@ -8591,6 +8848,30 @@ a.list.active {
             </div>
         </div>
 
+
+        <details class="as-more as-more--section" id="as-competitors">
+            <summary data-zh="竞品首页给我们的启发">What competitor first screens taught us</summary>
+            <div class="as-more__body">
+                <p class="as-ch-copy" data-zh="定结构之前，我拆解了券商和加密 App 的资产首页，看账户切换与资产列表是怎么处理的。">Before locking the structure, I tore down Assets first screens across brokers and crypto apps — how each handles account switching and the asset list.</p>
+                <div class="as-comp__board">
+                    <img src="resources/images-asset/competitors-first-screens.webp?v=1" width="2200" height="1596" alt="Competitor Assets first screens side by side: Coinbase, Kraken, IBKR, OKX, Binance, Tiger, and Futu" loading="lazy">
+                </div>
+                <p class="as-comp__cap" data-zh="竞品资产首页 · Coinbase、Kraken、IBKR、OKX、Binance、老虎证券、富途">Competitor first screens · Coinbase, Kraken, IBKR, OKX, Binance, Tiger, Futu</p>
+                <ul class="as-comp__takes">
+                    <li data-zh="&lt;strong&gt;富途&lt;/strong&gt;把账户切换直接放在资产首页上；我们据此把多账户放到明处。"><strong>Futu</strong> surfaces the account switch on the Assets home — we used that as a reference for putting multi-account in plain sight.</li>
+                    <li data-zh="&lt;strong&gt;Kraken&lt;/strong&gt; 和 &lt;strong&gt;Coinbase&lt;/strong&gt; 把加密与证券当成同一种资产来呈现：同一套列表，不刻意强调两边的差异，对用户更友好。我们也想这样做，但证券端受第三方 SDK 限制、无法改结构，所以没能沿用那套更友好的布局。"><strong>Kraken</strong> and <strong>Coinbase</strong> treat crypto and securities as one kind of asset — same rows, without emphasising the difference — which reads friendlier. We wanted that, but Securities runs on a third-party SDK we couldn&rsquo;t reshape, so we couldn&rsquo;t share that same structure.</li>
+                </ul>
+                <button type="button" class="as-comp__more" data-comp-open data-zh="查看更多 &lt;span aria-hidden=&quot;true&quot;&gt;↗&lt;/span&gt;">View more <span aria-hidden="true">&#8599;</span></button>
+            </div>
+        </details>
+
+        <button type="button" class="as-comp-launch" data-comp-open>
+            <span class="as-comp-launch__k" data-zh="竞品研究">Competitor research</span>
+            <span class="as-comp-launch__t" data-zh="打开完整的首页对照">Open the full first-screen comparison</span>
+            <span class="as-comp-launch__d" data-zh="Coinbase、Kraken、IBKR、OKX、Binance、老虎证券、富途">Coinbase, Kraken, IBKR, OKX, Binance, Tiger, Futu</span>
+            <span class="as-comp-launch__go" aria-hidden="true"></span>
+        </button>
+
         <!-- 04 · Stakeholders -->
         <div class="anchor" id="section4"></div>
         <span class="as-kicker" data-zh="04 · 各方诉求">04 · Stakeholders</span>
@@ -8842,8 +9123,8 @@ a.list.active {
         <!-- 05 · Final delivery -->
         <div class="anchor" id="section5"></div>
         <span class="as-kicker" data-zh="05 · 最终交付">05 · Final Delivery</span>
-        <h2 class="as-head as-head--wide" data-zh="Web 直接沿用 App 的结构，无需二次讨论">The web inherited the app&rsquo;s structure, with no second debate</h2>
-        <p class="as-fd-lead" data-zh="所有布局探索和评审都先在 App 上完成，管理层判断高净值客户主要在手机上交易。Web 端沿用同样的数据顺序、控件和用语。">All layout exploration and reviews happened on the app, where management expected HNW clients to trade most. The web took the same data order, controls and wording.</p>
+        <h2 class="as-head as-head--wide" data-zh="定稿后的资产首页；Web 沿用同一套结构">The refined Assets home — then the same structure on web</h2>
+        <p class="as-fd-lead" data-zh="评审周定下结构之后，App 界面打磨成「先做 App」里的那一屏。所有布局探索都先在 App 上完成；Web 沿用同样的数据顺序、控件和用语，无需二次讨论。">After the review week locked the structure, the app surface was polished into the screen under App first. All layout exploration stayed on the app; the web took the same data order, controls and wording — no second debate.</p>
 
         <div class="as-fd-x">
             <div class="as-fd-x__app">
@@ -8851,7 +9132,7 @@ a.list.active {
                 <h4 data-zh="在手机端完成设计与评审">Designed and reviewed on mobile</h4>
                 <figure class="as-fd-x__phone">
                     <div class="as-fd-x__demo">
-                        <iframe title="Final mobile app prototype — interactive" src="resources/demos/asset-app-prototype.html?showcase=1&amp;v=3" loading="lazy"></iframe>
+                        <iframe title="Final mobile app prototype — interactive" src="resources/demos/asset-app-prototype.html?showcase=1&amp;v=4" loading="lazy"></iframe>
                     </div>
                     <figcaption class="as-fd-x__bar">
                         <span data-zh="App 原型 · 可直接体验">App prototype · try it here</span>
@@ -8867,10 +9148,36 @@ a.list.active {
                         var frame = fig.querySelector('iframe');
                         var sw = fig.querySelector('input[role="switch"]');
                         function send() {
-                            if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'umx-tools', on: sw.checked }, '*');
+                            var msg = { type: 'umx-tools', on: sw.checked };
+                            if (frame.contentWindow) frame.contentWindow.postMessage(msg, '*');
+                            var finalFrame = document.querySelector('.as-final__phone iframe');
+                            if (finalFrame && finalFrame.contentWindow) finalFrame.contentWindow.postMessage(msg, '*');
                         }
                         sw.addEventListener('change', send);
                         frame.addEventListener('load', send);
+                    })();
+                    </script>
+                </figure>
+                <figure class="as-final">
+                    <p class="as-final__eye" data-zh="定稿后的最终界面">The refined final screen</p>
+                    <div class="as-final__phone">
+                        <iframe title="Refined final Assets home — interactive" src="resources/demos/asset-final-home.html?embed=1&amp;v=3" loading="lazy"></iframe>
+                    </div>
+                    <figcaption data-zh="&lt;strong&gt;定稿后的资产首页。&lt;/strong&gt;评审周对齐的同一套层级：一个总额、一个账户，证券与加密平起平坐。">
+                        <strong>The refined final Assets home.</strong> Same hierarchy leadership aligned on in the review week: one total, one account, then Securities / Crypto as equals.
+                    </figcaption>
+                    <script>
+                    (function () {
+                        var fig = document.currentScript.closest('figure');
+                        var frame = fig.querySelector('iframe');
+                        function send() {
+                            var lang = document.documentElement.getAttribute('data-lang') === 'zh' ? 'zh' : 'en';
+                            if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'case-lang', lang: lang }, '*');
+                            var sw = document.querySelector('.as-fd-x__phone input[role="switch"]');
+                            if (frame.contentWindow) frame.contentWindow.postMessage({ type: 'umx-tools', on: !!(sw && sw.checked) }, '*');
+                        }
+                        frame.addEventListener('load', send);
+                        document.addEventListener('case:lang', send);
                     })();
                     </script>
                 </figure>
@@ -11952,6 +12259,74 @@ document.addEventListener('DOMContentLoaded', function () {
     var id = (d.hash || '').replace('#', ''); var el = id && document.getElementById(id);
     if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
   });
+})();
+</script>
+
+<div class="as-comp-panel" id="as-comp-panel" hidden>
+    <div class="as-comp-panel__backdrop" data-comp-close></div>
+    <div class="as-comp-panel__sheet" role="dialog" aria-modal="true" aria-labelledby="as-comp-panel-title">
+        <div class="as-comp-panel__head">
+            <div>
+                <p class="as-comp-panel__k" data-zh="竞品研究">Competitor research</p>
+                <h2 id="as-comp-panel-title" data-zh="同行怎么组织资产首页">How peers structure the Assets home</h2>
+            </div>
+            <button type="button" class="as-comp-panel__x" data-comp-close data-zh="关闭">Close</button>
+        </div>
+        <div class="as-comp-panel__body">
+            <p class="as-ch-copy" data-zh="定结构之前，我把券商和加密 App 的资产首页放在一起看：账户切换放在哪，加密和证券是不是同一套列表。">Before locking the structure, I put broker and crypto Assets homes side by side: where the account switch sits, and whether crypto and securities share one list.</p>
+            <div class="as-comp__board">
+                <img src="resources/images-asset/competitors-first-screens.webp?v=1" width="2200" height="1596" alt="Competitor Assets first screens side by side: Coinbase, Kraken, IBKR, OKX, Binance, Tiger, and Futu" loading="lazy">
+            </div>
+            <p class="as-comp__cap" data-zh="竞品资产首页 · Coinbase、Kraken、IBKR、OKX、Binance、老虎证券、富途">Competitor first screens · Coinbase, Kraken, IBKR, OKX, Binance, Tiger, Futu</p>
+            <ul class="as-comp__takes">
+                <li data-zh="&lt;strong&gt;富途&lt;/strong&gt;把账户切换直接放在资产首页上；我们据此把多账户放到明处。"><strong>Futu</strong> surfaces the account switch on the Assets home — we used that as a reference for putting multi-account in plain sight.</li>
+                <li data-zh="&lt;strong&gt;Kraken&lt;/strong&gt; 和 &lt;strong&gt;Coinbase&lt;/strong&gt; 把加密与证券当成同一种资产来呈现：同一套列表，不刻意强调两边的差异，对用户更友好。我们也想这样做，但证券端受第三方 SDK 限制、无法改结构，所以没能沿用那套更友好的布局。"><strong>Kraken</strong> and <strong>Coinbase</strong> treat crypto and securities as one kind of asset — same rows, without emphasising the difference — which reads friendlier. We wanted that, but Securities runs on a third-party SDK we couldn&rsquo;t reshape, so we couldn&rsquo;t share that same structure.</li>
+            </ul>
+            <a class="as-comp-panel__figma" href="https://www.figma.com/design/DozA9ya1Yr1G8mpbXhRZLi/Assets-2026?node-id=40000316-715034" target="_blank" rel="noopener" data-zh="在 Figma 中打开 &#8599;">Open in Figma &#8599;</a>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    var panel = document.getElementById('as-comp-panel');
+    if (!panel) return;
+    var last = null;
+    function focusables() {
+        return Array.prototype.filter.call(panel.querySelectorAll('button, a[href]'), function (el) {
+            return !el.disabled && el.offsetParent !== null;
+        });
+    }
+    function open(from) {
+        last = from || document.activeElement;
+        panel.hidden = false;
+        document.body.classList.add('as-comp-lock');
+        requestAnimationFrame(function () { panel.classList.add('is-open'); });
+        var x = panel.querySelector('.as-comp-panel__x');
+        if (x) x.focus();
+    }
+    function close() {
+        panel.classList.remove('is-open');
+        document.body.classList.remove('as-comp-lock');
+        window.setTimeout(function () {
+            if (!panel.classList.contains('is-open')) panel.hidden = true;
+        }, 220);
+        if (last && last.focus) last.focus();
+    }
+    document.addEventListener('click', function (e) {
+        var openBtn = e.target.closest && e.target.closest('[data-comp-open]');
+        if (openBtn) { e.preventDefault(); open(openBtn); return; }
+        if (e.target.closest && e.target.closest('[data-comp-close]')) close();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (panel.hidden) return;
+        if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+        if (e.key !== 'Tab') return;
+        var items = focusables();
+        if (!items.length) return;
+        var first = items[0], lastEl = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastEl.focus(); }
+        else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); first.focus(); }
+    });
 })();
 </script>
 </body>

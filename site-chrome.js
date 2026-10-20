@@ -174,8 +174,9 @@
     '.lbx__marks .gx-box { border-width: 3px; border-radius: 8px; }',
     '.lbx__stage { position: relative; flex: 1 1 auto; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; padding: 64px 24px 16px; box-sizing: border-box; overflow: auto; }',
     '.lbx__img { display: block; max-width: min(100%, 1600px); max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 8px; background: #fff; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45); cursor: zoom-out; }',
-    '.lbx--tall .lbx__stage { align-items: flex-start; }',
-    '.lbx--tall .lbx__img { max-height: none; width: min(100%, 1100px); }',
+    /* Portrait / phone screens: fit the viewport height so the whole UI is visible. */
+    '.lbx--tall .lbx__stage { align-items: center; justify-content: center; }',
+    '.lbx--tall .lbx__img { max-height: 100%; width: auto; max-width: min(100%, 560px); }',
     '.lbx__cap { flex: 0 0 auto; max-width: min(760px, calc(100vw - 48px)); margin: 0; padding: 0 0 24px; font-size: 13px; line-height: 1.55; color: rgba(255, 255, 255, 0.78); text-align: center; }',
     '.lbx__cap:empty { display: none; }',
     '.lbx__close { position: fixed; top: 16px; right: 16px; z-index: 1; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: rgba(255, 255, 255, 0.14); color: #fff; cursor: pointer; transition: background 0.15s; }',

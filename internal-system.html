@@ -567,23 +567,148 @@
             border-radius: var(--radius-md);
             background: #fff;
         }
-        .cs-how__n {
+        .cs-how__n, .cs-num {
             display: grid;
             place-items: center;
             width: 22px;
             height: 22px;
-            margin-bottom: var(--space-3);
             border-radius: 50%;
             background: var(--accent-subtle);
             color: var(--accent);
             font-size: 12px;
             font-weight: 700;
         }
+        .cs-how__n { margin-bottom: var(--space-3); }
+        .cs-num { flex: none; }
         .cs-how b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
         .cs-how span:not(.cs-how__n) { display: block; margin-top: var(--space-1); font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
         .cs-how--2 { grid-template-columns: repeat(2, 1fr); }
         .cs-how + .cs-note { margin-top: var(--space-4); }
         .one-col h5.cs-sub + .cs-sum { margin-top: var(--space-3); }
+
+        /* Agent-workplace programme brief (drawn UI, not a slide dump) */
+        .cs-brief {
+            margin: var(--space-5) 0 var(--space-6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .cs-brief__head {
+            display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+            gap: var(--space-3) var(--space-5);
+            padding: var(--space-5) var(--space-5) var(--space-4);
+            background: var(--bg-subtle);
+        }
+        .cs-brief__head h4 {
+            margin: 0 0 4px;
+            font-family: var(--font-title);
+            font-size: 20px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3;
+            color: var(--text-primary);
+        }
+        .cs-brief__head p { margin: 0; max-width: 34em; font-size: 14px; line-height: 1.5; color: var(--text-secondary); }
+        .cs-brief__meta {
+            flex: none; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end;
+        }
+        .cs-brief__chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 10px; border-radius: var(--radius-pill);
+            background: #fff; font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--text-secondary);
+        }
+        .cs-brief__chip b { color: var(--text-primary); font-weight: 600; }
+        .cs-brief__chip--accent { background: var(--accent-subtle); color: var(--accent); }
+        .cs-brief__chip--accent b { color: var(--accent); }
+        .cs-brief__swap {
+            display: grid; grid-template-columns: minmax(0, 1.35fr) auto minmax(0, 1fr); gap: var(--space-3);
+            align-items: stretch; padding: var(--space-4) var(--space-5);
+            border-top: 1px solid var(--border);
+        }
+        .cs-brief__tools {
+            display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); min-width: 0;
+        }
+        .cs-brief__shot {
+            display: flex; flex-direction: column; gap: 8px; min-width: 0; margin: 0;
+        }
+        .cs-brief__shot .lbl {
+            margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--text-tertiary);
+        }
+        html[data-lang="zh"] .cs-brief__shot .lbl { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        .cs-brief__frame {
+            position: relative; overflow: hidden; border-radius: 10px;
+            background: var(--bg-subtle); aspect-ratio: 16 / 10;
+        }
+        .cs-brief__frame img {
+            display: block; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0;
+            object-fit: cover; object-position: top left; cursor: zoom-in;
+        }
+        .cs-brief__shot figcaption {
+            margin: 0; font-size: 12.5px; line-height: 1.4; color: var(--text-secondary);
+        }
+        .cs-brief__shot figcaption b { font-weight: 600; color: var(--text-primary); }
+        .cs-brief__tool {
+            display: flex; flex-direction: column; gap: 8px; min-width: 0;
+            padding: 0; background: transparent;
+        }
+        .cs-brief__tool .lbl {
+            margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--accent);
+        }
+        html[data-lang="zh"] .cs-brief__tool .lbl { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        .cs-brief__tool .cs-brief__frame { flex: 1; min-height: 0; }
+        .cs-brief__tool b { display: block; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .cs-brief__tool > span { display: block; font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+        .cs-brief__arrow {
+            align-self: center; flex: none; width: 28px; height: 28px; display: grid; place-items: center;
+            border-radius: 50%; background: var(--accent-subtle); color: var(--accent);
+        }
+        .cs-brief__arrow svg { width: 14px; height: 14px; }
+        .cs-brief__facts {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--border);
+        }
+        .cs-brief__fact {
+            padding: var(--space-4) var(--space-5);
+            border-right: 1px solid var(--border);
+        }
+        .cs-brief__fact:last-child { border-right: 0; }
+        .cs-brief__fact .lbl {
+            margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--accent);
+        }
+        html[data-lang="zh"] .cs-brief__fact .lbl { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        .cs-brief__fact p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
+        .cs-brief__fact p b { font-weight: 600; color: var(--text-primary); }
+        .cs-brief__why {
+            padding: var(--space-4) var(--space-5) var(--space-5);
+            border-top: 1px solid var(--border);
+        }
+        .cs-brief__why .lbl {
+            margin: 0 0 var(--space-3); font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--text-tertiary);
+        }
+        html[data-lang="zh"] .cs-brief__why .lbl { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
+        .cs-brief__why ol {
+            margin: 0; padding: 0; list-style: none;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3);
+        }
+        .cs-brief__why li {
+            display: flex; gap: 10px; align-items: flex-start;
+            padding: var(--space-3); border-radius: var(--radius-md); background: var(--bg-subtle);
+        }
+        .cs-brief__why li span:not(.cs-num) {
+            font-size: 13.5px; line-height: 1.5; color: var(--text-secondary);
+        }
+        .cs-brief__why li b { color: var(--text-primary); font-weight: 600; }
+        @media (max-width: 720px) {
+            .cs-brief__swap { grid-template-columns: 1fr; justify-items: stretch; }
+            .cs-brief__tools { grid-template-columns: 1fr; }
+            .cs-brief__arrow { justify-self: center; transform: rotate(90deg); }
+            .cs-brief__facts, .cs-brief__why ol { grid-template-columns: 1fr; }
+            .cs-brief__fact { border-right: 0; border-bottom: 1px solid var(--border); }
+            .cs-brief__fact:last-child { border-bottom: 0; }
+            .cs-brief__meta { justify-content: flex-start; }
+        }
 
         .ai-duo { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-3); margin: var(--space-5) 0 var(--space-4); }
         .ai-duo__card { display: flex; flex-direction: column; min-width: 0; }
@@ -711,6 +836,34 @@
             .db-anno__stage .db-pin--box::before { display: block; }
         }
 
+        /* Lightbox keeps the same outline boxes; number + label live on the image (no side notes). */
+        .lbx__marks .db-pin.db-pin--box {
+            position: absolute; display: block; box-sizing: border-box;
+            margin: 0; padding: 0; transform: none; border-radius: 6px;
+            background: transparent; border: 1.5px solid rgba(0, 52, 240, .55);
+            box-shadow: none; color: transparent; font-size: 0; line-height: 0;
+            pointer-events: auto; cursor: default; transition: border-color .15s, box-shadow .15s, opacity .15s;
+        }
+        .lbx__marks .db-pin--box::before {
+            content: attr(data-n); display: block; position: absolute; left: 0; top: 0;
+            transform: translate(-55%, -55%); width: 22px; height: 22px; border-radius: 50%;
+            background: var(--accent); color: #fff; font-size: 12px; font-weight: 700;
+            line-height: 22px; text-align: center; box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+        }
+        .lbx__marks .db-pin--box::after {
+            content: attr(data-label); position: absolute; left: calc(100% + 8px); top: 50%;
+            padding: 5px 10px; border-radius: 6px; background: #fff; color: var(--text-primary, #111);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .35); font: 600 13px/1.35 var(--font-sans, system-ui, sans-serif);
+            white-space: nowrap; opacity: 0; transform: translate(-4px, -50%);
+            transition: opacity .15s, transform .15s; pointer-events: none;
+        }
+        html[data-lang="zh"] .lbx__marks .db-pin--box::after { content: attr(data-zh); }
+        .lbx__marks .db-pin--box:hover {
+            z-index: 2; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 52, 240, .18);
+        }
+        .lbx__marks .db-pin--box:hover::after { opacity: 1; transform: translate(0, -50%); }
+        .lbx__marks:hover .db-pin--box:not(:hover) { opacity: .4; }
+
         /* ── Before / after cards (screenshot-annotation.mdc) ── */
         .db-wt { display: grid; gap: var(--space-5); margin: var(--space-5) 0 0; }
         .db-wt__card { padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: #fff; }
@@ -780,7 +933,7 @@
         html[data-lang="zh"] .cs-kicker, html[data-lang="zh"] .cs-card .tag, html[data-lang="zh"] .cs-panel__flag { font-size: 12px; letter-spacing: 0.04em; text-transform: none; }
         html[data-lang="zh"] .scrollspy a.list, html[data-lang="zh"] .scrollspy__title { letter-spacing: 0; }
     </style>
-    <script src="site-chrome.js?v=9"></script>
+    <script src="site-chrome.js?v=12"></script>
 </head>
 
 <body>
@@ -853,7 +1006,7 @@
         <div class="cs-roles-head">
             <h5 data-zh="我在每个平台的角色" class="cs-sub" id="roles-title">My role on each platform</h5>
             <div class="cs-roles-nav">
-                <span class="cs-roles-nav__count" aria-live="polite">1 / 6</span>
+                <span class="cs-roles-nav__count" aria-live="polite">1 / 7</span>
                 <button type="button" class="cs-roles-nav__prev" aria-label="Previous platform"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
                 <button type="button" class="cs-roles-nav__next" aria-label="Next platform"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
             </div>
@@ -865,7 +1018,7 @@
                 <em data-zh="主导改版 · 亲自设计">Led redesign · hands-on</em>
             </li>
             <li>
-                <img src="resources/images-internal-system/sys-cs-config.png" width="1536" height="960" alt="Customer-service console" loading="lazy">
+                <img src="resources/images-internal-system/sys-cs-config.png?v=2" width="1533" height="960" alt="Customer-service console" loading="lazy">
                 <div><b data-zh="客服管理后台">Customer-service console</b><span data-zh="客服组长 · 分配规则、SLA、指标">Team leads · routing, SLAs, metrics</span></div>
                 <em data-zh="设计约一半">Designed about half</em>
             </li>
@@ -883,6 +1036,11 @@
                 <img src="resources/images-internal-system/sys-compliance.png" width="1533" height="957" alt="Compliance system" loading="lazy">
                 <div><b data-zh="合规系统">Compliance system</b><span data-zh="合规官 · 团队从 1 人扩展到 13 人">Compliance officers · team grew from 1 to 13</span></div>
                 <em data-zh="设计一个模块">Designed 1 module</em>
+            </li>
+            <li>
+                <img src="resources/images-internal-system/sys-ticket.png?v=1" width="4320" height="2880" alt="Ticket system" loading="lazy">
+                <div><b data-zh="工单系统">Ticket system</b><span data-zh="内部团队 · 队列、模板与 SLA">Internal teams · queues, templates and SLAs</span></div>
+                <em data-zh="带领并评审">Led and reviewed</em>
             </li>
             <li>
                 <img src="resources/images-internal-system/sys-design-system.png" width="1533" height="873" alt="Shared design system" loading="lazy">
@@ -986,6 +1144,69 @@
             </div>
         </div>
 
+        <h5 data-zh="项目背景" class="cs-sub">Programme brief</h5>
+        <div class="cs-brief">
+            <div class="cs-brief__head">
+                <div>
+                    <h4 data-zh="客服工作台">Agent workplace</h4>
+                    <p data-zh="客服专员接线、处理工单的系统 — 项目中五个平台里最常用的一个。">Where support agents take chats and work tickets — the busiest of the five platforms in the programme.</p>
+                </div>
+                <div class="cs-brief__meta">
+                    <span class="cs-brief__chip"><b data-zh="设计周期">Design</b> 2024.10 – 12</span>
+                    <span class="cs-brief__chip cs-brief__chip--accent"><b data-zh="MVP">MVP</b> 2024.12.25</span>
+                </div>
+            </div>
+            <div class="cs-brief__swap" aria-label="Tools replaced">
+                <div class="cs-brief__tools">
+                    <figure class="cs-brief__shot">
+                        <div class="lbl" data-zh="替代 · 机器人">Replaced · chatbot</div>
+                        <div class="cs-brief__frame">
+                            <img src="resources/images-internal-system/brief-ada.png?v=1" width="2392" height="1450" alt="Ada knowledge configuration: article list for the AI agent" loading="lazy">
+                        </div>
+                        <figcaption><b>Ada</b> <span data-zh="— 机器人配置">— chatbot config</span></figcaption>
+                    </figure>
+                    <figure class="cs-brief__shot">
+                        <div class="lbl" data-zh="替代 · 客服工作台">Replaced · agent workspace</div>
+                        <div class="cs-brief__frame">
+                            <img src="resources/images-internal-system/brief-zendesk.png?v=1" width="1562" height="820" alt="Zendesk agent workspace: ticket conversation and side panels" loading="lazy">
+                        </div>
+                        <figcaption><b>Zendesk</b> <span data-zh="— 客服工作台">— agent workspace</span></figcaption>
+                    </figure>
+                </div>
+                <div class="cs-brief__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+                <div class="cs-brief__tool">
+                    <div class="lbl" data-zh="自研">Built</div>
+                    <div class="cs-brief__frame">
+                        <img src="resources/images-internal-system/eco_agent-workplace.png?v=2" width="1480" height="914" alt="In-house agent workspace: chat list, conversation and user info" loading="lazy">
+                    </div>
+                    <b data-zh="自研客服工作台">In-house agent workplace</b>
+                    <span data-zh="接到核心系统的风控、KYC、交易和账户模块。">Linked to the core system's risk, KYC, trading and account modules.</span>
+                </div>
+            </div>
+            <div class="cs-brief__facts">
+                <div class="cs-brief__fact">
+                    <div class="lbl" data-zh="现状">Before</div>
+                    <p data-zh="第三方工具成本高、流程不灵活，跟不上加密业务。">Third-party tools were costly and inflexible for crypto support work.</p>
+                </div>
+                <div class="cs-brief__fact">
+                    <div class="lbl" data-zh="目标">Goal</div>
+                    <p data-zh="提高客服效率与体验，也提升 C 端客服体验，并取代三方。">Raise agent efficiency and experience, improve the customer-facing support experience, and replace the third-party stack.</p>
+                </div>
+                <div class="cs-brief__fact">
+                    <div class="lbl" data-zh="第一版">First MVP</div>
+                    <p data-zh="设计师 A 主导界面；上线前客服用不顺，&lt;b&gt;我在 2025 年 1 月带 A、B 改版。&lt;/b&gt;">Designer A owned the first UI; when agents couldn't use it before launch, <b>I led the redesign with A and B in January 2025.</b></p>
+                </div>
+            </div>
+            <div class="cs-brief__why">
+                <div class="lbl" data-zh="为什么要自研">Why build in-house</div>
+                <ol>
+                    <li><span class="cs-num">1</span><span data-zh="&lt;b&gt;贴合加密业务&lt;/b&gt;：流程按加密客服场景设计，而不是通用工单模板。"><b>Built for crypto</b> — workflows shaped for crypto support, not generic ticket templates.</span></li>
+                    <li><span class="cs-num">2</span><span data-zh="&lt;b&gt;提升效率与体验&lt;/b&gt;：客服处理更快，客户侧的支持体验也更好。"><b>Efficiency and experience</b> — agents work faster; customers get better support.</span></li>
+                    <li><span class="cs-num">3</span><span data-zh="&lt;b&gt;深度集成&lt;/b&gt;：对接风控、KYC、交易和账户，客服不用来回切系统。"><b>Deep integration</b> — risk, KYC, trading and accounts in one place, so agents don't hop systems.</span></li>
+                </ol>
+            </div>
+        </div>
+
         <div class="cs-callout">
             <div class="lbl" data-zh="我为什么接手">Why I stepped in</div>
             <p data-zh="第一版 MVP 在时间压力下完成，上线前没有客服用过。界面视觉完整，但流程是断开的：评审时客服频频卡住，关键操作藏得太深，界面顺序也和实际工作顺序对不上。这不是一夜之间能改变的思路。合规系统刚好告一段落，&lt;b&gt;我请擅长流程逻辑的设计师 B 加入，在距开发截止只剩两周时，和 A、B 一起接手改版。&lt;/b&gt;">The first MVP was built under time pressure, before any agent had tried it. The screens were polished, but the flow was fragmented: in review, agents kept getting stuck, key actions were hidden and the screens didn't follow their workflow. That wasn't a way of working to change overnight. Compliance had just wrapped up, <b>so I brought in designer B, the strongest on flow logic, and with two weeks to the development deadline took over the redesign with A and B.</b></p>
@@ -1001,10 +1222,10 @@
         <figure class="db-anno">
             <div class="db-anno__stage">
                 <img src="resources/images-internal-system/observation-mvp.png?v=1" width="1024" height="617" alt="The live MVP during an observation session" loading="lazy">
-                <span class="db-pin db-pin--box" data-n="1" style="left:19.2%;top:9.7%;width:10.4%;height:3.6%" aria-hidden="true"></span>
-                <span class="db-pin db-pin--box" data-n="2" style="left:19.6%;top:23.5%;width:21.6%;height:3.7%" aria-hidden="true"></span>
-                <span class="db-pin db-pin--box" data-n="3" style="left:47.4%;top:36.5%;width:21.8%;height:13%" aria-hidden="true"></span>
-                <span class="db-pin db-pin--box" data-n="4" style="left:22.2%;top:55.1%;width:6.5%;height:5%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-lbx-mark data-n="1" data-label="Unclear title" data-zh="标题来源不明" style="left:19.2%;top:9.7%;width:10.4%;height:3.6%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-lbx-mark data-n="2" data-label="No new-chat alert" data-zh="新对话没有提示" style="left:19.6%;top:23.5%;width:21.6%;height:3.7%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-lbx-mark data-n="3" data-label="Bot and agent look alike" data-zh="Bot 和人工难区分" style="left:47.4%;top:36.5%;width:21.8%;height:13%" aria-hidden="true"></span>
+                <span class="db-pin db-pin--box" data-lbx-mark data-n="4" data-label="Narrow bubbles" data-zh="消息框太窄" style="left:22.2%;top:55.1%;width:6.5%;height:5%" aria-hidden="true"></span>
             </div>
             <ol class="db-anno__notes">
                 <li><span class="db-pin" aria-hidden="true">1</span><div><b data-zh="标题来源不明">Unclear title</b><span data-zh="标题取的是哪个字段？需要加小标题说明。">Which field does it come from? Needs a label.</span></div></li>
@@ -1143,9 +1364,9 @@
         <h5 data-zh="试用改版后的工作台">Try the redesigned workspace</h5>
         <p data-zh="从登录页开始，完整走一遍改版后的流程：上线、用 AI 建议回复、创建工单，再结束对话。">Try it here: start at the sign-in screen and follow the redesign as one flow, from going online to replying with an AI suggestion, raising an admin ticket and closing the chat.</p>
         <div class="cs-embed">
-            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="resources/demos/agent-workspace-prototype.html?embed=1&amp;v=2"></iframe>
+            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="resources/demos/agent-workspace-prototype.html?embed=1&amp;v=3"></iframe>
         </div>
-        <p data-zh="根据 Figma 原型制作的可交互原型。点空白处可高亮可操作区域。&lt;a href=&quot;resources/demos/agent-workspace-prototype.html?v=2&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;" class="cs-figcap">Interactive prototype built from the Figma file. Tap an empty spot to highlight the active areas. <a href="resources/demos/agent-workspace-prototype.html?v=2" target="_blank" rel="noopener">Open full screen ↗</a></p>
+        <p data-zh="根据 Figma 原型制作的可交互原型。点空白处可高亮可操作区域。&lt;a href=&quot;resources/demos/agent-workspace-prototype.html?v=3&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;" class="cs-figcap">Interactive prototype built from the Figma file. Tap an empty spot to highlight the active areas. <a href="resources/demos/agent-workspace-prototype.html?v=3" target="_blank" rel="noopener">Open full screen ↗</a></p>
 
 
         <!-- ── AI ASSISTANCE ──────────────────────────────────── -->

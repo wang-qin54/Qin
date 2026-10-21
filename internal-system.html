@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KuCoin internal platforms — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-pattern.css?v=20" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=21" type="text/css" rel="stylesheet">
     <style>
         .cs-embed {
             margin: var(--space-4) 0 var(--space-3);
@@ -18,8 +18,7 @@
         .cs-embed iframe {
             display: block;
             width: 100%;
-            height: auto;
-            aspect-ratio: 1440 / 800;
+            height: 640px;
             margin: 0;
             border: 0;
             background: #f2f2f2;
@@ -872,6 +871,7 @@
         .one-col h5.db-wt__k { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: var(--text-primary); }
         .db-wt__pill { margin-left: auto; flex: none; padding: 3px 10px; border-radius: 999px; background: #fdecec; color: #b42318; font-size: 12px; font-weight: 600; white-space: nowrap; }
         .one-col .db-wt__pair { position: relative; display: grid; gap: 10px; margin: 0; }
+        .db-wt__pair > .db-wt__shot + .db-wt__shot { margin-top: 22px; }
         .db-wt__shot { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-subtle); }
         .one-col .db-wt__shot img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
         .db-wt__box { position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--h); box-sizing: border-box; border: 2px solid var(--accent); border-radius: 8px; background: rgba(0, 52, 240, .06); transition: box-shadow .15s, background .15s; }
@@ -946,18 +946,18 @@
             <div class="page-title-content">
                 <h2 data-zh="KuCoin 内部平台">KuCoin internal platforms</h2>
                 <p data-zh="&lt;strong&gt;设计负责人&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;3 名设计师 · 5 个平台 · 设计系统&lt;/span&gt;" class="as-role"><strong>Design lead</strong> &middot; <span class="as-role__rest">3 designers · 5 platforms · design system</span></p>
-                <ol class="as-stats" aria-label="From the programme to the agent workspace redesign">
-                    <li><span class="as-stats__num">5</span><span data-zh="从 0 到 1 的平台" class="as-stats__label">Platforms, 0→1</span></li>
-                    <li><span data-zh="6 个月" class="as-stats__num">6 months</span><span data-zh="项目周期" class="as-stats__label">Programme</span></li>
-                    <li class="is-turn"><span data-zh="2 周" class="as-stats__num">2 weeks</span><span data-zh="改版" class="as-stats__label">Redesign</span></li>
-                    <li><span class="as-stats__num">20</span><span data-zh="试点客服" class="as-stats__label">Pilot agents</span></li>
-                </ol>
                 <dl class="as-meta">
                     <div><dt data-zh="产品">Product</dt><dd data-zh="自研中后台平台，替代第三方工具（Zendesk、Ada）">In-house back-office platforms replacing third-party tools (Zendesk, Ada)</dd></div>
                     <div><dt data-zh="目标用户">Target users</dt><dd data-zh="200+ 名客服专员、客服主管、合规官、数据团队">200+ support agents, team leads, compliance officers, data teams</dd></div>
                     <div><dt data-zh="范围">Scope</dt><dd data-zh="负责整体设计；重点案例：客服工作台改版与 AI 辅助">Programme lead; deep dive: agent workspace redesign and AI assistance</dd></div>
                     <div><dt data-zh="团队">Team</dt><dd data-zh="3 名设计师（我带领）· 2024–25 · 香港">3 designers (I led) · 2024–25 · Hong Kong</dd></div>
                 </dl>
+                <ol class="as-stats" aria-label="From the programme to the agent workspace redesign">
+                    <li><span class="as-stats__num">5</span><span data-zh="从 0 到 1 的平台" class="as-stats__label">Platforms, 0→1</span></li>
+                    <li><span data-zh="6 个月" class="as-stats__num">6 months</span><span data-zh="项目周期" class="as-stats__label">Programme</span></li>
+                    <li class="is-turn"><span data-zh="2 周" class="as-stats__num">2 weeks</span><span data-zh="改版" class="as-stats__label">Redesign</span></li>
+                    <li><span class="as-stats__num">20</span><span data-zh="试点客服" class="as-stats__label">Pilot agents</span></li>
+                </ol>
             </div>
             <div class="title-img">
                 <img src="resources/images-internal-system/cover-programme.png?v=5" width="1920" height="1626" alt="The redesigned agent workspace beside the four other platforms: customer-service console, chatbot configuration, data platform and compliance system, all on one design system">
@@ -1364,9 +1364,25 @@
         <h5 data-zh="试用改版后的工作台">Try the redesigned workspace</h5>
         <p data-zh="从登录页开始，完整走一遍改版后的流程：上线、用 AI 建议回复、创建工单，再结束对话。">Try it here: start at the sign-in screen and follow the redesign as one flow, from going online to replying with an AI suggestion, raising an admin ticket and closing the chat.</p>
         <div class="cs-embed">
-            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="resources/demos/agent-workspace-prototype.html?embed=1&amp;v=3"></iframe>
+            <iframe title="Interactive prototype of the redesigned agent workspace" loading="lazy" src="resources/demos/agent-workspace-prototype.html?embed=1&amp;v=12"></iframe>
         </div>
-        <p data-zh="根据 Figma 原型制作的可交互原型。点空白处可高亮可操作区域。&lt;a href=&quot;resources/demos/agent-workspace-prototype.html?v=3&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;" class="cs-figcap">Interactive prototype built from the Figma file. Tap an empty spot to highlight the active areas. <a href="resources/demos/agent-workspace-prototype.html?v=3" target="_blank" rel="noopener">Open full screen ↗</a></p>
+        <script>
+            (function () {
+                var frame = document.querySelector('.cs-embed iframe');
+                if (!frame) return;
+                window.addEventListener('message', function (e) {
+                    if (e.source !== frame.contentWindow) return;
+                    var d = e.data;
+                    if (!d || d.type !== 'pp-size' || typeof d.h !== 'number') return;
+                    frame.style.height = d.h + 'px';
+                });
+            })();
+        </script>
+        <p data-zh="根据 Figma 原型制作的可交互原型。顶部可切换页面，点空白处可高亮可操作区域。&lt;a href=&quot;resources/demos/agent-workspace-prototype.html?v=12&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;全屏打开 ↗&lt;/a&gt;" class="cs-figcap">Interactive prototype built from the Figma file. Use the steps along the top to switch pages, or tap an empty spot to highlight the active areas. <a href="resources/demos/agent-workspace-prototype.html?v=12" target="_blank" rel="noopener">Open full screen ↗</a></p>
+        <figure class="cs-shot">
+            <img src="resources/images-internal-system/aw-ds-final.png?v=1" width="4320" height="2700" alt="Agent workspace after the interface was aligned with the upgraded design system" loading="lazy">
+        </figure>
+        <p data-zh="对齐升级后的设计系统之后的工作台。" class="cs-figcap">Final workspace, after the interface was aligned with the upgraded design system.</p>
 
 
         <!-- ── AI ASSISTANCE ──────────────────────────────────── -->

@@ -1,0 +1,208 @@
+/* Presentation mode. Pair with resources/js/case-present.js.
+   A case opts in by putting button.presw at the end of .scrollspy and loading
+   this file plus the script. Off, the article is one long page. On, one section
+   is on screen at a time and the column widens for a projected walkthrough.
+
+   Reading measure stays at the normal ~760px column (same as Asset tables).
+   Screenshots, embeds and annotation stages may use the wider column.
+   Page-specific frames (phones, diagrams) grow via html[data-pres="on"] rules
+   in that case's own style block, or by adding .pres-wide on the wrapper.
+
+   While on, the right rail (.scrollspy) active item follows the current slide
+   (pager, arrow keys, and rail clicks). main.js must not overwrite it.
+
+   Section anchors (锚点定位): also always on while this file is loaded — a rail
+   click must park the blue kicker under the header, not the hairline above it. */
+
+[hidden] { display: none !important; }
+
+/* Scrollspy / in-page jumps land on .anchor just above the kicker. Kickers that
+   carry top chrome (margin + hairline + padding — KYB .cs-kicker, KYC .kyc-kicker,
+   Dashboard .db-kicker, AML .cs-kicker) need that chrome subtracted from the
+   default scroll-margin, or the jump stops on the divider. overflow:hidden stops
+   the kicker margin collapsing through the empty anchor so the subtraction
+   matches layout. First sections with no chrome keep the detailpage default.
+   Applies in reading and presentation. */
+.one-col > .anchor:has(+ .cs-kicker),
+.one-col > .anchor:has(+ .kyc-kicker),
+.one-col > .anchor:has(+ .db-kicker) {
+    overflow: hidden;
+    scroll-margin-top: calc(var(--header-h) + 11px - var(--space-8) - var(--space-7) - 1px);
+}
+.one-col > #section2.anchor,
+.one-col > .anchor:has(+ .cs-kicker.is-first),
+.one-col > .anchor:has(+ .kyc-kicker.is-first),
+.one-col > .anchor:has(+ .db-kicker.is-first),
+.one-col > .anchor:first-of-type:has(+ .db-kicker),
+.one-col > .anchor:first-child:has(+ .kyc-kicker) {
+    scroll-margin-top: calc(var(--header-h) + 11px);
+}
+
+html[data-pres="on"] {
+    --container: min(1480px, calc(100vw - 80px));
+    --container-narrow: min(1280px, calc(100vw - 80px));
+    /* Same measure as the non-presentation article column. */
+    --pres-read: calc(760px - 2 * var(--space-5));
+}
+html[data-pres="on"] .case-layout,
+html[data-pres="on"] .page-title-box {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+html[data-pres="on"] .page-title-content {
+    margin-left: 8px;
+    max-width: 640px;
+}
+
+/* Prose, lists, callouts, tables: keep the reading measure. */
+html[data-pres="on"] :where(.case-layout > .one-col) > :is(
+    .cs-kicker, .as-kicker, .db-kicker, .kyc-kicker, h3, h4, h5, p, ul, ol,
+    .cs-list, .cs-callout, .cs-cards, .cs-sum, .cs-metrics, .cs-bars,
+    .cs-flow, .cs-compare, .cs-learns, .cs-note, .cs-figcap, .cs-why, .cs-how,
+    .cs-more, .pres-read, .as-pres-read,
+    .db-limits, .db-module-list, .db-ladder, .db-sub, .db-res, .db-quotes,
+    .kyc-why, .kyc-cards, .kyc-compare, .kyc-results, .kyc-learn, .kyc-callout,
+    .aml-path
+) {
+    max-width: var(--pres-read);
+}
+
+/* Media may use the wider walkthrough column. */
+html[data-pres="on"] :where(.case-layout > .one-col) > :is(
+    .cs-shot, .cs-embed, .db-anno, .db-wt, .db-pair, .db-fold, .db-3p, .db-flow,
+    .cs-journey, .pres-wide,
+    .kyc-shot, .kyc-flow, .kyc-gallery, .kyc-decision, .kyc-bench,
+    .gx-shot, .gx-pair, .aml-board, .aml-stage
+) {
+    max-width: calc(var(--container-narrow) - 2 * var(--space-5));
+}
+
+.presw {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: var(--space-5);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text-tertiary);
+    transition: color 140ms var(--ease);
+}
+.presw:hover { color: var(--text-primary); }
+.presw:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+.presw .tr {
+    flex: none;
+    width: 28px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--border-strong);
+    position: relative;
+    transition: background-color .18s ease;
+}
+.presw .tr::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .28);
+    transition: transform .18s cubic-bezier(.2, .8, .3, 1);
+}
+.presw[aria-pressed="true"] { color: var(--accent); }
+.presw[aria-pressed="true"] .tr { background: var(--accent); }
+.presw[aria-pressed="true"] .tr::after { transform: translateX(12px); }
+
+/* Slide pager. Fixed rather than in flow so it stays put while a long
+   section scrolls inside its own slide. */
+.pres-bar {
+    position: fixed;
+    left: 50%;
+    bottom: var(--space-5);
+    transform: translateX(-50%);
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    box-shadow: 0 6px 24px rgba(17, 17, 17, 0.08);
+}
+.pres-bar button {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--text-secondary);
+    transition: background-color 140ms var(--ease), color 140ms var(--ease);
+}
+.pres-bar button:hover:not(:disabled) { background: var(--bg-muted); color: var(--text-primary); }
+.pres-bar button:disabled { opacity: .3; cursor: default; }
+.pres-bar button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+.pres-bar .n {
+    min-width: 54px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+}
+.pres-bar .esc {
+    margin-left: 2px;
+    padding-left: 8px;
+    border-left: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    width: auto;
+    border-radius: var(--radius-pill);
+    padding-right: 8px;
+}
+
+/* The rail becomes a sticky chip strip. The toggle sits at the end and stays
+   put while the chips scroll under it. */
+@media (max-width: 1100px) {
+    .scrollspy .presw {
+        flex: none;
+        width: auto;
+        margin-top: 0;
+        padding-left: var(--space-3);
+        border-left: 1px solid var(--border);
+        font-size: 11px;
+    }
+}
+@media (max-width: 600px) {
+    /* A phone has no room for the toggle beside the chips, and one section
+       per screen is what a phone already does. The mode stands down. */
+    .presw, .pres-bar { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .presw .tr, .presw .tr::after { transition: none; }
+}

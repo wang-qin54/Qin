@@ -7,8 +7,9 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Case component library — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-pattern.css?v=1" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-components.css?v=3" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=2" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-components.css?v=5" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-present.css?v=5" type="text/css" rel="stylesheet">
     <style>
         /* Library chrome only; never copy these .lib-* classes into a case page */
         .lib-spec { margin: var(--space-7) 0 0; }
@@ -22,6 +23,7 @@
         .lib-use .dont b { color: #b42318; }
         .lib-demo { padding: var(--space-5); border: 1px dashed var(--border-strong); border-radius: 16px; background: #fff; }
         .lib-demo > :first-child { margin-top: 0; }
+        .lib-demo .presw { width: auto; }
         .lib-demo > :last-child { margin-bottom: 0; }
         .lib-code { margin: var(--space-2) 0 0; }
         .lib-code > summary { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; cursor: pointer; list-style: none; font-size: 13px; font-weight: 600; color: var(--accent); }
@@ -68,18 +70,18 @@
             <div class="page-title-content">
                 <h2 data-zh="案例组件库">Case component library</h2>
                 <p class="as-role" data-zh="&lt;strong&gt;内部参考&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;不在网站中链接&lt;/span&gt;"><strong>Internal reference</strong> &middot; <span class="as-role__rest">not linked from the site</span></p>
+                <dl class="as-meta">
+                    <div><dt data-zh="用途">Purpose</dt><dd data-zh="新案例直接复用的组件、样式与写作规范">Components, styles and writing rules to reuse in every new case</dd></div>
+                    <div><dt data-zh="样式">Styles</dt><dd>case-pattern.css (hero) · case-components.css (body) · case-present.css (optional)</dd></div>
+                    <div><dt data-zh="脚本">Script</dt><dd>case-components.js · case-present.js (optional)</dd></div>
+                    <div><dt data-zh="规则">Rules</dt><dd>.cursor/rules/case-library.mdc</dd></div>
+                </dl>
                 <ol class="as-stats" aria-label="What the library contains">
                     <li><span class="as-stats__num">1</span><span class="as-stats__label" data-zh="主视觉">Hero</span></li>
                     <li class="is-turn"><span class="as-stats__num">18</span><span class="as-stats__label" data-zh="正文组件">Body blocks</span></li>
                     <li><span class="as-stats__num">3</span><span class="as-stats__label" data-zh="共享文件">Shared files</span></li>
                     <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="语言">Languages</span></li>
                 </ol>
-                <dl class="as-meta">
-                    <div><dt data-zh="用途">Purpose</dt><dd data-zh="新案例直接复用的组件、样式与写作规范">Components, styles and writing rules to reuse in every new case</dd></div>
-                    <div><dt data-zh="样式">Styles</dt><dd>case-pattern.css (hero) · case-components.css (body)</dd></div>
-                    <div><dt data-zh="脚本">Script</dt><dd>resources/js/case-components.js</dd></div>
-                    <div><dt data-zh="规则">Rules</dt><dd>.cursor/rules/case-library.mdc</dd></div>
-                </dl>
             </div>
             <div class="title-img">
                 <img src="resources/images-internal-system/cover-programme.png?v=5" width="1920" height="1626" alt="Example hero image: product screens standing on the hero's bottom edge">
@@ -127,9 +129,11 @@
     &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
     &lt;title&gt;Project name — Qin Wang&lt;/title&gt;
     &lt;link href="resources/css/detailpage.css?v=19" rel="stylesheet"&gt;
-    &lt;link href="resources/css/case-pattern.css?v=1" rel="stylesheet"&gt;
-    &lt;link href="resources/css/case-components.css?v=3" rel="stylesheet"&gt;
-    &lt;!-- Page-only styles: just what this case invents (diagrams, prototypes) --&gt;
+    &lt;link href="resources/css/case-pattern.css?v=2" rel="stylesheet"&gt;
+    &lt;link href="resources/css/case-components.css?v=5" rel="stylesheet"&gt;
+    &lt;link href="resources/css/case-present.css?v=5" rel="stylesheet"&gt;
+    &lt;!-- Page-only styles: just what this case invents (diagrams, prototypes).
+         Phone or diagram growth in presentation mode also lives here, under html[data-pres="on"]. --&gt;
     &lt;script src="site-chrome.js?v=9"&gt;&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -146,6 +150,7 @@
                 …
                 &lt;a href="#top" class="list"&gt;Back to top&lt;/a&gt;
             &lt;/div&gt;
+            &lt;button type="button" class="presw" aria-pressed="false" data-pres-key="my-case" data-zh="&amp;lt;span class=&amp;quot;tr&amp;quot; aria-hidden=&amp;quot;true&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;演示模式"&gt;&lt;span class="tr" aria-hidden="true"&gt;&lt;/span&gt;Presentation&lt;/button&gt;
         &lt;/div&gt;
         &lt;div class="one-col"&gt;
             &lt;div class="anchor" id="section2"&gt;&lt;/div&gt;
@@ -157,9 +162,22 @@
     &lt;/div&gt;
     &lt;script src="main.js"&gt;&lt;/script&gt;
     &lt;script src="resources/js/case-components.js?v=1"&gt;&lt;/script&gt;
+    &lt;script src="resources/js/case-present.js?v=6"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre></div>
             </details>
+        </div>
+
+        <div class="lib-spec">
+            <div class="lib-spec__head"><h5>Presentation mode</h5><span class="lib-class">.presw · case-present.css</span></div>
+            <div class="lib-use">
+                <div class="do"><b>Do</b><span data-zh="把开关放在 .scrollspy 末尾，并引入 case-present.css 与 case-present.js。章节仍用现有锚点；点目录要落在蓝色 kicker 上（case-present.css 里的锚点定位：kicker 用 margin + 顶部分割线 + padding，与 KYB 一致）。每个案例用自己的 data-pres-key。正文保持约 760px 阅读宽度；只有截图 / 嵌入 / 标注台可以变宽。翻页时右侧 scrollspy 高亮跟着当前章节。">Put the switch at the end of <code>.scrollspy</code> and load <code>case-present.css</code> and <code>case-present.js</code>. Keep the existing section anchors; a rail jump must land on the blue kicker (anchor landing in <code>case-present.css</code> — kickers use margin + top hairline + padding, same as KYB). Give each case its own <code>data-pres-key</code>. Keep prose at the ~760px reading measure; only shots, embeds and annotation stages may widen. The right rail stays in sync with the current slide.</span></div>
+                <div class="dont"><b>Avoid</b><span data-zh="不要把章节再包进幻灯片容器。不要让正文跟着列宽一起拉宽（表格用 .pres-read / .as-pres-read）。旧案例如果脚本还写在页面里，不要为了这个开关去加载 case-components.js。">Wrapping sections in slide containers. Letting body copy stretch with the wide column (mark tables with <code>.pres-read</code> / <code>.as-pres-read</code>). Loading <code>case-components.js</code> on a case that still carries its scripts inline, just to get this switch.</span></div>
+            </div>
+            <div class="lib-demo">
+                <button type="button" class="presw" aria-pressed="false" data-zh="&lt;span class=&quot;tr&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;演示模式"><span class="tr" aria-hidden="true"></span>Presentation</button>
+                <p class="cs-note" data-zh="这是样式预览，不会翻动本页。开启后每次只显示一个章节，方向键切换，Esc 退出；右侧目录跟着高亮。点击目录时左侧停在蓝色章节标题，而不是分割线。600px 以下开关隐藏。手机、图解这类需要放大的画面，在该案例自己的样式里用 html[data-pres=&quot;on&quot;] 或 .pres-wide。资产案例的 key 是 as-presentation。">This sample only previews the switch; it does not page this library. On, one section is on screen at a time. Arrow keys move, Esc leaves; the rail highlights the current slide. A rail click parks the blue section kicker under the header, not the divider. Below 600px the switch hides. Frames that should grow use <code>html[data-pres="on"]</code> or <code>.pres-wide</code> in that case. The Assets case keeps the key <code>as-presentation</code>.</p>
+            </div>
         </div>
 
         <div class="lib-spec">
@@ -653,5 +671,15 @@
     </script>
     <script src="main.js"></script>
     <script src="resources/js/case-components.js?v=1"></script>
+    <script src="resources/js/case-present.js?v=6"></script>
+    <script>
+    /* The specimen sits outside .scrollspy, so case-present.js leaves it alone.
+       This only previews the switch. */
+    document.querySelectorAll('.lib-demo .presw').forEach(function (sw) {
+        sw.addEventListener('click', function () {
+            sw.setAttribute('aria-pressed', sw.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+        });
+    });
+    </script>
 </body>
 </html>

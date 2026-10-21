@@ -27,13 +27,72 @@
     }
     function t(k) { return T[lang()][k]; }
 
-    var screen, manual, center, hist;
+    var screen, manual, center, hist, rpBack;
 
     function fresh(id) { return { id: id, slots: {}, cur: {}, flags: {} }; }
+    function isRp(id) { return !!(P.frames[id] && P.frames[id].rp); }
+    function snap(st) {
+        return { id: st.id, slots: Object.assign({}, st.slots), cur: Object.assign({}, st.cur), flags: Object.assign({}, st.flags) };
+    }
     function reset() {
-        screen = fresh(P.start); manual = null; center = null; hist = [];
-        render(true);
+        goto(P.start, true);
+    }
+
+    function goto(id, first) {
+        if (!P.frames[id]) return;
+        screen = fresh(id); manual = null; center = null; hist = []; rpBack = null;
+        entering = first ? false : 0;
+        render(!!first);
         view.scrollTop = 0;
+    }
+
+    var stepsEl = root.querySelector('.pp-steps');
+    function buildSteps() {
+        if (!stepsEl || !P.steps) return;
+        stepsEl.innerHTML = '';
+        var k = el('div', 'pp-steps__k');
+        k.dataset.en = 'Pages';
+        k.dataset.zh = '页面';
+        stepsEl.appendChild(k);
+        P.steps.forEach(function (step, i) {
+            var b = el('button', 'pp-step' + (i === P.steps.length - 1 ? ' pp-step--aside' : ''));
+            b.type = 'button';
+            b.dataset.id = step.id;
+            b.dataset.ids = (step.ids || [step.id]).join(',');
+            b.dataset.en = step.en;
+            b.dataset.zh = step.zh;
+            var n = el('span', 'pp-step__n');
+            n.textContent = String(i + 1);
+            var label = el('span', 'pp-step__l');
+            b.appendChild(n);
+            b.appendChild(label);
+            b.addEventListener('click', function () { goto(step.id, false); });
+            stepsEl.appendChild(b);
+        });
+    }
+    function paintSteps() {
+        if (!stepsEl || !screen) return;
+        var zh = lang() === 'zh';
+        var k = stepsEl.querySelector('.pp-steps__k');
+        if (k) k.textContent = zh ? k.dataset.zh : k.dataset.en;
+        var buttons = stepsEl.querySelectorAll('.pp-step');
+        var current = -1;
+        for (var i = 0; i < buttons.length; i++) {
+            if (buttons[i].dataset.ids.split(',').indexOf(screen.id) >= 0) current = i;
+        }
+        for (var j = 0; j < buttons.length; j++) {
+            var b = buttons[j];
+            var label = b.querySelector('.pp-step__l');
+            label.textContent = zh ? b.dataset.zh : b.dataset.en;
+            var on = j === current;
+            b.classList.toggle('is-on', on);
+            b.classList.toggle('is-done', current > j);
+            if (on) b.setAttribute('aria-current', 'step');
+            else b.removeAttribute('aria-current');
+            if (on && stepsEl.scrollWidth > stepsEl.clientWidth + 4) {
+                stepsEl.scrollTo({ left: Math.max(0, b.offsetLeft - 16), behavior: 'smooth' });
+            }
+        }
     }
 
     function scale() {
@@ -49,7 +108,8 @@
     }
     function img(src, w, h, alt) {
         var i = el('img');
-        i.src = base + src; i.width = w; i.height = h;
+        var bust = P.assetV != null ? ((src.indexOf('?') >= 0 ? '&' : '?') + 'v=' + P.assetV) : '';
+        i.src = base + src + bust; i.width = w; i.height = h;
         i.alt = alt || ''; i.draggable = false; i.decoding = 'async';
         return i;
     }
@@ -146,6 +206,13 @@
         if (h.a === 'C') { closeLayer(layer); return; }
         if (h.a === 'B') {
             if (closeLayer(layer)) return;
+            if (isRp(screen.id) && rpBack) {
+                screen = rpBack.st;
+                entering = { panel: 'collapse', top: rpBack.top };
+                rpBack = null;
+                manual = null; center = null;
+                return;
+            }
             var prev = hist.pop();
             if (prev) { screen = prev.st; entering = prev.top; }
             return;
@@ -164,15 +231,68 @@
             return;
         }
         if (h.a === 'N' || h.a === 'O') {
+            var fromRp = isRp(screen.id);
+            var toRp = isRp(h.to);
+            if (toRp) {
+                if (!fromRp) rpBack = { st: snap(screen), top: view.scrollTop };
+                screen = fresh(h.to); manual = null; center = null;
+                entering = { panel: fromRp ? 'swap' : 'expand', top: view.scrollTop };
+                return;
+            }
+            if (fromRp && !toRp) {
+                var back = rpBack;
+                rpBack = null;
+                if (back) {
+                    screen = back.st;
+                    entering = { panel: 'collapse', top: back.top };
+                } else {
+                    hist.push({ st: screen, top: view.scrollTop });
+                    screen = fresh(h.to);
+                    entering = { panel: 'collapse', top: 0 };
+                }
+                manual = null; center = null;
+                return;
+            }
             hist.push({ st: screen, top: view.scrollTop });
             screen = fresh(h.to); manual = null; center = null;
             entering = 0;
         }
     }
 
+    function panelAnim(mode, ghostFrame, h) {
+        if (!ghostFrame || !mode) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var px = P.panelX != null ? P.panelX : 1040;
+        var top = 88;
+        var bot = Math.min(h - 52, 748);
+        var ghost = el('div', 'pp-panel-ghost');
+        place(ghost, px, top, P.w - px, bot - top);
+        var inner = el('div', 'pp-panel-ghost__in');
+        place(inner, -px, -top, P.w, h);
+        while (ghostFrame.firstChild) inner.appendChild(ghostFrame.firstChild);
+        ghost.appendChild(inner);
+        stage.appendChild(ghost);
+        void ghost.offsetWidth;
+        ghost.classList.add('is-out');
+        function done() { if (ghost.parentNode) ghost.remove(); }
+        ghost.addEventListener('transitionend', function (e) {
+            if (e.propertyName === 'clip-path' || e.propertyName === 'opacity') done();
+        });
+        setTimeout(done, 720);
+    }
+
     function render(first) {
         var f = P.frames[screen.id];
         var s = scale();
+        var panelMode = (entering && typeof entering === 'object' && entering.panel) ? entering.panel : null;
+        var ghostFrame = null;
+        if (panelMode && !first) {
+            var prev = stage.querySelector('.pp-frame');
+            if (prev) {
+                ghostFrame = prev.cloneNode(true);
+                ghostFrame.querySelectorAll('.pp-hs').forEach(function (b) { b.remove(); });
+            }
+        }
         stage.innerHTML = '';
         stage.style.width = P.w + 'px';
         stage.style.height = f.h + 'px';
@@ -180,6 +300,7 @@
         sizer.style.width = Math.round(P.w * s) + 'px';
         sizer.style.height = Math.round(f.h * s) + 'px';
         stage.appendChild(frameEl(screen, 'screen'));
+        if (ghostFrame) panelAnim(panelMode, ghostFrame, f.h);
 
         if (manual) {
             var catcher = el('div', 'pp-catch' + (manual.right ? ' pp-catch--dim' : ''));
@@ -210,8 +331,9 @@
 
         var navigated = entering !== false;
         if (navigated) {
-            view.scrollTop = entering || 0;
-            if (!first) {
+            var top = (typeof entering === 'object' && entering) ? (entering.top || 0) : (entering || 0);
+            view.scrollTop = top;
+            if (!first && !panelMode) {
                 stage.classList.remove('pp-enter');
                 void stage.offsetWidth;
                 stage.classList.add('pp-enter');
@@ -219,9 +341,36 @@
             entering = false;
         }
         fixedBar(f, s);
-        if (navigated || first) setTimeout(flash, first ? 600 : 250);
+        paintSteps();
+        if ((navigated || first) && !panelMode) setTimeout(flash, first ? 600 : 250);
         preload(f);
         schedule();
+        reportSize();
+    }
+
+    var reported = 0;
+    function reportSize() {
+        var f = P.frames[screen.id];
+        if (!f) return;
+        requestAnimationFrame(function () {
+            if (!view.clientWidth) return;
+            var steps = stepsEl ? stepsEl.offsetHeight : 0;
+            var frameH = Math.ceil(f.h * scale());
+            var h = steps + frameH;
+            if (stepsEl) document.documentElement.classList.add('pp-sized');
+            if (embed && window.parent !== window) {
+                if (h === reported) return;
+                reported = h;
+                window.parent.postMessage({ type: 'pp-size', h: h }, '*');
+                return;
+            }
+            if (!stepsEl) return;
+            document.documentElement.classList.add('pp-fit');
+            root.style.setProperty('--pp-frame-h', frameH + 'px');
+            if (h === reported) return;
+            reported = h;
+            root.style.height = h + 'px';
+        });
     }
 
     var autoFor = null, autoT;
@@ -305,6 +454,7 @@
         restart.textContent = t('restart');
         if (hint) hint.textContent = t('hint');
         document.documentElement.lang = lang() === 'zh' ? 'zh-CN' : 'en';
+        paintSteps();
     }
     root.addEventListener('pointerdown', function () { if (hint) hint.classList.add('is-gone'); }, { once: true });
     window.addEventListener('storage', function (e) { if (e.key === 'case-lang') { paintChrome(); render(false); } });
@@ -320,6 +470,13 @@
         }, 80);
     });
 
-    paintChrome();
+    window.addEventListener('message', function (e) {
+        var d = e.data;
+        if (!d || d.type !== 'pp-goto' || !P.frames[d.id]) return;
+        goto(d.id, false);
+    });
+
+    buildSteps();
     reset();
+    paintChrome();
 })();

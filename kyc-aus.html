@@ -781,7 +781,8 @@
                 drop-shadow(0 18px 40px rgba(15, 23, 42, 0.12));
         }
     </style>
-    <link rel="stylesheet" href="resources/css/case-pattern.css?v=20">
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=21">
+    <link rel="stylesheet" href="resources/css/case-present.css?v=5">
     <script src="site-chrome.js?v=8"></script>
 </head>
 
@@ -796,13 +797,6 @@
                 <h2 data-zh="零售 KYC：澳洲 + 欧盟">Retail KYC, AU + EU</h2>
                 <p class="as-role" data-zh="&lt;strong&gt;唯一产品设计师&lt;/strong&gt; · &lt;span class=&quot;as-role__rest&quot;&gt;交互 · 视觉 · 合规流程&lt;/span&gt;"><strong>Sole product designer</strong> &middot; <span class="as-role__rest">UX + UI + regulatory flows</span></p>
 
-                <ol class="as-stats" aria-label="From new regulation to approval">
-                    <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="受监管市场">Regulated markets</span></li>
-                    <li><span class="as-stats__num" data-zh="3 周">3 weeks</span><span class="as-stats__label" data-zh="设计用时">Design time</span></li>
-                    <li class="is-turn"><span class="as-stats__num" data-zh="4 轮">4 rounds</span><span class="as-stats__label" data-zh="测验改版">Quiz redesign</span></li>
-                    <li><span class="as-stats__num" data-zh="已演示">Demoed</span><span class="as-stats__label" data-zh="MiCA 申请">In MiCA application</span></li>
-                </ol>
-
                 <dl class="as-meta">
                     <div><dt data-zh="产品">Product</dt><dd data-zh="KuCoin 身份认证（App 与 Web）">KuCoin identity verification (app &amp; web)</dd></div>
                     <div><dt data-zh="目标用户">Target users</dt><dd data-zh="澳洲和欧盟的加密零售用户，包括新用户和老用户">Retail crypto users in Australia and the EU, new and existing</dd></div>
@@ -813,6 +807,13 @@
                     <summary data-zh="为什么重要">Why it mattered</summary>
                     <p data-zh="2024 年，澳洲和欧盟都收紧了加密 KYC 规定。没有合规的开户流程，交易所可能失去两个最大的市场。合规团队与监管机构沟通期间，要求也一直在变。">In 2024 Australia and the EU both introduced stricter crypto KYC rules. Without compliant onboarding, the exchange risked losing access to two of its biggest markets, and the requirements kept changing while compliance negotiated with the regulators.</p>
                 </details>
+
+                <ol class="as-stats" aria-label="From new regulation to approval">
+                    <li><span class="as-stats__num">2</span><span class="as-stats__label" data-zh="受监管市场">Regulated markets</span></li>
+                    <li><span class="as-stats__num" data-zh="3 周">3 weeks</span><span class="as-stats__label" data-zh="设计用时">Design time</span></li>
+                    <li class="is-turn"><span class="as-stats__num" data-zh="4 轮">4 rounds</span><span class="as-stats__label" data-zh="测验改版">Quiz redesign</span></li>
+                    <li><span class="as-stats__num" data-zh="已演示">Demoed</span><span class="as-stats__label" data-zh="MiCA 申请">In MiCA application</span></li>
+                </ol>
             </div>
             <div class="title-img">
                 <img class="kyc-hero-phones" src="resources/images-kyc-aus/kyc-cover-app-cut.webp?v=1" alt="Retail KYC on mobile: the same country-selection step for Australia and Germany, with different requirements" width="1672" height="1391">
@@ -832,6 +833,7 @@
         <a href="#section6" class="list" data-zh="06 模块化框架">06 Framework</a>
         <a href="#section7" class="list" data-zh="07 结果与复盘">07 Result &amp; retro</a>
         </div>
+        <button type="button" class="presw" aria-pressed="false" data-pres-key="kyc-presentation" data-zh="&lt;span class=&quot;tr&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;演示模式"><span class="tr" aria-hidden="true"></span>Presentation</button>
     </div>
 <div class="one-col">
 
@@ -1296,6 +1298,7 @@
         })();
     </script>
     <script src="main.js"></script>
+    <script src="resources/js/case-present.js?v=6"></script>
     <script>
         // Scrollspy active-state for the right rail (matches the KYB case page).
         (function () {
@@ -1311,6 +1314,7 @@
             if (!sections.length) return;
 
             function onScroll() {
+                if (document.documentElement.getAttribute('data-pres') === 'on') return;
                 var y = window.scrollY + 140;
                 var current = sections[0];
                 for (var i = 0; i < sections.length; i++) {

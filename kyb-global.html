@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Institutional KYB — Qin Wang</title>
     <link href="resources/css/detailpage.css?v=19" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-pattern.css?v=20" type="text/css" rel="stylesheet">
-    <link href="resources/css/case-components.css?v=3" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-pattern.css?v=23" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-components.css?v=5" type="text/css" rel="stylesheet">
+    <link href="resources/css/case-present.css?v=5" type="text/css" rel="stylesheet">
     <style>
         /* Page-only: the blocks this case invents (funnel, option rows). Everything else is from case-components.css. */
         /* The prototype renders at a 1440 × 900 desktop and scales to the column; narrow columns get its responsive layout. */
@@ -35,9 +36,36 @@
         .kyb-opt.is-pick .cs-card__k { color: var(--accent); }
         .one-col .kyb-opt p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--text-secondary); }
 
+        /* Request: quote left, company-type crop right — short so the funnel stays primary */
+        .kyb-request {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(140px, 200px);
+            gap: var(--space-4) var(--space-5);
+            align-items: center;
+            margin: var(--space-5) 0 var(--space-4);
+            padding: 14px 18px;
+            border-left: 2px solid var(--accent);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            background: var(--bg-subtle);
+        }
+        .kyb-request .lbl { margin-bottom: 4px; font-size: 14px; font-weight: 600; color: var(--accent); }
+        .kyb-request .quote { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--text-primary); }
+        .kyb-request__shot { margin: 0; }
+        .one-col .kyb-request__shot img { display: block; width: 100%; height: auto; margin: 0; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+
+        /* Presentation: page-only blocks keep reading measure; the prototype may widen. */
+        html[data-pres="on"] :where(.case-layout > .one-col) > :is(.kyb-funnel, .kyb-request, .kyb-opts) {
+            max-width: var(--pres-read);
+        }
+        html[data-pres="on"] :where(.case-layout > .one-col) > .kyb-proto {
+            max-width: calc(var(--container-narrow) - 2 * var(--space-5));
+        }
+
         @media (max-width: 720px) {
             .kyb-ftrack { flex-basis: 110px; }
             .kyb-opt { grid-template-columns: 1fr; gap: var(--space-3); }
+            .kyb-request { grid-template-columns: 1fr; gap: var(--space-3); }
+            .kyb-request__shot { max-width: 220px; }
         }
     </style>
     <script src="site-chrome.js?v=10"></script>
@@ -54,13 +82,6 @@
                 <h2 data-zh="机构认证（KYB）">Institutional KYB</h2>
                 <p class="as-role" data-zh="&lt;strong&gt;主设计师&lt;/strong&gt; &amp;middot; &lt;span class=&quot;as-role__rest&quot;&gt;问题定义、流程与界面&lt;/span&gt;"><strong>Lead designer</strong> &middot; <span class="as-role__rest">problem framing + flow + UI</span></p>
 
-                <ol class="as-stats" aria-label="From a cosmetic request to a root-cause fix">
-                    <li><span class="as-stats__num">82%</span><span class="as-stats__label" data-zh="重复提交">Resubmitted</span></li>
-                    <li class="is-turn"><span class="as-stats__num">67%</span><span class="as-stats__label" data-zh="董事会文件出错">Board file wrong</span></li>
-                    <li><span class="as-stats__num">41→42%</span><span class="as-stats__label" data-zh="一次通过率">First-pass rate</span></li>
-                    <li><span class="as-stats__num">EU + AU</span><span class="as-stats__label" data-zh="以此为基础">Built on it</span></li>
-                </ol>
-
                 <dl class="as-meta">
                     <div><dt data-zh="产品">Product</dt><dd data-zh="KuCoin 机构认证（Web）">KuCoin institutional verification (web)</dd></div>
                     <div><dt data-zh="目标用户">Target users</dt><dd data-zh="在 KuCoin 开户的公司与机构">Companies and institutions opening a KuCoin account</dd></div>
@@ -72,9 +93,16 @@
                     <summary data-zh="为什么重要">Why it mattered</summary>
                     <p data-zh="机构客户贡献交易所 30–70% 的交易量。每一家卡在认证上的公司，都是最高价值客群里的收入损失。">Institutional clients drive 30–70% of an exchange's trading volume, so every company that gives up at verification is lost revenue from the highest-value segment.</p>
                 </details>
+
+                <ol class="as-stats" aria-label="From a cosmetic request to a root-cause fix">
+                    <li><span class="as-stats__num">82%</span><span class="as-stats__label" data-zh="重复提交">Resubmitted</span></li>
+                    <li class="is-turn"><span class="as-stats__num">67%</span><span class="as-stats__label" data-zh="董事会文件出错">Board file wrong</span></li>
+                    <li><span class="as-stats__num">41→42%</span><span class="as-stats__label" data-zh="一次通过率">First-pass rate</span></li>
+                    <li><span class="as-stats__num">EU + AU</span><span class="as-stats__label" data-zh="以此为基础">Built on it</span></li>
+                </ol>
             </div>
             <div class="title-img">
-                <img src="resources/images-kyb/hero.webp?v=1" width="1600" height="1795" style="--hero-img-pad: 0.0375" alt="The institutional verification entry page, and in front the required-documents step with the board of directors or one director choice">
+                <img src="resources/images-kyb/hero.webp?v=2" width="1600" height="1795" style="--hero-img-pad: 0.0375" alt="The institutional verification entry page, and in front the required-documents step with the board of directors or one director choice">
             </div>
         </div>
     </div>
@@ -94,6 +122,7 @@
         <a href="#section9" class="list" data-zh="09 复盘">09 Reflection</a>
         <a href="#top" class="list" data-zh="回到顶部">Back to top</a>
         </div>
+        <button type="button" class="presw" aria-pressed="false" data-pres-key="kyb-presentation" data-zh="&lt;span class=&quot;tr&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;演示模式"><span class="tr" aria-hidden="true"></span>Presentation</button>
     </div>
 <div class="one-col">
 
@@ -104,9 +133,14 @@
         <h3 class="section" data-zh="需求要加选择器，流失却出在每家公司都要传的文件上">The brief asked for a selector; the drop-off sat on documents every company uploads</h3>
         <p data-zh="一份用户研究报告指出 KYB 转化率偏低，随之而来的是一个功能需求。动手设计之前，我先回到报告里的漏斗。">A research report flagged low KYB conversion, and a feature request came with it. Before designing it, I went back to the report's funnel.</p>
 
-        <div class="cs-callout">
-            <div class="lbl" data-zh="我接到的需求">The request</div>
-            <div class="quote" data-zh="「加一个公司类型选择器，让用户只看到和自己相关的字段。」">“Add a company-type selector so users only see the fields relevant to them.”</div>
+        <div class="kyb-request">
+            <div class="kyb-request__copy">
+                <div class="lbl" data-zh="我接到的需求">The request</div>
+                <div class="quote" data-zh="「加一个公司类型选择器，让用户只看到和自己相关的字段。」">“Add a company-type selector so users only see the fields relevant to them.”</div>
+            </div>
+            <figure class="kyb-request__shot">
+                <img src="resources/images-kyb/kyb_request_selector.webp?v=7" width="1504" height="940" loading="lazy" alt="Company-type selector with the type menu open">
+            </figure>
         </div>
 
         <div class="kyb-funnel" role="img" aria-label="November KYB funnel: 169 submitted company info, 151 contact person, 114 documents, 47 approved">
@@ -313,8 +347,9 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script src="main.js?v=34"></script>
     <script src="resources/js/case-components.js?v=1"></script>
+    <script src="resources/js/case-present.js?v=6"></script>
     <script>
     (function () {
         var box = document.getElementById('kybProto');

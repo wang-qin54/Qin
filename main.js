@@ -217,7 +217,9 @@
     };
 
     const onScroll = () => {
-      if (sections.length) {
+      /* Presentation mode owns the active rail item (one slide at a time).
+         Hidden slides measure as top:0 and would steal the highlight. */
+      if (sections.length && document.documentElement.getAttribute('data-pres') !== 'on') {
         let current = sections[0];
         for (let i = 0; i < sections.length; i++) {
           const smt = parseFloat(getComputedStyle(sections[i].el).scrollMarginTop) || 0;

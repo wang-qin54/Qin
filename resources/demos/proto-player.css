@@ -1,12 +1,73 @@
 html, body { margin: 0; height: 100%; overflow: hidden; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f2f2f2; }
+/* Standalone page grows with the frame so the bottom is not clipped by the viewport. */
+html.pp-fit, html.pp-fit body { height: auto; min-height: 100%; overflow: auto; }
+html.pp-fit .pp { height: auto; }
+html.pp-fit .pp-main { flex: 0 0 auto; height: var(--pp-frame-h); }
+html.pp-sized .pp-view, html.pp-fit .pp-view { overflow: hidden; }
 
-.pp { position: relative; height: 100%; }
+.pp { position: relative; height: 100%; display: flex; flex-direction: column; }
+.pp-main { position: relative; flex: 1 1 auto; min-width: 0; min-height: 0; height: auto; }
 .pp-view { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.pp-steps {
+    flex: 0 0 auto; display: flex; flex-direction: row; align-items: center; gap: 0;
+    margin: 0; padding: 10px 14px; overflow-x: auto; scrollbar-width: none;
+    border-bottom: 1px solid #ececec; background: #fff;
+}
+.pp-steps::-webkit-scrollbar { display: none; }
+.pp-steps__k { display: none; }
+.pp-step {
+    position: relative; display: grid; grid-template-columns: 22px auto; gap: 8px; align-items: center;
+    flex: 0 0 auto; width: auto; min-height: 0; margin: 0; padding: 2px 22px 2px 0;
+    border: 0; border-radius: 8px; background: transparent;
+    color: #8a8a8a; font: inherit; font-size: 13px; line-height: 1.25; letter-spacing: -0.01em;
+    text-align: left; white-space: nowrap; cursor: pointer;
+    transition: color 180ms ease, background-color 180ms ease;
+}
+.pp-step:hover { color: #111; }
+.pp-step__n {
+    position: relative; z-index: 1;
+    width: 22px; height: 22px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid #d9d9d9; background: #fff;
+    color: #8a8a8a; font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+.pp-step:not(:last-child)::after {
+    content: ""; position: absolute; right: 4px; top: 50%; width: 14px; height: 1px;
+    background: #e6e6e6; transform: translateY(-50%);
+}
+.pp-step.is-done { color: #3d3d3d; }
+.pp-step.is-done .pp-step__n { border-color: #111; color: #111; }
+.pp-step.is-done::after { background: #111; }
+.pp-step.is-on { color: #111; font-weight: 600; }
+.pp-step.is-on .pp-step__n { background: #111; border-color: #111; color: #fff; }
+.pp-step--aside { margin-left: 8px; padding-left: 14px; }
+.pp-step--aside::before {
+    content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: #e6e6e6;
+}
+.pp-step:has(+ .pp-step--aside)::after { display: none; }
+.pp-step:focus-visible { outline: 3px solid #0034F0; outline-offset: 2px; }
 .pp-sizer { position: relative; margin: 0 auto; overflow: hidden; }
 .pp-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; background: #fff; }
 .pp-stage.pp-enter { animation: pp-in 160ms ease-out; }
 @keyframes pp-in { from { opacity: 0.4; } to { opacity: 1; } }
+
+/* Right-panel expand / collapse: wipe only the body under the Admin Ticket header.
+   Header and the submit bar stay put; the old body eases away from the top. */
+.pp-panel-ghost {
+    position: absolute; overflow: hidden; pointer-events: none; z-index: 2;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transition: clip-path 640ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 640ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pp-panel-ghost.is-out { clip-path: inset(100% 0 0 0); opacity: 0; }
+.pp-panel-ghost__in { position: absolute; }
+.pp-panel-ghost__in > img {
+    display: block; position: absolute; left: 0; top: 0;
+    user-select: none; -webkit-user-select: none;
+}
 
 .pp-frame { position: relative; }
 .pp-frame > img { display: block; position: absolute; left: 0; top: 0; user-select: none; -webkit-user-select: none; }
@@ -31,7 +92,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Ping
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 .pp-catch--dim { background: rgba(0, 0, 0, 0.25); }
-.pp-pop--right { border-radius: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; box-shadow: -4px 0 24px rgba(0, 0, 0, 0.16); }
+.pp-pop--right {
+    border-radius: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.16);
+    scrollbar-width: thin; scrollbar-color: rgba(0, 0, 0, 0.28) transparent;
+}
+.pp-pop--right::-webkit-scrollbar { width: 8px; }
+.pp-pop--right::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.28); border-radius: 8px; }
+/* Right-hand column: body scrolls inside the panel; chat, header and submit bar stay put. */
+.pp-panel-scroll {
+    position: absolute; z-index: 1; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    background: #fff; scrollbar-width: thin; scrollbar-color: rgba(0, 0, 0, 0.28) transparent;
+}
+.pp-panel-scroll::-webkit-scrollbar { width: 8px; }
+.pp-panel-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.28); border-radius: 8px; }
+.pp-panel-scroll__in { position: relative; }
+.pp-panel-scroll__in > img { display: block; position: absolute; max-width: none; user-select: none; -webkit-user-select: none; }
 .pp-pop--clear { background: none; border-radius: 0; box-shadow: none; }
 .pp-modal { position: absolute; inset: 0; display: none; z-index: 2; }
 .pp-modal.on { display: block; }
@@ -53,6 +129,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Ping
 .pp-hint { font-weight: 400; background: rgba(17, 17, 17, 0.6); transition: opacity 300ms; }
 .pp-hint.is-gone { opacity: 0; pointer-events: none; }
 
+@media (max-width: 560px) {
+    .pp-steps { padding: 8px 10px; }
+    .pp-step { padding-right: 16px; font-size: 12px; gap: 6px; }
+    .pp-step:not(:last-child)::after { width: 8px; }
+}
 @media (max-width: 520px) {
     .pp-bar { left: 8px; bottom: calc(8px + var(--pp-fixed-h, 0px)); }
     .pp-hint { display: none; }
@@ -62,4 +143,5 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Ping
 @media (prefers-reduced-motion: reduce) {
     .pp-stage.pp-enter { animation: none; }
     .pp-hs, .pp-hint { transition: none; }
+    .pp-panel-ghost, .pp-step, .pp-step__n { transition: none; }
 }

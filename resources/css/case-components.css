@@ -24,6 +24,8 @@
 }
 #section2 + .cs-kicker,
 .cs-kicker.is-first { margin-top: 0; padding-top: 0; border-top: 0; }
+/* Anchor landing (blue kicker under the header) lives in case-present.css so
+   every presentation case shares it. Load case-present.css on the page. */
 .cs-kicker + h3.section { margin: var(--space-2) 0 var(--space-3); font-size: 26px; line-height: 1.25; }
 .cs-kicker + h3.section + p { font-size: 17px; line-height: 1.65; color: #333; }
 .one-col h5.cs-sub { margin: var(--space-7) 0 var(--space-3); font-size: 17px; letter-spacing: -0.01em; }

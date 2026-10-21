@@ -6660,111 +6660,57 @@ a.list.active {
             .lb__pair { flex-direction: column; align-items: stretch; }
         }
 
-        /* ---- Presentation mode ----
-           One section on screen at a time, switched instantly instead of scrolled
-           to. Sections are not wrapped in slide containers — that would break the
-           `:where(.one-col) > *` measure rule — so slides are made by hiding the
-           other sections' elements in place. */
-        [hidden] { display: none !important; }
-
-        .presw {
-            display: flex;
-            align-items: center;
-            gap: 9px;
+        /* Presentation switch, pager and the wider column live in
+           resources/css/case-present.css. These frames are specific to this case:
+           in a walkthrough the phones grow with the column. */
+        html[data-pres="on"] .as-ship-phone {
+            max-width: 100%;
+        }
+        html[data-pres="on"] .as-fix2-duo {
+            --fix2-phone-w: min(340px, 46%);
+        }
+        html[data-pres="on"] .as-phone {
+            width: min(380px, 100%);
+            height: auto;
+            aspect-ratio: 300 / 560;
+        }
+        /* Text tables stay at the reading measure. A wide walkthrough column
+           stretches their columns and makes each row hard to scan. */
+        html[data-pres="on"] .as-pres-read {
+            max-width: calc(760px - 2 * var(--space-5));
+        }
+        /* 05 frames: grey stage stays full section width. Height stops at the
+           space under the header / above the pager; the iframe scales to fit
+           and is centred in the grey, so leftover space is even on both sides. */
+        html[data-pres="on"] .as-fd-x__phone,
+        html[data-pres="on"] .as-ch-web {
+            container-type: inline-size;
+        }
+        html[data-pres="on"] .as-fd-x__demo,
+        html[data-pres="on"] .as-ch-web__frame {
             width: 100%;
-            margin-top: var(--space-5);
-            padding: 0;
-            border: 0;
-            background: none;
-            cursor: pointer;
-            font: inherit;
-            font-size: 11.5px;
-            font-weight: 600;
-            letter-spacing: 0;
-            color: var(--text-tertiary);
-            transition: color 140ms var(--ease);
+            margin-left: 0;
+            margin-right: 0;
+            aspect-ratio: unset;
+            container-type: size;
         }
-        .presw:hover { color: var(--text-primary); }
-        .presw .tr {
-            flex: none;
-            width: 28px;
-            height: 16px;
-            border-radius: 999px;
-            background: var(--border-strong);
-            position: relative;
-            transition: background-color .18s ease;
+        html[data-pres="on"] .as-fd-x__demo {
+            height: min(calc(100cqi * 940 / 1100), calc(100dvh - 160px));
         }
-        .presw .tr::after {
-            content: "";
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #fff;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .28);
-            transition: transform .18s cubic-bezier(.2, .8, .3, 1);
+        html[data-pres="on"] .as-ch-web__frame {
+            height: min(calc(100cqi * 800 / 1280), calc(100dvh - 160px));
         }
-        .presw[aria-pressed="true"] { color: var(--accent); }
-        .presw[aria-pressed="true"] .tr { background: var(--accent); }
-        .presw[aria-pressed="true"] .tr::after { transform: translateX(12px); }
-
-        /* Slide pager. Fixed rather than in flow so it stays put while a long
-           section scrolls inside its own slide. */
-        .pres-bar {
-            position: fixed;
+        html[data-pres="on"] .as-fd-x__demo iframe,
+        html[data-pres="on"] .as-ch-web__frame iframe {
+            top: 50%;
             left: 50%;
-            bottom: var(--space-5);
-            transform: translateX(-50%);
-            z-index: 12;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 5px 6px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-pill);
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: saturate(180%) blur(10px);
-            -webkit-backdrop-filter: saturate(180%) blur(10px);
-            box-shadow: 0 6px 24px rgba(17, 17, 17, 0.08);
+            transform-origin: center center;
         }
-        .pres-bar button {
-            width: 30px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 0;
-            border-radius: 50%;
-            background: none;
-            cursor: pointer;
-            font: inherit;
-            font-size: 17px;
-            line-height: 1;
-            color: var(--text-secondary);
-            transition: background-color 140ms var(--ease), color 140ms var(--ease);
+        html[data-pres="on"] .as-fd-x__demo iframe {
+            transform: translate(-50%, -50%) scale(min(calc(100cqi / 1100px), calc(100cqb / 940px)));
         }
-        .pres-bar button:hover:not(:disabled) { background: var(--bg-muted); color: var(--text-primary); }
-        .pres-bar button:disabled { opacity: .3; cursor: default; }
-        .pres-bar .n {
-            min-width: 54px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-            color: var(--text-secondary);
-        }
-        .pres-bar .esc {
-            margin-left: 2px;
-            padding-left: 8px;
-            border-left: 1px solid var(--border);
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-tertiary);
-            width: auto;
-            border-radius: var(--radius-pill);
-            padding-right: 8px;
+        html[data-pres="on"] .as-ch-web__frame iframe {
+            transform: translate(-50%, -50%) scale(min(calc(100cqi / 1280px), calc(100cqb / 800px)));
         }
 
         /* ---- Coda: what this case doesn't show ----
@@ -6940,21 +6886,6 @@ a.list.active {
             .one-col > .anchor,
             .as-scope .anchor { scroll-margin-top: calc(var(--header-h) + 16px + var(--spy-h) + var(--space-5)); }
 
-            /* The toggle rides at the end of the strip — compact, and it stays put
-               while the chips scroll under it. */
-            .presw {
-                flex: none;
-                width: auto;
-                margin-top: 0;
-                padding-left: var(--space-3);
-                border-left: 1px solid var(--border);
-                font-size: 11px;
-            }
-        }
-        @media (max-width: 600px) {
-            /* A phone has no room for the toggle beside the chips, and one section
-               per screen is what a phone already does. The mode stands down. */
-            .presw { display: none; }
         }
             /* ---- Two-file export: cross-file rail links and the pager ---- */
         .scrollspy a.xvol { opacity: .55; }
@@ -7323,7 +7254,8 @@ a.list.active {
             body .one-col .as-annoset--fix1 .as-fix3-cap__t { font-size: 12.5px; line-height: 1.3; }
         }
     </style>
-    <link rel="stylesheet" href="resources/css/case-pattern.css?v=15">
+    <link rel="stylesheet" href="resources/css/case-pattern.css?v=16">
+    <link rel="stylesheet" href="resources/css/case-present.css?v=5">
     <script src="site-chrome.js?v=8"></script>
 </head>
 
@@ -7338,13 +7270,6 @@ a.list.active {
                 <h2 data-zh="资产页改版">Asset redesign</h2>
                 <p class="as-role" data-zh="&lt;strong&gt;产品设计负责人&lt;/strong&gt; · &lt;span class=&quot;as-role__rest&quot;&gt;信息架构 · 方案对齐 · 研发交付&lt;/span&gt;"><strong>Lead product designer</strong> &middot; <span class="as-role__rest">IA + alignment + handoff</span></p>
 
-                <ol class="as-stats" aria-label="From stall to launch">
-                    <li><span class="as-stats__num" data-zh="2 年">2 years</span><span class="as-stats__label" data-zh="项目停滞">Before restart</span></li>
-                    <li class="is-turn"><span class="as-stats__num" data-zh="1 周">1 week</span><span class="as-stats__label" data-zh="方案定稿">Aligned</span></li>
-                    <li><span class="as-stats__num" data-zh="1 个月">1 month</span><span class="as-stats__label" data-zh="灰度上线">Beta live</span></li>
-                    <li><span class="as-stats__num" data-zh="4 个月">4 months</span><span class="as-stats__label" data-zh="正式发布">Launched publicly</span></li>
-                </ol>
-
                 <dl class="as-meta">
                     <div><dt data-zh="产品">Product</dt><dd data-zh="UMX：加密货币与美股、港股交易平台（App 与 Web）">UMX – Crypto, US &amp; HK stock trading app (App &amp; Web)</dd></div>
                     <div><dt data-zh="目标用户">Target users</dt><dd data-zh="高净值个人投资者">High-net-worth (HNW) individuals</dd></div>
@@ -7355,6 +7280,13 @@ a.list.active {
                     <summary data-zh="两年仍未公开上线">Two years without a public launch</summary>
                     <p data-zh="我加入改版之前，这个 App 已经开发了 &lt;strong&gt;2 年&lt;/strong&gt;仍未对公众开放。创始人亲自接手平台、更换管理团队，并定下硬性期限：&lt;strong&gt;1 个月&lt;/strong&gt;内设计并开发上 TestFlight 灰度，&lt;strong&gt;3 个月&lt;/strong&gt;正式发布。灰度按期上线，正式发布在方案定稿后第 &lt;strong&gt;4 个月&lt;/strong&gt;。">Before I joined, the app had been in development for <strong>2 years</strong> and still wasn&rsquo;t public. The founder took over the platform, changed the management team, and set a hard deadline: TestFlight beta in <strong>1 month</strong>, public launch at <strong>3 months</strong>. The beta made its date; public launch came four months after alignment.</p>
                 </details>
+
+                <ol class="as-stats" aria-label="From stall to launch">
+                    <li><span class="as-stats__num" data-zh="2 年">2 years</span><span class="as-stats__label" data-zh="项目停滞">Before restart</span></li>
+                    <li class="is-turn"><span class="as-stats__num" data-zh="1 周">1 week</span><span class="as-stats__label" data-zh="方案定稿">Aligned</span></li>
+                    <li><span class="as-stats__num" data-zh="1 个月">1 month</span><span class="as-stats__label" data-zh="灰度上线">Beta live</span></li>
+                    <li><span class="as-stats__num" data-zh="4 个月">4 months</span><span class="as-stats__label" data-zh="正式发布">Launched publicly</span></li>
+                </ol>
             </div>
             <div class="title-img">
                 <img src="resources/images-asset/asset_detailPage_header.webp?v=8" data-zh-src="resources/images-asset/asset_detailPage_header-zh.webp?v=8" alt="Before and after: the original data-dense asset home behind, the redesigned asset home in front — total assets, account, actions, records, and the crypto panel" width="1600" height="1239">
@@ -7374,7 +7306,7 @@ a.list.active {
         <a href="#section6" class="list" data-zh="06 结果">06 Outcome</a>
         <a href="#section7" class="list" data-zh="07 回顾">07 Retrospective</a>
         </div>
-        <button type="button" class="presw" aria-pressed="false" data-zh="&lt;span class=&quot;tr&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;演示模式"><span class="tr" aria-hidden="true"></span>Presentation</button>
+        <button type="button" class="presw" aria-pressed="false" data-pres-key="as-presentation" data-zh="&lt;span class=&quot;tr&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;演示模式"><span class="tr" aria-hidden="true"></span>Presentation</button>
     </div>
     <div class="one-col">
 
@@ -7677,7 +7609,7 @@ a.list.active {
         <h2 class="as-head as-head--wide" data-zh="一套自上而下、贴合用户心智模型的框架">A top-down framework built around the user&rsquo;s mental model</h2>
         <p class="as-lead" data-zh="我围绕用户的心智模型，自上而下重组了页面。用户查看资产时，会按一个自然的顺序提出问题；页面从上到下的每一层，依次回答其中一个。">I restructured the page top to bottom around the user&rsquo;s mental model: the natural sequence of questions people ask when they check their portfolio. Each layer of the screen answers one question, in that order.</p>
         <p class="as-fix-ref"><a href="#as-problem-3" data-zh="解决问题 3 · 布局 ≠ 信息架构">Solves Problem 3 · Layout &ne; IA</a></p>
-        <div class="as-qmap-wrap">
+        <div class="as-qmap-wrap as-pres-read">
         <div class="as-qmap__head" aria-hidden="true">
             <span data-zh="用户关心">The user asks</span>
             <span data-zh="界面回答">The screen answers</span>
@@ -8878,7 +8810,7 @@ a.list.active {
         <h2 class="as-head as-head--wide" data-zh="三方诉求各不相同，由用户的提问顺序来裁决">Three parties wanted different things; the user&rsquo;s question order decided</h2>
         <p class="as-fd-lead" data-zh="评审周里，创始人、研发和品牌各自把页面往不同方向拉。我用同一个标准判断每个需求：两个 Tab 都要&lt;strong&gt;按相同的顺序&lt;/strong&gt;回答用户的问题（我有多少钱、在哪个账户、在哪类资产），并且基于证券 SDK 实现。">In the review week, the founder, engineering and brand each pulled the page a different way. I judged every request against one test: both tabs answer the user&rsquo;s questions <strong>in the same order</strong> (how much do I have, in which account, in which asset), on the securities SDK.</p>
 
-        <ol class="as-stake">
+        <ol class="as-stake as-pres-read">
             <li class="as-stake__row">
                 <p class="as-stake__who" data-zh="创始人">Founder</p>
                 <div class="as-stake__want">
@@ -8931,7 +8863,7 @@ a.list.active {
                 </div>
             </li>
         </ol>
-        <div class="as-stake-foot">
+        <div class="as-stake-foot as-pres-read">
             <div>
                 <b data-zh="暂缓">Deferred</b>
                 <ul class="as-stake__list">
@@ -8949,10 +8881,10 @@ a.list.active {
                     </ul>
             </div>
         </div>
-        <p class="as-chx-out" data-zh="&lt;strong&gt;结果：&lt;/strong&gt;到最后一轮，管理层就最终上线的结构达成了一致。">
+        <p class="as-chx-out as-pres-read" data-zh="&lt;strong&gt;结果：&lt;/strong&gt;到最后一轮，管理层就最终上线的结构达成了一致。">
             <strong>Result:</strong> by the last round, leadership aligned on the structure that shipped.</p>
 
-        <details class="as-more">
+        <details class="as-more as-pres-read">
             <summary data-zh="评审怎么推进：5 月 14–20 日，每天一版原型">How the review rounds ran: a prototype a day, 14&ndash;20 May</summary>
             <div class="as-more__body">
             <p class="as-ch-copy" data-zh="管理层安排了连续 7 天的评审，每轮之间有 2–3 小时重做资产页。早期的评审更像开放式头脑风暴，创始人对屏幕上的每个细节都有想法，讨论越来越发散。">Leadership scheduled 7 days of back-to-back review rounds, with 2&ndash;3 h to rebuild the asset screens between rounds. Early reviews were open brainstorms. The founder had ideas on every part of the screen, so the discussion kept widening.</p>
@@ -9004,7 +8936,7 @@ a.list.active {
             </div>
         </details>
 
-        <details class="as-more">
+        <details class="as-more as-pres-read">
             <summary data-zh="为什么没有同行可以参考">Why no peer had a pattern to borrow</summary>
             <div class="as-more__body">
             <h4 class="as-subhead as-subhead--h" data-zh="加密与股票，从第一天起就平起平坐">Crypto and stocks as equals, from day one</h4>
@@ -9061,7 +8993,7 @@ a.list.active {
             </div>
         </details>
 
-        <details class="as-more">
+        <details class="as-more as-pres-read">
             <summary data-zh="品牌升级中，层级如何保持清晰">How the hierarchy held through the brand refresh</summary>
             <div class="as-more__body">
         <p class="as-fd-sub" data-zh="设计系统同步在更新。&lt;strong&gt;结构保持不变，视觉表层改了两次。&lt;/strong&gt;">The design system was updated in parallel. <strong>The structure stayed, and the surface changed twice.</strong></p>
@@ -11297,198 +11229,7 @@ document.addEventListener('DOMContentLoaded', function () {
   centreActive();
 })();
 </script>
-<script>
-/* Presentation mode.
-   Off (default): the case is one long scrolling article.
-   On: one section on screen at a time, swapped instantly — no scroll animation,
-   the way slides advance.
-
-   Sections are NOT wrapped in slide containers: `:where(.one-col) > *` sets the
-   reading measure on direct children, so wrapping would silently widen every
-   block. Instead each section's elements are hidden in place.
-
-   The rail keeps driving navigation, so cross-file jumps (part 1 -> part 2) keep
-   working: prev/next just clicks the rail link for the neighbouring section. */
-(function () {
-  var col = document.querySelector('.one-col');
-  var rail = document.querySelector('.scrollspy');
-  var sw = document.querySelector('.presw');
-  if (!col || !rail || !sw) return;
-
-  var KEY = 'as-presentation';
-  /* Runs wherever there is an index to drive it: the vertical rail on desktop,
-     the horizontal chip strip on tablets. Below 600px the toggle is hidden. */
-  var WIDE = window.matchMedia('(min-width: 601px)');
-  var root = document.documentElement;
-
-  /* Group .one-col's children: everything up to #section1 is the opening, then a
-     new group at each section anchor. Whatever trails the last section (the pager,
-     the related-work coda) belongs to it. */
-  var intro = [], slides = [], cur = null;
-  [].forEach.call(col.children, function (el) {
-    if (el.classList.contains('anchor') && /^section\d+$/.test(el.id)) {
-      cur = { id: el.id, n: parseInt(el.id.replace('section', ''), 10), els: [el] };
-      slides.push(cur);
-    } else if (cur) { cur.els.push(el); }
-    else { intro.push(el); }
-  });
-  if (slides.length < 2) return;           // nothing to page through
-
-  /* Intro is the hero, which sits outside the article column. Keep it as slide 1
-     so the rail still opens on the title instead of dropping straight into Problem. */
-  if (!slides.some(function (s) { return s.id === 'section1'; })) {
-    var hero = document.getElementById('section1');
-    slides.unshift({ id: 'section1', n: 1, els: hero ? [hero] : [] });
-  }
-
-  /* The rail lists all seven sections across both files, so it knows the real
-     total even though this file only holds some of them. */
-  var allIds = [].slice.call(rail.querySelectorAll('a.list'))
-    .map(function (a) { return (a.getAttribute('href') || '').split('#')[1]; })
-    .filter(function (h) { return /^section\d+$/.test(h); });
-  var total = allIds.length || slides.length;
-
-  var bar = null, current = null, startY = 0;
-
-  function railLink(id) {
-    return rail.querySelector('a.list[href$="#' + id + '"]');
-  }
-  function buildBar() {
-    if (bar) return bar;
-    bar = document.createElement('div');
-    bar.className = 'pres-bar';
-    bar.innerHTML = '<button type="button" class="p" aria-label="Previous section">&lsaquo;</button>'
-      + '<span class="n"></span>'
-      + '<button type="button" class="x" aria-label="Next section">&rsaquo;</button>'
-      + '<button type="button" class="esc" aria-label="Exit presentation mode">Esc</button>';
-    bar.querySelector('.p').addEventListener('click', function () { step(-1); });
-    bar.querySelector('.x').addEventListener('click', function () { step(1); });
-    bar.querySelector('.esc').addEventListener('click', function () { setMode(false); });
-    document.body.appendChild(bar);
-    return bar;
-  }
-  function step(d) {
-    if (!current) return;
-    var n = current.n + d;
-    if (n < 1 || n > total) return;
-    var a = railLink('section' + n);
-    if (a) a.click();                      // reuses local + cross-file routing
-  }
-
-  function show(id) {
-    var hit = null;
-    slides.forEach(function (s) {
-      var on = s.id === id;
-      if (on) hit = s;
-      s.els.forEach(function (e) { e.hidden = !on; });
-    });
-    if (!hit) return false;
-    current = hit;
-    /* The intro slide is only the short hero, so the page below it would sit
-       blank. Let the next section run on beneath it, as at the top of the page. */
-    if (hit === slides[0] && slides[1]) {
-      slides[1].els.forEach(function (e) { e.hidden = false; });
-    }
-    /* The opening paragraphs introduce the case, so they ride with its first
-       section and stay out of the way of the rest. */
-    intro.forEach(function (e) { e.hidden = hit !== slides[0]; });
-
-    /* mark the chip / rail item for the slide we just switched to */
-    [].forEach.call(rail.querySelectorAll('a.list'), function (a) { a.classList.remove('active'); });
-    var cur = railLink(id);
-    if (cur) cur.classList.add('active');
-
-    var b = buildBar();
-    b.querySelector('.n').textContent = hit.n + ' / ' + total;
-    b.querySelector('.p').disabled = hit.n <= 1;
-    b.querySelector('.x').disabled = hit.n >= total;
-    b.hidden = false;
-
-    var top = hit === slides[0] ? 0 : hit.els[0].getBoundingClientRect().top + window.scrollY
-      - (parseFloat(getComputedStyle(hit.els[0]).scrollMarginTop) || 88);
-    startY = Math.max(0, top);
-    window.scrollTo({ top: startY, behavior: 'instant' });
-    try { localStorage.setItem(KEY + ':at', id); } catch (_) {}
-    window.dispatchEvent(new Event('scroll'));
-    return true;
-  }
-
-  function showAll() {
-    slides.forEach(function (s) { s.els.forEach(function (e) { e.hidden = false; }); });
-    intro.forEach(function (e) { e.hidden = false; });
-    if (bar) bar.hidden = true;
-    current = null;
-    /* hand the active state straight back to the scroll spy */
-    window.dispatchEvent(new Event('scroll'));
-  }
-
-  function active() { return root.getAttribute('data-pres') === 'on' && WIDE.matches; }
-  /* The reading progress bar asks this which slide is up, so it fills by section. */
-  window.presProgress = function () { return current ? { n: current.n, total: total, start: startY } : null; };
-
-  function apply() {
-    if (!active()) { showAll(); return; }
-    var want = (location.hash || '').slice(1);
-    if (!/^section\d+$/.test(want)) {
-      try { want = localStorage.getItem(KEY + ':at') || ''; } catch (_) { want = ''; }
-    }
-    if (!show(want)) show(slides[0].id);
-  }
-
-  function setMode(on) {
-    root.setAttribute('data-pres', on ? 'on' : 'off');
-    sw.setAttribute('aria-pressed', on ? 'true' : 'false');
-    try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (_) {}
-    apply();
-  }
-
-  sw.addEventListener('click', function () { setMode(!active()); });
-
-  /* Capture phase: this has to beat the smooth-scroll handler further up, which
-     is a bubble listener on document. */
-  document.addEventListener('click', function (e) {
-    if (!active()) return;
-    var a = e.target.closest && e.target.closest('.scrollspy a[href^="#"]');
-    if (!a) return;
-    var id = (a.getAttribute('href') || '').slice(1);
-    if (!/^section\d+$/.test(id)) return;
-    if (!show(id)) return;
-    e.preventDefault();
-    e.stopPropagation();
-    try { history.replaceState(null, '', '#' + id); } catch (_) {}
-  }, true);
-
-  document.addEventListener('keydown', function (e) {
-    if (!active() || e.metaKey || e.ctrlKey || e.altKey) return;
-    if (document.querySelector('dialog[open]')) return;   // the lightbox owns the arrows
-    var t = e.target;
-    if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-    if (e.key === 'ArrowRight') { step(1); e.preventDefault(); }
-    else if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); }
-    else if (e.key === 'Escape') { setMode(false); }
-  });
-
-  /* Below 600px the toggle is hidden and the mode stands down — without
-     forgetting the choice, so it comes back when the window widens. */
-  var onWide = function () { apply(); };
-  if (WIDE.addEventListener) WIDE.addEventListener('change', onWide);
-  else WIDE.addListener(onWide);
-
-  /* Arriving from the other file: the bridge posts the target section here. */
-  window.addEventListener('message', function (e) {
-    var d = e.data;
-    if (!d || d.type !== 'case:scroll' || !active()) return;
-    var id = (d.hash || '').replace('#', '');
-    if (/^section\d+$/.test(id)) show(id);
-  });
-
-  var saved = '0';
-  try { saved = localStorage.getItem(KEY) || '0'; } catch (_) {}
-  root.setAttribute('data-pres', saved === '1' ? 'on' : 'off');
-  sw.setAttribute('aria-pressed', saved === '1' ? 'true' : 'false');
-  apply();
-})();
-</script>
+<script src="resources/js/case-present.js?v=6"></script>
 <script>
 /* Sticky sub-nav: the rule and the frosted backing only mean something once the
    bar is docked under the header. In flow it should read as part of the page. */
@@ -11973,8 +11714,13 @@ document.addEventListener('DOMContentLoaded', function () {
       labels.classList.remove('is-placed');
       labels.style.height = '';
       rows.forEach(function (r) { r.style.top = ''; });
-      svg.style.visibility = wide ? 'visible' : 'hidden';
+      svg.style.visibility = 'hidden';
       if (!wide) return;
+      /* A hidden presentation slide measures as 0. Parking notes there stacks
+         them on top of each other once the slide is shown. Leave them in flow
+         and let the next resize, after the slide is visible, place them. */
+      if (set.offsetWidth < 2 || set.offsetHeight < 2) return;
+      svg.style.visibility = 'visible';
 
       var setBox = set.getBoundingClientRect();
       var labelsBox = labels.getBoundingClientRect();
